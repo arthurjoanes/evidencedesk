@@ -1,0 +1,21 @@
+{
+  "schema_version": "1",
+  "title": "Exemplo sintético: documento sem cobertura de eventos",
+  "coverage": [],
+  "entries": [
+    {
+      "entry_id": "exemplo-documento",
+      "filename": "documento-exemplo.md",
+      "kind": "document",
+      "media_type": "text/markdown",
+      "byte_size": 245,
+      "sha256": "c9cfaf82c3c6d2082896ceee04b875ea51b5fbe8f306d0b6318e38cbae345a6b",
+      "metadata": {
+        "title": "Exemplo sintético de importação",
+        "version": "1",
+        "source_system": "exemplo",
+        "temporal_role": "historical_artifact"
+      }
+    }
+  ]
+}
