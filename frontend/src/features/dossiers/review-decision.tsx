@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { revisionSchema, type Revision } from "@/lib/contracts";
 import { request } from "@/lib/http";
 import { useSession } from "@/lib/session";
@@ -30,11 +30,25 @@ export function ReviewDecision({
   const [decision, setDecision] = useState("approved");
   const [error, setError] = useState<unknown>();
   const [busy, setBusy] = useState(false);
+  const dirty = reason.length > 0 || decision !== "approved";
+  useEffect(() => {
+    if (!dirty) return;
+    const guard = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    window.addEventListener("beforeunload", guard);
+    return () => window.removeEventListener("beforeunload", guard);
+  }, [dirty]);
+  function requestClose() {
+    if (!dirty || window.confirm("Descartar esta decisão não registrada?"))
+      onClose();
+  }
   return (
     <Dialog
       open
       onOpenChange={(next) => {
-        if (!next && !busy) onClose();
+        if (!next && !busy) requestClose();
       }}
       title={"Revisar a versão " + revision.number}
       description="A decisão se aplica a esta revisão e às alegações listadas. Conferir citações continua sendo uma responsabilidade humana."
@@ -77,43 +91,49 @@ export function ReviewDecision({
           }
         }}
       >
-        <p>
-          {revision.claims.length} alegações · {label(revision.outcome)}
-        </p>
-        <label className="field">
-          Decisão
-          <select
-            value={decision}
-            onChange={(event) => setDecision(event.target.value)}
-          >
-            <option value="approved">Aprovar esta revisão</option>
-            <option value="changes_requested">Solicitar ajustes</option>
-          </select>
-        </label>
-        <label className="field">
-          Justificativa
-          <textarea
-            value={reason}
-            onChange={(event) => setReason(event.target.value)}
-            required
-            minLength={5}
-            maxLength={4000}
-            placeholder="O que foi conferido e quais limites permanecem?"
-          />
-        </label>
-        {error !== undefined && <ErrorNotice error={error} />}
-        <div className="form-actions">
-          <Button disabled={busy} onClick={onClose}>
-            Voltar
-          </Button>
-          <Button
-            type="submit"
-            variant="primary"
-            disabled={busy || reason.trim().length < 5}
-          >
-            {busy ? "Registrando…" : "Registrar decisão"}
-          </Button>
-        </div>
+        <fieldset className="form-stack form-fields" disabled={busy}>
+          <p>
+            {revision.claims.length} alegações · {label(revision.outcome)}
+          </p>
+          <label className="field">
+            Decisão
+            <select
+              value={decision}
+              onChange={(event) => setDecision(event.target.value)}
+            >
+              <option value="approved">Aprovar esta revisão</option>
+              <option value="changes_requested">Solicitar ajustes</option>
+            </select>
+          </label>
+          <label className="field">
+            Justificativa
+            <textarea
+              value={reason}
+              onChange={(event) => setReason(event.target.value)}
+              required
+              minLength={5}
+              maxLength={3000}
+              aria-describedby="review-reason-help"
+              placeholder="O que foi conferido e quais limites permanecem?"
+            />
+            <small id="review-reason-help" className="muted">
+              De 5 a 3.000 caracteres.
+            </small>
+          </label>
+          {error !== undefined && <ErrorNotice error={error} />}
+          <div className="form-actions">
+            <Button disabled={busy} onClick={requestClose}>
+              Voltar
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={busy || reason.trim().length < 5}
+            >
+              {busy ? "Registrando…" : "Registrar decisão"}
+            </Button>
+          </div>
+        </fieldset>
       </form>
     </Dialog>
   );

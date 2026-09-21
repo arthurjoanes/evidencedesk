@@ -53,6 +53,11 @@ export function AppShell({
                 : ""
             }
             href="/"
+            aria-current={
+              pathname === "/" || pathname.startsWith("/incidents")
+                ? "page"
+                : undefined
+            }
           >
             <FolderSearch size={18} />
             Incidentes
@@ -60,6 +65,7 @@ export function AppShell({
           <Link
             className={pathname.startsWith("/imports") ? "active" : ""}
             href="/imports"
+            aria-current={pathname.startsWith("/imports") ? "page" : undefined}
           >
             <Upload size={18} />
             Importações

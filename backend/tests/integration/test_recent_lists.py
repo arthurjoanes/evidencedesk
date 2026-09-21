@@ -66,3 +66,46 @@ def test_recent_lists_keep_stable_keyset_across_new_items_and_timestamp_ties(wor
             {"tenant": tenant, "user": tenant + "-author"},
         )
     assert client.get(url, params={"cursor": cursor}).json()["items"] == []
+
+
+def test_collections_paginate_beyond_one_hundred_with_ties_and_current_acl(workspace):
+    client = workspace["client"]()
+    other = workspace["client"](tenant_index=1)
+    reviewer = workspace["client"](role="reviewer")
+    tenant = workspace["tenants"][0]
+    ids = [f"collection-{index:03d}" for index in range(105)]
+    with workspace["admin"].begin() as connection:
+        connection.execute(
+            text("INSERT INTO collections(tenant_id,id,name) VALUES(:tenant,:id,'Same name')"),
+            [{"tenant": tenant, "id": item_id} for item_id in ids],
+        )
+        connection.execute(
+            text("""
+                INSERT INTO collection_grants(tenant_id,collection_id,user_id)
+                VALUES(:tenant,:id,:user)
+            """),
+            [{"tenant": tenant, "id": item_id, "user": tenant + "-author"} for item_id in ids],
+        )
+    first = client.get("/api/v1/collections", params={"limit": 100})
+    assert first.status_code == 200, first.text
+    body = first.json()
+    assert [item["id"] for item in body["items"]] == ids[:100]
+    assert body["total"] is None
+    cursor = body["next_cursor"]
+    assert cursor is not None
+    assert other.get("/api/v1/collections", params={"cursor": cursor}).status_code == 409
+    assert reviewer.get("/api/v1/collections", params={"cursor": cursor}).status_code == 409
+    assert (
+        client.get("/api/v1/collections", params={"cursor": cursor + "broken"}).status_code == 409
+    )
+    with workspace["admin"].begin() as connection:
+        connection.execute(
+            text("""
+                DELETE FROM collection_grants WHERE tenant_id=:tenant AND user_id=:user
+                AND collection_id=:id
+            """),
+            {"tenant": tenant, "user": tenant + "-author", "id": ids[101]},
+        )
+    second = client.get("/api/v1/collections", params={"cursor": cursor}).json()
+    assert [item["id"] for item in second["items"]] == [ids[100], *ids[102:], "collection"]
+    assert second["next_cursor"] is None

@@ -1,9 +1,37 @@
+import re
 from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
 from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+AZURE_HOST_PATTERN = (
+    r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.(?:openai\.azure\.com|services\.ai\.azure\.com)"
+)
+AZURE_URL = re.compile(
+    rf"https://(?P<host>{AZURE_HOST_PATTERN})(?::443)?/openai/v1/?", re.IGNORECASE | re.ASCII
+)
+
+
+def normalize_azure_base_url(value: str) -> str:
+    """Accept only the public Azure resource inference route, never arbitrary URLs."""
+    match = AZURE_URL.fullmatch(value)
+    if match is None:
+        raise ValueError("Use um endpoint HTTPS de recurso Azure com o caminho /openai/v1/.")
+    return f"https://{match['host'].lower()}/openai/v1/"
+
+
+def authorize_azure_base_url(value: str, allowed_hosts: str) -> str:
+    normalized = normalize_azure_base_url(value)
+    hosts = {host.strip().lower() for host in allowed_hosts.split(",")}
+    if not hosts or any(
+        re.fullmatch(AZURE_HOST_PATTERN, host, flags=re.ASCII) is None for host in hosts
+    ):
+        raise ValueError("Configure uma allowlist explícita de hosts de recurso Azure.")
+    if normalized.split("/")[2] not in hosts:
+        raise ValueError("Endpoint Azure fora da allowlist de runtime.")
+    return normalized
 
 
 class Settings(BaseSettings):
@@ -26,12 +54,11 @@ class Settings(BaseSettings):
     metrics_token: SecretStr = SecretStr("ed_metrics_local_demo")
     ai_provider: str = "azure_openai"
     azure_openai_base_url: str = Field(
-        default="https://agentes-sol-foundry.openai.azure.com/openai/v1/",
+        default="",
         validation_alias="AZURE_OPENAI_BASE_URL",
     )
-    azure_openai_deployment: str = Field(
-        default="gpt-5.6-luna", validation_alias="AZURE_OPENAI_DEPLOYMENT"
-    )
+    azure_openai_deployment: str = Field(default="", validation_alias="AZURE_OPENAI_DEPLOYMENT")
+    azure_openai_allowed_hosts: str = ""
     azure_openai_api_key: SecretStr = Field(
         default=SecretStr(""), validation_alias="AZURE_OPENAI_API_KEY"
     )
@@ -56,9 +83,17 @@ class Settings(BaseSettings):
 
     @property
     def generation_enabled(self) -> bool:
-        return self.ai_provider == "azure_openai" and bool(
-            self.azure_openai_api_key.get_secret_value()
-        )
+        if (
+            self.ai_provider != "azure_openai"
+            or not self.azure_openai_api_key.get_secret_value().strip()
+            or re.fullmatch(r"[A-Za-z0-9_.-]{1,100}", self.azure_openai_deployment) is None
+        ):
+            return False
+        try:
+            authorize_azure_base_url(self.azure_openai_base_url, self.azure_openai_allowed_hosts)
+        except ValueError:
+            return False
+        return True
 
 
 @lru_cache

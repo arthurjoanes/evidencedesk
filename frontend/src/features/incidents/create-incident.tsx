@@ -1,16 +1,16 @@
 "use client";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { collectionSchema, incidentSchema, pageSchema } from "@/lib/contracts";
+import { incidentSchema } from "@/lib/contracts";
 import { request } from "@/lib/http";
-import { scopeKey, useSession } from "@/lib/session";
+import { useSession } from "@/lib/session";
 import { Dialog } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ErrorNotice, FieldError, Loading } from "@/components/feedback";
+import { ErrorNotice, FieldError } from "@/components/feedback";
+import { CollectionSelect } from "@/features/collections/collection-select";
 
 const schema = z
   .object({
@@ -40,14 +40,6 @@ export function CreateIncident({
   const session = useSession();
   const router = useRouter();
   const [error, setError] = useState<unknown>();
-  const collections = useQuery({
-    queryKey: [...scopeKey(session), "collections"],
-    queryFn: ({ signal }) =>
-      request("/api/v1/collections?limit=100", pageSchema(collectionSchema), {
-        signal,
-      }),
-    enabled: open,
-  });
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -89,66 +81,100 @@ export function CreateIncident({
       description="Defina a coleção e a janela a investigar. O snapshot disponível será fixado pelo servidor."
     >
       <form onSubmit={submit} className="form-stack" noValidate>
-        <label className="field">
-          Título
-          <input
-            {...form.register("title")}
-            placeholder="Ex.: pagamentos confirmados com pedidos pendentes"
-          />
-          <FieldError message={form.formState.errors.title?.message} />
-        </label>
-        <label className="field">
-          Coleção
-          <select {...form.register("collection_id")}>
-            <option value="">Selecione uma coleção publicada</option>
-            {collections.data?.items.map((collection) => (
-              <option
-                key={collection.id}
-                value={collection.id}
-                disabled={!collection.active_snapshot_id}
-              >
-                {collection.name}
-                {!collection.active_snapshot_id ? " — sem publicação" : ""}
-              </option>
-            ))}
-          </select>
-          <FieldError message={form.formState.errors.collection_id?.message} />
-        </label>
-        {collections.isPending && <Loading>Carregando coleções…</Loading>}
-        {collections.isError && <ErrorNotice error={collections.error} />}
-        <div className="form-grid">
+        <fieldset
+          className="form-stack form-fields"
+          disabled={form.formState.isSubmitting}
+        >
           <label className="field">
-            Início (UTC)
-            <input type="datetime-local" {...form.register("from")} />
-            <FieldError message={form.formState.errors.from?.message} />
+            Título
+            <input
+              {...form.register("title")}
+              aria-label="Título"
+              aria-invalid={!!form.formState.errors.title}
+              aria-describedby={
+                form.formState.errors.title ? "incident-title-error" : undefined
+              }
+              placeholder="Ex.: pagamentos confirmados com pedidos pendentes"
+            />
+            <FieldError
+              id="incident-title-error"
+              message={form.formState.errors.title?.message}
+            />
           </label>
-          <label className="field">
-            Fim (UTC)
-            <input type="datetime-local" {...form.register("to")} />
-            <FieldError message={form.formState.errors.to?.message} />
-          </label>
-        </div>
-        <label className="field">
-          Contexto para a equipe
-          <textarea
-            {...form.register("description")}
-            placeholder="O que foi observado e o que precisa ser conferido?"
-          />
-        </label>
-        <FieldError message={form.formState.errors.description?.message} />
-        {error !== undefined && <ErrorNotice error={error} />}
-        <div className="form-actions">
-          <Button disabled={form.formState.isSubmitting} onClick={onClose}>
-            Voltar
-          </Button>
-          <Button
-            type="submit"
-            variant="primary"
+          <CollectionSelect
+            {...form.register("collection_id")}
+            label="Coleção"
+            publishedOnly
+            enabled={open}
             disabled={form.formState.isSubmitting}
-          >
-            {form.formState.isSubmitting ? "Abrindo…" : "Abrir incidente"}
-          </Button>
-        </div>
+            error={form.formState.errors.collection_id?.message}
+          />
+          <div className="form-grid">
+            <label className="field">
+              Início (UTC)
+              <input
+                type="datetime-local"
+                {...form.register("from")}
+                aria-label="Início (UTC)"
+                aria-invalid={!!form.formState.errors.from}
+                aria-describedby={
+                  form.formState.errors.from ? "incident-from-error" : undefined
+                }
+              />
+              <FieldError
+                id="incident-from-error"
+                message={form.formState.errors.from?.message}
+              />
+            </label>
+            <label className="field">
+              Fim (UTC)
+              <input
+                type="datetime-local"
+                {...form.register("to")}
+                aria-label="Fim (UTC)"
+                aria-invalid={!!form.formState.errors.to}
+                aria-describedby={
+                  form.formState.errors.to ? "incident-to-error" : undefined
+                }
+              />
+              <FieldError
+                id="incident-to-error"
+                message={form.formState.errors.to?.message}
+              />
+            </label>
+          </div>
+          <label className="field">
+            Contexto para a equipe
+            <textarea
+              {...form.register("description")}
+              aria-label="Contexto para a equipe"
+              aria-invalid={!!form.formState.errors.description}
+              aria-describedby={
+                form.formState.errors.description
+                  ? "incident-description-error"
+                  : undefined
+              }
+              placeholder="O que foi observado e o que precisa ser conferido?"
+            />
+          </label>
+          <FieldError
+            id="incident-description-error"
+            message={form.formState.errors.description?.message}
+          />
+          {error !== undefined && <ErrorNotice error={error} />}
+          <div className="form-actions">
+            <Button disabled={form.formState.isSubmitting} onClick={onClose}>
+              Voltar
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? "Abrindo…" : "Abrir incidente"}
+            </Button>
+          </div>
+        </fieldset>
       </form>
     </Dialog>
   );

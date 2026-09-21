@@ -1,0 +1,25 @@
+{
+  "recorded_at": "2026-09-21T22:16:54.6187178Z",
+  "backend": {
+    "passed": true,
+    "source_files_identical": 75,
+    "uid": 10001,
+    "python": "3.12.14",
+    "openssl": "OpenSSL 3.5.8 25 Aug 2026",
+    "psycopg_implementation": "binary",
+    "app_routes": 15,
+    "installers_present": false,
+    "disabled_reason": "A geração com IA não está disponível neste ambiente. Você pode continuar a investigação e editar o dossiê manualmente.",
+    "image_id": "sha256:3b4362029a9b1c9b3c2547d678e4e383495bb43f25ee00774bcfd88361f7c67e"
+  },
+  "frontend": {
+    "passed": true,
+    "uid": 1000,
+    "node": "v24.19.0",
+    "final_validation_messages": 2,
+    "installers_present": false,
+    "image_id": "sha256:7b7db3dd64aee1c050ecb76372838ba0b064eaff3cb77e1a02ee426ab4648a02",
+    "validation_source": "publication-security-final/runtime-validation.json; same unchanged image identity"
+  },
+  "scope": "Read-only containers, network disabled, all capabilities dropped. Functional integration/E2E are reported separately."
+}

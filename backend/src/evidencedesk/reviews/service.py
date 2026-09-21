@@ -1,5 +1,4 @@
 import json
-from datetime import datetime
 from uuid import uuid4
 
 from sqlalchemy import Connection, text
@@ -150,23 +149,9 @@ def validate_claims(
             raise Problem(422, "duplicate_claim", "A mesma alegação foi enviada duas vezes.")
         seen.add(claim_id)
         for link in claim.evidence_links:
-            evidence = resolve_evidence(connection, actor, link.evidence_id, snapshot_id)
-            if evidence["kind"] in {"source_event", "delivery_attempt", "order_snapshot"}:
-                timestamp = (
-                    evidence["record"].get("occurred_at")
-                    or evidence["record"].get("observed_at")
-                    or evidence["record"].get("as_of")
-                )
-                if not timestamp or not (
-                    incident["window_from"]
-                    <= datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
-                    <= incident["window_to"]
-                ):
-                    raise Problem(
-                        422,
-                        "evidence_outside_window",
-                        "A fonte operacional está fora do recorte do incidente.",
-                    )
+            resolve_evidence(
+                connection, actor, link.evidence_id, snapshot_id, incident_id=incident["id"]
+            )
         data = claim.model_dump(mode="json")
         data["claim_id"] = claim_id
         # Editing never carries forward a semantic approval of previous wording.

@@ -28,7 +28,7 @@ def decode_cursor(cursor: str | None, context: dict) -> str:
     if cursor is None:
         return ""
     try:
-        if len(cursor) > 1000:
+        if len(cursor) > 4096:
             raise ValueError
         raw = base64.urlsafe_b64decode(cursor + "=" * (-len(cursor) % 4))
         expected = hmac.new(
@@ -85,5 +85,34 @@ def recent_page(items: list[dict], limit: int, context: dict) -> dict:
     if result["next_cursor"]:
         last = result["items"][-1]
         position = json.dumps([last["created_at"].isoformat(), last["id"]])
+        result["next_cursor"] = encode_cursor(context, position)
+    return result
+
+
+def decode_named_cursor(cursor: str | None, context: dict) -> tuple[str | None, str]:
+    value = decode_cursor(cursor, context)
+    if not value:
+        return None, ""
+    try:
+        position = json.loads(value)
+        if not isinstance(position, list) or len(position) != 2:
+            raise ValueError
+        name, item_id = position
+        if not isinstance(name, str) or not 1 <= len(name) <= 120:
+            raise ValueError
+        if not isinstance(item_id, str) or not 1 <= len(item_id) <= 200:
+            raise ValueError
+        return name, item_id
+    except (ValueError, TypeError):
+        raise Problem(
+            409, "cursor_context_changed", "O recorte mudou. Recarregue a lista desde o início."
+        ) from None
+
+
+def named_page(items: list[dict], limit: int, context: dict) -> dict:
+    result = page(items, limit, context)
+    if result["next_cursor"]:
+        last = result["items"][-1]
+        position = json.dumps([last["name"], last["id"]], ensure_ascii=False)
         result["next_cursor"] = encode_cursor(context, position)
     return result

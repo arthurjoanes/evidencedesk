@@ -5,11 +5,15 @@ from __future__ import annotations
 import hashlib
 import json
 from typing import Literal
-from urllib.parse import urlsplit
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
 
-from evidencedesk.config import Settings
+from evidencedesk.config import (
+    Settings,
+    authorize_azure_base_url,
+    get_settings,
+    normalize_azure_base_url,
+)
 from evidencedesk.errors import Problem
 from evidencedesk.retrieval.lexical import LEXICAL_REVISION
 from evidencedesk.retrieval.local_models import EMBEDDING_REVISION, RERANKER_REVISION
@@ -17,30 +21,14 @@ from evidencedesk.retrieval.local_models import EMBEDDING_REVISION, RERANKER_REV
 from .azure import SYSTEM_INSTRUCTIONS, response_payload, response_schema_sha256
 from .contracts import ContextEvidence, GenerationRequest
 
-ALLOWED_AZURE_HOSTS = frozenset({"agentes-sol-foundry.openai.azure.com"})
 ESTIMATION_METHOD = "utf8-envelope-bytes-plus-512-v1"
 
 
-def validate_azure_base_url(value: str) -> str:
-    parsed = urlsplit(value)
-    try:
-        port = parsed.port
-    except ValueError:
-        raise ValueError("Porta do endpoint Azure inválida.") from None
-    if (
-        any(ord(character) < 32 for character in value)
-        or value != value.strip()
-        or parsed.scheme != "https"
-        or parsed.hostname not in ALLOWED_AZURE_HOSTS
-        or parsed.username is not None
-        or parsed.password is not None
-        or port not in {None, 443}
-        or parsed.path.rstrip("/") != "/openai/v1"
-        or parsed.query
-        or parsed.fragment
-    ):
-        raise ValueError("Endpoint Azure fora da allowlist HTTPS de inferência.")
-    return f"https://{parsed.hostname}/openai/v1/"
+def validate_azure_base_url(value: str, allowed_hosts: str | None = None) -> str:
+    return authorize_azure_base_url(
+        value,
+        get_settings().azure_openai_allowed_hosts if allowed_hosts is None else allowed_hosts,
+    )
 
 
 class RuntimeLimits(BaseModel):
@@ -73,7 +61,9 @@ class FrozenModelRelease(BaseModel):
 
     @model_validator(mode="after")
     def immutable_contract(self) -> FrozenModelRelease:
-        validate_azure_base_url(self.base_url)
+        # Shape is part of the immutable record. Authority comes from the current
+        # runtime at freeze/load, never from a host list inside a stored release.
+        normalize_azure_base_url(self.base_url)
         if hashlib.sha256(self.instructions.encode()).hexdigest() != self.prompt_sha256:
             raise ValueError("Hash de prompt inconsistente.")
         if (
@@ -101,7 +91,9 @@ def freeze_release(settings: Settings) -> FrozenModelRelease:
     try:
         return FrozenModelRelease(
             deployment=settings.azure_openai_deployment,
-            base_url=validate_azure_base_url(settings.azure_openai_base_url),
+            base_url=validate_azure_base_url(
+                settings.azure_openai_base_url, settings.azure_openai_allowed_hosts
+            ),
             instructions=SYSTEM_INSTRUCTIONS,
             prompt_sha256=hashlib.sha256(SYSTEM_INSTRUCTIONS.encode()).hexdigest(),
             schema_sha256=response_schema_sha256(),
@@ -124,6 +116,7 @@ def freeze_release(settings: Settings) -> FrozenModelRelease:
 def load_release(value: dict) -> FrozenModelRelease:
     try:
         release = FrozenModelRelease.model_validate(value)
+        validate_azure_base_url(release.base_url)
     except (ValidationError, ValueError):
         raise Problem(
             409, "model_release_incompatible", "A configuração desta execução precisa ser recriada."

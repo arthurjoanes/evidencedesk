@@ -1,0 +1,31 @@
+{
+  "date": "2026-09-21",
+  "repository_target": "https://github.com/arthurjoanes/evidencedesk",
+  "backend": {"tests": 235, "passed": 235, "failures": 0, "skipped": 0, "junit": "backend-release.xml"},
+  "static_checks": {"ruff": "passed", "ruff_formatted_files": 138, "mypy": "passed", "mypy_source_files": 75},
+  "test_database_safety": {
+    "implicit_demonstration_database_fallback_removed": true,
+    "explicit_test_url_on_port_5546": "rejected before collection",
+    "successful_suite_used_port": 5547,
+    "prior_attempt": "An interrupted run left maintenance enabled in the disposable database. After cleanup, the complete suite passed."
+  },
+  "clean_source_installation": {
+    "initial_ignored_dependencies_present": false,
+    "initial_generated_dataset_present": false,
+    "api_build": "passed",
+    "frontend_build": "passed",
+    "generated_packages": 6,
+    "seeded_incidents": 30,
+    "paid_inference_calls": 0,
+    "scope": "A separate copy of Git-publishable files and new Docker volumes; not a hosted deployment. Scan identities are recorded separately."
+  },
+  "gitleaks": {
+    "version": "8.30.1",
+    "original_history_commits_scanned": 5,
+    "history_findings_after_reviewed_configuration": 0,
+    "public_source_directory_findings_after_reviewed_configuration": 0,
+    "reviewed_false_positives": "Two tokenizer report hashes and one internal HTTP probe URL; path and match constrained allowlists.",
+    "positive_control_detected": true,
+    "raw_reports_published": false
+  }
+}

@@ -23,14 +23,10 @@ NOW = datetime(2026, 8, 1, tzinfo=UTC)
 
 @pytest.fixture
 def database():
-    admin_url = os.environ.get(
-        "ED_TEST_ADMIN_DATABASE_URL",
-        "postgresql+psycopg://postgres:ed_admin_local_demo@127.0.0.1:5546/evidencedesk",
-    )
-    app_url = os.environ.get(
-        "ED_TEST_DATABASE_URL",
-        "postgresql+psycopg://ed_app:ed_app_local_demo@127.0.0.1:5546/evidencedesk",
-    )
+    admin_url = os.environ.get("ED_TEST_ADMIN_DATABASE_URL")
+    app_url = os.environ.get("ED_TEST_DATABASE_URL")
+    if not admin_url or not app_url:
+        pytest.skip("Set explicit ED_TEST_DATABASE_URL and ED_TEST_ADMIN_DATABASE_URL.")
     admin, app = (
         create_engine(admin_url, pool_size=1, max_overflow=0),
         create_engine(app_url, pool_size=1, max_overflow=0),

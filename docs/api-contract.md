@@ -1,6 +1,10 @@
 # Contrato HTTP v1 — implementação compartilhada
 
-Base /api/v1. JSON usa snake_case e ISO8601 UTC. IDs são strings opacas. API é autoridade de regra/contagem/permissão. Rotas abaixo devem ser implementadas, não implicam disponibilidade atual. Erro: `{error:{code,message,request_id,retryable,field_errors?}}`; field_errors é mapa de listas de mensagens. Dados privados Cache-Control:no-store.
+Base `/api/v1`. JSON usa snake_case e ISO8601 UTC. IDs são strings opacas. A API aplica as regras, contagens e permissões. Erro: `{error:{code,message,request_id,retryable,field_errors?}}`; `field_errors` é um mapa de listas de mensagens. Respostas privadas usam `Cache-Control: no-store`.
+
+## Coleções acessíveis
+
+`GET /api/v1/collections?limit=50&cursor=...` retorna `items`, `next_cursor` e `total: null`. `limit` aceita de 1 a 100. A ordem é por nome e ID; `next_cursor` é nulo ao terminar a listagem. O cursor assinado pertence ao usuário e tenant autenticados. Cada página revalida as permissões atuais, e nomes iguais têm desempate pelo ID.
 
 ## Identidade
 

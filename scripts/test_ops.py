@@ -1,6 +1,8 @@
 import argparse
 import contextlib
 import io
+import json
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -10,6 +12,41 @@ import ops
 
 
 class OperationsBoundaryTests(unittest.TestCase):
+    def test_fresh_clone_prepares_real_synthetic_dataset_and_preserves_existing_files(self):
+        with tempfile.TemporaryDirectory(prefix="ed clone ") as directory:
+            root = Path(directory)
+            (root / "datasets").mkdir()
+            shutil.copyfile(
+                ops.ROOT / "datasets" / "generate.py", root / "datasets" / "generate.py"
+            )
+            with patch.object(ops, "ROOT", root):
+                ops.ensure_demo_dataset()
+                output = root / "datasets" / "generated"
+                index = json.loads((output / "index.json").read_text(encoding="utf-8"))
+                self.assertEqual(len(index["packages"]), 6)
+                for package in index["packages"]:
+                    manifest = output / package["manifest"]
+                    self.assertTrue(manifest.is_file())
+                    entries = json.loads(manifest.read_text(encoding="utf-8"))["entries"]
+                    self.assertEqual(len(entries), 18)
+                marker = output / "local-note.txt"
+                marker.write_text("preserve me", encoding="utf-8")
+                with patch.object(ops, "run") as command:
+                    ops.ensure_demo_dataset()
+                    command.assert_not_called()
+                self.assertEqual(marker.read_text(encoding="utf-8"), "preserve me")
+
+    def test_incomplete_dataset_is_not_overwritten_implicitly(self):
+        with tempfile.TemporaryDirectory(prefix="ed partial ") as directory:
+            root = Path(directory)
+            output = root / "datasets" / "generated"
+            output.mkdir(parents=True)
+            marker = output / "existing.json"
+            marker.write_text("{}", encoding="utf-8")
+            with patch.object(ops, "ROOT", root), self.assertRaisesRegex(ValueError, "incomplete"):
+                ops.ensure_demo_dataset()
+            self.assertEqual(marker.read_text(encoding="utf-8"), "{}")
+
     def test_only_project_namespace_is_accepted(self):
         for value in ["pf-evidencedesk", "pf-evidencedesk-restore-a19"]:
             self.assertEqual(ops.project_name(value), value)
