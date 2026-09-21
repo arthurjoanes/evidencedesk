@@ -1,0 +1,83 @@
+{
+  "schema_version": "1",
+  "artifact_kind": "model_and_evaluation_evidence_index",
+  "review_date": "2026-09-21",
+  "contains_credentials": false,
+  "local_models": [
+    {
+      "role": "embedding",
+      "model": "intfloat/multilingual-e5-small",
+      "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+      "license": "MIT",
+      "dimensions": 384,
+      "status": "base_optional_ml_profile"
+    },
+    {
+      "role": "reranker",
+      "model": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+      "revision": "1427fd652930e4ba29e8149678df786c240d8825",
+      "license": "Apache-2.0",
+      "status": "base_optional_ml_profile"
+    }
+  ],
+  "candidate": {
+    "run": "20260921T074245Z-train",
+    "status": "trained_not_promoted",
+    "weights_location": "private experiment_runs Docker volume; not committed",
+    "checkpoint_file_hashes": "experiments/reports/candidate-files.json",
+    "human_gate": "pending",
+    "reserved_evaluation_used": false
+  },
+  "generation": {
+    "provider": "azure_openai",
+    "model": "runtime_deployment_not_inferred",
+    "configuration": "frozen per run, returned model recorded in private result",
+    "store": false,
+    "background": false
+  },
+  "retrieval": {
+    "lexical_revision": "lexical-v2",
+    "current_ingestion_chunk_policy": "utf8-bytes-352-v2",
+    "ranking_experiment_corpus": "124 whole synthetic documents; predates chunk policy v2",
+    "ranking_quality_transfer_to_v2": "requires_re_evaluation"
+  },
+  "ml_image_verification": {
+    "report": "experiments/reports/ml-final-build.json",
+    "scope": "locked dependency build, pip check and real HTTP smoke",
+    "vulnerability_scan": "not_performed_in_this_task"
+  },
+  "artifacts_sha256": {
+    "experiments/protocol.json": "88dc324eedc35ad763e01c435b8505d8b6e4293a403929790c8ce4b478fee64d",
+    "experiments/requirements-ml.lock": "fe6a15df74d68958ce9ebc2d84b1cc48e9f508a6b7732f8b0fa52825369a0249",
+    "experiments/Dockerfile": "75ee3d7226ec9f32b91c7a190024e999288175dfbab0232850709a952d70b7e6",
+    "experiments/data/train.jsonl": "01aa0bb56c28db72ac995d14f8b4da7cfa24d9022bf903b69beb53c77275a52b",
+    "experiments/data/dev.jsonl": "b1c01533192f5b85b15f25b65f7fe5564d6bf22fe9c5997daedd627af4cd8050",
+    "backend/src/evidencedesk/retrieval/local_models.py": "956b80067fb68a698cae73f288bc4c940a429ac8a3d67b838fadd4b2c90b431d",
+    "backend/src/evidencedesk/retrieval/chunking.py": "ecf12546c92f380f350ff3f3edbdfaff60fbadc75f87c33e69bbd1c47e2be2b9",
+    "backend/src/evidencedesk/model_runtime/release.py": "2d8d3fe1516e193ef883761f6dcdfcf1f96dbab502d7369d28437b716be5130d",
+    "backend/src/evidencedesk/reconciliation/rules.py": "aecb7f7151198a8dd9fab29b4ccae4d3a907dbd9a2fef0aeb4a9b574f727282a",
+    "experiments/reports/preflight.json": "0c295eaae327e88103bf652f873559059c81c4fcb1eeac8000ed8f3a144164a3",
+    "experiments/reports/download-manifest.json": "e56151db93d26453e55240ed6de237b5911c70a9d4aa276319d04fd3d149356f",
+    "experiments/reports/model-service-smoke.json": "88bad1e9a2760ef67df03d413635bd1f73501543e7fe12717143426a1bdc2b22",
+    "experiments/reports/chunk-policy-tokenizers.json": "27a671310e483ddcf60cbd169be4ec90754504902011745e8d6520e8632f5ce7",
+    "experiments/reports/candidate-files.json": "dc4d32b8d61f8758527111e29884093292ef361080cf0b106cf8082e8b768b20",
+    "experiments/reports/retrieval-dev.json": "97e3d3f51642d67a33011cfa393e51d0328fbf3bb773623c3964cdde287ef843",
+    "experiments/reports/retrieval-dev-lexical-v2.json": "8c55574afe2122b896a23cdc600352b346ecd43c8eb0525a67b527a90d50c11f",
+    "experiments/reports/reranker-comparison.json": "bf478b5a62f4b2beb3bf065bbdc422c9f52ec0506b32da473c19c206799c6d10",
+    "experiments/reports/reranker-comparison-lexical-v2.json": "af35907e7bf5153a60860fa65151c3dfef6d9988543488180d69d544daaf65b3",
+    "experiments/reports/20260921T073954Z-smoke-manifest.json": "5f923502ccc2561bf96dc3f287e4c62563a08cd0e706d7cb9e02a43bf3c836da",
+    "experiments/reports/20260921T074128Z-smoke-manifest.json": "c11741896077f0a1b7782e890e4049e414246d98c2730b78a62571a075c2a552",
+    "experiments/reports/20260921T074245Z-train-manifest.json": "81970df800cf66214845397a4e1736e134312193af2a25d7f0feee87fe0c4cc7",
+    "experiments/reports/environment-check-previous.json": "d81fd6fda980142e514494aa7977737b32e763d89466ed024d9a13309fa6f26b",
+    "experiments/reports/environment-check-locked.json": "d81fd6fda980142e514494aa7977737b32e763d89466ed024d9a13309fa6f26b",
+    "experiments/reports/model-service-smoke-locked.json": "d29e2cbaf31b83b67d91686aff118a2f4259c405c92eab8302a003070b505915",
+    "experiments/reports/ml-final-build.json": "2587b1958976717a4b680397f770b1c36973df9fb3223c25fdaa8366b8181090",
+    "experiments/reports/index.json": "942205f33d432293fc5087a21b60bddb255bc2b99f538fc329008eebc1fc3da0"
+  },
+  "limitations": [
+    "Synthetic annotation is not human adjudication.",
+    "Development improvements do not certify production quality.",
+    "The deployment also requires application/image/corpus revisions.",
+    "Manifest hashes identify files, not an independent signature of trust."
+  ]
+}
