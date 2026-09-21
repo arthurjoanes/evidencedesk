@@ -1,0 +1,39 @@
+{
+  "recorded_at": "2026-09-21T08:12:00.637569+00:00",
+  "sampling": "one instantaneous sample; compare timestamp with load window, not an average",
+  "containers": [
+    {
+      "BlockIO": "0B / 0B",
+      "CPUPerc": "4.36%",
+      "Container": "efae1217b941",
+      "ID": "efae1217b941",
+      "MemPerc": "25.16%",
+      "MemUsage": "128.8MiB / 512MiB",
+      "Name": "pf-evidencedesk-capacity-review006-api-1",
+      "NetIO": "14.7MB / 2.06MB",
+      "PIDs": "7"
+    },
+    {
+      "BlockIO": "0B / 0B",
+      "CPUPerc": "5.64%",
+      "Container": "7416c022585c",
+      "ID": "7416c022585c",
+      "MemPerc": "25.03%",
+      "MemUsage": "128.2MiB / 512MiB",
+      "Name": "pf-evidencedesk-capacity-review006-api-2",
+      "NetIO": "14.5MB / 1.94MB",
+      "PIDs": "7"
+    },
+    {
+      "BlockIO": "19.8MB / 528MB",
+      "CPUPerc": "8.27%",
+      "Container": "f04a0e261474",
+      "ID": "f04a0e261474",
+      "MemPerc": "34.89%",
+      "MemUsage": "178.6MiB / 512MiB",
+      "Name": "pf-evidencedesk-capacity-review006-db-1",
+      "NetIO": "66.4MB / 467MB",
+      "PIDs": "14"
+    }
+  ]
+}

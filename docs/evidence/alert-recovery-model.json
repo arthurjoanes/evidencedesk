@@ -1,0 +1,54 @@
+{
+  "started_at": "2026-09-21T08:42:56.700680+00:00",
+  "scenario": "model",
+  "project": "pf-evidencedesk",
+  "status": "passed",
+  "services": [
+    "models"
+  ],
+  "thresholds_modified": false,
+  "new_generation_requests": 0,
+  "firing_deliveries": [
+    {
+      "received_at": "2026-09-21T08:44:25.305398+00:00",
+      "status": "firing",
+      "alerts": [
+        {
+          "status": "firing",
+          "labels": {
+            "alertname": "EvidenceDeskModelUnavailable",
+            "environment": "local-lab",
+            "job": "model-readiness",
+            "project": "evidencedesk",
+            "severity": "warning"
+          }
+        }
+      ]
+    }
+  ],
+  "firing_observed_at": "2026-09-21T08:44:27.536451+00:00",
+  "recovery_started_at": "2026-09-21T08:44:28.077945+00:00",
+  "resolved_deliveries": [
+    {
+      "received_at": "2026-09-21T08:45:10.319216+00:00",
+      "status": "resolved",
+      "alerts": [
+        {
+          "status": "resolved",
+          "labels": {
+            "alertname": "EvidenceDeskModelUnavailable",
+            "environment": "local-lab",
+            "job": "model-readiness",
+            "project": "evidencedesk",
+            "severity": "warning"
+          }
+        }
+      ]
+    }
+  ],
+  "provider_calls_before": 1,
+  "provider_calls_after": 1,
+  "api_readiness_http": 200,
+  "synthetic_fixture_removed": true,
+  "completed_at": "2026-09-21T08:45:16.204945+00:00"
+}

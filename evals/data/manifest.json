@@ -1,0 +1,20 @@
+{
+  "version": "evaluation-synthetic-v1",
+  "origin": "original_synthetic",
+  "semantic_status": "not_adjudicated",
+  "entries": [
+    {
+      "path": "dev.jsonl",
+      "cases": 60,
+      "sha256": "85de49a7f57d75ac7e272fb9dab9802b4df1b7de7bb7ff106036369500889a9d"
+    },
+    {
+      "path": "reserved.jsonl",
+      "cases": 60,
+      "sha256": "2808e234e7a9d5fb347a6328c72526653d9196fc43f739fba88c654aa76ccf69"
+    }
+  ],
+  "reserved_state": "uninspected",
+  "common_runbooks": [],
+  "limitation": "Fontes e referências sintéticas não adjudicadas. Não equivalem a validação humana."
+}

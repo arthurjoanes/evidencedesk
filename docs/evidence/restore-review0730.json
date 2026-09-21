@@ -1,0 +1,28 @@
+{
+  "recorded_at": "2026-09-21T07:30:16.914644+00:00",
+  "source_project": "pf-evidencedesk",
+  "target_project": "pf-evidencedesk-restore-review0730",
+  "status": "failed",
+  "elapsed_seconds": 25.891,
+  "manifest_sha256": "efeb4161b29cc15cb64c45033c4c74ef1b228be144ca68e5a8bdfb9d596bfe97",
+  "current_ledger_sha256": "48d4650a32372955c415a56fd6fc19174ee62f28e5cdce811467b28e336adc99",
+  "objects": {
+    "verified_references": 110
+  },
+  "reconciliation": {
+    "maintenance": true,
+    "drained": true,
+    "active_jobs": 0,
+    "active_uploads": 0,
+    "ledger_ready": true,
+    "replayed_records": 0,
+    "redacted_evidence": 0,
+    "ledger_sequence": 0
+  },
+  "target_opened": false,
+  "target_verification": "passed",
+  "failure_stage": "source_maintenance_release",
+  "failure_code": "dash_prefixed_owner_token_interpreted_as_flag",
+  "source_recovery_verified_at": "2026-09-21T07:32:08.647912+00:00",
+  "remediation": "Token values now use --token=value; repeated restore has a separate record."
+}

@@ -1,0 +1,24 @@
+{
+  "recorded_at": "2026-09-21T12:56:35.440448+00:00",
+  "method": "Markdown local target existence; Git eligible files only; anchors and external destinations not validated",
+  "checked": 233,
+  "missing": [
+    {
+      "file": "docs/source/11-AVALIACAO-CLEAN-CODE.md",
+      "target": "12-REVISAO-FINAL-CAMPOS-LOGICA-E-UX.md"
+    },
+    {
+      "file": "docs/source/11-AVALIACAO-CLEAN-CODE.md",
+      "target": "revisao-2026-09-21/clean-code-structure.json"
+    },
+    {
+      "file": "docs/source/11-AVALIACAO-CLEAN-CODE.md",
+      "target": "12-REVISAO-FINAL-CAMPOS-LOGICA-E-UX.md"
+    },
+    {
+      "file": "docs/source/11-AVALIACAO-CLEAN-CODE.md",
+      "target": "revisao-2026-09-21/rodada-2/clean-code-review-before.md"
+    }
+  ],
+  "passed": false
+}

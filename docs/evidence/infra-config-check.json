@@ -1,0 +1,42 @@
+{
+  "recorded_at": "2026-09-21T08:52:49.191131+00:00",
+  "kind": "configuration-validation",
+  "runtime_journey": false,
+  "checks": [
+    {
+      "check": "compose",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "check": "collector",
+      "exit_code": 0,
+      "output": " Container pf-evidencedesk-collector-run-7c2f5c5f73ac Creating \n Container pf-evidencedesk-collector-run-7c2f5c5f73ac Created \n"
+    },
+    {
+      "check": "prometheus",
+      "exit_code": 0,
+      "output": "Checking /etc/prometheus/prometheus.yaml\n  SUCCESS: 1 rule files found\n SUCCESS: /etc/prometheus/prometheus.yaml is valid prometheus config file syntax\n\nChecking /etc/prometheus/alerts.yaml\n  SUCCESS: 13 rules found\n\n Container pf-evidencedesk-prometheus-run-829bf9f20e31 Creating \n Container pf-evidencedesk-prometheus-run-829bf9f20e31 Created \n"
+    },
+    {
+      "check": "alert-rules",
+      "exit_code": 0,
+      "output": "  SUCCESS\n\n Container pf-evidencedesk-prometheus-run-a0b7a5afbc23 Creating \n Container pf-evidencedesk-prometheus-run-a0b7a5afbc23 Created \n"
+    },
+    {
+      "check": "alertmanager",
+      "exit_code": 0,
+      "output": "Checking '/etc/alertmanager/config.yaml'  SUCCESS\nFound:\n - global config\n - route\n - 0 inhibit rules\n - 1 receivers\n - 0 templates\n\n Container pf-evidencedesk-alertmanager-run-d581cf075a8e Creating \n Container pf-evidencedesk-alertmanager-run-d581cf075a8e Created \n"
+    },
+    {
+      "check": "loki",
+      "exit_code": 0,
+      "output": " Container pf-evidencedesk-loki-run-78f8e0e4eba5 Creating \n Container pf-evidencedesk-loki-run-78f8e0e4eba5 Created \n"
+    },
+    {
+      "check": "tempo",
+      "exit_code": 0,
+      "output": " Container pf-evidencedesk-tempo-run-76e7b000d4e7 Creating \n Container pf-evidencedesk-tempo-run-76e7b000d4e7 Created \n"
+    }
+  ]
+}

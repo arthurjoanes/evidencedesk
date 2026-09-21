@@ -1,0 +1,25 @@
+{
+  "recorded_at": "2026-09-21T08:52:56.964572+00:00",
+  "source_project": "pf-evidencedesk-capacity-review006",
+  "target_project": "pf-evidencedesk-restore-erasure0854",
+  "status": "passed",
+  "elapsed_seconds": 29.141,
+  "manifest_sha256": "9aa54aefe89270a2d36e77ff414eef2715802ce2fd52cdc1499eb7aa5fe0632a",
+  "current_ledger_sha256": "db53bc45108245f56653440dd33837be950a358609422876f0cf356f5a6d23be",
+  "objects": {
+    "verified_references": 172
+  },
+  "reconciliation": {
+    "maintenance": true,
+    "drained": true,
+    "active_jobs": 0,
+    "active_uploads": 0,
+    "ledger_ready": true,
+    "replayed_records": 1,
+    "redacted_evidence": 1,
+    "ledger_sequence": 1
+  },
+  "target_opened": false,
+  "source_reopened": true,
+  "target_stopped": true
+}

@@ -1,0 +1,125 @@
+{
+  "status": "recovered_after_command_failure",
+  "scenario": "worker-queue-collector",
+  "reason": "Compose start followed dependency on an old migration container and failed; exact existing worker and collector containers were then resumed directly.",
+  "schema_revision": "0008",
+  "checks": {
+    "EvidenceDeskQueueAging": {
+      "firing": true,
+      "resolved": true
+    },
+    "EvidenceDeskWorkerMissing": {
+      "firing": true,
+      "resolved": true
+    },
+    "EvidenceDeskCollectorUnavailable": {
+      "firing": true,
+      "resolved": true
+    }
+  },
+  "automation_status": "failed",
+  "recorded_at": "2026-09-21T08:42:37.9813847+00:00",
+  "deliveries": [
+    {
+      "received_at": "2026-09-21T05:37:55.31709-03:00",
+      "status": "firing",
+      "alerts": [
+        {
+          "status": "firing",
+          "labels": {
+            "alertname": "EvidenceDeskCollectorUnavailable",
+            "environment": "local-lab",
+            "job": "collector-health",
+            "project": "evidencedesk",
+            "severity": "critical"
+          }
+        }
+      ]
+    },
+    {
+      "received_at": "2026-09-21T05:38:40.306122-03:00",
+      "status": "firing",
+      "alerts": [
+        {
+          "status": "firing",
+          "labels": {
+            "alertname": "EvidenceDeskQueueAging",
+            "environment": "local-lab",
+            "job": "api",
+            "project": "evidencedesk",
+            "severity": "warning"
+          }
+        }
+      ]
+    },
+    {
+      "received_at": "2026-09-21T05:38:55.304842-03:00",
+      "status": "firing",
+      "alerts": [
+        {
+          "status": "firing",
+          "labels": {
+            "alertname": "EvidenceDeskWorkerMissing",
+            "environment": "local-lab",
+            "job": "api",
+            "project": "evidencedesk",
+            "severity": "critical"
+          }
+        }
+      ]
+    },
+    {
+      "received_at": "2026-09-21T05:39:25.32213-03:00",
+      "status": "resolved",
+      "alerts": [
+        {
+          "status": "resolved",
+          "labels": {
+            "alertname": "EvidenceDeskCollectorUnavailable",
+            "environment": "local-lab",
+            "job": "collector-health",
+            "project": "evidencedesk",
+            "severity": "critical"
+          }
+        }
+      ]
+    },
+    {
+      "received_at": "2026-09-21T05:39:40.30378-03:00",
+      "status": "resolved",
+      "alerts": [
+        {
+          "status": "resolved",
+          "labels": {
+            "alertname": "EvidenceDeskQueueAging",
+            "environment": "local-lab",
+            "job": "api",
+            "project": "evidencedesk",
+            "severity": "warning"
+          }
+        }
+      ]
+    },
+    {
+      "received_at": "2026-09-21T05:40:40.323114-03:00",
+      "status": "resolved",
+      "alerts": [
+        {
+          "status": "resolved",
+          "labels": {
+            "alertname": "EvidenceDeskWorkerMissing",
+            "environment": "local-lab",
+            "job": "api",
+            "project": "evidencedesk",
+            "severity": "critical"
+          }
+        }
+      ]
+    }
+  ],
+  "thresholds_modified": false,
+  "provider_call_records": 1,
+  "new_generation_requests": 0,
+  "synthetic_tenants_remaining": 0,
+  "project": "pf-evidencedesk"
+}

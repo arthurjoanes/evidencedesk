@@ -1,0 +1,74 @@
+{
+  "recorded_at": "2026-09-21T08:30:56.734765+00:00",
+  "project": "pf-evidencedesk-capacity-review006",
+  "provider_calls": 0,
+  "status": "completed-with-initial-saturation-preserved",
+  "iterations": {
+    "review006": {
+      "image_id": "sha256:40da9ef4fcfe4ade8bd9e4652b4648d0b4c6d6fc2bf490cb8de22338587f7a32",
+      "created_at": "2026-09-21T07:51:19.340251277Z"
+    },
+    "review008": {
+      "image_id": "sha256:927be276d25db16e0bff7e781f5fdecf868f535048d357bda70dd7f8f348cdf7",
+      "created_at": "2026-09-21T08:10:21.380242322Z"
+    }
+  },
+  "evidence": [
+    {
+      "path": "docs/evidence/capacity-http-1api-10rps.json",
+      "sha256": "469cbaaf08fe18626cc8f54956af91c2ff9f0ca334d5adb2a020651d9de36c52",
+      "iteration": "review006"
+    },
+    {
+      "path": "docs/evidence/capacity-http-2api-10rps.json",
+      "sha256": "36174ac3d138c9c83c6b1d516179aa75bd1d430d2d5b07207da8881619167aa2",
+      "iteration": "review006"
+    },
+    {
+      "path": "docs/evidence/capacity-http-fixed-1api-10rps.json",
+      "sha256": "86b881ad51e6a7a3f494c29845cf0421640b88b3c226c4dc7094c3ddca6b5f22",
+      "iteration": "review008"
+    },
+    {
+      "path": "docs/evidence/capacity-http-fixed-2api-10rps.json",
+      "sha256": "c0ee1cb2f1ba4b23966f6ab068dcd2bcfd3fb9e5671649cbd6788bdf1ebb3df2",
+      "iteration": "review008"
+    },
+    {
+      "path": "docs/evidence/capacity-jobs-1worker.json",
+      "sha256": "9ef243ce2550aaefc93a8554edab7a36eb36c6f2cee461642b65f8e04b4b0518",
+      "iteration": "review006"
+    },
+    {
+      "path": "docs/evidence/capacity-jobs-2workers.json",
+      "sha256": "618d39173ebf29abe6803b649011f5aea4442dd7eac19d0ecdef2406320b8af7",
+      "iteration": "review006"
+    },
+    {
+      "path": "docs/evidence/capacity-jobs-fixed-1worker.json",
+      "sha256": "43e468799cc7d315120fdcf1bec872dfe3d18564ffc941dfc67ed510c59f491a",
+      "iteration": "review008"
+    },
+    {
+      "path": "docs/evidence/capacity-jobs-fixed-2workers.json",
+      "sha256": "af72506f21d141e93423ed210d7a2934a5a5d6b10943036ec87dab53ed0a8c45",
+      "iteration": "review008"
+    },
+    {
+      "path": "docs/evidence/capacity-resources-1api.json",
+      "sha256": "54ba43ca86e338ab359fd247845503daa3f939d16e905f35f17a623dc83f3f43",
+      "iteration": "review006"
+    },
+    {
+      "path": "docs/evidence/capacity-resources-fixed-1api.json",
+      "sha256": "c817fc21625365995e1790a447a5d520b1564ea41ba4cf61ed211a94e2c55e40",
+      "iteration": "review008"
+    },
+    {
+      "path": "docs/evidence/capacity-resources-fixed-2api.json",
+      "sha256": "377ef76ba0f72073a36df1fe7997c84abf8b4c02a9a236194556fa0f0d0c379a",
+      "iteration": "review008"
+    }
+  ],
+  "scoped_containers_stopped": true
+}

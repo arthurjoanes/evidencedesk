@@ -1,0 +1,98 @@
+name: pf-evidencedesk-ml
+services:
+  prepare:
+    image: python:3.12.14-slim-bookworm@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e
+    profiles: [setup]
+    read_only: true
+    cap_drop: [ALL]
+    cap_add: [CHOWN]
+    mem_limit: 128m
+    volumes:
+      - experiment_runs:/runs
+    command: [chown, "10001:10001", /runs]
+  retrieval-db:
+    image: pgvector/pgvector:0.8.6-pg17-bookworm@sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f
+    profiles: [retrieval]
+    environment:
+      POSTGRES_USER: experiment
+      POSTGRES_PASSWORD: synthetic_local_only
+      POSTGRES_DB: retrieval_lab
+    mem_limit: 192m
+    cpus: 0.5
+    command: [postgres, -c, shared_buffers=32MB, -c, max_connections=10]
+    tmpfs:
+      - /var/lib/postgresql/data:size=128m
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U experiment -d retrieval_lab"]
+      interval: 2s
+      retries: 20
+  models:
+    image: ${ED_ML_IMAGE:-pf-evidencedesk-ml:torch2.14-cu130-locked-20260921}
+    profiles: [serving]
+    init: true
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 160
+    mem_limit: 3g
+    memswap_limit: 3g
+    cpus: 2.0
+    gpus: all
+    volumes:
+      - ../backend/src/evidencedesk:/app/evidencedesk:ro
+      - model_cache:/models:ro
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m,mode=1777
+    environment:
+      PYTHONPATH: /app
+      HF_HOME: /models/huggingface
+      HF_HUB_OFFLINE: "1"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      TOKENIZERS_PARALLELISM: "false"
+      OMP_NUM_THREADS: "2"
+      ED_MODEL_DEVICE: cuda
+      ED_MODEL_SERVICE_TOKEN: ${ED_MODEL_SERVICE_TOKEN:-ed_model_local_demo_token_change_me}
+    command: [uvicorn, evidencedesk.retrieval.model_service:application, --factory, --host, 0.0.0.0, --port, "8090", --no-access-log]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8090/healthz',timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
+  lab:
+    image: ${ED_ML_IMAGE:-pf-evidencedesk-ml:torch2.14-cu130-locked-20260921}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    init: true
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 192
+    mem_limit: 3g
+    memswap_limit: 3g
+    cpus: 2.0
+    shm_size: 128m
+    gpus: all
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=128m,mode=1777
+    volumes:
+      - ../:/workspace:ro
+      - model_cache:/models
+      - experiment_runs:/runs
+    environment:
+      HF_HOME: /models/huggingface
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      TOKENIZERS_PARALLELISM: "false"
+      OMP_NUM_THREADS: "2"
+      USER: evidencedesk-lab
+      GIT_PYTHON_REFRESH: quiet
+      PYTHONPATH: /workspace/backend/src
+    command: [python, experiments/preflight.py]
+volumes:
+  model_cache:
+    external: true
+    name: pf-evidencedesk_model_cache
+  experiment_runs:

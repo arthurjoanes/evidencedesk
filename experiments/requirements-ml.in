@@ -1,0 +1,13 @@
+# Linux x86_64 / CPython 3.12 / CUDA 13.0; public PyTorch wheel only.
+torch @ https://download.pytorch.org/whl/cu130/torch-2.14.0%2Bcu130-cp312-cp312-manylinux_2_28_x86_64.whl
+sentence-transformers==6.1.0
+transformers==5.17.0
+datasets==5.0.1
+mlflow-skinny==3.16.1
+accelerate==1.13.0
+psycopg[binary]==3.3.6
+sqlalchemy==2.0.54
+pydantic==2.13.5
+psutil==7.2.2
+alembic==1.20.0
+prometheus-client==0.26.0

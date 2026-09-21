@@ -1,0 +1,39 @@
+{
+  "verified_at": "2026-09-21",
+  "weights_downloaded": false,
+  "embedding": {
+    "id": "intfloat/multilingual-e5-small",
+    "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+    "license": "MIT",
+    "parameters": 117654272,
+    "dimensions": 384,
+    "token_limit": 512,
+    "query_prefix": "query: ",
+    "passage_prefix": "passage: ",
+    "normalize": true,
+    "source": "https://huggingface.co/intfloat/multilingual-e5-small"
+  },
+  "reranker": {
+    "id": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+    "revision": "1427fd652930e4ba29e8149678df786c240d8825",
+    "license": "Apache-2.0",
+    "parameters": 117641603,
+    "inference_pair_token_limit": 512,
+    "experiment_pair_token_limit": 384,
+    "source": "https://huggingface.co/cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"
+  },
+  "resource_policy": {
+    "device": "cpu",
+    "embedding_batch": 8,
+    "reranker_batch": 4,
+    "max_rerank_candidates": 20,
+    "max_context_spans": 8,
+    "trust_remote_code": false,
+    "implicit_download": false,
+    "api_process_loads_models": false
+  },
+  "measured_inference_memory": null,
+  "measured_latency": null,
+  "note": "IDs/revisões vêm dos metadados públicos oficiais. Memória/latência aguardam setup e medição no worker."
+}
+

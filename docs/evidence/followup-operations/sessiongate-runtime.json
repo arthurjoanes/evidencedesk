@@ -1,0 +1,38 @@
+{
+  "recorded_at": "2026-09-21T13:06:39.755573+00:00",
+  "status": "passed",
+  "scope": "frontend-only SessionGate correction promotion",
+  "containers": {
+    "api": {
+      "image_id": "sha256:7d3cad0c97e06bc8c4e6587d9a13e4a94f62458c9af7cbd684b9bbdfd6bed194",
+      "state": "running",
+      "started_at": "2026-09-21T12:51:35.954053162Z",
+      "oom_killed": false
+    },
+    "worker": {
+      "image_id": "sha256:7d3cad0c97e06bc8c4e6587d9a13e4a94f62458c9af7cbd684b9bbdfd6bed194",
+      "state": "running",
+      "started_at": "2026-09-21T12:51:35.9485492Z",
+      "oom_killed": false
+    },
+    "frontend": {
+      "image_id": "sha256:5db999797227a3124edb1e5e79c048296d2e5101425a647e2bf4173c9e70baea",
+      "state": "running",
+      "started_at": "2026-09-21T13:05:44.319550569Z",
+      "oom_killed": false
+    }
+  },
+  "database": {
+    "schema": "0008",
+    "provider_calls": 1,
+    "maintenance": false
+  },
+  "http": {
+    "api": 200,
+    "frontend": 200
+  },
+  "backend_recreated_for_this_correction": false,
+  "qa_stopped": true,
+  "qa_volumes_preserved": true,
+  "new_provider_calls": 0
+}

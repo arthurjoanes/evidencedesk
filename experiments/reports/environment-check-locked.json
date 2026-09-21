@@ -1,0 +1,589 @@
+{
+  "status": "passed",
+  "mismatches": [],
+  "lock_sha256": "fe6a15df74d68958ce9ebc2d84b1cc48e9f508a6b7732f8b0fa52825369a0249",
+  "packages": [
+    {
+      "name": "accelerate",
+      "expected": "==1.13.0",
+      "installed": "1.13.0"
+    },
+    {
+      "name": "aiohappyeyeballs",
+      "expected": "==2.7.1",
+      "installed": "2.7.1"
+    },
+    {
+      "name": "aiohttp",
+      "expected": "==3.14.3",
+      "installed": "3.14.3"
+    },
+    {
+      "name": "aiosignal",
+      "expected": "==1.4.0",
+      "installed": "1.4.0"
+    },
+    {
+      "name": "alembic",
+      "expected": "==1.20.0",
+      "installed": "1.20.0"
+    },
+    {
+      "name": "annotated-doc",
+      "expected": "==0.0.5",
+      "installed": "0.0.5"
+    },
+    {
+      "name": "annotated-types",
+      "expected": "==0.8.0",
+      "installed": "0.8.0"
+    },
+    {
+      "name": "anyio",
+      "expected": "==4.15.1",
+      "installed": "4.15.1"
+    },
+    {
+      "name": "attrs",
+      "expected": "==26.1.0",
+      "installed": "26.1.0"
+    },
+    {
+      "name": "cachetools",
+      "expected": "==7.2.0",
+      "installed": "7.2.0"
+    },
+    {
+      "name": "certifi",
+      "expected": "==2026.7.22",
+      "installed": "2026.7.22"
+    },
+    {
+      "name": "cffi",
+      "expected": "==2.1.1",
+      "installed": "2.1.1"
+    },
+    {
+      "name": "charset-normalizer",
+      "expected": "==3.5.1",
+      "installed": "3.5.1"
+    },
+    {
+      "name": "click",
+      "expected": "==8.5.0",
+      "installed": "8.5.0"
+    },
+    {
+      "name": "cloudpickle",
+      "expected": "==3.1.2",
+      "installed": "3.1.2"
+    },
+    {
+      "name": "cryptography",
+      "expected": "==50.0.1",
+      "installed": "50.0.1"
+    },
+    {
+      "name": "cuda-bindings",
+      "expected": "==13.4.2",
+      "installed": "13.4.2"
+    },
+    {
+      "name": "cuda-pathfinder",
+      "expected": "==1.8.2",
+      "installed": "1.8.2"
+    },
+    {
+      "name": "cuda-toolkit",
+      "expected": "==13.0.3.0",
+      "installed": "13.0.3.0"
+    },
+    {
+      "name": "databricks-sdk",
+      "expected": "==0.140.0",
+      "installed": "0.140.0"
+    },
+    {
+      "name": "datasets",
+      "expected": "==5.0.1",
+      "installed": "5.0.1"
+    },
+    {
+      "name": "dill",
+      "expected": "==0.4.1",
+      "installed": "0.4.1"
+    },
+    {
+      "name": "fastapi",
+      "expected": "==0.141.1",
+      "installed": "0.141.1"
+    },
+    {
+      "name": "filelock",
+      "expected": "==4.0.1",
+      "installed": "4.0.1"
+    },
+    {
+      "name": "frozenlist",
+      "expected": "==1.8.0",
+      "installed": "1.8.0"
+    },
+    {
+      "name": "fsspec",
+      "expected": "==2026.6.0",
+      "installed": "2026.6.0"
+    },
+    {
+      "name": "gitdb",
+      "expected": "==4.0.12",
+      "installed": "4.0.12"
+    },
+    {
+      "name": "gitpython",
+      "expected": "==3.1.62",
+      "installed": "3.1.62"
+    },
+    {
+      "name": "google-auth",
+      "expected": "==2.58.0",
+      "installed": "2.58.0"
+    },
+    {
+      "name": "greenlet",
+      "expected": "==3.5.6",
+      "installed": "3.5.6"
+    },
+    {
+      "name": "h11",
+      "expected": "==0.16.0",
+      "installed": "0.16.0"
+    },
+    {
+      "name": "hf-xet",
+      "expected": "==1.6.0",
+      "installed": "1.6.0"
+    },
+    {
+      "name": "httpcore",
+      "expected": "==1.0.9",
+      "installed": "1.0.9"
+    },
+    {
+      "name": "httpx",
+      "expected": "==0.28.1",
+      "installed": "0.28.1"
+    },
+    {
+      "name": "huggingface-hub",
+      "expected": "==1.32.0",
+      "installed": "1.32.0"
+    },
+    {
+      "name": "idna",
+      "expected": "==3.20",
+      "installed": "3.20"
+    },
+    {
+      "name": "importlib-metadata",
+      "expected": "==9.0.1",
+      "installed": "9.0.1"
+    },
+    {
+      "name": "jinja2",
+      "expected": "==3.1.6",
+      "installed": "3.1.6"
+    },
+    {
+      "name": "joblib",
+      "expected": "==1.6.0",
+      "installed": "1.6.0"
+    },
+    {
+      "name": "mako",
+      "expected": "==1.4.1",
+      "installed": "1.4.1"
+    },
+    {
+      "name": "markdown-it-py",
+      "expected": "==4.2.0",
+      "installed": "4.2.0"
+    },
+    {
+      "name": "markupsafe",
+      "expected": "==3.0.3",
+      "installed": "3.0.3"
+    },
+    {
+      "name": "mdurl",
+      "expected": "==0.1.2",
+      "installed": "0.1.2"
+    },
+    {
+      "name": "mlflow-skinny",
+      "expected": "==3.16.1",
+      "installed": "3.16.1"
+    },
+    {
+      "name": "mpmath",
+      "expected": "==1.3.0",
+      "installed": "1.3.0"
+    },
+    {
+      "name": "multidict",
+      "expected": "==6.9.0",
+      "installed": "6.9.0"
+    },
+    {
+      "name": "multiprocess",
+      "expected": "==0.70.19",
+      "installed": "0.70.19"
+    },
+    {
+      "name": "narwhals",
+      "expected": "==2.26.0",
+      "installed": "2.26.0"
+    },
+    {
+      "name": "networkx",
+      "expected": "==3.6.1",
+      "installed": "3.6.1"
+    },
+    {
+      "name": "numpy",
+      "expected": "==2.5.3",
+      "installed": "2.5.3"
+    },
+    {
+      "name": "nvidia-cublas",
+      "expected": "==13.1.1.3",
+      "installed": "13.1.1.3"
+    },
+    {
+      "name": "nvidia-cuda-cupti",
+      "expected": "==13.0.85",
+      "installed": "13.0.85"
+    },
+    {
+      "name": "nvidia-cuda-nvrtc",
+      "expected": "==13.0.88",
+      "installed": "13.0.88"
+    },
+    {
+      "name": "nvidia-cuda-runtime",
+      "expected": "==13.0.96",
+      "installed": "13.0.96"
+    },
+    {
+      "name": "nvidia-cudnn-cu13",
+      "expected": "==9.24.0.43",
+      "installed": "9.24.0.43"
+    },
+    {
+      "name": "nvidia-cufft",
+      "expected": "==12.0.0.61",
+      "installed": "12.0.0.61"
+    },
+    {
+      "name": "nvidia-cufile",
+      "expected": "==1.15.1.6",
+      "installed": "1.15.1.6"
+    },
+    {
+      "name": "nvidia-curand",
+      "expected": "==10.4.0.35",
+      "installed": "10.4.0.35"
+    },
+    {
+      "name": "nvidia-cusolver",
+      "expected": "==12.0.4.66",
+      "installed": "12.0.4.66"
+    },
+    {
+      "name": "nvidia-cusparse",
+      "expected": "==12.6.3.3",
+      "installed": "12.6.3.3"
+    },
+    {
+      "name": "nvidia-cusparselt-cu13",
+      "expected": "==0.8.1",
+      "installed": "0.8.1"
+    },
+    {
+      "name": "nvidia-nccl-cu13",
+      "expected": "==2.30.7",
+      "installed": "2.30.7"
+    },
+    {
+      "name": "nvidia-nvjitlink",
+      "expected": "==13.4.92",
+      "installed": "13.4.92"
+    },
+    {
+      "name": "nvidia-nvshmem-cu13",
+      "expected": "==3.4.5",
+      "installed": "3.4.5"
+    },
+    {
+      "name": "nvidia-nvtx",
+      "expected": "==13.0.85",
+      "installed": "13.0.85"
+    },
+    {
+      "name": "opentelemetry-api",
+      "expected": "==1.44.0",
+      "installed": "1.44.0"
+    },
+    {
+      "name": "opentelemetry-proto",
+      "expected": "==1.44.0",
+      "installed": "1.44.0"
+    },
+    {
+      "name": "opentelemetry-sdk",
+      "expected": "==1.44.0",
+      "installed": "1.44.0"
+    },
+    {
+      "name": "opentelemetry-semantic-conventions",
+      "expected": "==0.65b0",
+      "installed": "0.65b0"
+    },
+    {
+      "name": "packaging",
+      "expected": "==26.3",
+      "installed": "26.3"
+    },
+    {
+      "name": "pandas",
+      "expected": "==3.0.6",
+      "installed": "3.0.6"
+    },
+    {
+      "name": "prometheus-client",
+      "expected": "==0.26.0",
+      "installed": "0.26.0"
+    },
+    {
+      "name": "propcache",
+      "expected": "==0.5.4",
+      "installed": "0.5.4"
+    },
+    {
+      "name": "protobuf",
+      "expected": "==6.33.6",
+      "installed": "6.33.6"
+    },
+    {
+      "name": "psutil",
+      "expected": "==7.2.2",
+      "installed": "7.2.2"
+    },
+    {
+      "name": "psycopg",
+      "expected": "==3.3.6",
+      "installed": "3.3.6"
+    },
+    {
+      "name": "psycopg-binary",
+      "expected": "==3.3.6",
+      "installed": "3.3.6"
+    },
+    {
+      "name": "pyarrow",
+      "expected": "==25.0.1",
+      "installed": "25.0.1"
+    },
+    {
+      "name": "pyasn1",
+      "expected": "==0.6.4",
+      "installed": "0.6.4"
+    },
+    {
+      "name": "pyasn1-modules",
+      "expected": "==0.4.2",
+      "installed": "0.4.2"
+    },
+    {
+      "name": "pycparser",
+      "expected": "==3.0",
+      "installed": "3.0"
+    },
+    {
+      "name": "pydantic",
+      "expected": "==2.13.5",
+      "installed": "2.13.5"
+    },
+    {
+      "name": "pydantic-core",
+      "expected": "==2.46.5",
+      "installed": "2.46.5"
+    },
+    {
+      "name": "pygments",
+      "expected": "==2.21.0",
+      "installed": "2.21.0"
+    },
+    {
+      "name": "python-dateutil",
+      "expected": "==2.9.0.post0",
+      "installed": "2.9.0.post0"
+    },
+    {
+      "name": "python-dotenv",
+      "expected": "==1.2.3",
+      "installed": "1.2.3"
+    },
+    {
+      "name": "pyyaml",
+      "expected": "==6.0.3",
+      "installed": "6.0.3"
+    },
+    {
+      "name": "regex",
+      "expected": "==2026.9.10",
+      "installed": "2026.9.10"
+    },
+    {
+      "name": "requests",
+      "expected": "==2.34.2",
+      "installed": "2.34.2"
+    },
+    {
+      "name": "rich",
+      "expected": "==15.0.0",
+      "installed": "15.0.0"
+    },
+    {
+      "name": "safetensors",
+      "expected": "==0.8.0",
+      "installed": "0.8.0"
+    },
+    {
+      "name": "scikit-learn",
+      "expected": "==1.9.1",
+      "installed": "1.9.1"
+    },
+    {
+      "name": "scipy",
+      "expected": "==1.18.1",
+      "installed": "1.18.1"
+    },
+    {
+      "name": "sentence-transformers",
+      "expected": "==6.1.0",
+      "installed": "6.1.0"
+    },
+    {
+      "name": "setuptools",
+      "expected": "==84.0.0",
+      "installed": "84.0.0"
+    },
+    {
+      "name": "shellingham",
+      "expected": "==1.5.4",
+      "installed": "1.5.4"
+    },
+    {
+      "name": "six",
+      "expected": "==1.17.0",
+      "installed": "1.17.0"
+    },
+    {
+      "name": "smmap",
+      "expected": "==5.0.3",
+      "installed": "5.0.3"
+    },
+    {
+      "name": "sqlalchemy",
+      "expected": "==2.0.54",
+      "installed": "2.0.54"
+    },
+    {
+      "name": "sqlparse",
+      "expected": "==0.6.0",
+      "installed": "0.6.0"
+    },
+    {
+      "name": "starlette",
+      "expected": "==1.6.0",
+      "installed": "1.6.0"
+    },
+    {
+      "name": "sympy",
+      "expected": "==1.14.0",
+      "installed": "1.14.0"
+    },
+    {
+      "name": "threadpoolctl",
+      "expected": "==3.7.0",
+      "installed": "3.7.0"
+    },
+    {
+      "name": "tokenizers",
+      "expected": "==0.23.2",
+      "installed": "0.23.2"
+    },
+    {
+      "name": "torch",
+      "expected": "==2.14.0+cu130",
+      "installed": "2.14.0+cu130"
+    },
+    {
+      "name": "tqdm",
+      "expected": "==4.70.1",
+      "installed": "4.70.1"
+    },
+    {
+      "name": "transformers",
+      "expected": "==5.17.0",
+      "installed": "5.17.0"
+    },
+    {
+      "name": "triton",
+      "expected": "==3.8.0",
+      "installed": "3.8.0"
+    },
+    {
+      "name": "typer",
+      "expected": "==0.27.2",
+      "installed": "0.27.2"
+    },
+    {
+      "name": "typing-inspection",
+      "expected": "==0.4.4",
+      "installed": "0.4.4"
+    },
+    {
+      "name": "typing-extensions",
+      "expected": "==4.16.0",
+      "installed": "4.16.0"
+    },
+    {
+      "name": "urllib3",
+      "expected": "==2.8.0",
+      "installed": "2.8.0"
+    },
+    {
+      "name": "uvicorn",
+      "expected": "==0.53.0",
+      "installed": "0.53.0"
+    },
+    {
+      "name": "xxhash",
+      "expected": "==4.0.1",
+      "installed": "4.0.1"
+    },
+    {
+      "name": "yarl",
+      "expected": "==1.25.1",
+      "installed": "1.25.1"
+    },
+    {
+      "name": "zipp",
+      "expected": "==4.1.0",
+      "installed": "4.1.0"
+    }
+  ],
+  "network_used": false,
+  "weights_loaded": false
+}

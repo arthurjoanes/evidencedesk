@@ -1,0 +1,436 @@
+{
+  "schema_version": "1",
+  "scope": "backend Python source and tests verified by review-backend.xml; not an image identity",
+  "file_count": 107,
+  "source_set_sha256": "a2b566aeb9cadea6eb1dda5c925cf2f2cdc3a5e874c76f2a2db4481fe0c1e990",
+  "files": [
+    {
+      "path": "backend/src/evidencedesk/__init__.py",
+      "sha256": "320c3159e44848309b4a5bcd46e9696bb551c15e2249eaa9e7903dcb426dadcc"
+    },
+    {
+      "path": "backend/src/evidencedesk/administration/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "backend/src/evidencedesk/administration/routes.py",
+      "sha256": "daf6d3ba1fa9e2b470619c20c257e8d6151fb810d7b5c3626e143daac72664ef"
+    },
+    {
+      "path": "backend/src/evidencedesk/api.py",
+      "sha256": "670d02686d27cac8e37065fda49fbd3460d046fb28a9f57fa0918347bb9b9a1a"
+    },
+    {
+      "path": "backend/src/evidencedesk/app.py",
+      "sha256": "24f3027479835459767784bcc2784140fbbed71fe3d390ea765728bc5192c6da"
+    },
+    {
+      "path": "backend/src/evidencedesk/audit.py",
+      "sha256": "083a3e0e89b1b4deed7295298be3404748cfe7ed29c525f8a3245f27cc50ee8a"
+    },
+    {
+      "path": "backend/src/evidencedesk/body_limit.py",
+      "sha256": "61acaa76af4f9d5958b6c13cfa16e41a47a2e4613d6418cb30950838ee40acfd"
+    },
+    {
+      "path": "backend/src/evidencedesk/config.py",
+      "sha256": "4ff5a0cce19826af51deecf64e280ee85cf4e7e2b25ef07c1add41bafa5e1440"
+    },
+    {
+      "path": "backend/src/evidencedesk/database.py",
+      "sha256": "727d0d46720faa96a16229b43afc4e2c6e4f3ea23d5aeb17ef889e1dc475c27a"
+    },
+    {
+      "path": "backend/src/evidencedesk/deletion_ledger.py",
+      "sha256": "a219596cae36b39077304f590ddb2c7acaaeea3c91c7e1bf1776a70326d5c99e"
+    },
+    {
+      "path": "backend/src/evidencedesk/errors.py",
+      "sha256": "6d66101c2975d612080549013472d53e47a0cf56774813ca7e196e80b30edde1"
+    },
+    {
+      "path": "backend/src/evidencedesk/evidence/__init__.py",
+      "sha256": "88ad0be9de8ef9fe7bcb707bd9824fe47be654f709a4de37aba853267f89baa4"
+    },
+    {
+      "path": "backend/src/evidencedesk/evidence/azure_blob.py",
+      "sha256": "047479f7ff95799de18e05b8acaeda9c581f42e7389cdc43796ea47170dfa39a"
+    },
+    {
+      "path": "backend/src/evidencedesk/evidence/deletion.py",
+      "sha256": "1381b974f8ad0d042ef55a79865406bd800ea43525f1ac1751b900807ae5a647"
+    },
+    {
+      "path": "backend/src/evidencedesk/evidence/routes.py",
+      "sha256": "d5ccf66f97ed69baca5f565c22e948d84f0533072bb3a0a8ce196a43c00cb909"
+    },
+    {
+      "path": "backend/src/evidencedesk/evidence/service.py",
+      "sha256": "bba2e3f6edffe363e2c170c11c2e7492280b504aafaa6e8fbd31c8443d8512ad"
+    },
+    {
+      "path": "backend/src/evidencedesk/evidence/storage.py",
+      "sha256": "4d373341579cbaa242a981fb9669f222c2656fdc393e9ece60c33d2e0ca2c404"
+    },
+    {
+      "path": "backend/src/evidencedesk/identity/__init__.py",
+      "sha256": "0ca874d04006b2e00ca8972b7700bb6091fd8f4fc8d2fc32b9f4d72215352b65"
+    },
+    {
+      "path": "backend/src/evidencedesk/identity/admission.py",
+      "sha256": "028b2068fefde334225bbae5a04843c914771e3929b2b1f902bcc3293026a7e0"
+    },
+    {
+      "path": "backend/src/evidencedesk/identity/routes.py",
+      "sha256": "50c90857c6893bdf2e4e9b35cb7f44ed88aad2c316df57a6dd0d8f8ca98bd701"
+    },
+    {
+      "path": "backend/src/evidencedesk/identity/service.py",
+      "sha256": "421ab94c869e833755d8fbc5aff974d8ff1484ac0a0a8d24bea437588d0c7a6e"
+    },
+    {
+      "path": "backend/src/evidencedesk/incidents/__init__.py",
+      "sha256": "7d20dc5d5105b6f9b73a7d431010a08c1a43b9cb86d256fccf31083f04352605"
+    },
+    {
+      "path": "backend/src/evidencedesk/incidents/routes.py",
+      "sha256": "a58adf45e97dede51263bb2f5c8d74042f87d6fbadd1f9be90cd137ce80805d2"
+    },
+    {
+      "path": "backend/src/evidencedesk/incidents/service.py",
+      "sha256": "8055bd8c087bf6ad8fdf2c69065ad7e3fe1de70f39832f0d6669a657d708a92f"
+    },
+    {
+      "path": "backend/src/evidencedesk/incidents/summaries.py",
+      "sha256": "068d35fc25d90cd6ba80d8489e2fc94c50f719a269871136b561214292207790"
+    },
+    {
+      "path": "backend/src/evidencedesk/ingestion/__init__.py",
+      "sha256": "0e97fd680374a1cc5aaea732fc980126bc3498ebad444019527a9db7748d8562"
+    },
+    {
+      "path": "backend/src/evidencedesk/ingestion/contracts.py",
+      "sha256": "56ddcbe279b9678b9d8f1c0c6eca894fd17dfe7b53285bc5eddafdc93e7a2525"
+    },
+    {
+      "path": "backend/src/evidencedesk/ingestion/limits.py",
+      "sha256": "78ac7c6eba3aa974e433514cda449be84d4014da72b20caa5f6d802937bd7091"
+    },
+    {
+      "path": "backend/src/evidencedesk/ingestion/parser.py",
+      "sha256": "b8985f58dfda0ea6c1fdaf0a44d27ad35129b91d31d4cae61722bf7d49451a9d"
+    },
+    {
+      "path": "backend/src/evidencedesk/ingestion/processing.py",
+      "sha256": "ab64324da72e2d5a50ecc0b5d5c3631696c21c161aa8067739fd7ac34fc20e46"
+    },
+    {
+      "path": "backend/src/evidencedesk/ingestion/routes.py",
+      "sha256": "0d80ca4c44a045f500f95f34030ec12a891eedf798b6bf24fcc957823b10c8d2"
+    },
+    {
+      "path": "backend/src/evidencedesk/ingestion/service.py",
+      "sha256": "9b3d8a926171a3567dfb1173405d6684cb353dd9ff03cc393f399195a08bb405"
+    },
+    {
+      "path": "backend/src/evidencedesk/investigations/__init__.py",
+      "sha256": "dfc3b7541ae0154eca92b18b516b4c2e4b014c6d71313b2b509c119ffef9fccf"
+    },
+    {
+      "path": "backend/src/evidencedesk/investigations/budget.py",
+      "sha256": "d2291adce6616d0a7cb57e2164ceb863b25dc3e4e431f838becef177e2be1d46"
+    },
+    {
+      "path": "backend/src/evidencedesk/investigations/processing.py",
+      "sha256": "524104b05a9b412290406ec28ae379e6426ca185a581f650d8c2e8a13025bc73"
+    },
+    {
+      "path": "backend/src/evidencedesk/investigations/routes.py",
+      "sha256": "89699b4d27fcd91f044c36ac19a964112129df7c121c2281fa6295f09e63865c"
+    },
+    {
+      "path": "backend/src/evidencedesk/investigations/service.py",
+      "sha256": "cfb9760b298e3e252226d48090e871b100acd3c387fbbfe7ab9f48525e8cbf6d"
+    },
+    {
+      "path": "backend/src/evidencedesk/investigations/streams.py",
+      "sha256": "59c5ba0d24b7fb77b7def947fac7126f0aec81ed42df8733bf0074678d10e5e4"
+    },
+    {
+      "path": "backend/src/evidencedesk/investigations/tools.py",
+      "sha256": "00063ff781b21075afa355a4a4d2fb316b6e02ce251b40fbb7a340570edceb44"
+    },
+    {
+      "path": "backend/src/evidencedesk/jobs/__init__.py",
+      "sha256": "95d8a0a68a69630ee04181a3a49d13733ab98e3051cc1c7be242679cb0371b44"
+    },
+    {
+      "path": "backend/src/evidencedesk/jobs/progress.py",
+      "sha256": "2e9da3421ca06e1256675fe4b78999e2c25d74f2b8d257a8232af4b8081b89c2"
+    },
+    {
+      "path": "backend/src/evidencedesk/jobs/service.py",
+      "sha256": "a0f52556a98400cff4a53f4edbb3b8fe4c91b9facc7820e9bdf5207418056197"
+    },
+    {
+      "path": "backend/src/evidencedesk/maintenance.py",
+      "sha256": "79c1f3dd7a61c544715a39d198b3ffa97ac16a466ffe322229e630ec77ff3bc2"
+    },
+    {
+      "path": "backend/src/evidencedesk/model_runtime/__init__.py",
+      "sha256": "ebfaf759b5d5e3bca34014a3fb38a11f3e37b97b2d581be3e6861359d53d7b42"
+    },
+    {
+      "path": "backend/src/evidencedesk/model_runtime/azure.py",
+      "sha256": "ca466085908cc60c2c03d1898996066eea644179ff03e97c03bbc8e09682cd75"
+    },
+    {
+      "path": "backend/src/evidencedesk/model_runtime/contracts.py",
+      "sha256": "2bfaf40698acb72b65006b3ec0acfd8eefda0d68c7851eb2879e504f7dc337e0"
+    },
+    {
+      "path": "backend/src/evidencedesk/model_runtime/release.py",
+      "sha256": "2d8d3fe1516e193ef883761f6dcdfcf1f96dbab502d7369d28437b716be5130d"
+    },
+    {
+      "path": "backend/src/evidencedesk/pagination.py",
+      "sha256": "b3d6cb031304b5749e17ab17c37a527958b9b5efd91eeb189a85368a0c87b872"
+    },
+    {
+      "path": "backend/src/evidencedesk/reconciliation/__init__.py",
+      "sha256": "5ab46cb5e7fa9d9eff9e2f151bba0b36659baf19cd7367824c452059b67aaa4a"
+    },
+    {
+      "path": "backend/src/evidencedesk/reconciliation/contracts.py",
+      "sha256": "80e32008302aa9a98ff0bba87ca5b3859db89aa2e1043786e284d27db2d0ef8a"
+    },
+    {
+      "path": "backend/src/evidencedesk/reconciliation/parsing.py",
+      "sha256": "d109bf241fda6c09b2dcc4b61548e37aa8e5cf6d6c01e9989bfdb3f53402cec3"
+    },
+    {
+      "path": "backend/src/evidencedesk/reconciliation/rules.py",
+      "sha256": "aecb7f7151198a8dd9fab29b4ccae4d3a907dbd9a2fef0aeb4a9b574f727282a"
+    },
+    {
+      "path": "backend/src/evidencedesk/retention/__init__.py",
+      "sha256": "77d6584a16a6d420a946c3ca5176b12843312598feba20f648156c9f3e46e1ac"
+    },
+    {
+      "path": "backend/src/evidencedesk/retention/__main__.py",
+      "sha256": "c20842c485eb2f1c5ea989afea31edd7bce7f9fdc00a41fa378f8809eeeae121"
+    },
+    {
+      "path": "backend/src/evidencedesk/retention/cleanup.py",
+      "sha256": "73bbfcd8170403480fda427ec741a0e1878088e75ac86abdab21035890cd96cd"
+    },
+    {
+      "path": "backend/src/evidencedesk/retention/service.py",
+      "sha256": "7dcca5d83f058dce081927f8077accf75867b72fde1342ceaca64fc24c519476"
+    },
+    {
+      "path": "backend/src/evidencedesk/retrieval/__init__.py",
+      "sha256": "cd8543e4a73be220da9f5e968589874d1bb629644c1ac4ddb431ea54389de5b9"
+    },
+    {
+      "path": "backend/src/evidencedesk/retrieval/chunking.py",
+      "sha256": "ecf12546c92f380f350ff3f3edbdfaff60fbadc75f87c33e69bbd1c47e2be2b9"
+    },
+    {
+      "path": "backend/src/evidencedesk/retrieval/http_client.py",
+      "sha256": "9eb918d0dba372c43f3f36e9174db8a9558451fd2863dfbb01cdbec0244e85cf"
+    },
+    {
+      "path": "backend/src/evidencedesk/retrieval/http_contracts.py",
+      "sha256": "1c47fafdea2ee237f278f95dbbc3d83fd4dd93ede10c5cd49060222c88fe05f3"
+    },
+    {
+      "path": "backend/src/evidencedesk/retrieval/jobs.py",
+      "sha256": "798a121c751e8e52abb5f10a0fba3df0ccd96b7e0ee25331ac7ae7df0b659c2a"
+    },
+    {
+      "path": "backend/src/evidencedesk/retrieval/lexical.py",
+      "sha256": "0a83417875da6f5a99ee5fa549d6f9e99722d7a4f984bf3eec72239ffa621d56"
+    },
+    {
+      "path": "backend/src/evidencedesk/retrieval/local_models.py",
+      "sha256": "956b80067fb68a698cae73f288bc4c940a429ac8a3d67b838fadd4b2c90b431d"
+    },
+    {
+      "path": "backend/src/evidencedesk/retrieval/model_service.py",
+      "sha256": "e88caccac8126c1f711a4b5c4ebecff08ff9d43756278b7ee36497ebda84ae59"
+    },
+    {
+      "path": "backend/src/evidencedesk/retrieval/ranking.py",
+      "sha256": "21f79a1124f452354a495b0df647f6e2e032bbb1e423bf84c99f1097b4872c5e"
+    },
+    {
+      "path": "backend/src/evidencedesk/retrieval/repository.py",
+      "sha256": "97855618261acc55f8f43585dba29b16c93fae86f2b121669804fa089aecf340"
+    },
+    {
+      "path": "backend/src/evidencedesk/reviews/__init__.py",
+      "sha256": "30434b064051b601ae5ee302b07a0bb7d682dcb5f328fb9f3a45c8d9d8362ad5"
+    },
+    {
+      "path": "backend/src/evidencedesk/reviews/contracts.py",
+      "sha256": "a811c87ab2edb636d46a0d1f2b54e349f4787f8fcf49e28662fd6cca8ec6866d"
+    },
+    {
+      "path": "backend/src/evidencedesk/reviews/exporting.py",
+      "sha256": "700cc0797c45388d4428e4f4b8a3a10c88d8d9619e22f97c4917b48baea33c9c"
+    },
+    {
+      "path": "backend/src/evidencedesk/reviews/routes.py",
+      "sha256": "1a0504cdbf9c29c265c99b3b88ce028f030ebb8c02f0b7b354d9375859bc3c2c"
+    },
+    {
+      "path": "backend/src/evidencedesk/reviews/service.py",
+      "sha256": "732d7df92066e8d256079395424275b3570d286d2a35c271ec9a35f0c98aa4f2"
+    },
+    {
+      "path": "backend/src/evidencedesk/seed.py",
+      "sha256": "e935b38093bd2c59e200f92b330aa0d25c9fb8b07afdded0023f7b7410e6e8b3"
+    },
+    {
+      "path": "backend/src/evidencedesk/telemetry/__init__.py",
+      "sha256": "852e56bbf151a1b2ef80fa38296254453027cc9a1890f7a41bc6c664212a6d8f"
+    },
+    {
+      "path": "backend/src/evidencedesk/telemetry/signals.py",
+      "sha256": "659e6195e1eba5f1c15d7b537420f5b62ceb00020f0dd204dabecda6b1c810d5"
+    },
+    {
+      "path": "backend/src/evidencedesk/worker.py",
+      "sha256": "d8c5a0de0ebbc2d9441d1b2190a2019408f555f913a5c5cfd160bcd52fb37598"
+    },
+    {
+      "path": "backend/tests/integration/budget_migration_probe.py",
+      "sha256": "e50270333a4f403269ea31026459265381bb34c5e1670c0ac9d83e94a4b54e6a"
+    },
+    {
+      "path": "backend/tests/integration/conftest.py",
+      "sha256": "8d290f4e847edb843a3e6395113945bd0e29a169495421dbc61d58ff79b63624"
+    },
+    {
+      "path": "backend/tests/integration/test_administration.py",
+      "sha256": "bc075c8af8a40be60d6d9efb63ff7e8c32f9e178602589e0f418bf6b36a25a3e"
+    },
+    {
+      "path": "backend/tests/integration/test_incident_sources.py",
+      "sha256": "83a8a2e7540f2ea232c0e9a7bc6bedbed82bfe84b90aaf52c87b98cacad7bbbc"
+    },
+    {
+      "path": "backend/tests/integration/test_incident_summaries.py",
+      "sha256": "58c3d1083e8853f52258047525367271b3354010666a48f8415812eb259e6298"
+    },
+    {
+      "path": "backend/tests/integration/test_index_jobs.py",
+      "sha256": "9a106e677c34c2fd8a8159ba4a24025e3076b5e8ddb74448de591650f57a32ec"
+    },
+    {
+      "path": "backend/tests/integration/test_investigation_workflow.py",
+      "sha256": "2ef06d93611ccf835f87339538700a067bccc98e56175c39ae032dc436acd62e"
+    },
+    {
+      "path": "backend/tests/integration/test_login_admission.py",
+      "sha256": "c32100eee25f318fa6d33f9e9005171ebf5f74422d401b6b25ce2c0ec151847b"
+    },
+    {
+      "path": "backend/tests/integration/test_maintenance.py",
+      "sha256": "ff438dc5d0823d66aa35f6fbe411619b4e1927080c1ace5d7c174bdfeff1df41"
+    },
+    {
+      "path": "backend/tests/integration/test_manual_workflow.py",
+      "sha256": "09f1debbc438ca3ba92852f831b52f619d05532c0d8f9623d137eea18ad18732"
+    },
+    {
+      "path": "backend/tests/integration/test_monthly_budget.py",
+      "sha256": "a7b356da2ad716152a139ddf183a81ab5627e0491382e22715e89d837c7edad6"
+    },
+    {
+      "path": "backend/tests/integration/test_read_tools.py",
+      "sha256": "fca66cb8b2ba48dc4c5f6a523c82a8d2573ce30cec48da535e6b4565a50568d8"
+    },
+    {
+      "path": "backend/tests/integration/test_recent_lists.py",
+      "sha256": "c46d775ae50fdf0e270f09997f03b85f774e108567c4105c09f39838d24b4888"
+    },
+    {
+      "path": "backend/tests/integration/test_retention.py",
+      "sha256": "0a703237c92be2a26cd110ccf163f88b78f822330e9d26b7fcca62af9c980fff"
+    },
+    {
+      "path": "backend/tests/integration/test_retrieval_repository.py",
+      "sha256": "763afda93e6ddb3a657c51525f66a0c243893f867d0c349cc16881ae4b15671d"
+    },
+    {
+      "path": "backend/tests/integration/test_upload_concurrency.py",
+      "sha256": "33c0f97fb58d2c6aedbd50b548afb41dbdcdb48a78b0dae6a7be747cbd58bffa"
+    },
+    {
+      "path": "backend/tests/integration/test_worker_failures.py",
+      "sha256": "17d98a7fcbcb912470b6e3e15e3210ea34f9d3e9c8b1f3568846e420b6fa5b6d"
+    },
+    {
+      "path": "backend/tests/unit/test_azure_blob.py",
+      "sha256": "b5c4924cef5d86ac99a415bd5d1bbc95be4b214f17ef96b28723eccf3ac7443c"
+    },
+    {
+      "path": "backend/tests/unit/test_body_limit.py",
+      "sha256": "8c452b0fcc468088c3a43d558fd7332f4532c0a6f56385dc5ee2c4b1c8c35246"
+    },
+    {
+      "path": "backend/tests/unit/test_deletion_ledger.py",
+      "sha256": "4873d79692024c8a6a8b8d8b6792ff407de3bfc92d8a14b35473661b0d8c8aa5"
+    },
+    {
+      "path": "backend/tests/unit/test_document_chunks.py",
+      "sha256": "fcf858587ab4f74a57300e7014f66a276dfb7d1ab739ec204384ee9a8faa7bc1"
+    },
+    {
+      "path": "backend/tests/unit/test_extraction_limits.py",
+      "sha256": "ec54acb04b58c858984e57596406b84e7c63f93cec27860c2df93e31404439f4"
+    },
+    {
+      "path": "backend/tests/unit/test_maintenance_examples.py",
+      "sha256": "4c795e4341fe0f38602881f7e6c3c5e2c79d3f5ba9a0d85a6d2a710b3f7fb225"
+    },
+    {
+      "path": "backend/tests/unit/test_model_release.py",
+      "sha256": "5f8b1652c6ae0eb68e41f37968fdebaadf820da8f9011525181b42e939ee8e13"
+    },
+    {
+      "path": "backend/tests/unit/test_model_runtime.py",
+      "sha256": "5e37febfca22afa915df2cc7979e226a5404ee7653f9b67ae94e1c68c9c9d3a6"
+    },
+    {
+      "path": "backend/tests/unit/test_model_service.py",
+      "sha256": "5e0a31c079b86b5aae1f7fc5aa38f9b9be57da742ac817dd90ebed5536b47a5d"
+    },
+    {
+      "path": "backend/tests/unit/test_private_storage.py",
+      "sha256": "e85a2072e30f4d71a26617eb28121bb674a28b06a2f42723b4d8021d7a19f1f5"
+    },
+    {
+      "path": "backend/tests/unit/test_reconciliation.py",
+      "sha256": "bec064c59561f114b9688a5a17cf7bfd3fad62ccfb8a0338d07af7d068e3ddf0"
+    },
+    {
+      "path": "backend/tests/unit/test_retrieval.py",
+      "sha256": "305afe73865e26f6216835874cb9e783703b8ac3f1fecd3aafcbdebac863c995"
+    },
+    {
+      "path": "backend/tests/unit/test_summary_cache.py",
+      "sha256": "e15791975ed9eb180a169831c36f0c86d4a424d27db34ed26966353b28a314b0"
+    },
+    {
+      "path": "backend/tests/unit/test_telemetry.py",
+      "sha256": "aefde211f82a5a92050dc2a95bcdf556747855994f89986d8f5d65331df550c6"
+    },
+    {
+      "path": "backend/tests/unit/test_tool_contracts.py",
+      "sha256": "ade0f21ef2f035712c59a16e6c2eeebbecec5b1257a1a889586e8353839798dd"
+    }
+  ]
+}

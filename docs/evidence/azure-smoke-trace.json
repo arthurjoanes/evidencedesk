@@ -1,0 +1,25 @@
+{
+  "job_id": "5e91eed5b41e46878903f942de4f5e23",
+  "trace_id": "d0b51f5839d6e9537746ed8854e4c019",
+  "spans": [
+    {
+      "name": "HTTP POST",
+      "span_id": "MBJrQfMqYk0=",
+      "parent_span_id": null
+    },
+    {
+      "name": "job.investigation",
+      "span_id": "kcu76TMG1vg=",
+      "parent_span_id": "MBJrQfMqYk0="
+    },
+    {
+      "name": "model.generate",
+      "span_id": "3sL355s5Sco=",
+      "parent_span_id": "kcu76TMG1vg="
+    }
+  ],
+  "recorded_at": "2026-09-21T07:38:10.558126+00:00",
+  "run_id": "2605b0dcf3fd4045a345a51fd2f80bdf",
+  "status": "passed",
+  "limits": "Initial collector omitted custom provider attributes; graph still confirms HTTP admission -> job -> model. Allowlist corrected after this call; no extra paid call made."
+}

@@ -1,0 +1,48 @@
+{
+  "run": "20260921T074245Z-train",
+  "status": "trained_not_promoted",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 18355,
+      "sha256": "6438d33cf50634a8923e23b6f756ad744d46fc1362f2c02696815cad70f5e4f1"
+    },
+    {
+      "path": "config.json",
+      "bytes": 818,
+      "sha256": "21325c336835646d3ace467443dc8ac7fb798309f7f6f30d9d9a8ff346e719a4"
+    },
+    {
+      "path": "config_sentence_transformers.json",
+      "bytes": 259,
+      "sha256": "454d4b7868ed73d612c76428cca1249229853f14c036f685babfd57f5c72bb99"
+    },
+    {
+      "path": "model.safetensors",
+      "bytes": 470588492,
+      "sha256": "d294da05707def848ff181fb250190fa667997951a73157d14b4b1b6b09c9bec"
+    },
+    {
+      "path": "modules.json",
+      "bytes": 131,
+      "sha256": "ec085e5249603c4bbf035028f530b68d78a7387110828d554d3193f41e1b67b9"
+    },
+    {
+      "path": "sentence_bert_config.json",
+      "bytes": 225,
+      "sha256": "d43017ebfb955afe9b83122ef46e15db65d0353a42884c8ad40fb442226e5363"
+    },
+    {
+      "path": "tokenizer.json",
+      "bytes": 17082987,
+      "sha256": "883b037111086fd4dfebbbc9b7cee11e1517b5e0c0514879478661440f137085"
+    },
+    {
+      "path": "tokenizer_config.json",
+      "bytes": 342,
+      "sha256": "04880b6cff2abdd24718e6425cf4c367e9b4ed341f7f9c5b40587cccd5893e69"
+    }
+  ],
+  "weights_exported": false,
+  "signature": "unsigned_local_hash_inventory"
+}

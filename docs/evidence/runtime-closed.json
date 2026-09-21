@@ -1,0 +1,69 @@
+{
+  "recorded_at": "2026-09-21T08:55:13.577757+00:00",
+  "status": "passed",
+  "containers": [
+    {
+      "service": "api",
+      "image_id": "sha256:c156ff946075f3dd50175427f5ff224b3f2ec9c0459b1dc1959caa2c22136ea0",
+      "status": "running",
+      "health": "healthy",
+      "oom_killed": false
+    },
+    {
+      "service": "worker",
+      "image_id": "sha256:c156ff946075f3dd50175427f5ff224b3f2ec9c0459b1dc1959caa2c22136ea0",
+      "status": "running",
+      "health": null,
+      "oom_killed": false
+    },
+    {
+      "service": "frontend",
+      "image_id": "sha256:7640031e0466f32e1db469fc3e81201804e6b33c2ca6975bb040a36070df1fb7",
+      "status": "running",
+      "health": "healthy",
+      "oom_killed": false
+    },
+    {
+      "service": "db",
+      "image_id": "sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+      "status": "running",
+      "health": "healthy",
+      "oom_killed": false
+    },
+    {
+      "service": "collector",
+      "image_id": "sha256:fd328de2552466ad78385e1b1289c3f2402b1c45f265b252aab1955b42845ac1",
+      "status": "running",
+      "health": null,
+      "oom_killed": false
+    },
+    {
+      "service": "models",
+      "image_id": "sha256:54acfbc838b283a957207ccc5029c91c34355c382f4052bb1e92a72d3820440a",
+      "status": "exited",
+      "health": "unhealthy",
+      "oom_killed": false
+    }
+  ],
+  "database": {
+    "schema": "0008",
+    "provider_calls": 1,
+    "maintenance": false,
+    "synthetic_alert_tenants": 0
+  },
+  "http": {
+    "api": 200,
+    "frontend": 200
+  },
+  "model_intentionally_disabled": true,
+  "prometheus_targets": {
+    "api": "up",
+    "collector-health": "up",
+    "prometheus": "up",
+    "readiness": "up"
+  },
+  "isolated_running_containers": {
+    "pf-evidencedesk-capacity-review006": [],
+    "pf-evidencedesk-restore-erasure0854": []
+  }
+}

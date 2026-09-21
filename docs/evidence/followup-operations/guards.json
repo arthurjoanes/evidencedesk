@@ -1,0 +1,10 @@
+{
+  "recorded_at": "2026-09-21T12:39:55.560910+00:00",
+  "status": "passed",
+  "main_start_credential_loss_rejected_without_mutation": true,
+  "qa_provider_override": "disabled",
+  "qa_credential_removed_from_all_backend_services": true,
+  "qa_database_published": false,
+  "qa_origins_match_port3107": true,
+  "scope": "resolved configuration and read-only main credential-presence probe; no credentials recorded"
+}

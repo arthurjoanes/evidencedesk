@@ -1,0 +1,564 @@
+{
+  "evaluation": "deterministic_reconciliation_dev",
+  "created_at": "2026-09-21T06:52:35.832855+00:00",
+  "planned": 60,
+  "executed": 60,
+  "passed": 60,
+  "failed": 0,
+  "categories": {
+    "duplicate_webhook": 8,
+    "delayed_delivery": 8,
+    "out_of_order": 8,
+    "ambiguous_timeout": 8,
+    "expired_reservation": 7,
+    "stale_snapshot": 7,
+    "identity_mismatch": 7,
+    "obsolete_procedure": 7
+  },
+  "reserved_used": false,
+  "azure_calls": 0,
+  "human_semantic_gate": "inconclusive",
+  "retrieval_and_model_gates": "not_executed",
+  "cases": [
+    {
+      "case_id": "evaluation-dev-000",
+      "scenario_family": "duplicate_webhook",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-001",
+      "scenario_family": "delayed_delivery",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-002",
+      "scenario_family": "out_of_order",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-003",
+      "scenario_family": "ambiguous_timeout",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 5,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-004",
+      "scenario_family": "expired_reservation",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-005",
+      "scenario_family": "stale_snapshot",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-006",
+      "scenario_family": "identity_mismatch",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-007",
+      "scenario_family": "obsolete_procedure",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-008",
+      "scenario_family": "duplicate_webhook",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-009",
+      "scenario_family": "delayed_delivery",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-010",
+      "scenario_family": "out_of_order",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-011",
+      "scenario_family": "ambiguous_timeout",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 5,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-012",
+      "scenario_family": "expired_reservation",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-013",
+      "scenario_family": "stale_snapshot",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-014",
+      "scenario_family": "identity_mismatch",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-015",
+      "scenario_family": "obsolete_procedure",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-016",
+      "scenario_family": "duplicate_webhook",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-017",
+      "scenario_family": "delayed_delivery",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-018",
+      "scenario_family": "out_of_order",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-019",
+      "scenario_family": "ambiguous_timeout",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 5,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-020",
+      "scenario_family": "expired_reservation",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-021",
+      "scenario_family": "stale_snapshot",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-022",
+      "scenario_family": "identity_mismatch",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-023",
+      "scenario_family": "obsolete_procedure",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-024",
+      "scenario_family": "duplicate_webhook",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-025",
+      "scenario_family": "delayed_delivery",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-026",
+      "scenario_family": "out_of_order",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-027",
+      "scenario_family": "ambiguous_timeout",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 5,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-028",
+      "scenario_family": "expired_reservation",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-029",
+      "scenario_family": "stale_snapshot",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-030",
+      "scenario_family": "identity_mismatch",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-031",
+      "scenario_family": "obsolete_procedure",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-032",
+      "scenario_family": "duplicate_webhook",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-033",
+      "scenario_family": "delayed_delivery",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-034",
+      "scenario_family": "out_of_order",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-035",
+      "scenario_family": "ambiguous_timeout",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 5,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-036",
+      "scenario_family": "expired_reservation",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-037",
+      "scenario_family": "stale_snapshot",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-038",
+      "scenario_family": "identity_mismatch",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-039",
+      "scenario_family": "obsolete_procedure",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-040",
+      "scenario_family": "duplicate_webhook",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-041",
+      "scenario_family": "delayed_delivery",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-042",
+      "scenario_family": "out_of_order",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-043",
+      "scenario_family": "ambiguous_timeout",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 5,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-044",
+      "scenario_family": "expired_reservation",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-045",
+      "scenario_family": "stale_snapshot",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-046",
+      "scenario_family": "identity_mismatch",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-047",
+      "scenario_family": "obsolete_procedure",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-048",
+      "scenario_family": "duplicate_webhook",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-049",
+      "scenario_family": "delayed_delivery",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-050",
+      "scenario_family": "out_of_order",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-051",
+      "scenario_family": "ambiguous_timeout",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 5,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-052",
+      "scenario_family": "expired_reservation",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-053",
+      "scenario_family": "stale_snapshot",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-054",
+      "scenario_family": "identity_mismatch",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-055",
+      "scenario_family": "obsolete_procedure",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-056",
+      "scenario_family": "duplicate_webhook",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-057",
+      "scenario_family": "delayed_delivery",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 6,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-058",
+      "scenario_family": "out_of_order",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 7,
+      "orders": 2
+    },
+    {
+      "case_id": "evaluation-dev-059",
+      "scenario_family": "ambiguous_timeout",
+      "passed": true,
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "observations": 5,
+      "orders": 2
+    }
+  ]
+}

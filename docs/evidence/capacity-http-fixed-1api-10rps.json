@@ -1,0 +1,1916 @@
+{
+  "started_at": "2026-09-21T08:10:51.406994+00:00",
+  "completed_at": "2026-09-21T08:11:11.741986+00:00",
+  "project": "pf-evidencedesk-capacity-review006",
+  "kind": "bounded-open-loop-http-reads",
+  "replicas": 1,
+  "rate_offered_rps": 10,
+  "offering_seconds": 20,
+  "elapsed_including_drain_seconds": 19.921,
+  "max_inflight": 32,
+  "warmup": "one authenticated collections read per replica/tenant; login excluded",
+  "distribution": "explicit equal routing to each replica; no load balancer is under test",
+  "provider_calls": 0,
+  "summary": {
+    "offered": 200,
+    "attempted": 200,
+    "successful": 200,
+    "statuses": {
+      "200": 200
+    },
+    "success_fraction_of_offered": 1.0,
+    "latency_ms_all_attempts": {
+      "p50": 17.037,
+      "p95": 809.892,
+      "p99": 1409.195
+    },
+    "latency_ms_successes": {
+      "p50": 17.037,
+      "p95": 809.892,
+      "p99": 1409.195
+    },
+    "scheduler_lag_ms": {
+      "p50": 7.994,
+      "p95": 20.272,
+      "p99": 27.126
+    }
+  },
+  "per_tenant": {
+    "aurora": {
+      "offered": 100,
+      "attempted": 100,
+      "successful": 100,
+      "statuses": {
+        "200": 100
+      },
+      "success_fraction_of_offered": 1.0,
+      "latency_ms_all_attempts": {
+        "p50": 17.156,
+        "p95": 857.676,
+        "p99": 1238.955
+      },
+      "latency_ms_successes": {
+        "p50": 17.156,
+        "p95": 857.676,
+        "p99": 1238.955
+      },
+      "scheduler_lag_ms": {
+        "p50": 7.402,
+        "p95": 18.925,
+        "p99": 27.126
+      }
+    },
+    "horizonte": {
+      "offered": 100,
+      "attempted": 100,
+      "successful": 100,
+      "statuses": {
+        "200": 100
+      },
+      "success_fraction_of_offered": 1.0,
+      "latency_ms_all_attempts": {
+        "p50": 16.967,
+        "p95": 741.676,
+        "p99": 1409.195
+      },
+      "latency_ms_successes": {
+        "p50": 16.967,
+        "p95": 741.676,
+        "p99": 1409.195
+      },
+      "scheduler_lag_ms": {
+        "p50": 8.778,
+        "p95": 21.674,
+        "p99": 25.758
+      }
+    }
+  },
+  "per_replica": {
+    "1": {
+      "offered": 200,
+      "attempted": 200,
+      "successful": 200,
+      "statuses": {
+        "200": 200
+      },
+      "success_fraction_of_offered": 1.0,
+      "latency_ms_all_attempts": {
+        "p50": 17.037,
+        "p95": 809.892,
+        "p99": 1409.195
+      },
+      "latency_ms_successes": {
+        "p50": 17.037,
+        "p95": 809.892,
+        "p99": 1409.195
+      },
+      "scheduler_lag_ms": {
+        "p50": 7.994,
+        "p95": 20.272,
+        "p99": 27.126
+      }
+    }
+  },
+  "samples": [
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 0.03700001980178058,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.077999987406656
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": -3.1648000003769994,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.940600007306784
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 8.133399998769164,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 78.91540002310649
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": -13.66329999291338,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 467.7522999991197
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": -6.559400004334748,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 365.0199999974575
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 7.275600015418604,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 167.33940000995062
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 15.662800025893375,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 62.06549998023547
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 16.673100006300956,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 262.1688999934122
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 8.797600021352991,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 1238.954999978887
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 4.441600001882762,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 2047.4493999790866
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 11.192799982381985,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 1056.925000011688
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 5.6588000152260065,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 969.8138000094332
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 15.92140001594089,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 1012.2353000042494
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 1.6525000100955367,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 903.4842999826651
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 8.669800008647144,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 997.3867000080645
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 2.642900013597682,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 1409.1946999833453
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 13.148400030331686,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 2199.8871999967378
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 9.416299988515675,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 809.8917000170331
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 6.568199984030798,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 357.39879999891855
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 6.371399998897687,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 558.855900017079
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 13.688200007891282,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 458.05919999838807
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": -0.35539999953471124,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 79.49649999500252
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 7.68220002646558,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 182.77529999613762
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": -25.466199993388727,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 366.2118000211194
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 13.723400013986975,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 741.6761000058614
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 3.920700022717938,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 857.6764999888837
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": -10.175300005357713,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 81.89820000552572
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 14.6011000033468,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 38.33250000025146
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 7.621900032972917,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 18.9290999842342
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 16.62680000299588,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 18.632000021170825
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 7.994300016434863,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 17.40299997618422
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 18.297000002348796,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 17.864699999336153
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 10.567299992544577,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.653200001688674
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 18.377000029431656,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.475699988892302
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 10.96680000773631,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 30.91980001772754
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 4.0354999946430326,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 29.739500023424625
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 29.01739999651909,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.284800007473677
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 6.3519999966956675,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 17.214199993759394
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": -0.7382999756373465,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 14.668299991171807
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 7.61400000192225,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.757300010183826
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 2.3351999989245087,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.728799995267764
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": -5.509799986612052,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.766099988250062
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 2.6151000056415796,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 31.229599990183488
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 11.511700024129823,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 31.19809998315759
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 5.599600001005456,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.453000007662922
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 14.011899998877198,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 16.7733000125736
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 7.835299998987466,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.249600015114993
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 0.9587999957147986,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.919999997597188
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 10.36080002086237,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.92639998649247
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 2.158000017516315,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 6.744999991497025
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 10.24830000824295,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 31.794899987289682
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 3.92630000715144,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 31.7802999925334
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 10.40840000496246,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.270099982852116
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 4.46260001626797,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 17.901399987749755
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 12.831900006858632,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.499799999408424
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 5.382800009101629,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.417300011496991
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 15.323500003432855,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.566999985603616
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 8.296399988466874,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 6.084399996325374
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 15.559600025881082,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 29.72259998205118
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 8.777600014582276,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 29.863600007956848
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 1.8579000025056303,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 16.972500015981495
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 10.046999988844618,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 15.99980000173673
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 3.394500003196299,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.08249999419786
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 10.232300031930208,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 12.76559999678284
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 3.497600002447143,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.671100021572784
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 13.002199993934482,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.883200006792322
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 20.38989998982288,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 32.68720000050962
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 13.481500005582348,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 30.609599984018132
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 7.097200024873018,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.827600007876754
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 15.667400002712384,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 16.68430000427179
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 10.360700020100921,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.142299983883277
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 3.119200002402067,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.418199989246204
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 12.490199995227158,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.917200003750622
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 21.674100018572062,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 6.47009999374859
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 14.677099999971688,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 31.133600015891716
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 4.8034000210464,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 31.26789999078028
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 14.488099986920133,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 16.837800008943304
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 21.96340000955388,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 17.359199991915375
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 0.7163000118453056,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 12.957300001289696
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 24.072600004728884,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.364500016905367
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 2.043000014964491,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.602099990937859
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": -6.121299986261874,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.7758999755606055
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 2.140800002962351,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 42.11869998835027
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": -4.109799978323281,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 30.84110000054352
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 3.703200025483966,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 18.44299997901544
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 12.514000001829118,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 18.249599990667775
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 5.100000009406358,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.419099996099249
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": -0.3513999981805682,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 14.358999993419275
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 8.73720002709888,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 6.309599993983284
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 18.209800007753074,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 6.111099995905533
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 11.14909999887459,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 31.505399994784966
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 3.3989000075962394,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 31.51239998987876
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 12.791599991032854,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.15550001244992
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 7.533400028478354,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 17.169500002637506
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 16.08120001037605,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.611100002890453
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 8.82740001543425,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.023399980738759
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 2.414399990811944,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.506100016646087
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 10.53259999025613,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.697899992810562
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 18.925200012745336,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 30.091099994024262
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 12.719300022581592,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 31.693700002506375
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 5.259800003841519,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.231900012120605
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 15.748200006783009,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 17.57179998094216
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 8.271600003354251,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.356399984331802
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 17.756200017174706,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.438599999062717
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 26.52070001931861,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 6.1910999938845634
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 20.271799992769957,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 7.621200027642772
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 12.342900008661672,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 45.795699988957494
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 4.031599994050339,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 38.959400000749156
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": -3.246599982958287,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 18.01649999106303
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 4.255800013197586,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 22.9414000059478
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": -2.6492000033613294,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 14.091899996856228
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 6.0656999994535,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.790199998766184
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 15.139299997827038,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 6.40640000347048
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 7.362400006968528,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 6.380200007697567
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 15.836300008231774,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 29.65889999177307
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 8.983800013083965,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 29.677399987122044
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 1.5414000081364065,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 16.646000003675
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 8.61099999747239,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 18.458200007444248
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 16.999500017846003,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.39810001081787
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 25.75770000112243,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 14.037900022231042
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 19.46239999961108,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 6.236899993382394
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 12.225699989357963,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.974400002742186
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 5.68339999881573,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 31.06459998525679
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 14.141000021481887,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 29.706700006499887
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 6.639400002313778,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 16.390100005082786
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 15.916000003926456,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 16.966800001682714
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 7.8686999913770705,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 12.902100017527118
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 0.012600008631125093,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 14.575699984561652
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 6.970000016735867,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 6.157800002256408
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 15.240600012475625,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 6.551200000103563
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 7.184100017184392,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 34.496699983719736
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 14.785400009714067,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 33.24299998348579
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 7.001599995419383,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 16.806900006486103
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 15.250500029651448,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 16.472799994517118
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 6.792900006985292,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.174099993193522
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": -0.9673000022303313,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.146500015864149
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 7.096699991961941,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.360600014682859
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 16.435099998489022,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.051499989349395
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 11.038800032110885,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 30.419699993217364
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 4.952200019033626,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 32.478999986778945
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 14.140800019958988,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.300299979979172
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 7.2684999904595315,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 17.01199999661185
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 2.3985999869182706,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.516500010155141
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 10.078300023451447,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 14.704800007166341
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 2.3082000261638314,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 7.290799985639751
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 10.238799994112924,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 7.036000024527311
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 17.71839999128133,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 29.995400022016838
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 9.472400008235127,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 30.548299982910976
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 3.306800004793331,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.21760001964867
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 10.702800005674362,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 17.13330001803115
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 4.212400002870709,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 15.006900008302182
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 28.281500010052696,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.390199979767203
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 6.109699985245243,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.673800013028085
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": -0.9655999892856926,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.226900015259162
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": -7.1007999940775335,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 30.147200013743713
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 1.576600014232099,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 28.325999999651685
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 9.851600014371797,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.533599981106818
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 3.069600003072992,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 16.5463000012096
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 12.204900005599484,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 12.484800012316555
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 4.926500027067959,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 12.726099987048656
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": -2.124899998307228,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.821800004923716
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 6.5885999938473105,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.486700014444068
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 15.308900008676574,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 30.89599998202175
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 8.873700018739328,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 28.43509998638183
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 1.865800004452467,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.328100017039105
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 10.205700004007667,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 15.863000007811934
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 4.0287000010721385,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.131000014254823
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": -1.5506999916397035,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.768199976766482
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 7.373000029474497,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.107199976919219
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 14.688200026284903,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.285899998852983
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 8.403500018175691,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 30.46929999254644
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 1.9922000064980239,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 31.778100004885346
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 10.88529999833554,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 16.744299995480105
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 2.8709000325761735,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 18.044099997496232
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 11.351599998306483,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 17.590400006156415
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 4.260600020643324,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.397599977906793
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 27.125599997816607,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.990700010443106
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 4.903699998976663,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.164500005776063
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": -2.0311999833211303,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 29.172300011850893
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 6.086900015361607,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 28.578400000697002
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": -0.2361999941058457,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.036500008543953
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 7.785699999658391,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 18.270000000484288
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 16.359100001864135,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.279299979330972
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 10.424900014186278,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.497700012521818
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 3.568800020730123,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.9077999903820455
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 12.904100003652275,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.397900007665157
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 7.060000003548339,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 30.864400003338233
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 0.23430000874213874,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 30.103599972790107
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 7.402000017464161,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.38659999682568
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 17.155900015495718,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 18.079200002830476
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 10.198400006629527,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 12.684499990427867
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 3.5894000029657036,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.099900010274723
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 10.824199998751283,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 5.113599996548146
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/collections",
+      "scheduler_lag_ms": 20.084200019482523,
+      "status": "200",
+      "response_bytes": 337,
+      "latency_ms": 4.732100002001971
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 12.660100008361042,
+      "status": "200",
+      "response_bytes": 7706,
+      "latency_ms": 29.555400018580258
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents?limit=5",
+      "scheduler_lag_ms": 21.702900005038828,
+      "status": "200",
+      "response_bytes": 7725,
+      "latency_ms": 29.20079999603331
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": -0.5530999915208668,
+      "status": "200",
+      "response_bytes": 1519,
+      "latency_ms": 17.422999982954934
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/incidents/demo-{tenant}-01",
+      "scheduler_lag_ms": 8.075499994447455,
+      "status": "200",
+      "response_bytes": 1522,
+      "latency_ms": 19.510699989041314
+    },
+    {
+      "replica": 1,
+      "tenant": "aurora",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 15.553000004729256,
+      "status": "200",
+      "response_bytes": 2519,
+      "latency_ms": 13.673300010850653
+    },
+    {
+      "replica": 1,
+      "tenant": "horizonte",
+      "route": "/api/v1/imports?limit=5",
+      "scheduler_lag_ms": 7.87030000356026,
+      "status": "200",
+      "response_bytes": 9633,
+      "latency_ms": 13.071599998511374
+    }
+  ]
+}

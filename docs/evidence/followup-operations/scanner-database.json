@@ -1,0 +1,43 @@
+{
+  "recorded_at": "2026-09-21T12:54:50.389170+00:00",
+  "status": "downloaded",
+  "scanner_image": "aquasec/trivy@sha256:bcc376de8d77cfe086a917230e818dc9f8528e3c852f7b1aff648949b6258d1c",
+  "source": "mirror.gcr.io/aquasec/trivy-db:2",
+  "attempts": [
+    {
+      "destination": "new host bind mount",
+      "memory_gib": 1,
+      "tmp_mib": 64,
+      "result": "failed",
+      "error": "no space left on device in /tmp while downloading the 114.87MiB compressed artifact"
+    },
+    {
+      "destination": "new host bind mount",
+      "memory_gib": 1,
+      "tmp_mib": 256,
+      "result": "failed",
+      "error": "write /cache/db/trivy.db: cannot allocate memory"
+    },
+    {
+      "destination": "new host bind mount",
+      "memory_gib": 2,
+      "tmp_mib": 256,
+      "result": "failed",
+      "error": "write /cache/db/trivy.db: cannot allocate memory"
+    },
+    {
+      "destination": "isolated Docker volume, then docker cp to the host cache",
+      "memory_gib": 2,
+      "tmp_mib": 256,
+      "result": "passed"
+    }
+  ],
+  "database": {
+    "Version": 2,
+    "NextUpdate": "2026-09-22T07:13:21.41309079Z",
+    "UpdatedAt": "2026-09-21T07:13:21.413091201Z",
+    "DownloadedAt": "2026-09-21T12:51:37.17585292Z"
+  },
+  "scope": "public vulnerability metadata only; no application data or Azure access",
+  "cache_preserved": true
+}

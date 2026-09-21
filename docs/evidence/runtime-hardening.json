@@ -1,0 +1,39 @@
+{
+  "recorded_at": "2026-09-21T07:38:08.806213+00:00",
+  "status": "passed",
+  "project": "pf-evidencedesk",
+  "services": {
+    "api": {
+      "uid": 10001,
+      "gid": 10001,
+      "effective_capabilities": "0000000000000000",
+      "no_new_privileges": "1",
+      "seccomp": "2",
+      "blocked_paths": [
+        "/app/.hardening-probe",
+        "/etc/.hardening-probe"
+      ],
+      "image_id": "sha256:6d86b0742efd2d9019b95932c01bfba0f513228df0a018f28bed8375f652712d",
+      "read_only": true,
+      "memory_limit_bytes": 536870912,
+      "restart_count": 0,
+      "oom_killed": false
+    },
+    "worker": {
+      "uid": 10001,
+      "gid": 10001,
+      "effective_capabilities": "0000000000000000",
+      "no_new_privileges": "1",
+      "seccomp": "2",
+      "blocked_paths": [
+        "/app/.hardening-probe",
+        "/etc/.hardening-probe"
+      ],
+      "image_id": "sha256:6d86b0742efd2d9019b95932c01bfba0f513228df0a018f28bed8375f652712d",
+      "read_only": true,
+      "memory_limit_bytes": 1610612736,
+      "restart_count": 0,
+      "oom_killed": false
+    }
+  }
+}

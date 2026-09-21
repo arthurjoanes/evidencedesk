@@ -1,0 +1,67 @@
+# Verificação
+
+Data:21/09/2026. Laboratório Windows/WSL2 com Docker e dados sintéticos. Cada relatório preserva seu próprio corpus, revisão e condições; números de rodadas diferentes não são somados como uma única suíte. A suíte final do backend passou com **195 testes em 60,65s**, sem skips e sem chamadas Azure. Há um aviso de depreciação de Starlette/AnyIO. Ruff passou, 103 arquivos estão formatados e Mypy passou em 74 módulos. [JUnit completo](evidence/backend-final.xml).
+
+## Revisão complementar mais recente
+
+A [revisão integrada](review-integrated-followup-2026-09-21.md) acrescenta correções de edição/exportação, navegação, tempo, geração desativada, login e operação. Nesta rodada passaram 204 testes backend, 53 frontend e 37 scripts no Linux; os resultados das jornadas e da regressão final de sessão estão no relatório integrado. As imagens novas foram instaladas e inspecionadas juntas; o resultado Azure anterior foi reaberto sem outra chamada. O [novo scan](evidence/followup-review-security/summary.json) continua reprovado (API 55 HIGH/5 CRITICAL; frontend 52 HIGH/4 CRITICAL). Os números abaixo preservam os ensaios originais, com sua versão e escopo.
+
+## Matriz requisito → evidência
+
+| Requisito | Execução/evidência | Interpretação |
+| --- | --- | --- |
+| Jornada manual e revisão independente | `backend/tests/integration/test_manual_workflow.py`; E2E principal6/6 | HTTP, DB, arquivos e frontend reais; não depende de inferência. |
+| Frontend elaborado e responsivo | [frontend-review](frontend-review.md), capturas320/768/1440,35 unitários,6 jornadas principais e ensaios dirigidos posteriores | Build standalone, tipos/lint/formato; testes axe/teclado. Sem alegação de teste com leitor de tela. |
+| Fonte revogada sem reapresentação de cache | [E2E final](../frontend/artifacts/e2e-protected-source-final.json) | Primeira leitura real, segunda resposta atrasada/404 controlada. Fonte permanece oculta durante reautorização e após erro. Integrações backend testam a ACL real. |
+| Frontend em produção, tamanho e resposta | [performance-lab](../frontend/artifacts/performance-lab.json) |3 navegações/rota; JS codificado298kB/317kB, conteúdo237–366ms/443–1.011ms. Leitor pequeno,8 aberturas; não é gate de Core Web Vitals ou stress de PDF. |
+| Concorrência de revisão e preservação de rascunho | ETag409 real no E2E direcionado | Nenhum sobrescrito silencioso; nova revisão exige aprovação própria. |
+| Isolamento/ACL/RLS | Integrações manual, retrieval, admin e tools | Role de aplicação real; fixtures administrativas apenas preparam e limpam dados. |
+| Ferramentas e indexação |11 integrações de orçamento/tools/index/pipeline após0008 | Provedor/vetores simulados nas provas de plataforma, explicitamente identificados. Modelos reais têm relatório separado. |
+| Dois processos, fencing e upload concorrente | [worker-upload-concurrency.xml](evidence/worker-upload-concurrency.xml):4 passaram em4,97s | Dois processos terminam abruptamente após adquirir; relógio da lease é expirado por fixture para evitar espera. PUT/finalize competem por HTTP real. |
+| Retenção/purge/restore de exclusão | [retention-integration.xml](evidence/retention-integration.xml):29 passaram em24,61s | CAS, falha física, reexecução e replay com quota; banco separado5547. |
+| Azure real | [azure-smoke.json](evidence/azure-smoke.json) | Uma chamada:1166 entrada+784 saída; três alegações draft, sem adjudicação humana. |
+| Persistência própria | [artefatos](evidence/azure-artifact-verification.json), [reabertura](evidence/azure-reopen-after-restart.json), [imagem final](evidence/azure-persistence-final.json) | Hashes confirmados e mesma revisão após recriação de serviços; zero novas gerações para reabrir. |
+| Telemetria/alerta | [observability-runtime](evidence/observability-runtime.json), [trace real](evidence/azure-smoke-trace.json), [entregas](evidence/alert-deliveries.json) | HTTP→job→modelo; alerta indisponível/recuperado. Não representa disponibilidade mensal. |
+| Falhas operacionais reais | [worker/fila/collector](evidence/alert-recovery-worker-queue-collector.json), [modelo](evidence/alert-recovery-model.json) |Quatro alertas dispararam e resolveram. A primeira automação falhou ao retomar via depends_on; recuperação manual e schema0008 confirmados, falha preservada. Modelo voltou e depois foi desligado intencionalmente, retirando seu alvo opcional. |
+| Backup/restore | [restore-review0733](evidence/restore-review0733.json) |110 objetos verificados; backup6,735s/restore34,734s neste laboratório. Falha anterior do token iniciando hífen preservada em0730. |
+| Exclusão posterior ao backup físico | [ensaio completo](evidence/erasure-restore-20260921.json) |Fonte acessível antes; backup173 objetos/ledger0; delete/purge; restore com ledger1: fonte/original/dossiê404, texto/claims apagados, objeto ausente e172 referências verificadas. Origem/destino isolados parados, zero chamadas de provedor. |
+| Retrieval/treino | [experiments](../experiments/README.md) e relatórios versionados | Modelos reais e treino GPU. Métricas sintéticas, holdout não usado para selecionar; não há promoção humana. |
+| Imagem ML reproduzida | [build final](../experiments/reports/ml-final-build.json) |116 dependências correspondem ao lock; pip check e smoke HTTP de embeddings/reranker reais passaram. Mesmos pesos em cache, sem novo treino/Azure; imagem ML fora do escopo do scan CVE local. |
+| Capacidade | [runbook](runbooks/capacity.md) e relatórios `evidence/capacity-*` | Baseline com erros preservada; comparação1/2 réplicas é plataforma sem chamada paga. |
+| Adaptador Blob | `tests/unit/test_azure_blob.py`:10 passaram | Contrato com double explícito do SDK. Não é teste contra Azure nem integração do GC hospedado. |
+| Infraestrutura Azure | [validação IaC](evidence/azure-iac-validation.json) | Terraform fmt/init sem backend/validate; nenhum plan com credenciais, apply ou recurso provisionado. Runtime possui trava explícita de rollout. |
+| Hardening local | [runtime-final](evidence/runtime-final.json) | API/worker sem root, capabilities efetivas zeradas, no-new-privileges, seccomp e raiz somente leitura verificados. |
+| Credenciais nos arquivos entregáveis | [checagem heurística](evidence/repository-secret-check.json) |648 textos elegíveis ao Git, quatro padrões, zero achados; não é detecção exaustiva nem auditoria de histórico. Valores encontrados nunca seriam publicados. |
+| Scan das imagens runtime | [triagem e fontes](security-image-review-2026-09-21.md), [scan corrigido](evidence/security-hardened-2026-09-21/summary.json) |Gate reprovado: API55 HIGH/5 CRITICAL; frontend corrigido52 HIGH/4 CRITICAL. Os11 achados altos/críticos com correção disponível no frontend foram eliminados. Nenhuma supressão. Imagens ML/DB/observabilidade fora deste scan. |
+| Manutenção/clean code | [clean-code-review](clean-code-review.md) | Novo evento observado:1 teste passou; apresentação de conciliação:unitários/E2E reais. |
+| Scripts e CI local | [checagens finais](evidence/security-hardened-2026-09-21/helper-checks.json) |28 unitários dos scripts e Ruff/formato passaram; publisher comparado ao archive real. CI remoto não executado. |
+| Configurações operacionais | [validadores](evidence/infra-config-check.json), [observabilidade final](evidence/observability-runtime-closed.json) |7 validadores e10 cenários promtool passaram; depois dos ensaios, métricas/probe/log/trace foram conferidos no runtime. |
+| Última leitura de saúde | [delivery-health](evidence/delivery-health.json) |Frontend e readiness API HTTP200. Uma leitura pontual não é SLO. |
+| Estado de encerramento | [runtime-closed](evidence/runtime-closed.json) |Schema0008, manutenção desligada, worker/collector ativos, frontend corrigido; fixtures removidas e modelos desligados deliberadamente. |
+
+## Comandos e separação dos ambientes
+
+Os testes de integração exigem `ED_TEST_DATABASE_URL` e `ED_TEST_ADMIN_DATABASE_URL` apontando para um banco descartável. Os de manutenção têm `ED_MAINTENANCE_TEST_DATABASE_URL`/owner explícitos. Não executar contra5546 com dados da demonstração. O usuário da aplicação continua `ed_app`; o admin da fixture não representa a role do produto.
+
+```powershell
+# Na raiz, com .venv preparada e URLs do banco descartável definidas:
+.\.venv\Scripts\python.exe -m ruff check backend/src backend/tests --config backend/pyproject.toml
+.\.venv\Scripts\python.exe -m ruff format --check backend/src backend/tests --config backend/pyproject.toml
+.\.venv\Scripts\python.exe -m mypy backend/src/evidencedesk --config-file backend/pyproject.toml
+.\.venv\Scripts\python.exe -m pytest backend/tests -m 'not azure' -q --tb=short --junitxml=docs/evidence/backend-final.xml
+python -m unittest discover -s scripts -p 'test_*.py'
+python scripts/check_infra.py
+```
+
+Frontend, a partir de `frontend/`: `npm run test`, `npm run typecheck`, `npm run lint`, `npm run format:check` e `npm run build`. O E2E requer API/worker/seed e deve respeitar10 logins/15min por conta; a repetição que atingiu esse limite está preservada como falha, não passe. O CI usa os mesmos checks, mas ainda não foi executado no GitHub.
+
+## Gates que não receberam aprovação
+
+- Segurança das imagens: o gate HIGH/CRITICAL continua reprovado, inclusive para CVEs sem correção indicada. A triagem registra pré-condições não presentes em alguns casos, mas não autoriza produção nem remove findings. O workflow remoto também não foi executado.
+- Qualidade semântica de citações/abstenção: falta adjudicação humana suficiente. Gold sintético e schema válido não substituem esse trabalho.
+- Recall e latência: consultar resultados por corpus; não alterar metas ou excluir timeouts para fabricar passe. No ensaio corrigido de leituras, 1 API teve p95 de 810ms e 2 APIs de 345ms. A primeira configuração excedeu a referência de 500ms. Esse ensaio não mede o SLO de admissão de jobs definido na arquitetura; não aprova esse gate para nenhuma configuração.
+- Disponibilidade99,5%/30dias, estudo de redução de tempo com usuários e desastre fora do host: não medidos.
+- Infraestrutura Azure hospedada/Managed Identity/Monitor e Blob ponta a ponta: não provisionados/validados. OCR/kind/MCP/vLLM não implementados como perfil funcional.
+- Preço monetário Azure: não configurado; tokens reais são reportados separadamente de estimativa/reserva/desconhecido.
+
+O primeiro smoke Azure usou uma imagem anterior aos steps duráveis e guarda `steps=[]`. O relatório histórico não foi reescrito para parecer uma validação posterior. A segurança e as etapas mais recentes são verificadas em testes próprios e no rebuild final, sem repetir chamada paga desnecessária.

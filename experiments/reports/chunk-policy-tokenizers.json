@@ -1,0 +1,861 @@
+{
+  "chunk_policy": "utf8-bytes-352-v2",
+  "embedding_revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+  "reranker_revision": "1427fd652930e4ba29e8149678df786c240d8825",
+  "weights_loaded": false,
+  "reserved_evaluation_used": false,
+  "demo_documents": 90,
+  "demo_chunks": 180,
+  "demo_over_512": 0,
+  "max_demo_e5_tokens": 80,
+  "max_demo_reranker_pair_tokens": 97,
+  "unicode_probes_are_not_a_universal_bound": true,
+  "documents": [
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-01-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-01-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-01-retrospective.md",
+      "source_sha256": "dee7e0f7f54ebe4a694a2f0c4f0d70c44de923735c904ed42cda7ec0789d9d34",
+      "chunks": 2,
+      "max_bytes": 320,
+      "max_e5_tokens": 78,
+      "max_reranker_pair_tokens": 95,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-02-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-02-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-02-retrospective.md",
+      "source_sha256": "a2e266325a2a4ffadbd46fef6e1450a38b11646fada9dbcb62ed41db696413f9",
+      "chunks": 2,
+      "max_bytes": 336,
+      "max_e5_tokens": 80,
+      "max_reranker_pair_tokens": 97,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-03-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-03-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-03-retrospective.md",
+      "source_sha256": "12eb6683ae47ead3aa3073131d07572a16cc33595df1ad1156dc97119779a773",
+      "chunks": 2,
+      "max_bytes": 318,
+      "max_e5_tokens": 76,
+      "max_reranker_pair_tokens": 93,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-04-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-04-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-04-retrospective.md",
+      "source_sha256": "4b16951522bdcf957a3a053bfebbfd2fd948c4e773a31196fc0244795671e3f2",
+      "chunks": 2,
+      "max_bytes": 322,
+      "max_e5_tokens": 76,
+      "max_reranker_pair_tokens": 93,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-05-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-05-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-01/demo-aurora-05-retrospective.md",
+      "source_sha256": "2398536cb6511c00453d3a8591079c230cdd3162a1f816dfc521364e0ef80e81",
+      "chunks": 2,
+      "max_bytes": 326,
+      "max_e5_tokens": 76,
+      "max_reranker_pair_tokens": 93,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-06-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-06-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-06-retrospective.md",
+      "source_sha256": "a95765727ab517c62885188164f8968d335184d2772c76c810e45fe76f674a8e",
+      "chunks": 2,
+      "max_bytes": 317,
+      "max_e5_tokens": 74,
+      "max_reranker_pair_tokens": 91,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-07-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-07-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-07-retrospective.md",
+      "source_sha256": "5db95b46047f6588ea9b6dd82b8b40841b148a4ea09152f06fb05b0ccba773de",
+      "chunks": 2,
+      "max_bytes": 331,
+      "max_e5_tokens": 76,
+      "max_reranker_pair_tokens": 93,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-08-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-08-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-08-retrospective.md",
+      "source_sha256": "d31f7d06a20da63ea443176ff1e64bab2a4e21a52e1ef9c32a836303bf18cb32",
+      "chunks": 2,
+      "max_bytes": 327,
+      "max_e5_tokens": 76,
+      "max_reranker_pair_tokens": 93,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-09-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-09-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-09-retrospective.md",
+      "source_sha256": "9be470a274b22e1330720c1b88194dd1e3678b763bd8693cafdfad3bc1de264d",
+      "chunks": 2,
+      "max_bytes": 325,
+      "max_e5_tokens": 77,
+      "max_reranker_pair_tokens": 94,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-10-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-10-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-02/demo-aurora-10-retrospective.md",
+      "source_sha256": "5b59dbdae509ac0ea2780b2c3c7afe07ae7fbc904f204de2fcca0a055b4a2669",
+      "chunks": 2,
+      "max_bytes": 330,
+      "max_e5_tokens": 79,
+      "max_reranker_pair_tokens": 96,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-11-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-11-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-11-retrospective.md",
+      "source_sha256": "dab370f9ff5b438dbd7cced5dd51b3ac7c4f98c283074afb42396ab41bab43a5",
+      "chunks": 2,
+      "max_bytes": 320,
+      "max_e5_tokens": 78,
+      "max_reranker_pair_tokens": 95,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-12-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-12-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-12-retrospective.md",
+      "source_sha256": "4655549458a119c23e62804547aa67b3066dd16acb5b1d91f6b93a48ec23e916",
+      "chunks": 2,
+      "max_bytes": 336,
+      "max_e5_tokens": 80,
+      "max_reranker_pair_tokens": 97,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-13-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-13-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-13-retrospective.md",
+      "source_sha256": "d011b96a86b7489485b38dbef8a14883a66b0cb0b79fe7ed4c75c42424d55bbc",
+      "chunks": 2,
+      "max_bytes": 318,
+      "max_e5_tokens": 76,
+      "max_reranker_pair_tokens": 93,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-14-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-14-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-14-retrospective.md",
+      "source_sha256": "4bca69fe4daf68bab7f8b3d2a5ee36f556814195de3fe1ddf3f3b8bfbb6df7ed",
+      "chunks": 2,
+      "max_bytes": 322,
+      "max_e5_tokens": 76,
+      "max_reranker_pair_tokens": 93,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-15-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-15-procedure-v2.md",
+      "source_sha256": "42ca294946577931abe3468ad9c888d21d24c5a0ed8ed388d9f8a6e37fe4e239",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/aurora-03/demo-aurora-15-retrospective.md",
+      "source_sha256": "ae465268f2e71c343ed98c156d0ba439841224829dd0c3370e2363b5dc95440d",
+      "chunks": 2,
+      "max_bytes": 326,
+      "max_e5_tokens": 76,
+      "max_reranker_pair_tokens": 93,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-01-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-01-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-01-retrospective.md",
+      "source_sha256": "dc72714a6b64f15c506470260a9ac6b43447a3640538e39eae039f4d4b263da2",
+      "chunks": 2,
+      "max_bytes": 323,
+      "max_e5_tokens": 77,
+      "max_reranker_pair_tokens": 94,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-02-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-02-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-02-retrospective.md",
+      "source_sha256": "fcb49691cd44700d2ebd68193c2fbc99349ea1367b2ad94092c047db26f9d107",
+      "chunks": 2,
+      "max_bytes": 339,
+      "max_e5_tokens": 79,
+      "max_reranker_pair_tokens": 96,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-03-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-03-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-03-retrospective.md",
+      "source_sha256": "fb8c2bfda72707b4bd34f3fcd9f669becc0729bd1d578ace4a1b9fc644ef97c6",
+      "chunks": 2,
+      "max_bytes": 321,
+      "max_e5_tokens": 75,
+      "max_reranker_pair_tokens": 92,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-04-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-04-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-04-retrospective.md",
+      "source_sha256": "af423dd26c20b43721e31dc520279eb2636f05555bb46b5b96d1b875a44b5661",
+      "chunks": 2,
+      "max_bytes": 325,
+      "max_e5_tokens": 75,
+      "max_reranker_pair_tokens": 92,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-05-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-05-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-01/demo-horizonte-05-retrospective.md",
+      "source_sha256": "091df0a3c00e01eb9657c9e85534fc5eba7d704f7558e59e9ce446e752968ea6",
+      "chunks": 2,
+      "max_bytes": 329,
+      "max_e5_tokens": 75,
+      "max_reranker_pair_tokens": 92,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-06-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-06-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-06-retrospective.md",
+      "source_sha256": "5c413a39bd9055caaeeaaf63c32a4c0f331db49e2ce45b1d9952e5ae09b3f052",
+      "chunks": 2,
+      "max_bytes": 320,
+      "max_e5_tokens": 73,
+      "max_reranker_pair_tokens": 90,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-07-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-07-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-07-retrospective.md",
+      "source_sha256": "b979f729b4bffde8d5aeb65d23010a8d1eb1ff2702a64b607c9dc34709ad9fe5",
+      "chunks": 2,
+      "max_bytes": 334,
+      "max_e5_tokens": 75,
+      "max_reranker_pair_tokens": 92,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-08-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-08-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-08-retrospective.md",
+      "source_sha256": "1dc7ef8e0880213eb6ab216b740c2f9572f411a6fbda7c489b580ad80a070780",
+      "chunks": 2,
+      "max_bytes": 330,
+      "max_e5_tokens": 75,
+      "max_reranker_pair_tokens": 92,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-09-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-09-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-09-retrospective.md",
+      "source_sha256": "e4730acaafda8057d75d14beacd738f222a6192618b30e4abbd45b7a494dd272",
+      "chunks": 2,
+      "max_bytes": 328,
+      "max_e5_tokens": 76,
+      "max_reranker_pair_tokens": 93,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-10-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-10-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-02/demo-horizonte-10-retrospective.md",
+      "source_sha256": "eeea63cc97174e0460e4f621b01ef5987dfa4a894979cc2bd050590831dcd960",
+      "chunks": 2,
+      "max_bytes": 333,
+      "max_e5_tokens": 78,
+      "max_reranker_pair_tokens": 95,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-11-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-11-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-11-retrospective.md",
+      "source_sha256": "586e1d02133b2912873da772a9246f6bf855a3eba928ef89f01112760a9333f6",
+      "chunks": 2,
+      "max_bytes": 323,
+      "max_e5_tokens": 77,
+      "max_reranker_pair_tokens": 94,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-12-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-12-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-12-retrospective.md",
+      "source_sha256": "a8ea9db34f3726bdb5c6f16b9273e6dbf0f4d7ee88f70fccf59082dd888a5f9b",
+      "chunks": 2,
+      "max_bytes": 339,
+      "max_e5_tokens": 79,
+      "max_reranker_pair_tokens": 96,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-13-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-13-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-13-retrospective.md",
+      "source_sha256": "f75873c8270d4968b1de8cf8efc5f0bba18e374e312ba7b5cdad76fa253dcecc",
+      "chunks": 2,
+      "max_bytes": 321,
+      "max_e5_tokens": 75,
+      "max_reranker_pair_tokens": 92,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-14-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-14-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-14-retrospective.md",
+      "source_sha256": "9cc10cd5ccad6a0af82b571474fbe852f6e896c76f03203f1c2067f99f8fbd8f",
+      "chunks": 2,
+      "max_bytes": 325,
+      "max_e5_tokens": 75,
+      "max_reranker_pair_tokens": 92,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-15-procedure-v1.md",
+      "source_sha256": "2fc174f8c36e659de8a4f250bf18d3b494dc7809a5f6f294f0d7e49d4786ed21",
+      "chunks": 1,
+      "max_bytes": 296,
+      "max_e5_tokens": 65,
+      "max_reranker_pair_tokens": 82,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-15-procedure-v2.md",
+      "source_sha256": "7d0e0639b7fa49bf7c9c7fbd4c6b7ef0f392508987d4be7561783150c445d2aa",
+      "chunks": 3,
+      "max_bytes": 292,
+      "max_e5_tokens": 70,
+      "max_reranker_pair_tokens": 87,
+      "over_512": 0
+    },
+    {
+      "name": "datasets/generated/horizonte-03/demo-horizonte-15-retrospective.md",
+      "source_sha256": "da2296aa6e3e5c510cb062c6f04554a9988ba49ad1d20129e26b720758f55d9c",
+      "chunks": 2,
+      "max_bytes": 329,
+      "max_e5_tokens": 75,
+      "max_reranker_pair_tokens": 92,
+      "over_512": 0
+    },
+    {
+      "name": "unicode-probe-0",
+      "source_sha256": "368f66f9f150cfc6bb6158ecf0814560c470ac9c91ffd3f89f3ddd90398e66d3",
+      "chunks": 50,
+      "max_bytes": 340,
+      "max_e5_tokens": 84,
+      "max_reranker_pair_tokens": 101,
+      "over_512": 0
+    },
+    {
+      "name": "unicode-probe-1",
+      "source_sha256": "24c32eb3ed2ac7fcd241ba45c98ebf6556fcd328a412ea406ebabfd1dda35ae0",
+      "chunks": 9,
+      "max_bytes": 351,
+      "max_e5_tokens": 122,
+      "max_reranker_pair_tokens": 139,
+      "over_512": 0
+    },
+    {
+      "name": "unicode-probe-2",
+      "source_sha256": "f36c2bd4b1edd517328bfcd89d815cb880515d6bfd26b1a349a5cb24376cb144",
+      "chunks": 23,
+      "max_bytes": 352,
+      "max_e5_tokens": 180,
+      "max_reranker_pair_tokens": 197,
+      "over_512": 0
+    },
+    {
+      "name": "unicode-probe-3",
+      "source_sha256": "d0627b762ed6b8ca552b524e57ec2b98629f086139161b4eda4ccaa5911b0f5e",
+      "chunks": 25,
+      "max_bytes": 352,
+      "max_e5_tokens": 68,
+      "max_reranker_pair_tokens": 85,
+      "over_512": 0
+    }
+  ]
+}

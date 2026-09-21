@@ -1,0 +1,27 @@
+{
+  "started_at": "2026-09-21T07:33:53.061829+00:00",
+  "profile": "real_azure_synthetic_single_run",
+  "maximum_new_runs": 1,
+  "reserved_token_ceiling": 12400,
+  "semantic_quality_gate": "not_adjudicated",
+  "run_id": "2605b0dcf3fd4045a345a51fd2f80bdf",
+  "incident_id": "demo-aurora-01",
+  "evidence_snapshot_id": "ee464ccd2cfd43e28db5f0cc7d64da2c",
+  "finished_at": "2026-09-21T07:34:09.971680+00:00",
+  "state": "succeeded",
+  "outcome": "evidence_found",
+  "usage": {
+    "status": "reported",
+    "input_tokens": 1166,
+    "output_tokens": 784,
+    "reasoning_tokens": 0
+  },
+  "error": null,
+  "steps": [],
+  "dossier_id": "35de4e41bc4f4a1c863ecbf665bf1505",
+  "revision_id": "c1ebcc9c053f4f1098284b8ffee9186a",
+  "review_status": "draft",
+  "claim_count": 3,
+  "all_citations_accessible": true,
+  "revision_content_sha256": "f31c5e821e9bb3509f31278b0b51508933e7203ffea2d441b683dade985a6172"
+}
