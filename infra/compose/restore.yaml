@@ -1,0 +1,14 @@
+# A restore is closed: no published ports, no app/provider traffic, no workers.
+services:
+  db:
+    ports: !reset []
+  api:
+    ports: !reset []
+    environment:
+      ED_AI_PROVIDER: disabled
+      AZURE_OPENAI_API_KEY: ""
+      OTEL_EXPORTER_OTLP_ENDPOINT: ""
+  worker:
+    profiles: [disabled-in-restore]
+  frontend:
+    profiles: [disabled-in-restore]

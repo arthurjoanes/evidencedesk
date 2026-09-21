@@ -1,0 +1,95 @@
+groups:
+  - name: evidencedesk
+    interval: 15s
+    rules:
+      - alert: EvidenceDeskUnavailable
+        expr: probe_success{job="readiness"} == 0
+        for: 30s
+        labels: {severity: critical}
+        annotations:
+          summary: A API não está pronta para atender.
+          runbook_url: docs/runbooks/observability.md#indisponibilidade
+      - alert: EvidenceDeskTelemetryMissing
+        expr: up{job="api"} == 0 or absent(up{job="api"}) or absent(probe_success{job="readiness"})
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: A observação da API ou do probe está ausente.
+          runbook_url: docs/runbooks/observability.md#telemetria-ausente
+      - alert: EvidenceDeskCollectorUnavailable
+        expr: probe_success{job="collector-health"} == 0 or up{job="collector-health"} == 0 or absent(probe_success{job="collector-health"})
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: O collector está indisponível ou sua observação está ausente.
+          runbook_url: docs/runbooks/observability.md#telemetria-ausente
+      - alert: EvidenceDeskModelUnavailable
+        expr: probe_success{job="model-readiness"} == 0 or up{job="model-readiness"} == 0
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: O serviço de modelos do perfil ML não está pronto.
+          runbook_url: docs/runbooks/observability.md#modelo-local
+      - alert: EvidenceDeskServerErrors
+        expr: (sum(rate(ed_http_requests_total{status_class="5xx",route!~"/api/v1/health/.*|/metrics"}[5m])) / clamp_min(sum(rate(ed_http_requests_total{route!~"/api/v1/health/.*|/metrics"}[5m])), 0.001) > 0.05) and (sum(increase(ed_http_requests_total{route!~"/api/v1/health/.*|/metrics"}[5m])) >= 20)
+        for: 2m
+        labels: {severity: critical}
+        annotations:
+          summary: Mais de 5% das requisições falharam no servidor, com ao menos 20 amostras.
+          runbook_url: docs/runbooks/observability.md#erros-e-fila
+      - alert: EvidenceDeskQueueAging
+        expr: ed_job_oldest_queued_seconds > 30
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: A fila tem trabalho aguardando há mais de 30 segundos.
+          runbook_url: docs/runbooks/observability.md#erros-e-fila
+      - alert: EvidenceDeskWorkerMissing
+        expr: time() - ed_worker_heartbeat_timestamp_seconds > 60 or absent(ed_worker_heartbeat_timestamp_seconds)
+        for: 1m
+        labels: {severity: critical}
+        annotations:
+          summary: Nenhum heartbeat recente de worker foi observado.
+          runbook_url: docs/runbooks/observability.md#erros-e-fila
+      - alert: EvidenceDeskProviderTimeouts
+        expr: sum(increase(ed_provider_failures_total{outcome="timeout"}[5m])) >= 3
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: O provedor teve ao menos três timeouts em cinco minutos.
+          runbook_url: docs/runbooks/observability.md#provedor-e-orcamento
+      - alert: EvidenceDeskBudgetNearLimit
+        expr: ed_budget_utilization_ratio >= 0.8
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: O orçamento comprometido atingiu 80% do teto.
+          runbook_url: docs/runbooks/observability.md#provedor-e-orcamento
+      - alert: EvidenceDeskStorageLow
+        expr: ed_storage_free_bytes < 1073741824
+        for: 2m
+        labels: {severity: critical}
+        annotations:
+          summary: O volume de artefatos tem menos de 1 GiB disponível.
+          runbook_url: docs/runbooks/observability.md#armazenamento
+      - alert: EvidenceDeskIngestionStalled
+        expr: (ed_ingestion_pending_batches > 0) and (time() - ed_ingestion_last_published_timestamp_seconds > 300)
+        for: 2m
+        labels: {severity: warning}
+        annotations:
+          summary: Existem importações pendentes sem publicação há cinco minutos.
+          runbook_url: docs/runbooks/observability.md#erros-e-fila
+      - alert: EvidenceDeskQualityRegression
+        expr: ed_quality_gate{status="failed"} == 1
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: Uma avaliação executada reprovou o gate de qualidade.
+          runbook_url: docs/runbooks/observability.md#qualidade
+      - alert: EvidenceDeskQualityUnknown
+        expr: ed_quality_gate{status=~"inconclusive|unknown"} == 1 or absent(ed_quality_gate) or absent(ed_quality_evaluated_timestamp_seconds) or (time() - ed_quality_evaluated_timestamp_seconds > 604800)
+        for: 1m
+        labels: {severity: warning}
+        annotations:
+          summary: O gate de qualidade está inconclusivo, ausente ou tem mais de sete dias.
+          runbook_url: docs/runbooks/observability.md#qualidade

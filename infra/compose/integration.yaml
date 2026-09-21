@@ -1,0 +1,4 @@
+# Separate namespace and loopback port for destructive integration fixtures.
+services:
+  db:
+    ports: !override ["127.0.0.1:${ED_TEST_DB_PORT:-5547}:5432"]

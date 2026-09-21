@@ -1,0 +1,245 @@
+{
+  "title": "EvidenceDesk — operação",
+  "uid": "evidencedesk-operation",
+  "schemaVersion": 40,
+  "version": 1,
+  "editable": false,
+  "tags": [
+    "evidencedesk"
+  ],
+  "timezone": "browser",
+  "refresh": "15s",
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Admissões e leituras por segundo",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "reqps"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "sum by (status_class) (rate(ed_http_requests_total[5m]))",
+          "legendFormat": "{{status_class}}{{status}}"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Latência HTTP p95 — segundos",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "histogram_quantile(0.95, sum by (le) (rate(ed_http_request_duration_seconds_bucket[5m])))",
+          "legendFormat": "{{status_class}}{{status}}"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Idade do trabalho mais antigo",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 0,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "ed_job_oldest_queued_seconds",
+          "legendFormat": "{{status_class}}{{status}}"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Heartbeat mais recente — idade",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 12,
+        "y": 8,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "time() - ed_worker_heartbeat_timestamp_seconds",
+          "legendFormat": "{{status_class}}{{status}}"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Orçamento comprometido / teto",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 0,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "ed_budget_utilization_ratio",
+          "legendFormat": "{{status_class}}{{status}}"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Espaço livre do volume de artefatos",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 12,
+        "y": 16,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "ed_storage_free_bytes",
+          "legendFormat": "{{status_class}}{{status}}"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Resultado do gate (ausência = desconhecido)",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 0,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "ed_quality_gate",
+          "legendFormat": "{{status_class}}{{status}}"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Idade da última avaliação",
+      "type": "timeseries",
+      "gridPos": {
+        "x": 12,
+        "y": 24,
+        "w": 12,
+        "h": 8
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "expr": "time() - ed_quality_evaluated_timestamp_seconds",
+          "legendFormat": "{{status_class}}{{status}}"
+        }
+      ]
+    }
+  ]
+}

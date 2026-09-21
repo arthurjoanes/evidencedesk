@@ -1,0 +1,147 @@
+rule_files: [alerts.yaml]
+evaluation_interval: 15s
+tests:
+  - name: readiness-fires-and-recovers
+    interval: 15s
+    input_series:
+      - series: probe_success{job="readiness", instance="api"}
+        values: 1 0 0 0 0 1 1 1
+    alert_rule_test:
+      - eval_time: 1m
+        alertname: EvidenceDeskUnavailable
+        exp_alerts:
+          - exp_labels: {job: readiness, instance: api, severity: critical}
+            exp_annotations:
+              summary: A API não está pronta para atender.
+              runbook_url: docs/runbooks/observability.md#indisponibilidade
+      - eval_time: 1m30s
+        alertname: EvidenceDeskUnavailable
+        exp_alerts: []
+  - name: missing-telemetry-is-not-healthy
+    interval: 15s
+    input_series: []
+    alert_rule_test:
+      - eval_time: 2m
+        alertname: EvidenceDeskTelemetryMissing
+        exp_alerts:
+          - exp_labels: {job: api, severity: warning}
+            exp_annotations:
+              summary: A observação da API ou do probe está ausente.
+              runbook_url: docs/runbooks/observability.md#telemetria-ausente
+          - exp_labels: {job: readiness, severity: warning}
+            exp_annotations:
+              summary: A observação da API ou do probe está ausente.
+              runbook_url: docs/runbooks/observability.md#telemetria-ausente
+  - name: low-volume-errors-do-not-meet-rate-denominator
+    interval: 1m
+    input_series:
+      - series: ed_http_requests_total{status_class="5xx"}
+        values: 0+1x10
+    alert_rule_test:
+      - eval_time: 10m
+        alertname: EvidenceDeskServerErrors
+        exp_alerts: []
+  - name: queue-aging-fires-and-clears
+    interval: 15s
+    input_series:
+      - series: ed_job_oldest_queued_seconds
+        values: 40+0x8 0+0x4
+    alert_rule_test:
+      - eval_time: 2m
+        alertname: EvidenceDeskQueueAging
+        exp_alerts:
+          - exp_labels: {severity: warning}
+            exp_annotations:
+              summary: A fila tem trabalho aguardando há mais de 30 segundos.
+              runbook_url: docs/runbooks/observability.md#erros-e-fila
+      - eval_time: 3m
+        alertname: EvidenceDeskQueueAging
+        exp_alerts: []
+  - name: failed-health-probes-do-not-count-as-product-requests
+    interval: 1m
+    input_series:
+      - series: ed_http_requests_total{status_class="5xx",route="/api/v1/health/ready"}
+        values: 0+60x10
+      - series: ed_http_requests_total{status_class="2xx",route="/api/v1/incidents"}
+        values: 0+60x10
+    alert_rule_test:
+      - eval_time: 10m
+        alertname: EvidenceDeskServerErrors
+        exp_alerts: []
+  - name: product-errors-with-sufficient-denominator-fire
+    interval: 1m
+    input_series:
+      - series: ed_http_requests_total{status_class="5xx",route="/api/v1/incidents"}
+        values: 0+10x10
+      - series: ed_http_requests_total{status_class="2xx",route="/api/v1/incidents"}
+        values: 0+90x10
+    alert_rule_test:
+      - eval_time: 10m
+        alertname: EvidenceDeskServerErrors
+        exp_alerts:
+          - exp_labels: {severity: critical}
+            exp_annotations:
+              summary: Mais de 5% das requisições falharam no servidor, com ao menos 20 amostras.
+              runbook_url: docs/runbooks/observability.md#erros-e-fila
+  - name: collector-outage-fires-and-recovers
+    interval: 15s
+    input_series:
+      - series: probe_success{job="collector-health",instance="collector"}
+        values: 0+0x8 1+0x4
+    alert_rule_test:
+      - eval_time: 2m
+        alertname: EvidenceDeskCollectorUnavailable
+        exp_alerts:
+          - exp_labels: {job: collector-health, instance: collector, severity: critical}
+            exp_annotations:
+              summary: O collector está indisponível ou sua observação está ausente.
+              runbook_url: docs/runbooks/observability.md#telemetria-ausente
+      - eval_time: 3m
+        alertname: EvidenceDeskCollectorUnavailable
+        exp_alerts: []
+  - name: collector-observation-missing-and-disabled-model-profile
+    interval: 15s
+    input_series: []
+    alert_rule_test:
+      - eval_time: 2m
+        alertname: EvidenceDeskCollectorUnavailable
+        exp_alerts:
+          - exp_labels: {job: collector-health, severity: critical}
+            exp_annotations:
+              summary: O collector está indisponível ou sua observação está ausente.
+              runbook_url: docs/runbooks/observability.md#telemetria-ausente
+      - eval_time: 2m
+        alertname: EvidenceDeskModelUnavailable
+        exp_alerts: []
+  - name: enabled-model-outage-fires-and-recovers
+    interval: 15s
+    input_series:
+      - series: probe_success{job="model-readiness",instance="models"}
+        values: 0+0x8 1+0x4
+    alert_rule_test:
+      - eval_time: 2m
+        alertname: EvidenceDeskModelUnavailable
+        exp_alerts:
+          - exp_labels: {job: model-readiness, instance: models, severity: warning}
+            exp_annotations:
+              summary: O serviço de modelos do perfil ML não está pronto.
+              runbook_url: docs/runbooks/observability.md#modelo-local
+      - eval_time: 3m
+        alertname: EvidenceDeskModelUnavailable
+        exp_alerts: []
+  - name: worker-stale-heartbeat-and-recovery
+    interval: 15s
+    input_series:
+      - series: ed_worker_heartbeat_timestamp_seconds
+        values: 0+0x9 150+15x4
+    alert_rule_test:
+      - eval_time: 2m15s
+        alertname: EvidenceDeskWorkerMissing
+        exp_alerts:
+          - exp_labels: {severity: critical}
+            exp_annotations:
+              summary: Nenhum heartbeat recente de worker foi observado.
+              runbook_url: docs/runbooks/observability.md#erros-e-fila
+      - eval_time: 3m
+        alertname: EvidenceDeskWorkerMissing
+        exp_alerts: []

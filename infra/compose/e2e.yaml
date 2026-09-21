@@ -1,0 +1,24 @@
+# Only with pf-evidencedesk-e2e-<run>. All state stays in that project's volumes.
+x-e2e-environment: &e2e-environment
+  ED_AI_PROVIDER: disabled
+  ED_E2E_MODE: "true"
+  AZURE_OPENAI_API_KEY: ""
+  OTEL_EXPORTER_OTLP_ENDPOINT: ""
+  ED_ALLOWED_ORIGINS: http://127.0.0.1:3107,http://localhost:3107
+
+services:
+  db:
+    ports: !reset []
+  api:
+    ports: !override ["127.0.0.1:8107:8106"]
+    environment: *e2e-environment
+  worker:
+    environment: *e2e-environment
+    mem_limit: 768m
+    cpus: 1.0
+  migrate:
+    environment: *e2e-environment
+  seed:
+    environment: *e2e-environment
+  frontend:
+    ports: !override ["127.0.0.1:3107:3106"]

@@ -1,0 +1,109 @@
+x-observed-service: &observed
+  profiles: [observability]
+  restart: unless-stopped
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  pids_limit: 100
+  tmpfs: ["/tmp:rw,noexec,nosuid,size=32m,mode=1777"]
+  cpus: 0.5
+  logging:
+    driver: json-file
+    options: {max-size: "5m", max-file: "2"}
+
+services:
+  api:
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
+      OTEL_SERVICE_NAME: evidencedesk-api
+  worker:
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
+      OTEL_SERVICE_NAME: evidencedesk-worker
+  collector:
+    <<: *observed
+    image: otel/opentelemetry-collector-contrib:0.161.0@sha256:fd328de2552466ad78385e1b1289c3f2402b1c45f265b252aab1955b42845ac1
+    command: [--config=/etc/otelcol/config.yaml]
+    volumes: [../observability/collector.yaml:/etc/otelcol/config.yaml:ro]
+    mem_limit: 192m
+  prometheus:
+    <<: *observed
+    image: prom/prometheus:v3.14.0@sha256:5ce7540c3c00ef4ab0c9d2c995c6a5b9c421f44b4a115d97a2c7af3b1c21cbb0
+    command: [--config.file=/etc/prometheus/prometheus.yaml, --storage.tsdb.path=/prometheus, --storage.tsdb.retention.time=3d, --storage.tsdb.retention.size=256MB, --web.enable-lifecycle]
+    volumes:
+      - ../observability/prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - ../observability/alerts.yaml:/etc/prometheus/alerts.yaml:ro
+      - ../observability/model-targets.disabled.json:/etc/prometheus/model-targets.json:ro
+      - ${ED_METRICS_TOKEN_FILE:-../observability/metrics-token.demo}:/etc/prometheus/metrics-token:ro
+      - prometheus_data:/prometheus
+    ports: [127.0.0.1:9106:9090]
+    mem_limit: 256m
+  probe:
+    <<: *observed
+    image: prom/blackbox-exporter:v0.28.0@sha256:e753ff9f3fc458d02cca5eddab5a77e1c175eee484a8925ac7d524f04366c2fc
+    command: [--config.file=/etc/blackbox/config.yaml]
+    volumes: [../observability/probe.yaml:/etc/blackbox/config.yaml:ro]
+    mem_limit: 48m
+  loki:
+    <<: *observed
+    image: grafana/loki:3.7.8@sha256:1107dd5274e0ada47e42472b7a7e71f3b2a2fe878878108f3e2f9e51528f0193
+    command: [-config.file=/etc/loki/config.yaml]
+    volumes:
+      - ../observability/loki.yaml:/etc/loki/config.yaml:ro
+      - loki_data:/loki
+    mem_limit: 256m
+  tempo:
+    <<: *observed
+    image: grafana/tempo:3.0.3@sha256:0296560ac66f8a3600d7fb3014a52c189d4d9c3549ad6ff441bf2409855d68d5
+    command: [-config.file=/etc/tempo/config.yaml]
+    volumes:
+      - ../observability/tempo.yaml:/etc/tempo/config.yaml:ro
+      - tempo_data:/var/tempo
+    mem_limit: 256m
+  grafana:
+    <<: *observed
+    image: grafana/grafana:13.2.2@sha256:ac461fb352abc50da10a51c7d02462e9c05488f11f53f14b3ad79a8145f638a0
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${ED_GRAFANA_PASSWORD:-ed_grafana_local_demo}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: "false"
+      GF_PLUGINS_PREINSTALL_DISABLED: "true"
+      GF_PLUGINS_PREINSTALL_AUTO_UPDATE: "false"
+      GF_PLUGINS_PLUGIN_ADMIN_ENABLED: "false"
+    ports: [127.0.0.1:3206:3000]
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ../observability/grafana:/etc/grafana/provisioning:ro
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=32m,mode=1777"]
+    mem_limit: 256m
+  alertmanager:
+    <<: *observed
+    image: prom/alertmanager:v0.34.1@sha256:e9733bafb1bdef9b00e25a21f8f99dc26a22224bf16641ad754d1649f4c3357a
+    command: [--config.file=/etc/alertmanager/config.yaml, --storage.path=/alertmanager, --data.retention=72h, --cluster.listen-address=]
+    volumes:
+      - ../observability/alertmanager.yaml:/etc/alertmanager/config.yaml:ro
+      - alertmanager_data:/alertmanager
+    ports: [127.0.0.1:9196:9093]
+    mem_limit: 64m
+  receiver:
+    <<: *observed
+    image: python:3.12.14-slim-bookworm@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e
+    user: 10001:10001
+    command: [python, -B, /receiver/receiver.py]
+    environment:
+      PYTHONUNBUFFERED: "1"
+    volumes: [../observability/receiver.py:/receiver/receiver.py:ro]
+    tmpfs: ["/state:rw,noexec,nosuid,size=8m,mode=1777"]
+    ports: [127.0.0.1:9187:9187]
+    mem_limit: 48m
+
+volumes:
+  prometheus_data:
+  loki_data:
+  tempo_data:
+  grafana_data:
+  alertmanager_data:
