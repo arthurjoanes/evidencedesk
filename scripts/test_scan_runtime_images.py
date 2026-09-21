@@ -77,6 +77,31 @@ class RedactionTest(unittest.TestCase):
         }
         self.assertEqual(redact(report)["Results"][0]["Vulnerabilities"], [])
 
+    def test_oci_config_image_id_accepts_runtime_config_and_verifies_its_hash(self):
+        content = json.dumps(
+            {
+                "architecture": "amd64",
+                "os": "linux",
+                "config": {"Env": ["APP_MODE=fixture"], "Cmd": ["python", "app.py"]},
+                "rootfs": {"type": "layers", "diff_ids": []},
+            }
+        ).encode()
+        identity = "sha256:" + hashlib.sha256(content).hexdigest()
+        with tempfile.TemporaryDirectory() as temporary:
+            archive = Path(temporary) / "oci-config.tar"
+            for corrupt in (False, True):
+                with self.subTest(corrupt=corrupt):
+                    data = content + b" " if corrupt else content
+                    with tarfile.open(archive, "w") as saved:
+                        member = tarfile.TarInfo("blobs/sha256/" + identity.split(":")[1])
+                        member.size = len(data)
+                        saved.addfile(member, io.BytesIO(data))
+                    if corrupt:
+                        with self.assertRaisesRegex(ValueError, "does not match its digest"):
+                            configuration_digest(archive, identity)
+                    else:
+                        self.assertEqual(configuration_digest(archive, identity), identity)
+
     def test_oci_index_resolves_and_verifies_configuration_hash(self):
         blobs = {}
 

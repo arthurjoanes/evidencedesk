@@ -1,16 +1,16 @@
 {
-  "observed_at": "2026-09-21T22:29:06.210528+00:00",
+  "observed_date": "2026-09-21",
   "platform": "Windows",
   "command": "python -m unittest discover -s scripts -p 'test_*.py'",
   "environment": {
     "PYTHONPATH": "backend/src"
   },
-  "tests": 48,
-  "passed": 47,
+  "tests": 49,
+  "passed": 48,
   "skipped": 1,
   "errors": 0,
   "failures": 0,
-  "duration_seconds": 11.949,
+  "duration_seconds": 10.21,
   "skip_reason": "Filesystem symlink test requires Windows permission; covered separately on Linux.",
   "includes_real_dpapi_helper_tests": 7,
   "provider_calls": 0,
