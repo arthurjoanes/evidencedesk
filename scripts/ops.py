@@ -102,6 +102,19 @@ def stop_project(project: str) -> None:
         run(["docker", "stop", *identifiers])
 
 
+def ensure_demo_dataset() -> None:
+    """Prepare synthetic fixtures on a fresh clone, preserving an existing dataset."""
+    output = ROOT / "datasets" / "generated"
+    if (output / "index.json").is_file():
+        return
+    if output.exists() and any(output.iterdir()):
+        raise ValueError(
+            "The demo dataset is incomplete. Inspect datasets/generated, then explicitly "
+            "regenerate it with: python datasets/generate.py --output datasets/generated"
+        )
+    run([sys.executable, str(ROOT / "datasets" / "generate.py"), "--output", str(output)])
+
+
 def parser() -> argparse.ArgumentParser:
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument("--project", type=project_name, default="pf-evidencedesk")
@@ -152,6 +165,7 @@ def main(argv: list[str] | None = None) -> int:
                     ]
                 run(base + ["up", "-d", "--wait", "--wait-timeout", "180", *services])
             case "seed":
+                ensure_demo_dataset()
                 run(base + ["run", "--rm", "--no-deps", "seed"])
             case "status":
                 run(base + ["ps", "--all"])

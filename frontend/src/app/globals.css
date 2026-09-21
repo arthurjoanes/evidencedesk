@@ -241,6 +241,12 @@ svg {
   flex-direction: column;
   gap: 16px;
 }
+.form-fields {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
 .form-actions {
   display: flex;
   justify-content: flex-end;

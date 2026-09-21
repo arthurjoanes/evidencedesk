@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import re
 import subprocess
 import tarfile
 import time
@@ -12,7 +13,9 @@ from pathlib import Path
 from check_vulnerability_report import evaluate
 
 ROOT = Path(__file__).resolve().parents[1]
-SCANNER = "aquasec/trivy@sha256:bcc376de8d77cfe086a917230e818dc9f8528e3c852f7b1aff648949b6258d1c"
+SCANNER = (
+    "aquasec/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969"
+)
 IMAGES = {"api": "pf-evidencedesk-backend:local", "frontend": "pf-evidencedesk-frontend:local"}
 
 
@@ -106,6 +109,10 @@ def redact(report: dict) -> dict:
                 "Target": target["Target"],
                 "Class": target.get("Class"),
                 "Type": target.get("Type"),
+                "Packages": [
+                    {key: package[key] for key in ("Name", "Version")}
+                    for package in (target.get("Packages") or [])
+                ],
                 "Vulnerabilities": [
                     {key: finding[key] for key in allowed if key in finding}
                     for finding in (target.get("Vulnerabilities") or [])
@@ -120,8 +127,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cache-db", type=Path, required=True)
     parser.add_argument("--services", nargs="+", choices=tuple(IMAGES), default=list(IMAGES))
+    parser.add_argument("--image-tag", default="local", help="Tag of both local runtime images.")
     parser.add_argument("--evidence-name", default="security-final-2026-09-21")
     args = parser.parse_args()
+    if not re.fullmatch(r"[a-zA-Z0-9_][a-zA-Z0-9_.-]{0,127}", args.image_tag):
+        parser.error("Invalid Docker image tag.")
     if not args.evidence_name.replace("-", "").isalnum():
         parser.error("Evidence name must contain letters, digits and hyphens only.")
     cache = args.cache_db.resolve(strict=True)
@@ -152,7 +162,7 @@ def main() -> int:
         "scope": "local runtime images; no hosted deployment or GitHub runner",
     }
     for service in dict.fromkeys(args.services):
-        reference = IMAGES[service]
+        reference = IMAGES[service].rsplit(":", 1)[0] + ":" + args.image_tag
         image_id = run(["docker", "image", "inspect", reference, "--format", "{{.Id}}"]).strip()
         started = time.monotonic()
         archive = runtime / f"{service}.tar"

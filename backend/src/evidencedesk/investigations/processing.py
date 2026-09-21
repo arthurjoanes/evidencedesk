@@ -170,7 +170,11 @@ def authorize_context(lease: Lease, request: GenerationRequest) -> None:
             raise Problem(409, "tool_scope_changed", "O escopo da investigação mudou.")
         for source in request.evidence:
             persisted = resolve_evidence(
-                connection, actor, source.evidence_id, current["snapshot_id"]
+                connection,
+                actor,
+                source.evidence_id,
+                current["snapshot_id"],
+                incident_id=current["incident_id"],
             )
             if any(
                 persisted[field] != getattr(source, attribute)

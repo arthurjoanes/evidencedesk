@@ -80,36 +80,55 @@ export function StartInvestigation({
       <form
         onSubmit={(event) => void form.handleSubmit(submit)(event)}
         className="form-stack"
+        noValidate
       >
-        <label className="field">
-          O que precisa ser esclarecido?
-          <textarea
-            rows={5}
-            {...form.register("question")}
-            placeholder="Quais pedidos estão divergentes e quais fontes apoiam ou contradizem a hipótese de reserva expirada?"
-          />
-          <FieldError message={form.formState.errors.question?.message} />
-        </label>
-        <p className="muted">
-          Gerador: {session.runtime.model_display_name}. A investigação não
-          executa alterações em pedidos, pagamentos ou estoque.
-        </p>
-        {error !== undefined && <ErrorNotice error={error} />}
-        <div className="form-actions">
-          <Button disabled={form.formState.isSubmitting} onClick={onClose}>
-            Voltar
-          </Button>
-          <Button
-            type="submit"
-            variant="primary"
-            disabled={
-              form.formState.isSubmitting || !session.runtime.generation_enabled
-            }
-          >
-            {form.formState.isSubmitting ? "Enviando…" : "Iniciar investigação"}
-            <ArrowRight size={15} />
-          </Button>
-        </div>
+        <fieldset
+          className="form-stack form-fields"
+          disabled={form.formState.isSubmitting}
+        >
+          <label className="field">
+            O que precisa ser esclarecido?
+            <textarea
+              rows={5}
+              {...form.register("question")}
+              aria-label="O que precisa ser esclarecido?"
+              aria-invalid={!!form.formState.errors.question}
+              aria-describedby={
+                form.formState.errors.question
+                  ? "investigation-question-error"
+                  : undefined
+              }
+              placeholder="Quais pedidos estão divergentes e quais fontes apoiam ou contradizem a hipótese de reserva expirada?"
+            />
+            <FieldError
+              id="investigation-question-error"
+              message={form.formState.errors.question?.message}
+            />
+          </label>
+          <p className="muted">
+            Gerador: {session.runtime.model_display_name}. A investigação não
+            executa alterações em pedidos, pagamentos ou estoque.
+          </p>
+          {error !== undefined && <ErrorNotice error={error} />}
+          <div className="form-actions">
+            <Button disabled={form.formState.isSubmitting} onClick={onClose}>
+              Voltar
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={
+                form.formState.isSubmitting ||
+                !session.runtime.generation_enabled
+              }
+            >
+              {form.formState.isSubmitting
+                ? "Enviando…"
+                : "Iniciar investigação"}
+              <ArrowRight size={15} />
+            </Button>
+          </div>
+        </fieldset>
       </form>
     </Dialog>
   );

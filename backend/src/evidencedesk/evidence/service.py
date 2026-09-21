@@ -1,7 +1,9 @@
+from datetime import datetime
+
 from sqlalchemy import Connection, text
 
-from evidencedesk.errors import not_found
-from evidencedesk.identity.service import Actor, authorize_collection
+from evidencedesk.errors import Problem, not_found
+from evidencedesk.identity.service import Actor, authorize_collection, authorize_incident
 
 
 def authorize_snapshot(
@@ -22,9 +24,17 @@ def authorize_snapshot(
 
 
 def resolve_evidence(
-    connection: Connection, actor: Actor, evidence_id: str, snapshot_id: str
+    connection: Connection,
+    actor: Actor,
+    evidence_id: str,
+    snapshot_id: str,
+    *,
+    incident_id: str | None = None,
 ) -> dict:
-    authorize_snapshot(connection, actor, snapshot_id)
+    snapshot = authorize_snapshot(connection, actor, snapshot_id)
+    incident = authorize_incident(connection, actor, incident_id) if incident_id else None
+    if incident is not None and incident["collection_id"] != snapshot["collection_id"]:
+        raise not_found()
     row = (
         connection.execute(
             text("""
@@ -38,10 +48,33 @@ def resolve_evidence(
         .mappings()
         .first()
     )
-    if row is None:
+    if row is None or row["collection_id"] != snapshot["collection_id"]:
         raise not_found()
     authorize_collection(connection, actor, row["collection_id"])
     if row["kind"] == "reconciliation_result":
+        # Aggregates belong to an incident, unlike original collection sources.
+        # Do not call authorize_run here: it can authorize a dossier that cites us.
+        origin = connection.execute(
+            text("""
+                SELECT incident_id FROM investigation_runs
+                WHERE tenant_id=:tenant AND id=:run AND snapshot_id=:snapshot
+                  AND tombstoned_at IS NULL
+            """),
+            {
+                "tenant": actor.tenant_id,
+                "run": row["record"].get("run_id"),
+                "snapshot": snapshot_id,
+            },
+        ).scalar_one_or_none()
+        if origin is None:
+            raise not_found()
+        authorize_incident(connection, actor, origin)
+        if incident_id is not None and origin != incident_id:
+            raise Problem(
+                422,
+                "evidence_outside_incident",
+                "A conciliação pertence a outro incidente.",
+            )
         source_ids = row["record"].get("source_ids", [])
         if source_ids:
             visible = connection.execute(
@@ -53,6 +86,26 @@ def resolve_evidence(
             ).scalar_one()
             if visible != len(set(source_ids)):
                 raise not_found()
+    if incident is not None and row["kind"] in {
+        "source_event",
+        "delivery_attempt",
+        "order_snapshot",
+    }:
+        timestamp = (
+            row["record"].get("occurred_at")
+            or row["record"].get("observed_at")
+            or row["record"].get("as_of")
+        )
+        if not timestamp or not (
+            incident["window_from"]
+            <= datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+            <= incident["window_to"]
+        ):
+            raise Problem(
+                422,
+                "evidence_outside_window",
+                "A fonte operacional está fora do recorte do incidente.",
+            )
     return dict(row)
 
 

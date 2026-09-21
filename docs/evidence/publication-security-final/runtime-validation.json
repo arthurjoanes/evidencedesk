@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-09-21T22:10:26.4232333Z",
+  "backend": {
+    "passed": true,
+    "source_files_identical": 75,
+    "uid": 10001,
+    "python": "3.12.14",
+    "openssl": "OpenSSL 3.5.8 25 Aug 2026",
+    "psycopg_implementation": "binary",
+    "app_routes": 15,
+    "installers_present": false,
+    "image_id": "sha256:5e49dbb809a2771370bf10897d76489e36fd2b3f62c606bbc13aa98a8e8218df"
+  },
+  "frontend": {
+    "passed": true,
+    "uid": 1000,
+    "node": "v24.19.0",
+    "final_validation_messages": 2,
+    "installers_present": false,
+    "image_id": "sha256:7b7db3dd64aee1c050ecb76372838ba0b064eaff3cb77e1a02ee426ab4648a02"
+  },
+  "scope": "Read-only containers, network disabled, all capabilities dropped. Functional integration/E2E are reported separately."
+}

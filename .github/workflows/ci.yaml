@@ -12,6 +12,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  secret-history:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install checksum-pinned Gitleaks CLI
+        run: |
+          curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 \
+            https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz \
+            --output "$RUNNER_TEMP/gitleaks.tar.gz"
+          printf '%s  %s\n' '551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb' "$RUNNER_TEMP/gitleaks.tar.gz" | sha256sum --check --strict
+          tar --extract --gzip --file "$RUNNER_TEMP/gitleaks.tar.gz" --directory "$RUNNER_TEMP" gitleaks
+          "$RUNNER_TEMP/gitleaks" version
+      - name: Scan complete Git history with redacted output
+        run: '"$RUNNER_TEMP/gitleaks" git --config .gitleaks.toml --redact --log-opts=--all .'
+
   backend-and-operation:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
@@ -43,6 +62,7 @@ jobs:
           python -m ruff format --check backend/src backend/tests scripts infra/observability/receiver.py --config backend/pyproject.toml
           python -m unittest discover -s scripts -p 'test_*.py'
           python -m mypy backend/src --config-file backend/pyproject.toml
+          python scripts/check_repository_docs.py
       - name: Start isolated database
         run: |
           python scripts/ops.py db
@@ -185,7 +205,7 @@ jobs:
         # Vulnerability scan only. Never upload raw secret scan matches as artifacts.
         run: |
           mkdir -p scan-private
-          docker run --rm -v "$PWD:/scan:ro" -v "$PWD/scan-private:/results" aquasec/trivy@sha256:bcc376de8d77cfe086a917230e818dc9f8528e3c852f7b1aff648949b6258d1c image --input /scan/image.tar --scanners vuln --format json --output /results/vulnerabilities.json --exit-code 0
+          docker run --rm -v "$PWD:/scan:ro" -v "$PWD/scan-private:/results" aquasec/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969 image --input /scan/image.tar --scanners vuln --ignorefile /dev/null --format json --output /results/vulnerabilities.json --exit-code 0
           python scripts/publish_vulnerability_report.py scan-private/vulnerabilities.json test-results/vulnerabilities.json --archive image.tar --image-id-file test-results/image-identity.json
       - name: Gate HIGH and CRITICAL findings
         run: python scripts/check_vulnerability_report.py test-results/vulnerabilities.json

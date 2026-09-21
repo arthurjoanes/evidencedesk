@@ -205,11 +205,23 @@ test("manual abstention, independent review and authorized export", async ({
   await page
     .getByRole("button", { name: "Registrar decisão", exact: true })
     .click();
+  await expect(page.getByLabel("Justificativa")).toHaveAttribute(
+    "maxlength",
+    "3000",
+  );
   await page
     .getByLabel("Justificativa")
     .fill(
       "Conferi a abstenção e os limites. A aprovação registra a revisão humana e não uma causa confirmada.",
     );
+  page.once("dialog", (dialog) => dialog.dismiss());
+  await page
+    .getByRole("dialog")
+    .getByRole("button", { name: "Voltar", exact: true })
+    .click();
+  await expect(page.getByLabel("Justificativa")).toHaveValue(
+    "Conferi a abstenção e os limites. A aprovação registra a revisão humana e não uma causa confirmada.",
+  );
   await page
     .getByRole("dialog")
     .getByRole("button", { name: "Registrar decisão", exact: true })

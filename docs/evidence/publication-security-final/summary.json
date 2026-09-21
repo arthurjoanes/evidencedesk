@@ -1,0 +1,44 @@
+{
+  "started_at": "2026-09-21T22:09:07.519992+00:00",
+  "scanner_image": "aquasec/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969",
+  "scanner_version": "Version: 0.74.0",
+  "offline": true,
+  "scanners": [
+    "vuln"
+  ],
+  "database": {
+    "Version": 2,
+    "NextUpdate": "2026-09-22T07:13:21.41309079Z",
+    "UpdatedAt": "2026-09-21T07:13:21.413091201Z",
+    "DownloadedAt": "2026-09-21T12:51:37.17585292Z"
+  },
+  "database_sha256": "sha256:a325c841036f662fee39ed929422f113030cd36ca71c55f6192cbc5f2d5d01b1",
+  "database_age_hours_at_start": 14.93,
+  "images": [
+    {
+      "targets": 2,
+      "severities": {},
+      "passed": true,
+      "service": "api",
+      "reference": "pf-evidencedesk-backend:publication-alpine",
+      "image_id": "sha256:5e49dbb809a2771370bf10897d76489e36fd2b3f62c606bbc13aa98a8e8218df",
+      "config_digest": "sha256:1a99a66bb06f69e74a7715f5c0c6adc95c61ab7c99f7eb097258b9d6d82eb820",
+      "duration_seconds": 14.735,
+      "report": "api-vulnerabilities.json"
+    },
+    {
+      "targets": 2,
+      "severities": {},
+      "passed": true,
+      "service": "frontend",
+      "reference": "pf-evidencedesk-frontend:publication-alpine",
+      "image_id": "sha256:7b7db3dd64aee1c050ecb76372838ba0b064eaff3cb77e1a02ee426ab4648a02",
+      "config_digest": "sha256:8066cb8201ab5ca08ef2569cc29e3c5253995c7859f53346bd7750d454fe1245",
+      "duration_seconds": 40.312,
+      "report": "frontend-vulnerabilities.json"
+    }
+  ],
+  "scope": "local runtime images; no hosted deployment or GitHub runner",
+  "completed_at": "2026-09-21T22:10:03.812162+00:00",
+  "passed": true
+}

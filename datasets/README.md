@@ -1,9 +1,11 @@
 # Dados sintéticos do EvidenceDesk
 
+`python scripts/ops.py seed` gera estes arquivos quando estão ausentes. Para gerar os pacotes separadamente, use o comando abaixo.
+
 A massa é autoral e fictícia. Não contém dados de clientes, informações do empregador ou texto copiado de postmortems. Execute na raiz:
 
 ```powershell
-.venv/Scripts/python.exe datasets/generate.py --output datasets/generated
+python datasets/generate.py --output datasets/generated
 ```
 
 O padrão gera 30 incidentes, 90 documentos e aproximadamente 20 mil observações. Há seis pacotes independentes, três por tenant, com 18 arquivos importáveis cada. O limite por pacote permanece 40 entradas/40 MiB; nenhum arquivo excede 10 MiB. `index.json` e `incidents.json` ajudam o seed administrativo; não são evidências nem entradas do manifesto.

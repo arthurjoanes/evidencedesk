@@ -1,8 +1,8 @@
 # Revisão de clean code
 
-A avaliação complementar mais recente está na [revisão integrada](review-integrated-followup-2026-09-21.md#clean-code-critérios-aplicados), com correções de ciclo de vida dos formulários, contratos temporais e limites de admissão. As observações abaixo preservam a revisão da entrega original.
+A avaliação atual está na [revisão de arquitetura](architecture-review-publication.md) e na [revisão do frontend](publication-frontend.md). As observações abaixo preservam os exercícios de manutenção da implementação original.
 
-Revisão por responsabilidades sobre o código implementado, com auxílio de agentes. Critério: tornar uma mudança segura compreensível. Não se avalia suposta autoria por detector, quantidade de pastas ou limite arbitrário de linhas. Estado consolidado após integração; achados ainda em correção aparecem em progress/verification.
+A revisão acompanha responsabilidades e garantias: localizar uma regra, alterar seu comportamento e verificar as consequências. Os resultados da versão atual estão na [verificação para publicação](publication.md).
 
 | Dimensão | Avaliação | Arquivo/linha de entrada | Consequência e ação |
 | --- | --- | --- | --- |
@@ -29,7 +29,7 @@ Arquivos alterados para o exercício: somente esse teste. O contrato já permite
 
 O agregado antes aparecia como texto JSON. Foram acrescentados [reconciliation-content.ts](../frontend/src/features/evidence/reconciliation-content.ts), [reconciliation-summary.tsx](../frontend/src/features/evidence/reconciliation-summary.tsx) e a escolha de modo no [EvidenceReader](../frontend/src/features/evidence/evidence-reader.tsx). O formato original, números, escapes e hash continuam preservados. Ausência de campo não é zero.
 
-Não mudou a regra de conciliação nem o conteúdo persistido. Testes unitários cobrem contradições e preservação lexical; o E2E final abriu o resultado Azure existente, verificou leitura móvel/axe e não criou nova investigação. Captura: [azure-source-mobile.png](../frontend/artifacts/screenshots/azure-source-mobile.png). A mudança demonstrou separação de apresentação e domínio; contratos de compatibilidade continuam sendo responsabilidade explícita.
+A regra de conciliação e o conteúdo persistido foram preservados. Testes unitários cobrem contradições e preservação lexical; a rodada histórica de navegador abriu o resultado Azure existente e verificou leitura móvel/axe. A mudança demonstrou separação de apresentação e domínio. As capturas atuais estão na [revisão do frontend](frontend-review.md).
 
 ## Achados corrigidos na revisão
 
@@ -41,4 +41,4 @@ Não mudou a regra de conciliação nem o conteúdo persistido. Testes unitário
 - Reabrir fonte poderia reapresentar cache antes da permissão atual: o frontend descarta consultas protegidas sem observadores e oculta conteúdo durante a reautorização. O E2E segura a resposta para verificar justamente esse intervalo.
 - Limites por arquivo não impediam expansão cumulativa de quarenta documentos: o worker passa a aplicar orçamento por lote antes de acumular extrações/evidências.
 
-Não há declaração de “100% clean code”. Os módulos de concorrência/exclusão precisam continuar sendo revisados por suas invariantes; encurtá-los mecanicamente reduziria a clareza sobre as garantias.
+Os módulos de concorrência e exclusão precisam continuar sendo revisados por suas invariantes. A ordem dos locks e as condições de publicação devem permanecer visíveis ao alterar esses módulos.

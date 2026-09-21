@@ -1,62 +1,96 @@
-# Arquitetura de implementação
+# Arquitetura
 
-Estado em 21/09/2026: núcleo implementado e verificado no laboratório local. Esta decisão preserva o escopo em [specification.md](specification.md) e [arquitetura de origem](source/14-ARQUITETURA-EVIDENCEDESK.md). Evidências e gates pendentes estão em [verification.md](verification.md); aprovação humana de qualidade, liberação de produção pelo scan e hospedagem Azure não são declaradas.
+O EvidenceDesk investiga pedidos com divergências entre pagamento, estoque e entrega. O sistema preserva as fontes usadas, calcula a conciliação com regras determinísticas e permite que um analista produza um dossiê. A IA pode propor um rascunho com citações; uma pessoa diferente do autor e do responsável pela submissão decide sobre a revisão.
 
-## Problema e fronteiras
+A implementação é um monólito modular, com API e workers em processos separados. O perfil de demonstração roda em Docker local; Azure OpenAI é uma integração opcional. O estado das verificações e os limites de entrega estão em [verification.md](verification.md).
 
-Analistas investigam pedidos presos entre pagamento, estoque e entrega. Fontes têm relógios, cobertura e revisões diferentes. Conciliação determinística produz divergências; IA propõe hipóteses citadas; outro usuário decide sobre uma revisão imutável. Não há remediação automática. O mesmo fluxo de evidências/revisão/exportação funciona sem gerador.
+## Componentes e fluxo
 
-## Decisões no ambiente real
+```mermaid
+flowchart LR
+    Browser[Navegador] --> Web[Next.js / React]
+    Web -->|Proxy da mesma origem| API[FastAPI]
+    API --> DB[(PostgreSQL / pgvector)]
+    API --> Objects[(Arquivos privados)]
+    DB -->|Fila e leases| Worker[Worker Python]
+    Worker --> DB
+    Worker --> Objects
+    Worker --> Parser[Subprocesso de extração]
+    Worker -. Perfil opcional .-> Models[E5 / reranker]
+    Worker -. Geração opcional .-> Azure[Azure OpenAI]
+    API -. Logs e traces .-> OTel[OpenTelemetry]
+    Worker -. Logs e traces .-> OTel
+```
 
-- Repositório independente nesta subpasta, sem dependências nos cinco projetos irmãos. Host Windows, Python 3.11.9, Node 24.19.0/npm 11.17.0. Contêineres fornecem o runtime Linux; recursos/portas estão em [environment.md](environment.md).
-- Monólito modular Python/FastAPI, SQLAlchemy e Alembic. PostgreSQL/pgvector guarda conteúdo, snapshots, sessões, fila e auditoria. API e workers são processos separados. O pool não permanece adquirido durante parsing, modelo ou armazenamento remoto.
-- Next.js App Router/React/TypeScript compõe a bancada. Mesma origem por proxy /api/v1 para FastAPI; regras e autorização no servidor Python. Recursos interativos limitados por feature, TanStack Query por contexto, sem cache público de dados autenticados.
-- Armazenamento privado local compartilhado por API/workers. Arquivos identificados por chaves relativas derivadas pelo servidor; Azure Blob SDK é a alternativa de hospedagem. Objeto confirmado antes de publicação transacional; órfãos recolhidos apenas após período seguro.
-- Azure OpenAI v1 Responses, deployment gpt-5.6-luna, é o gerador principal. Sem credencial de runtime, a função informa indisponibilidade e o fluxo manual permanece íntegro. Não copiar a chave da conversa para o repositório. store=false/background=false e persistência própria. Embeddings/reranker independentes, com revisões fixadas.
-- RLS em todas as tabelas de conteúdo por tenant; aplicação sem owner/superuser/BYPASSRLS. Identidade/sessões e registro operacional mínimo permitem resolver contexto antes de acessar conteúdo. ACL de coleção e incidente é validada explicitamente além do RLS. Migrações têm credencial separada.
-- Jobs PostgreSQL com aquisição SKIP LOCKED, lease/relógio do banco, fencing e política compartilhada. Conclusão e revogação serializam no registro de política. API admite e persiste a intenção na mesma transação; worker não publica resultado sem lease, autorização e ausência de cancelamento.
-- OTel/logs JSON/métricas desde a primeira jornada. Stack local de observabilidade é um perfil separado; Azure Monitor no perfil hospedado, sem duplicação padrão. Métricas operacionais não substituem auditoria ou resultados persistidos.
-
-## Contratos que não podem se perder
-
-Mesmo identificador entre tenants nunca permite compartilhamento de dados. occurred_at, observed_at, ingested_at e snapshot.as_of não são intercambiáveis. Um evento lógico pode ter múltiplas observações/entregas; isso não comprova pagamento duplicado. Corpus/snapshot são fixos durante exploração/run, mas permissão é sempre atual. Resultado aprovado é imutável; nova edição cria revisão e exige comparação com base_revision. Autor não aprova a própria submissão. Citação existe em fonte/versionamento autorizado e é validada pelo servidor; isso não certifica suporte semântico.
-
-## Composição visual
-
-Bancada editorial clara: grafite, papel e seleção azul contida. Fila comparável; cabeçalho de incidente compacto; divergências/timeline/dossiê/fontes com leitor contextual. Componentes de domínio e tokens desde a primeira fatia. Desktop lado a lado e navegação sequencial em 320/768px. PDF com texto canônico e lazy loading. Sem landing page, números inventados ou ocultação de proveniência da IA.
-
-## Alternativas
-
-Busca lexical + dossiê manual é a primeira baseline executável. SQLite não substitui as garantias de RLS, locks e concorrência do PostgreSQL. Broker, microserviços e framework de agentes acrescentariam fontes de verdade e complexidade desnecessárias agora. Serviços extras só entram com necessidade medida; o núcleo completo continua sendo o definido na especificação.
-
-## Ordem de verificação
-
-Cada incremento mantém o plano integral e registra implementado/validado/pendente. Primeiro jornada manual real; depois ingestão/fila/ACL e falhas concorrentes; retrieval/modelo; avaliações/experimento; operação/carga; revisão visual e de código. Aprovação humana de avaliações semânticas não será simulada por outro agente.
-
-## Decisões consolidadas na implementação
-
-- A baseline ativa é lexical, com planejamento de uma pergunta preservada. Até três subquestões são permitidas pelo contrato; expansão automática não foi promovida sem evidência de ganho. Ferramentas internas são funções explícitas, não um framework de agentes nem uma cadeia de raciocínio privado persistida.
-- Perfil de retrieval e revisões E5/reranker ficam congelados junto da geração. Índice incompleto não vira busca híbrida parcialmente válida. Jobs de indexação usam a fila existente e validam lease/ACL antes de publicar cada lote; modelo/rede ficam fora da conexão DB.
-- E5 e reranker rodam em serviço privado separado, com versões fixadas e token próprio. API/worker não carregam Torch; weights/cache estão em volume do perfil ML. O candidato treinado fica isolado, sem promoção automática.
-- A listagem usa cache pequeno de contagens/cobertura por tenant/snapshot/janela/política, limite de memória e single-flight. Não cacheia autorização, último dossiê ou run. Medição inicial encontrou saturação de pool; o relatório mantém o antes/depois.
-- Quota de importação tem ownership por entrada e liberação CAS após remoção. Documentos e dossiês não expiram por idade; temporários/exports/progresso/auditoria seguem o [runbook de retenção](runbooks/retention.md).
-- Tokens são contabilizados por mês UTC. Consumo conhecido pertence ao mês da chamada; reserva desconhecida antiga continua comprometendo a capacidade futura. Uma tentativa expirada depois do provedor não chama novamente, inclusive quando uso já foi reportado.
-- Antes do despacho, a configuração atual de geração é conferida novamente, antes da reserva de tokens. Uma release congelada não contorna a desativação operacional do provedor ou a ausência da credencial.
-- Login reserva admissão global no PostgreSQL antes de criar uma chave de e-mail; mantém o limite por conta, expira chaves em lotes e limita hashes Argon2 simultâneos por processo. Os defaults e os limites contra DoS estão na [revisão do backend](review-backend-2026-09-21.md); a proteção de borda permanece necessária para publicação externa.
-- Listagens de incidentes/importações usam criação decrescente com desempate por ID imutável e cursor assinado. A lista de fontes operacionais aplica o mesmo fallback temporal da conciliação; documentos permanecem contexto documental.
-- Objetos e ledger locais são duráveis nos volumes deste host. AzureBlobStorage possui contrato isolado e testes de SDK simulados; não é selecionado pelo core. O rollout hospedado depende de I/O remoto/quarentena e ledger compatíveis, sem segurar pool durante rede.
-
-## Perfis e estado
-
-| Perfil | Estado demonstrado | Limite |
+| Componente | Responsabilidade | Fronteira |
 | --- | --- | --- |
-| offline-manual/core local | Jornada real completa com DB/arquivos e frontend | Defaults apenas loopback; sem garantia de HA. |
-| core com Azure OpenAI | Uma geração real, hashes e reabertura após restart | Sem gate semântico humano ou precificação monetária. |
-| observability | OTel/Prometheus/Loki/Tempo/Grafana/Alertmanager reais | SLO de30 dias continua objetivo, não resultado do laboratório. |
-| models/experiments | Embeddings, reranker, GPU e treino reais | Pesos exigem setup explícito; candidato não promovido. |
-| scale-lab | 1/2 APIs e workers, mesma massa e relatórios preservados | Réplicas compartilham host/volume; sem prova entre hosts. |
-| Azure hospedado | Preparação IaC e adaptador privado | Não provisionado; identidade/rede/Monitor/GC/ledger exigem validação. |
-| OCR | Estado requires_ocr implementado | Extração OCR/tabelas digitalizadas não executada. |
-| kind, MCP, LLM generativo local/vLLM | Extensões não implementadas nesta entrega | Não necessárias ao núcleo; GPU comprovada para embeddings/reranker/treino, não para vLLM. |
+| Frontend | Fila, investigação, leitor, edição e revisão | Apresenta permissões; o backend sempre as valida. |
+| API | Sessão, autorização, consulta e admissão de trabalho | Persiste a intenção e o job na mesma transação. |
+| PostgreSQL | Conteúdo, snapshots, fila, sessões, quotas e auditoria | RLS por organização, ACL por coleção e associação ao incidente. |
+| Worker | Extração, indexação, investigação e exportação | Só publica com lease vigente, fencing e política atual. |
+| Armazenamento privado | Originais e artefatos imutáveis | Chaves criadas pelo servidor; acesso mediado pela API. |
+| Serviço de modelos | Embeddings E5 e reranker opcionais | Processo privado separado; API e worker não carregam Torch. |
+| Azure OpenAI | Rascunho estruturado com fontes | Sem autoridade para aprovar, executar SQL ou remediar pedidos. |
 
-Essas extensões permanecem declaradas como pendência de escopo, conforme a seção14 da especificação. Não há manifests vazios apresentados como demonstração de habilidade.
+1. **Importar:** validar manifesto e reservar quota; conferir tamanho e SHA-256; fechar o pacote e enfileirar extração. O parser tem prazo e limites de memória/CPU no Linux. A publicação cria um snapshot de evidências.
+2. **Investigar:** fixar snapshot e janela do incidente. Regras conciliam eventos e estados; a busca recupera trechos documentais autorizados. O fluxo manual está disponível sem credencial de IA.
+3. **Gerar, opcionalmente:** congelar release e limites; executar ferramentas de leitura; reservar orçamento e conferir autorização antes do envio. A resposta estruturada precisa passar pela validação de referências antes de virar rascunho persistido.
+4. **Revisar:** salvar uma nova revisão imutável, submeter e obter decisão de outro usuário. `If-Match` e revisão de base impedem sobrescrita silenciosa. Uma edição não herda aprovação semântica anterior.
+5. **Exportar:** enfileirar uma revisão aprovada e gerar HTML com proveniência e fontes escapadas. O download exige autorização atual e tem validade limitada.
+
+## Organização do código
+
+O domínio puro de [conciliação](../backend/src/evidencedesk/reconciliation) não conhece banco, autenticação ou modelo. Os módulos de aplicação coordenam persistência e domínio: [ingestão](../backend/src/evidencedesk/ingestion), [incidentes](../backend/src/evidencedesk/incidents), [investigações](../backend/src/evidencedesk/investigations) e [revisões](../backend/src/evidencedesk/reviews). [Identidade](../backend/src/evidencedesk/identity), [jobs](../backend/src/evidencedesk/jobs), [evidências](../backend/src/evidencedesk/evidence) e [retenção](../backend/src/evidencedesk/retention) concentram controles compartilhados.
+
+O frontend se organiza por funcionalidades em [frontend/src/features](../frontend/src/features), com componentes comuns e tokens visuais. O contrato público e seus estados de erro estão em [api-contract.md](api-contract.md).
+
+## Invariantes de segurança e consistência
+
+**Identidade e isolamento.** A aplicação usa uma role sem owner, superuser ou `BYPASSRLS`; migrações usam credencial separada. O contexto de organização é definido por transação. Identificadores iguais em organizações diferentes não concedem acesso. Sessões usam cookie HttpOnly; mutações exigem origem autorizada e token CSRF. O login reserva admissão no banco antes de verificar a senha e limita hashes concorrentes por processo.
+
+**Fontes e derivados.** O snapshot fixa o corpus, mas a autorização continua atual. Originais pertencem à coleção; uma conciliação derivada também exige acesso ao incidente de origem. Uma citação ou leitura de ferramenta em contexto de incidente deve respeitar sua coleção, snapshot e janela operacional. A conciliação de outro incidente não pode substituir a do recorte atual. A exclusão de uma fonte bloqueia seus derivados e downloads.
+
+**Tempo.** `occurred_at`, `observed_at`, `ingested_at` e `as_of` têm significados distintos. Quando o evento não informa ocorrência, a seleção usa observação como fallback; não usa a hora de ingestão para inventar uma ocorrência. Reentregas de um evento lógico não comprovam pagamento duplicado. Cobertura incompleta produz limites explícitos para a conclusão. Veja [data-contract.md](data-contract.md).
+
+**Trabalho assíncrono.** Aquisição usa `SKIP LOCKED`, lease com relógio do banco e fencing crescente. Cancelamento invalida o token do worker. A publicação e a revogação serializam no registro de política do tenant. A ordem de locks é controle de manutenção → política → entidade/job. Parsing, rede e inferência acontecem fora da conexão do banco; a publicação e a exclusão de arquivos locais podem manter um lock curto para coordenar arquivo e referência.
+
+**Arquivos e recuperação.** Um arquivo completo com hash confirmado precede a referência transacional. A publicação local não sobrescreve um objeto imutável existente. Falhas entre arquivo e commit podem produzir órfãos; a limpeza espera um período seguro e verifica referências e produtores ativos. A reserva por entrada é liberada uma vez, após remoção confirmada. O ledger de exclusão é reaplicado na restauração para impedir que um backup recupere dados apagados. Procedimentos: [retenção](runbooks/retention.md) e [backup/restore](runbooks/backup-restore.md).
+
+**Revisão humana.** O autor e quem submeteu a revisão não podem aprová-la. A decisão se refere a IDs de alegações da revisão atual; uma aprovação exige todas as alegações. Texto e citações existentes são preservados na revisão original, e qualquer edição cria outra revisão.
+
+## Limites da integração de IA
+
+O gerador usa Azure OpenAI Responses com `store=false` e `background=false`; o sistema conserva seus próprios resultados e manifestos. Reabrir uma investigação usa esses artefatos e não gera outra resposta. Credenciais ficam em configuração de runtime externa ao repositório.
+
+A release congela modelo, instruções, schemas, perfil de retrieval e limites. As ferramentas recebem identidade e escopo do backend; argumentos do modelo não podem trocar organização, usuário ou snapshot. As chamadas têm limite persistido de quantidade, saída e prazo, inclusive após reconstruir um executor. A configuração atual é conferida novamente antes do despacho: uma release antiga não contorna geração desativada.
+
+A baseline ativa usa busca lexical e a pergunta original. Busca híbrida combina lexical e vetores por RRF; reranking é opcional. Embeddings incompletos bloqueiam o perfil vetorial em vez de produzir uma busca parcial silenciosa. Pesos e candidatos treinados exigem preparação explícita; não há promoção automática.
+
+Tokens conhecidos são contabilizados no mês UTC da chamada. Reservas desconhecidas continuam comprometendo orçamento. Após despacho ao provedor, uma tentativa expirada não é repetida automaticamente, mesmo que já exista contabilização: o resultado pode ter sido perdido antes do commit. A política evita duplicar custo e expõe a falha para decisão explícita. Ver [token-budget.md](token-budget.md).
+
+Schema válido e referência existente não comprovam que a fonte sustenta a frase. A avaliação de suporte, contradição e abstenção requer julgamento humano; resultados sintéticos e testes de integração não substituem esse gate.
+
+## Decisões e tradeoffs
+
+| Decisão | Motivo | Custo ou limite |
+| --- | --- | --- |
+| Monólito modular | Mantém autorização, auditoria e transações em uma base de código. | Mudanças exigem atenção às fronteiras entre módulos. |
+| PostgreSQL como fila | Admissão e job são atômicos; dispensa broker adicional. | A fila compartilha capacidade com consultas e exige medir contenção. |
+| Lock de política por tenant | Revogação, quotas e publicação seguem uma ordem comum. | Mutações da mesma organização serializam; não promete throughput ilimitado. |
+| Arquivos privados locais | Perfil reproduzível e controle explícito de imutabilidade. | Réplicas dependem de volume compartilhado; o perfil não oferece HA entre hosts. |
+| Busca vetorial exata autorizada | Filtra ACL e snapshot antes do ranking. | Consome mais recursos com corpus grande; índices ANN exigem avaliação própria. |
+| Cache pequeno de resumos | Reduz recálculo de contagens na fila. | Chave inclui tenant, snapshot, janela e revisão de política; autorização nunca é cacheada. |
+| Cursor assinado | Evita mistura de contexto e paginação por offsets. | Listagens refletem a ACL atual; não representam uma transação congelada entre páginas. |
+| Revisão separada da geração | Permite comparar e corrigir hipóteses com fontes. | A qualidade final depende do trabalho do revisor. |
+
+## Perfis e limites de implantação
+
+| Perfil | Implementado | Limite |
+| --- | --- | --- |
+| Core local | Frontend, API, PostgreSQL, arquivos e workers | Defaults de demonstração em loopback; sem alta disponibilidade. |
+| Core com Azure OpenAI | Geração real e persistência própria verificadas | Qualidade semântica e preço monetário dependem de avaliação/configuração adicional. |
+| Observabilidade | OTel, Prometheus, Loki, Tempo, Grafana e Alertmanager | Ensaios locais não comprovam disponibilidade mensal. |
+| Modelos e experimentos | E5, reranker e treino em GPU | Setup separado; métricas sintéticas e candidato sem promoção. |
+| Azure hospedado | IaC e adaptador Blob preparados | Sem rollout validado; identidade, rede, GC e ledger cloud precisam de ensaio ponta a ponta. |
+
+PDFs sem texto recebem `requires_ocr`; extração OCR e tabelas digitalizadas não estão implementadas. Kubernetes/kind, MCP e um LLM gerativo local não fazem parte do runtime entregue. O [runbook local](runbooks/local.md), o [modelo de ameaças](threat-model.md) e a [revisão de arquitetura para publicação](architecture-review-publication.md) descrevem operação, riscos e verificações.

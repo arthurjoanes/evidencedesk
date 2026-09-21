@@ -1,0 +1,22 @@
+{
+  "recorded_at": "2026-09-21T22:08:44.1755033Z",
+  "workflow": ".github/workflows/ci.yaml",
+  "actionlint": {
+    "version": "1.7.12",
+    "exit_code": 0,
+    "scope": "Workflow syntax, expressions, Actions inputs and dependencies; external shellcheck and pyflakes disabled",
+    "command": "actionlint -shellcheck= -pyflakes= .github/workflows/ci.yaml",
+    "asset_sha256": "6e7241b51e6817ea6a047693d8e6fed13b31819c9a0dd6c5a726e1592d22f6e9"
+  },
+  "gitleaks": {
+    "ci_executed": false,
+    "checksum_verified_against": "Official GitHub release asset digest and gitleaks_8.30.1_checksums.txt",
+    "ci_command": "gitleaks git --config .gitleaks.toml --redact --log-opts=--all .",
+    "linux_x64_archive_sha256": "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb",
+    "linux_binary_version_executed": "8.30.1",
+    "ci_fetch_depth": 0,
+    "version": "8.30.1"
+  },
+  "workflow_remote_executed": false,
+  "workflow_sha256": "ed9ccdb60c1d73847bd5a7f41bdc849b03eace82ae2413ea9c62ada5e385ab8e"
+}

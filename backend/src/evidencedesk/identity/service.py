@@ -138,7 +138,7 @@ def session_payload(actor: Actor) -> dict:
             "model_display_name": settings.azure_openai_deployment,
             "disabled_reason": None
             if settings.generation_enabled
-            else "Credencial do gerador não configurada no backend. A investigação manual está disponível.",
+            else "A geração com IA não está disponível neste ambiente. Você pode continuar a investigação e editar o dossiê manualmente.",
         },
     }
 

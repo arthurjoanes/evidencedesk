@@ -295,7 +295,11 @@ class ReadTools:
             with transaction(self.context.lease.tenant_id) as connection:
                 actor = self.context.authorize(connection)
                 row = resolve_evidence(
-                    connection, actor, arguments.evidence_id, self.context.snapshot_id
+                    connection,
+                    actor,
+                    arguments.evidence_id,
+                    self.context.snapshot_id,
+                    incident_id=self.context.incident_id,
                 )
                 original = row["canonical_text"] or ""
                 end = min(len(original), arguments.start + arguments.length)

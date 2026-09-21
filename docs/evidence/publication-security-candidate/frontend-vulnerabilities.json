@@ -1,0 +1,445 @@
+{
+  "SchemaVersion": 2,
+  "Metadata": {
+    "ImageID": "sha256:9b15918888645ff39cd4b9a182977c8ab7a11217e397d7db764f7edd7d249c15",
+    "OS": {
+      "Family": "alpine",
+      "Name": "3.24.1"
+    }
+  },
+  "Results": [
+    {
+      "Target": "/scan/frontend.tar (alpine 3.24.1)",
+      "Class": "os-pkgs",
+      "Type": "alpine",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2026-14456",
+          "PkgName": "libcrypto3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "HIGH",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: OpenSSL: Denial of Service via unbounded memory growth in QUIC server",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-14456",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-18798",
+          "PkgName": "libcrypto3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "MEDIUM",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: QUIC server may trigger double free when processing INITIAL packet",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-18798",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-63072",
+          "PkgName": "libcrypto3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "MEDIUM",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: heap buffer overflow in CMS key unwrapping",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-63072",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-63076",
+          "PkgName": "libcrypto3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "MEDIUM",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: invalid pointer dereference in CMP server via crafted protectionAlg",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-63076",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-14457",
+          "PkgName": "libcrypto3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "LOW",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: RPK server signature algorithm selection can dereference a missing certificate",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-14457",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-54874",
+          "PkgName": "libcrypto3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "LOW",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: excessive memory use buffering DTLS records for a future epoch",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-54874",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-63073",
+          "PkgName": "libcrypto3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "LOW",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 5.9
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: untrusted sender DN used as format string in CMP response validation",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-63073",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-63074",
+          "PkgName": "libcrypto3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "LOW",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: CMP indefinite cache growth of ExtraCerts",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-63074",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-63075",
+          "PkgName": "libcrypto3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "LOW",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: QUIC ACK-only packet retention can cause memory exhaustion",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-63075",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-75803",
+          "PkgName": "libcrypto3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "LOW",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
+              "V3Score": 3.7
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: openssl: AEAD forgeries possible with empty ciphertext in EVP_Cipher()",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-75803",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-14456",
+          "PkgName": "libssl3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "HIGH",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: OpenSSL: Denial of Service via unbounded memory growth in QUIC server",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-14456",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-18798",
+          "PkgName": "libssl3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "MEDIUM",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: QUIC server may trigger double free when processing INITIAL packet",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-18798",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-63072",
+          "PkgName": "libssl3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "MEDIUM",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: heap buffer overflow in CMS key unwrapping",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-63072",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-63076",
+          "PkgName": "libssl3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "MEDIUM",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: invalid pointer dereference in CMP server via crafted protectionAlg",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-63076",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-14457",
+          "PkgName": "libssl3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "LOW",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: RPK server signature algorithm selection can dereference a missing certificate",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-14457",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-54874",
+          "PkgName": "libssl3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "LOW",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: excessive memory use buffering DTLS records for a future epoch",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-54874",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-63073",
+          "PkgName": "libssl3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "LOW",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 5.9
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: untrusted sender DN used as format string in CMP response validation",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-63073",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-63074",
+          "PkgName": "libssl3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "LOW",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: CMP indefinite cache growth of ExtraCerts",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-63074",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-63075",
+          "PkgName": "libssl3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "LOW",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: QUIC ACK-only packet retention can cause memory exhaustion",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-63075",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        },
+        {
+          "VulnerabilityID": "CVE-2026-75803",
+          "PkgName": "libssl3",
+          "InstalledVersion": "3.5.7-r0",
+          "FixedVersion": "3.5.8-r0",
+          "Severity": "LOW",
+          "CVSS": {
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
+              "V3Score": 3.7
+            }
+          },
+          "Status": "fixed",
+          "Title": "openssl: openssl: AEAD forgeries possible with empty ciphertext in EVP_Cipher()",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-75803",
+          "DataSource": {
+            "ID": "alpine",
+            "Name": "Alpine Secdb",
+            "URL": "https://secdb.alpinelinux.org/"
+          }
+        }
+      ]
+    },
+    {
+      "Target": "Node.js",
+      "Class": "lang-pkgs",
+      "Type": "node-pkg",
+      "Vulnerabilities": []
+    }
+  ]
+}

@@ -1,18 +1,13 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
 import { ArrowRight, FileCheck2 } from "lucide-react";
-import {
-  collectionSchema,
-  importSchema,
-  pageSchema,
-  type ImportBatch,
-} from "@/lib/contracts";
+import { importSchema, type ImportBatch } from "@/lib/contracts";
 import { request } from "@/lib/http";
-import { scopeKey, useSession } from "@/lib/session";
+import { useSession } from "@/lib/session";
 import { Button } from "@/components/ui/button";
-import { ErrorNotice, Loading } from "@/components/feedback";
+import { ErrorNotice } from "@/components/feedback";
+import { CollectionSelect } from "@/features/collections/collection-select";
 import {
   PackageValidationError,
   parseManifest,
@@ -32,13 +27,6 @@ export function NewImport() {
     batch: ImportBatch;
     fingerprint: string;
   } | null>(null);
-  const collections = useQuery({
-    queryKey: [...scopeKey(session), "collections"],
-    queryFn: ({ signal }) =>
-      request("/api/v1/collections?limit=100", pageSchema(collectionSchema), {
-        signal,
-      }),
-  });
   async function upload(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(undefined);
@@ -127,29 +115,13 @@ export function NewImport() {
       </div>
       <div className="import-intro">
         <form className="form-stack" onSubmit={(event) => void upload(event)}>
-          <label className="field">
-            Coleção de destino
-            <select
-              value={collection}
-              onChange={(event) => setCollection(event.target.value)}
-              required
-              disabled={busy || !!created}
-            >
-              <option value="">Selecione uma coleção</option>
-              {collections.data?.items.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          {collections.isPending && <Loading>Carregando coleções…</Loading>}
-          {collections.isError && (
-            <ErrorNotice
-              error={collections.error}
-              retry={() => void collections.refetch()}
-            />
-          )}
+          <CollectionSelect
+            label="Coleção de destino"
+            value={collection}
+            onChange={(event) => setCollection(event.target.value)}
+            required
+            disabled={busy || !!created}
+          />
           <label className="field file-input">
             1. Manifesto do pacote
             <input
@@ -206,9 +178,7 @@ export function NewImport() {
             <Button
               type="submit"
               variant="primary"
-              disabled={
-                busy || collections.isPending || !manifestFile || !files.length
-              }
+              disabled={busy || !collection || !manifestFile || !files.length}
             >
               {busy
                 ? "Conferindo e enviando…"

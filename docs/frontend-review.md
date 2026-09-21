@@ -1,97 +1,61 @@
-# Revisão do frontend — 21/09/2026
+# Revisão do frontend
 
-Implementação funcional verificada localmente com Next standalone, API, worker, banco e dados demonstrativos reais do projeto. A interface consulta o servidor; não fabrica contas, fontes, aprovações ou resultados de IA. Os ensaios descritos aqui não representam execução do CI nem medição em produção.
+Revisão de 21/09/2026. O frontend apresenta incidentes, fontes e revisões confirmados pela API. A conciliação, a autorização, a publicação de snapshots e a aprovação permanecem no backend. Uma investigação bem-sucedida produz um rascunho; a interface distingue esse resultado da revisão humana aprovada.
 
-## Composição e tarefa principal
+## Arquitetura e escolhas
 
-Foram comparadas uma bancada com três painéis permanentes e uma região de trabalho com leitor contextual. A segunda preserva largura para tabelas e documentos e permite navegação sequencial no celular. A fila oferece busca, estado e paginação. O incidente conserva escopo, período, cobertura, divergências, timeline, dossiês e fontes. No desktop, o leitor tem divisor ajustável por teclado; no celular, substitui a área de trabalho e mantém o contexto compacto do incidente.
+Next App Router organiza as rotas; `src/features` reúne os fluxos de incidentes, fontes, dossiês, importações, coleções e identidade. TanStack Query gerencia os dados remotos; o recorte da investigação vive na URL. Os formulários usam React Hook Form e Zod, com mensagens locais de validação. Não há um segundo estado global duplicando o cache remoto.
 
-IBM Plex local, superfícies claras, divisórias e seleção azul sustentam uma ferramenta de leitura. Não há gráficos decorativos, contadores inventados ou controles sem operação. Execução de IA, resultado do processamento, suporte de uma alegação e aprovação humana têm estados separados. Uma execução bem-sucedida pode produzir apenas um rascunho ou uma abstenção; isso não é uma conclusão aprovada.
+`src/lib/http.ts` concentra URLs relativas, credenciais de mesma origem, CSRF, erros e validação das respostas. O proxy do servidor encaminha somente à API configurada; credenciais do provedor de IA não chegam ao navegador. A CSP recebe nonce por resposta. Scripts, fontes IBM Plex e assets PDF.js são servidos localmente; PDF.js só é carregado ao abrir uma página PDF.
 
-O leitor de `reconciliation_result` apresenta contagens registradas, regra, período, cobertura, lacunas e avaliações incluídas. Não reconcilia eventos nem recalcula valores. Ausência de campo permanece “Não informado”; zero permanece zero. Um formato incompatível ou uma contagem interna contraditória não vira um resumo aparentemente válido: o texto canônico continua acessível com explicação. A formatação opcional de JSON insere somente espaços e quebras, preservando a grafia de números, escapes e chaves duplicadas. O hash sempre se refere ao original.
+O cache inclui organização, usuário e sessão, além do recurso e snapshot. Login, logout e expiração removem consultas da sessão anterior. Fontes, revisões, histórico e comparação aguardam a autorização atual ao reabrir; dados antigos não aparecem durante a consulta ou depois de recusa. Revalidar a sessão oculta o conteúdo e suspende os diálogos, preservando o trabalho na mesma janela quando o acesso continua válido.
 
-## Contratos, permissões e dados
+A referência da citação conserva seu próprio snapshot. Alterar o recorte da bancada não altera o dossiê anterior. Edições preservam IDs de alegações e usam `If-Match`; conflito conserva o rascunho. Os formulários ficam bloqueados durante a gravação para que uma resposta lenta não descarte alterações posteriores ao envio. O dossiê e a justificativa de revisão protegem trabalho não salvo ao fechar ou recarregar.
 
-- `src/lib/http.ts` centraliza URL relativa, credenciais, CSRF, decodificação validada e erros. Uma resposta 2xx incompatível não vira estado vazio. `src/lib/contracts.ts` valida o contrato recebido com Zod.
-- O proxy encaminha apenas à API fixa em `API_INTERNAL_URL`, transmite corpos e SSE, remove cabeçalhos de transporte inadequados e evita cache. A chave Azure permanece fora do navegador.
-- `scopeKey` separa o cache por tenant, usuário e sessão; consultas acrescentam incidente, snapshot e recurso. Login, logout e expiração retiram consultas da sessão anterior. O teste de troca Aurora → Horizonte não reaproveitou informação da organização anterior.
-- Fontes, revisões, comparação e histórico consultam novamente o backend ao reabrir, com `staleTime: 0` e `gcTime: 0`. Conteúdo antigo fica oculto durante a consulta e depois de erro. Isso fecha a janela em que o cache de 15 segundos poderia reapresentar uma fonte antes da autorização atual; não apaga retroativamente conteúdo já visto.
-- O snapshot da citação é independente do snapshot selecionado para o trabalho. Dossiê e revisão são escolhas explícitas na URL; a interface confere a associação ao incidente. O histórico permite consultar revisões anteriores, inclusive a aprovada.
-- Importações validam manifesto, nomes, tamanhos e hashes antes do envio, retomam o lote reconhecido pelo servidor e exibem erro por arquivo. Publicação continua atômica: só o estado confirmado `ready` disponibiliza o snapshot.
-- Edição manual usa IDs estáveis e `If-Match`. Um conflito mantém o texto preenchido; uma nova revisão preserva a base e o histórico. Aprovação requer permissão, usuário independente e conjunto completo de alegações. Exportação só aparece quando autorizada para a revisão aprovada.
-- SSE provoca atualização das consultas; `GET /runs/{id}` permanece a referência, com polling quando o stream falha. Cancelamento aguarda confirmação do servidor. A interface não apresenta uma tentativa atual falha como se fosse o êxito de uma revisão antiga.
-- A disponibilidade do índice é consultada ao abrir seu detalhe em Fontes. O servidor informa capacidade, motivo de indisponibilidade, cobertura e job separadamente. A ação só aparece quando habilitada, incompleta e sem job existente; usa CSRF e chave de idempotência por intenção. Um job terminal falho preserva o diagnóstico e a cobertura parcial, sem oferecer uma repetição que o contrato atual não executa. Etapas de investigação e indexação têm rótulos em português.
+A lista de coleções usa cursor do servidor e permite carregar mais resultados, sem supor que há no máximo cem coleções ou exigir um total conhecido. Importações conferem manifesto, limites, nomes, tamanhos e hashes no navegador, enviam os arquivos ao backend e aguardam publicação confirmada. A retomada na mesma janela consulta o lote existente e envia só os arquivos ainda pendentes.
 
-## Ensaios executados
+O leitor de conciliação mostra os valores registrados, a regra e a cobertura. Não recalcula eventos nem inventa números ausentes. Se o conteúdo não satisfaz o contrato estruturado, mantém o original legível. A formatação de JSON preserva números, escapes e chaves duplicadas. O leitor PDF oferece o texto canônico como referência acessível.
 
-Comandos executados em `frontend`: `npm run test`, `npm run typecheck`, `npm run lint`, `npm run build` e `npm run format:check`. A versão final passou nos **35 testes unitários**, tipos, lint, build de produção e formatação. O build usa um worker. `npm audit --omit=dev --json` registrou **zero vulnerabilidades de produção** na consulta local; o resultado está em [npm-audit-production.json](../frontend/artifacts/npm-audit-production.json).
+SSE invalida consultas, e `GET /runs/{id}` permanece a referência. Polling mantém a atualização quando o stream falha; cancelamento depende de confirmação do servidor. O índice apresenta capacidade, cobertura e execução separadamente, sem confundir processamento parcial com disponibilidade completa.
 
-Os unitários verificam fronteira HTTP/CSRF e erros, hashes e limites da importação, identidade e relações no diff de alegações, campos ausentes/zero, tipos incompatíveis e contradições da conciliação, preservação lexical do JSON e consistência de cobertura/capacidade do índice. Não são testes do algoritmo de conciliação do backend.
+## Verificação reproduzível
 
-Os E2E foram executados com Playwright e Microsoft Edge headless no laboratório local do projeto, com dados sintéticos. O conector de navegador desta sessão não expôs superfícies disponíveis; as capturas foram produzidas pelo próprio ensaio e inspecionadas visualmente.
+Na pasta `frontend`, execute:
 
-| Execução local | Resultado observado |
+```powershell
+npm ci --ignore-scripts
+npm run prepare:assets
+npm run typecheck
+npm run lint
+npm run format:check
+npm run test
+npm run build
+```
+
+Os **61 testes unitários** passaram nesta revisão, assim como tipos, lint e formatação. Eles cobrem a fronteira HTTP, isolamento de sessão, navegação, validação de importações, leitura da conciliação, revisão de alegações e limites dos formulários. A atualização dos contratos de formulário inclui vinte fontes e trinta pedidos por alegação, vinte notas por lista, limites de texto e rejeição local de um resultado com evidências sem alegações citadas.
+
+As jornadas Playwright estão em `frontend/e2e`. O [runbook de CI](runbooks/ci.md) descreve como preparar API, worker, seed e coleção `qa-imports` em um projeto isolado. A conta demo possui limite real de login: prefira a regressão afetada ao repetir testes no mesmo laboratório. Nunca aponte os testes de escrita a dados de produção.
+
+| Jornada | O que verifica |
 | --- | --- |
-| Seis jornadas principais, início 07:34:00 UTC | **6 passaram em 49,9 s**, sem skips, falhas ou retries: acessibilidade/CSP, falhas de transporte controladas, PDF real, sessão e navegação, revisão manual/exportação e capturas responsivas. |
-| Repetição às 07:37:54 UTC | **2 passaram e 5 falharam na entrada**: o limite real de 10 logins em 15 minutos da conta sintética foi acionado. Não é registrado como passe. [Resultado preservado](../frontend/artifacts/e2e-rate-limit-attempt.json). |
-| QA direcionado final, início 07:46:18 UTC | **2 passaram em 19,9 s**: leitor estruturado da geração existente e conflito 409 real com preservação do rascunho, nova revisão, segundo revisor e exportação. [Resultado preservado](../frontend/artifacts/e2e-targeted-final.json). |
-| Índice, revisão e cache, início 08:27:58 UTC | **2 passaram e 1 falhou no harness em 13,7 s**: índice e revisão manual/exportação passaram na imagem Docker final. O teste de revogação encontrou dois elementos `role=alert`, incluindo o anunciador de rota do Next. [Resultado preservado](../frontend/artifacts/e2e-cache-index-initial.json). |
-| Correção da fixture de revogação | A tentativa seguinte detectou que a fixture não fornecia `request_id` e `retryable`, exigidos pelo contrato de erro. A interface exibiu o erro genérico e manteve a fonte oculta; o teste não passou. [Resultado preservado](../frontend/artifacts/e2e-cache-fixture-invalid.json). |
-| Revogação direcionada, início 08:29:10 UTC | **1 passou em 3,0 s** após corrigir seletor e fixture. A primeira leitura foi real; a segunda resposta ficou pendente e depois retornou 404 controlado. O texto canônico esteve ausente em ambos os estados. [Resultado preservado](../frontend/artifacts/e2e-protected-source-final.json). |
-| Smoke após correção do runtime | **1 passou em 3,5 s** na imagem `7640031e0466…`: entrada real, leitura de fonte e reabertura com recusa controlada, sem texto ou proveniência do cache. [Resultado preservado](../frontend/artifacts/e2e-runtime-hardening.json). |
+| `investigation.spec.ts` | Login e troca de organização; navegação; retorno de foco; dossiê manual; conflito real entre revisões; segundo revisor; exportação autorizada. |
+| `import-pdf.spec.ts` | Upload PDF real, publicação pelo worker, texto extraído, pixels no canvas e hash do original. |
+| `accessibility.spec.ts` e `visual.spec.ts` | Regras axe, nonce distinto por resposta, divisor por teclado, apresentação a 320/768/1440 px e retorno do leitor móvel. |
+| `protected-source.spec.ts` e `session-revalidation.spec.ts` | Ocultação de conteúdo durante consulta e depois de recusa; preservação do trabalho após revalidação da sessão. |
+| `review-regressions.spec.ts` e `publication-regressions.spec.ts` | Contexto da fila; formulários e erros acessíveis; revogação; coleção depois da primeira página; bloqueio de controles durante gravações lentas. |
+| `controlled-states.spec.ts` e `index-capability.spec.ts` | Falha de transporte, capacidade do índice, cobertura parcial e recusa de apresentar uma falsa conclusão. |
+| `existing-run.spec.ts` | Leitura opcional de uma geração já concluída; não admite uma nova execução de IA. Sem os IDs explícitos, é ignorado. |
 
-A revisão direcionada usou dois logins da Ana e um do Bruno após administração local limpar uma vez o registro de limite da conta sintética. O código e a política de autenticação não foram relaxados. A suíte completa deve respeitar a janela de login; repetir várias vezes seguidas não é uma operação neutra.
+Paginação com mais de cem coleções, falhas, revogações e estados do índice incluem respostas controladas identificadas no código. Elas comprovam comportamento da interface, não falhas reais de provedor. Incidentes, dossiês, revisão, exportação e PDF usam a API local. A validação de paginação/ACL da API pertence aos testes de integração do backend.
 
-O teste de PDF criou um lote identificado como QA na coleção isolada `qa-imports`, aguardou o worker publicar, consultou a extração canônica e abriu a página original no canvas do PDF.js. Verificou pixels renderizados e o SHA-256 do conteúdo baixado, sem alterar `commerce-main`.
+Os resultados de execução e as capturas atuais estão registrados na [auditoria de publicação](publication-frontend.md). As imagens selecionadas são versionadas para aparecer também em um clone novo; relatórios temporários e traces ficam em diretórios ignorados e não são dependências da documentação pública.
 
-O ensaio de IA **somente leu** a geração real `2605b0dcf3fd4045a345a51fd2f80bdf`, fornecida pela implementação do backend. Afirmou zero `POST /incidents/{id}/runs`. Foram observadas três alegações em rascunho, sem exportação antes de aprovação, e citação ao agregado determinístico. Os 222 pedidos, 667 observações, 666 eventos e zero divergências vieram do conteúdo autorizado, não de fixtures de interface. Não foi feita nova chamada Azure pelo frontend durante esse ensaio.
+## Avaliação de manutenção e limites
 
-`controlled-states.spec.ts`, `index-capability.spec.ts` e `protected-source.spec.ts` usam respostas de transporte controladas e identificadas como fixture para testar falha de execução, capacidade desabilitada, cobertura contraditória e revogação de uma fonte. Essas respostas não são evidência de falhas reais do provedor ou de revogação administrativa executada pelo navegador. Login, primeira leitura da fonte e fluxos de revisão/exportação utilizam a API local real. O índice verificou uma única admissão com CSRF/idempotência, erro preservado, ausência de falsa conclusão e apresentação a 320 px.
+A organização por fluxo corresponde ao produto. Parsing da conciliação, comparação de revisões, hashing de arquivos e construção das URLs são funções separadas e testáveis. A seleção compartilhada de coleções elimina duas implementações que antes não alcançavam itens depois do limite inicial.
 
-## Responsividade, acessibilidade e imagens
+`DossierEditor`, `RevisionView` e `Workspace` ainda concentram bastante coordenação de interface. Separar uma nova seção quando ela ganhar estado próprio é preferível a abstrair toda a aplicação em um formulário genérico. Os schemas TypeScript e Python são mantidos separadamente; mudanças de limite exigem revisão conjunta e regressões. Os limites corrigidos nesta entrega mostram por que esse cuidado é necessário.
 
-Verificados 320, 768 e 1440 px sem overflow horizontal da página; tabelas mantêm região própria de rolagem. Abertura da fonte move o foco ao título; voltar restaura o controle de origem, inclusive depois de mudar do layout desktop para o móvel. O divisor responde às setas do teclado. A CSP teve nonce distinto em duas respostas e não permitiu `unsafe-inline` em scripts.
+As regras axe executadas, o teclado e as larguras verificadas são evidências delimitadas, não uma certificação completa de acessibilidade. Ainda são úteis avaliação com leitores de tela, navegadores adicionais e usuários da operação. Não foi medido SLO em produção, nem inferida qualidade semântica da IA a partir de testes de interface. A retomada de upload após perda da resposta inicial de criação e o desempenho de PDFs grandes não são garantidos por estes ensaios.
 
-axe não reportou violações das regras WCAG 2 A/AA e 2.1 AA executadas em login, fila, fonte, apresentação móvel e no novo leitor de conciliação. Isso não substitui uma avaliação completa com leitor de tela e usuários.
-
-- [Fila desktop](../frontend/artifacts/screenshots/queue-desktop.png), [tablet](../frontend/artifacts/screenshots/queue-tablet.png) e [mobile](../frontend/artifacts/screenshots/queue-mobile.png).
-- [Incidente desktop](../frontend/artifacts/screenshots/workspace-desktop.png), [mobile](../frontend/artifacts/screenshots/workspace-mobile.png), [fonte tablet](../frontend/artifacts/screenshots/source-tablet.png) e [mobile](../frontend/artifacts/screenshots/source-mobile.png).
-- [PDF importado e renderizado](../frontend/artifacts/screenshots/pdf-desktop.png).
-- [Resultado real Azure](../frontend/artifacts/screenshots/azure-result-desktop.png), [conciliação estruturada no celular](../frontend/artifacts/screenshots/azure-source-mobile.png) e [JSON formatado no celular](../frontend/artifacts/screenshots/azure-source-json-mobile.png).
-- [Falha de execução controlada pelo teste](../frontend/artifacts/screenshots/controlled-failed-run.png).
-- [Índice parcial com falha controlada, a 320 px](../frontend/artifacts/screenshots/controlled-index-mobile.png). A captura recorta a região aberta; o ensaio também conferiu ausência de overflow da página e zero violações nas regras axe executadas sobre essa região.
-
-## Avaliação de clean code
-
-A divisão por capacidades corresponde aos fluxos do produto: `incidents`, `evidence`, `dossiers`, `imports`, `timeline` e `identity`. Rotas não contêm regra de negócio de conciliação. A camada HTTP e os contratos são pontos explícitos de entrada, e controles compartilhados permanecem pequenos. `import-files.ts` trata validação e hashing separados da interface; `compareClaims` compara identidade e conteúdo em função pura testável. No leitor, parsing/validação, resumo e apresentação canônica são módulos diferentes por terem responsabilidades diferentes, não por uma meta de quantidade de arquivos.
-
-Durante os ensaios foram corrigidos problemas de comportamento: limpar todo o QueryClient removia o observador da sessão no login; cobertura confundia quantidade de janelas com sistemas; mudança de breakpoint invalidava o elemento de retorno de foco; reabertura de fonte precisava aguardar autorização mesmo com cache recente; minificação do agregado dificultava auditoria no celular. As correções preservam o contrato e são demonstráveis nos fluxos acima. `SnapshotIndex` concentra uma consulta e uma admissão, com schema próprio porque esse contrato tem regras de consistência diferentes do documento fonte; não introduz outro gerenciador de estado.
-
-Há complexidade remanescente: `DossierEditor`, `RevisionView` e `Workspace` coordenam estados de formulário, permissões e consultas em componentes extensos. As fronteiras estão legíveis, mas uma nova família de decisões de revisão justificará extrair seções com estado próprio. O contrato Zod é mantido manualmente em paralelo ao contrato Python; mudanças exigem revisão conjunta e testes. Não há justificativa para acrescentar agora uma camada genérica de repositórios, um segundo gerenciador de estado ou abstrações de formulário que ocultem o domínio.
-
-## Limites conhecidos
-
-### Medição de produção no laboratório
-
-`node scripts/measure-lab.mjs`, executado a partir de `frontend/`, mediu a imagem Docker de produção em Edge headless, viewport1440x1000, cache HTTP do navegador desabilitado e sem limitação artificial de CPU/rede. Usou um login sintético da Carla e apenas leituras, enquanto outras tarefas do host continuavam ativas. [Amostras e recursos por rota](../frontend/artifacts/performance-lab.json).
-
-A medição foi feita na imagem `04eeda744513…`, anterior ao patch de PCRE2 e à remoção das ferramentas de pacote do runtime. Não foi repetida para a imagem `7640031e0466…`; as fontes e versões do aplicativo foram preservadas, mas isso não transforma as amostras anteriores em uma nova medição.
-
-| Medida | Observado |
-|---|---|
-| JavaScript carregado na fila, corpo codificado |297.979 bytes por navegação; chunks e tamanhos individuais no relatório |
-| JavaScript no incidente |316.639 bytes; não inclui o PDF.js carregado sob demanda |
-| Conteúdo da fila disponível, três navegações |237–366ms |
-| Conteúdo do incidente disponível, três navegações |443–1.011ms |
-| LCP observado até conteúdo disponível |168–244ms; o shell pode ser o maior elemento antes do conteúdo remoto |
-| Soma de layout shifts sem interação recente |0,0219 na fila;0 no incidente, na janela observada |
-| Leitor de fonte de216 caracteres, oito aberturas |47–117ms; heap JS observado30,9–38,6MiB, com redução espontânea durante a série |
-| Timeline renderizada |30 linhas da página; paginação limita DOM |
-
-Essas amostras não são percentis de campo nem aprovação de Core Web Vitals. LCP não substitui tempo até dados utilizáveis. A soma de shifts não implementa o algoritmo completo de janelas de CLS. Event Timing registrou três eventos de16ms; isso não mede INP. A amostra pequena de heap não prova ausência de vazamento, e o leitor pequeno não caracteriza PDFs grandes. O teste exercita paginação real, não um stress de milhares de linhas no DOM. Zero investigações ou chamadas Azure foram criadas.
-
-Não foram validados manualmente leitor de tela, Safari/Firefox, impressão, interrupção real do provedor durante cancelamento, nem retomada de upload depois de perda da resposta de criação do lote. O código implementa SSE/polling e cancelamento, mas os cenários de concorrência do worker e consumo do provedor pertencem aos testes do backend. As conclusões da IA não foram aprovadas semanticamente por este QA.
-
-A execução descrita usou HTTP local, credenciais sintéticas e dados de laboratório. Configuração HTTPS/cookie seguro e operação em produção devem ser validadas no ambiente de implantação. A CSP admite estilos inline pelas medidas dos painéis e canvas; scripts usam nonce e o PDF.js carrega assets locais. ESLint 9 permanece por compatibilidade com os plugins do config Next instalado; acompanhar a migração é manutenção explícita. Nenhuma dessas observações é uma certificação de segurança, disponibilidade ou acessibilidade.
-
-O scan posterior motivou atualização de PCRE2 e remoção de npm/npx/Corepack/Yarn do estágio runtime, preservando o aplicativo e o build. Os onze findings HIGH/CRITICAL corrigíveis desapareceram; ainda restam 52 HIGH e 4 CRITICAL sem versão corrigida na base consultada. O gate continua reprovado. Consulte [a triagem e as provas da imagem](security-image-review-2026-09-21.md) antes de interpretar o `npm audit` limpo como ausência de vulnerabilidades do sistema operacional.
+A operação em Azure e a qualidade das conclusões exigem suas próprias evidências. A [auditoria de segurança](publication-security.md) identifica as imagens atuais e seu scan, incluindo o sistema operacional; um `npm audit` limpo não comprova ausência de vulnerabilidades no runtime.

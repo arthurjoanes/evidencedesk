@@ -1,69 +1,70 @@
 # EvidenceDesk
 
-Um pagamento foi confirmado, mas o pedido continua pendente. O EvidenceDesk ajuda um analista a conferir eventos, snapshots e procedimentos, formular uma hipótese com fontes e submeter uma conclusão a outro revisor.
+Investigação de incidentes de pedidos com evidências, IA e revisão humana.
 
-O produto é uma bancada de investigação, com aplicação Next.js, API e workers Python. A conciliação é determinística. A IA produz um rascunho citado; não aprova a própria resposta nem executa pagamentos ou reprocessamentos.
+O pagamento foi confirmado, mas o pedido continua pendente. O EvidenceDesk reúne eventos, snapshots e procedimentos para conferir o que aconteceu, registrar uma hipótese com fontes e submetê-la a outro analista. A conciliação calcula as divergências; a IA ajuda a redigir a investigação.
 
-![Incidente e leitor de evidência no ambiente de teste isolado](frontend/artifacts/review-final-2026-09-21/screenshots/workspace-desktop.png)
+![Bancada de investigação com leitor de evidências](docs/images/workspace-desktop.png)
 
-## Executar localmente
+## Uma investigação do início ao fim
 
-Pré-requisitos: Docker Desktop em Linux containers, Compose 2.24.4+ e Python 3.11+. Na raiz deste repositório:
+1. Importe um pacote de eventos, documentos e snapshots.
+2. Abra o incidente e confira divergências, linha do tempo e cobertura das fontes.
+3. Escreva um dossiê ou solicite um rascunho à IA, com referências verificáveis.
+4. Submeta uma revisão. Outra pessoa compara as alegações e registra a decisão.
+5. Exporte a revisão aprovada com suas fontes e os dados da decisão.
+
+O fluxo manual funciona sem conta Azure. A geração é opcional e produz rascunhos sujeitos à revisão.
+
+## Arquitetura e escolhas
+
+```mermaid
+flowchart LR
+    UI[Next.js · bancada] --> API[FastAPI · regras e autorização]
+    API --> DB[(PostgreSQL · dados e fila)]
+    API --> Files[Arquivos privados]
+    Worker[Worker Python] <--> DB
+    Worker --> Files
+    Worker --> Azure[Azure OpenAI · opcional]
+    Worker --> Models[Embeddings e reranker · opcionais]
+```
+
+- **Monólito modular, API e worker separados.** As regras ficam em módulos por responsabilidade. Trabalhos demorados saem da requisição HTTP; a fila usa o mesmo PostgreSQL, com lease e fencing para impedir publicação por um worker que perdeu o job.
+- **Autorização no backend.** RLS separa organizações; permissões de coleção e incidente limitam cada leitura, inclusive as fontes de resultados derivados. O modelo recebe apenas o contexto autorizado.
+- **Evidências e revisões imutáveis.** Um snapshot fixa as fontes da investigação. Editar o dossiê cria outra revisão; a aprovação pertence à versão conferida e exige outro usuário.
+- **Conciliação separada da geração.** Regras determinísticas calculam divergências. O modelo sintetiza fontes com orçamento limitado. Um resultado externo incerto exige tratamento explícito para evitar repetir uma chamada cobrada.
+
+O armazenamento local compartilhado simplifica a instalação em um host. Operação entre hosts exige persistência remota e recuperação próprias. Veja os [contratos, alternativas e limites da arquitetura](docs/architecture.md).
+
+## Rodar localmente
+
+Requisitos: **Docker com Linux containers, Compose 2.24.4+ e Python 3.11+**. Na raiz do repositório:
 
 ```powershell
 python scripts/ops.py config
 python scripts/ops.py build
 python scripts/ops.py start
 python scripts/ops.py seed
-python scripts/ops.py status
 ```
 
-Abra [a aplicação](http://127.0.0.1:3106). API: [8106](http://127.0.0.1:8106/docs). O seed é explícito, sintético e repetível. Os defaults são somente para demonstração em loopback.
+O primeiro `seed` gera a massa sintética e carrega a demonstração. Abra [localhost:3106](http://127.0.0.1:3106). Entre como `ana@aurora.demo` para investigar ou `bruno@aurora.demo` para revisar. A senha de demonstração é `EvidenceDesk-demo-2026!`.
 
-| Organização | Analista | Revisor |
-| --- | --- | --- |
-| Aurora | `ana@aurora.demo` | `bruno@aurora.demo` |
-| Horizonte | `carla@horizonte.demo` | `diego@horizonte.demo` |
+As contas e os dados são fictícios; os serviços são publicados apenas em loopback. `python scripts/ops.py stop` encerra o projeto preservando os volumes. [Configuração, Azure opcional e solução de problemas](docs/runbooks/local.md).
 
-Senha fictícia: `EvidenceDesk-demo-2026!`. Há também `admin@aurora.demo` e `admin@horizonte.demo` para administração autorizada. IDs iguais nos dois tenants exercitam isolamento; não representam empresas ou pessoas reais.
+## Verificar e explorar
 
-Sem chave Azure, investigação manual, importação, conciliação, revisão e exportação continuam funcionando. Para configurar a inferência no Windows, execute `pwsh -NoProfile -File scripts/azure_runtime.ps1 -Action configure`; a entrada é oculta e o segredo protegido por DPAPI fica fora do repositório. Depois use `-Action start`. Esse helper preserva a credencial ao recriar API/worker; um `ops.py start` que removeria uma credencial já configurada é recusado antes de alterar os serviços. Nenhum comando de build faz inferência.
+Os testes exercitam isolamento entre organizações, permissões de fontes, concorrência, perda de lease, edição de revisões, retenção e restauração. As jornadas no navegador incluem importação, leitura, aprovação e exportação. A [verificação da versão](docs/publication.md) registra os comandos, resultados e limites.
 
-`python scripts/ops.py stop` preserva os volumes. Configuração, recursos, portas e recuperação estão no [runbook local](docs/runbooks/local.md). Modelos E5/reranker são um perfil separado; instalação de pesos e execução real estão documentadas em [experiments](experiments/README.md).
+```powershell
+python scripts/check_repository_docs.py
+```
 
-## O que foi executado
+Para a suíte completa, veja o [guia de desenvolvimento e testes](docs/development.md). Para apresentar o produto, siga a [demonstração de cinco minutos](docs/demo.md).
 
-- Jornada manual completa com PostgreSQL real: importar, conferir fonte/PDF, editar revisão, tratar conflito, obter aprovação de outra conta e exportar.
-- Uma investigação Azure real com Luna: 1.166 tokens de entrada e 784 de saída, três alegações em rascunho. JSON e manifesto tiveram hashes verificados; a mesma revisão foi reaberta após reinício sem nova geração. Isso comprova integração e persistência, não qualidade semântica aprovada.
-- E5, busca vetorial/RRF e reranker executados em corpus sintético; um experimento supervisionado rodou na GPU local. Os resultados positivos e negativos estão preservados. O candidato não foi promovido sem o gate humano.
-- Testes de RLS/ACL, cancelamento, perda de lease, concorrência de upload, quotas, exclusão e restauração. Logs e traces chegaram ao laboratório OTel; um alerta disparou e resolveu.
+## IA e escopo
 
-Consulte a [revisão integrada mais recente](docs/review-integrated-followup-2026-09-21.md), a [matriz de verificação](docs/verification.md), os [experimentos](experiments/README.md) e os [limites atuais](docs/progress.md). Os números dos ensaios de capacidade são de laboratório; não provam disponibilidade de produção nem escalabilidade entre hosts.
+A integração com Azure OpenAI já foi exercitada com uma geração real e reabertura do resultado após reinício. Embeddings, reranker e um experimento supervisionado usam dados sintéticos; seus [resultados e protocolo](experiments/README.md) estão versionados. O candidato treinado permanece separado do modelo ativo até cumprir os critérios de avaliação.
 
-## Onde estudar
+Citações estruturadas permitem conferir uma resposta, mas a qualidade semântica ainda exige avaliação humana. A aplicação completa roda localmente; a infraestrutura Azure é um perfil em desenvolvimento. O [model card](docs/model-card.md) e a [avaliação de segurança](docs/publication-security.md) detalham essas condições.
 
-| Decisão | Código e explicação |
-| --- | --- |
-| Eventos, reentregas, clocks e divergências | [reconciliation](backend/src/evidencedesk/reconciliation/rules.py) |
-| Autorização e dados derivados | [identity](backend/src/evidencedesk/identity/service.py), [reviews](backend/src/evidencedesk/reviews/service.py), [ameaças](docs/threat-model.md) |
-| Ferramentas com autoridade limitada | [tools](backend/src/evidencedesk/investigations/tools.py) |
-| Jobs, lease e publicação | [jobs](backend/src/evidencedesk/jobs/service.py) |
-| Azure, schema, versões e orçamento | [model_runtime](backend/src/evidencedesk/model_runtime), [budget](backend/src/evidencedesk/investigations/budget.py) |
-| Bancada, leitor e revisão | [frontend](frontend/src/features), [revisão de código](docs/clean-code-review.md) |
-| Exclusão, GC e quota por arquivo | [retention](backend/src/evidencedesk/retention), [runbook](docs/runbooks/retention.md) |
-
-[Arquitetura](docs/architecture.md) · [API](docs/api-contract.md) · [demo de cinco minutos](docs/demo.md) · [guia de entrevista](docs/interview-guide.md) · [revisão por especialidade](docs/specialty-review.md).
-
-## Limites deliberados
-
-Os dados e referências de avaliação são sintéticos. Suporte de citações exige adjudicação humana; uma fonte existente não prova uma frase. O holdout não serve para ajustar continuamente o sistema. Custos monetários Azure permanecem sem precificação porque não há tabela/região comercial configurada.
-
-A aplicação usa Azure OpenAI a partir do laboratório local. O restante do fullstack ainda não está hospedado no Azure. IaC/Blob são preparação de perfil: identidade, rede, ledger e recuperação cloud precisam de validação antes de rollout. OCR, kind, MCP e LLM gerativo local não são habilidades demonstradas por um diretório vazio; seu estado está explícito em [arquitetura](docs/architecture.md).
-
-O [scan das imagens](docs/security-image-review-2026-09-21.md) continua reprovando o gate HIGH/CRITICAL por achados herdados da distribuição Linux. As correções disponíveis do frontend foram aplicadas e verificadas; os restantes têm triagem explícita, sem supressões. O projeto é entregue para demonstração local, sem liberação de produção pelo gate.
-
-Repositório local, sem push nem histórico profissional inventado. A ajuda de IA não é ocultada; a qualidade é avaliada por comportamento, clareza e evidência de manutenção.
-
-## Technical summary
-
-EvidenceDesk is a multi-tenant incident investigation workbench built with Next.js/TypeScript and a modular FastAPI/PostgreSQL backend. Deterministic reconciliation, immutable evidence snapshots, bounded retrieval tools, Azure structured generation, human review, durable jobs, RLS and fencing protect the investigation lifecycle. Local experiments and operational reports distinguish simulated transports, real model execution, measured failures and unvalidated production claims.
+Python · FastAPI · PostgreSQL/pgvector · Next.js · TypeScript · Docker. [Licença MIT](LICENSE).

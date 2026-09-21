@@ -119,7 +119,7 @@ def test_generated_draft_reopens_from_db_artifacts_and_sse_without_provider(work
     assert state["state"] == "succeeded", result.text
     assert state["outcome"] == "insufficient_evidence"
     assert len(calls) == 1
-    assert calls[0]["model"] == "gpt-5.6-luna"
+    assert calls[0]["model"] == "fixture-deployment"
     assert calls[0]["store"] is False and calls[0]["background"] is False
     assert state["usage"]["input_tokens"] == 100 and state["usage"]["output_tokens"] == 80
     assert [step["key"] for step in state["steps"]] == [
@@ -291,7 +291,7 @@ def test_revocation_during_paid_call_records_usage_without_publishing(workspace,
         )
 
 
-@pytest.mark.parametrize("disabled_setting", ["provider", "credential"])
+@pytest.mark.parametrize("disabled_setting", ["provider", "credential", "allowed_host"])
 def test_queued_run_honors_generation_disabled_before_dispatch(
     workspace, monkeypatch, disabled_setting
 ):
@@ -305,15 +305,21 @@ def test_queued_run_honors_generation_disabled_before_dispatch(
     mock_transport(monkeypatch, handler)
     if disabled_setting == "provider":
         monkeypatch.setenv("ED_AI_PROVIDER", "disabled")
-    else:
+    elif disabled_setting == "credential":
         monkeypatch.setenv("AZURE_OPENAI_API_KEY", "")
+    else:
+        monkeypatch.setenv("ED_AZURE_OPENAI_ALLOWED_HOSTS", "replacement-resource.openai.azure.com")
     get_settings.cache_clear()
     lease = acquire(tenant, "disabled-generator-fixture")
     assert lease is not None
     execute_lease(lease)
     state = client.get(f"/api/v1/runs/{run['id']}").json()
     assert state["state"] == "failed"
-    assert state["error"]["code"] == "generator_unavailable"
+    assert state["error"]["code"] == (
+        "model_release_incompatible"
+        if disabled_setting == "allowed_host"
+        else "generator_unavailable"
+    )
     assert calls == []
     with transaction(tenant) as connection:
         assert connection.execute(text("SELECT count(*) FROM provider_calls")).scalar_one() == 0

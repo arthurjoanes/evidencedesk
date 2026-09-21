@@ -9,7 +9,14 @@ from evidencedesk.database import lock_policy, transaction
 from evidencedesk.evidence.service import authorize_snapshot
 from evidencedesk.identity.service import authorize_incident
 from evidencedesk.incidents.service import create_incident, incident_payload, load_reconciliation
-from evidencedesk.pagination import decode_cursor, decode_recent_cursor, page, recent_page
+from evidencedesk.pagination import (
+    decode_cursor,
+    decode_named_cursor,
+    decode_recent_cursor,
+    named_page,
+    page,
+    recent_page,
+)
 from evidencedesk.reconciliation.contracts import TimeWindow
 
 router = APIRouter(tags=["Incidentes"])
@@ -36,21 +43,36 @@ class IncidentInput(Input):
 
 
 @router.get("/collections")
-def list_collections(actor: CurrentActor) -> dict:
+def list_collections(actor: CurrentActor, cursor: str | None = None, limit: PageLimit = 30) -> dict:
+    context = {
+        "tenant": actor.tenant_id,
+        "user": actor.id,
+        "operation": "collections",
+        "ordering": "name_asc_id_asc_v1",
+    }
+    after_name, after_id = decode_named_cursor(cursor, context)
     with transaction(actor.tenant_id) as connection:
         rows = (
             connection.execute(
                 text("""
             SELECT c.id,c.name,c.description,c.active_snapshot_id FROM collections c
             JOIN collection_grants g ON g.tenant_id=c.tenant_id AND g.collection_id=c.id
-            WHERE c.tenant_id=:tenant AND g.user_id=:user AND c.tombstoned_at IS NULL ORDER BY c.name,c.id LIMIT 100
+            WHERE c.tenant_id=:tenant AND g.user_id=:user AND c.tombstoned_at IS NULL
+              AND (CAST(:after_name AS text) IS NULL OR (c.name,c.id)>(:after_name,:after_id))
+            ORDER BY c.name,c.id LIMIT :limit
         """),
-                {"tenant": actor.tenant_id, "user": actor.id},
+                {
+                    "tenant": actor.tenant_id,
+                    "user": actor.id,
+                    "after_name": after_name,
+                    "after_id": after_id,
+                    "limit": limit + 1,
+                },
             )
             .mappings()
             .all()
         )
-        return {"items": [dict(row) for row in rows], "next_cursor": None, "total": len(rows)}
+        return named_page([dict(row) for row in rows], limit, context)
 
 
 @router.post("/incidents", status_code=201)

@@ -2,9 +2,11 @@
 
 Data:21/09/2026. Laboratório Windows/WSL2 com Docker e dados sintéticos. Cada relatório preserva seu próprio corpus, revisão e condições; números de rodadas diferentes não são somados como uma única suíte. A suíte final do backend passou com **195 testes em 60,65s**, sem skips e sem chamadas Azure. Há um aviso de depreciação de Starlette/AnyIO. Ruff passou, 103 arquivos estão formatados e Mypy passou em 74 módulos. [JUnit completo](evidence/backend-final.xml).
 
-## Revisão complementar mais recente
+## Verificação atual
 
-A [revisão integrada](review-integrated-followup-2026-09-21.md) acrescenta correções de edição/exportação, navegação, tempo, geração desativada, login e operação. Nesta rodada passaram 204 testes backend, 53 frontend e 37 scripts no Linux; os resultados das jornadas e da regressão final de sessão estão no relatório integrado. As imagens novas foram instaladas e inspecionadas juntas; o resultado Azure anterior foi reaberto sem outra chamada. O [novo scan](evidence/followup-review-security/summary.json) continua reprovado (API 55 HIGH/5 CRITICAL; frontend 52 HIGH/4 CRITICAL). Os números abaixo preservam os ensaios originais, com sua versão e escopo.
+A [revisão para publicação](publication.md) reúne os resultados da versão atual: correções de autorização/recorte temporal, paginação de coleções, validação de formulários, reprodução da instalação e novas imagens runtime. A [avaliação de segurança](publication-security.md) registra o scan atual por identidade de imagem.
+
+Os ensaios abaixo pertencem à implementação anterior. Seus relatórios continuam disponíveis para comparação e não substituem a verificação da versão atual.
 
 ## Matriz requisito → evidência
 
@@ -12,8 +14,8 @@ A [revisão integrada](review-integrated-followup-2026-09-21.md) acrescenta corr
 | --- | --- | --- |
 | Jornada manual e revisão independente | `backend/tests/integration/test_manual_workflow.py`; E2E principal6/6 | HTTP, DB, arquivos e frontend reais; não depende de inferência. |
 | Frontend elaborado e responsivo | [frontend-review](frontend-review.md), capturas320/768/1440,35 unitários,6 jornadas principais e ensaios dirigidos posteriores | Build standalone, tipos/lint/formato; testes axe/teclado. Sem alegação de teste com leitor de tela. |
-| Fonte revogada sem reapresentação de cache | [E2E final](../frontend/artifacts/e2e-protected-source-final.json) | Primeira leitura real, segunda resposta atrasada/404 controlada. Fonte permanece oculta durante reautorização e após erro. Integrações backend testam a ACL real. |
-| Frontend em produção, tamanho e resposta | [performance-lab](../frontend/artifacts/performance-lab.json) |3 navegações/rota; JS codificado298kB/317kB, conteúdo237–366ms/443–1.011ms. Leitor pequeno,8 aberturas; não é gate de Core Web Vitals ou stress de PDF. |
+| Fonte revogada sem reapresentação de cache | Regressão histórica de reabertura; [cenários atuais](frontend-review.md) | Primeira leitura real, segunda resposta atrasada/404 controlada. Fonte permanece oculta durante reautorização e após erro. Integrações backend testam a ACL real. |
+| Frontend em produção, tamanho e resposta | Medição histórica local de navegação |3 navegações/rota; JS codificado298kB/317kB, conteúdo237–366ms/443–1.011ms. Leitor pequeno,8 aberturas; não é gate de Core Web Vitals ou stress de PDF. |
 | Concorrência de revisão e preservação de rascunho | ETag409 real no E2E direcionado | Nenhum sobrescrito silencioso; nova revisão exige aprovação própria. |
 | Isolamento/ACL/RLS | Integrações manual, retrieval, admin e tools | Role de aplicação real; fixtures administrativas apenas preparam e limpam dados. |
 | Ferramentas e indexação |11 integrações de orçamento/tools/index/pipeline após0008 | Provedor/vetores simulados nas provas de plataforma, explicitamente identificados. Modelos reais têm relatório separado. |
@@ -32,7 +34,7 @@ A [revisão integrada](review-integrated-followup-2026-09-21.md) acrescenta corr
 | Infraestrutura Azure | [validação IaC](evidence/azure-iac-validation.json) | Terraform fmt/init sem backend/validate; nenhum plan com credenciais, apply ou recurso provisionado. Runtime possui trava explícita de rollout. |
 | Hardening local | [runtime-final](evidence/runtime-final.json) | API/worker sem root, capabilities efetivas zeradas, no-new-privileges, seccomp e raiz somente leitura verificados. |
 | Credenciais nos arquivos entregáveis | [checagem heurística](evidence/repository-secret-check.json) |648 textos elegíveis ao Git, quatro padrões, zero achados; não é detecção exaustiva nem auditoria de histórico. Valores encontrados nunca seriam publicados. |
-| Scan das imagens runtime | [triagem e fontes](security-image-review-2026-09-21.md), [scan corrigido](evidence/security-hardened-2026-09-21/summary.json) |Gate reprovado: API55 HIGH/5 CRITICAL; frontend corrigido52 HIGH/4 CRITICAL. Os11 achados altos/críticos com correção disponível no frontend foram eliminados. Nenhuma supressão. Imagens ML/DB/observabilidade fora deste scan. |
+| Scan das imagens runtime | [scan histórico](evidence/security-hardened-2026-09-21/summary.json), [scan corrigido](evidence/security-hardened-2026-09-21/summary.json) |Gate reprovado: API55 HIGH/5 CRITICAL; frontend corrigido52 HIGH/4 CRITICAL. Os11 achados altos/críticos com correção disponível no frontend foram eliminados. Nenhuma supressão. Imagens ML/DB/observabilidade fora deste scan. |
 | Manutenção/clean code | [clean-code-review](clean-code-review.md) | Novo evento observado:1 teste passou; apresentação de conciliação:unitários/E2E reais. |
 | Scripts e CI local | [checagens finais](evidence/security-hardened-2026-09-21/helper-checks.json) |28 unitários dos scripts e Ruff/formato passaram; publisher comparado ao archive real. CI remoto não executado. |
 | Configurações operacionais | [validadores](evidence/infra-config-check.json), [observabilidade final](evidence/observability-runtime-closed.json) |7 validadores e10 cenários promtool passaram; depois dos ensaios, métricas/probe/log/trace foram conferidos no runtime. |
@@ -55,9 +57,9 @@ python scripts/check_infra.py
 
 Frontend, a partir de `frontend/`: `npm run test`, `npm run typecheck`, `npm run lint`, `npm run format:check` e `npm run build`. O E2E requer API/worker/seed e deve respeitar10 logins/15min por conta; a repetição que atingiu esse limite está preservada como falha, não passe. O CI usa os mesmos checks, mas ainda não foi executado no GitHub.
 
-## Gates que não receberam aprovação
+## Limites das medições históricas
 
-- Segurança das imagens: o gate HIGH/CRITICAL continua reprovado, inclusive para CVEs sem correção indicada. A triagem registra pré-condições não presentes em alguns casos, mas não autoriza produção nem remove findings. O workflow remoto também não foi executado.
+- Segurança das imagens: os scans históricos abaixo reprovaram e foram preservados. As imagens desta publicação têm uma [avaliação própria](publication-security.md). A execução remota do workflow depende da publicação no GitHub.
 - Qualidade semântica de citações/abstenção: falta adjudicação humana suficiente. Gold sintético e schema válido não substituem esse trabalho.
 - Recall e latência: consultar resultados por corpus; não alterar metas ou excluir timeouts para fabricar passe. No ensaio corrigido de leituras, 1 API teve p95 de 810ms e 2 APIs de 345ms. A primeira configuração excedeu a referência de 500ms. Esse ensaio não mede o SLO de admissão de jobs definido na arquitetura; não aprova esse gate para nenhuma configuração.
 - Disponibilidade99,5%/30dias, estudo de redução de tempo com usuários e desastre fora do host: não medidos.

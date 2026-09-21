@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "evaluated_at": "2026-09-21T22:11:12.255Z",
+  "scope": "Local production images, synthetic data, isolated Compose project",
+  "browser": "Microsoft Edge headless",
+  "base_url": "http://127.0.0.1:3107",
+  "frontend_image": "sha256:7b7db3dd64aee1c050ecb76372838ba0b064eaff3cb77e1a02ee426ab4648a02",
+  "backend_image": "sha256:5e49dbb809a2771370bf10897d76489e36fd2b3f62c606bbc13aa98a8e8218df",
+  "unit_tests": 61,
+  "unit_files": 10,
+  "static_checks": [
+    "typecheck",
+    "lint",
+    "format:check"
+  ],
+  "e2e_stats": {
+    "startTime": "2026-09-21T22:11:12.255Z",
+    "duration": 38594.249,
+    "expected": 11,
+    "skipped": 1,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "file": "accessibility.spec.ts",
+      "title": "WCAG automated checks, keyboard resizing and unique script nonces",
+      "outcome": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 8944,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "controlled-states.spec.ts",
+      "title": "controlled transport failures never become empty or successful results",
+      "outcome": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 1118,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "existing-run.spec.ts",
+      "title": "read an existing real generation without admitting a new job",
+      "outcome": "skipped",
+      "results": [
+        {
+          "status": "skipped",
+          "duration_ms": 137,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "import-pdf.spec.ts",
+      "title": "isolated real PDF import, canonical text and original rendering",
+      "outcome": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 5086,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "index-capability.spec.ts",
+      "title": "controlled indexing capability: disabled, bounded admission, failure and invalid coverage",
+      "outcome": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 2005,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "investigation.spec.ts",
+      "title": "real session, bounded evidence reader, keyboard return and responsive queue",
+      "outcome": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 1578,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "investigation.spec.ts",
+      "title": "manual abstention, independent review and authorized export",
+      "outcome": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 7015,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "protected-source.spec.ts",
+      "title": "reopened source waits for current authorization and hides cached text after denial",
+      "outcome": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 1057,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "publication-regressions.spec.ts",
+      "title": "paginated collection selection, accessible validation and frozen in-flight forms",
+      "outcome": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 2261,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "review-regressions.spec.ts",
+      "title": "review regressions: queue context, successive navigation, form errors and revoked editor",
+      "outcome": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 1145,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "session-revalidation.spec.ts",
+      "title": "session revalidation hides portals, preserves draft on 503/network, resets on replacement and removes on 401",
+      "outcome": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 5091,
+          "retry": 0
+        }
+      ]
+    },
+    {
+      "file": "visual.spec.ts",
+      "title": "real workspace visual evidence and mobile source return",
+      "outcome": "expected",
+      "results": [
+        {
+          "status": "passed",
+          "duration_ms": 1664,
+          "retry": 0
+        }
+      ]
+    }
+  ],
+  "constraints": [
+    "No paid AI provider configured",
+    "Optional existing-run test skipped because no run/incident IDs supplied",
+    "Controlled transport fixtures are identified in tests",
+    "Automated accessibility checks do not certify full WCAG compliance"
+  ],
+  "final_visual_check": {
+    "stats": {
+      "startTime": "2026-09-21T22:17:22.165Z",
+      "duration": 7263.51,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "backend_image": "sha256:3b4362029a9b1c9b3c2547d678e4e383495bb43f25ee00774bcfd88361f7c67e",
+    "frontend_image": "sha256:7b7db3dd64aee1c050ecb76372838ba0b064eaff3cb77e1a02ee426ab4648a02",
+    "scope": "Repeated visual journey after changing only the generation-disabled message",
+    "account": "Synthetic reviewer account",
+    "confirmed_ui_text": "A geração com IA não está disponível neste ambiente. Você pode continuar a investigação e editar o dossiê manualmente."
+  }
+}

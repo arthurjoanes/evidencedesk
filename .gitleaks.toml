@@ -1,0 +1,21 @@
+title = "EvidenceDesk secret scanning"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+
+[[rules.allowlists]]
+description = "SHA-256 of the versioned tokenizer report; verified against the file bytes"
+condition = "AND"
+regexTarget = "match"
+paths = ['''^(model-manifest\.json|experiments/reports/index\.json)$''']
+regexes = ['''chunk-policy-tokenizers\.json"\s*:\s*"[a-f0-9]{64}"''']
+
+[[rules.allowlists]]
+description = "Internal Docker HTTP probe address, without credentials"
+condition = "AND"
+regexTarget = "match"
+paths = ['''^scripts/check_observability\.py$''']
+regexes = ['''api:8106/api/v1/health/live"''']

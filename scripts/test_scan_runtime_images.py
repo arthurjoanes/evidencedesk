@@ -123,6 +123,9 @@ class RedactionTest(unittest.TestCase):
                     "Target": "controlled-target",
                     "Class": "os-pkgs",
                     "Type": "debian",
+                    "Packages": [
+                        {"Name": "sample", "Version": "1", "Description": "do-not-publish"}
+                    ],
                     "Secrets": [{"Match": "controlled-secret-match"}],
                     "Vulnerabilities": [
                         {
@@ -144,10 +147,12 @@ class RedactionTest(unittest.TestCase):
             "controlled-secret-match",
             "UnexpectedMetadata",
             "ImageConfig",
+            "do-not-publish",
         ):
             self.assertNotIn(excluded, encoded)
         self.assertEqual(result["Results"][0]["Vulnerabilities"][0]["Severity"], "HIGH")
         self.assertEqual(result["Results"][0]["Vulnerabilities"][0]["FixedVersion"], "2")
+        self.assertEqual(result["Results"][0]["Packages"], [{"Name": "sample", "Version": "1"}])
 
 
 if __name__ == "__main__":

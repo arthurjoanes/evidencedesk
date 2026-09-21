@@ -23,7 +23,7 @@ npm start
 
 O script de start prepara os arquivos estáticos do standalone e escuta em `127.0.0.1:3106`. `PORT` e `FRONTEND_HOST` permitem configuração explícita. O Dockerfile usa diretamente `server.js`, usuário sem privilégios e porta 3106; a composição completa fica em `../infra/compose`.
 
-A imagem final preserva Node e retira npm/npx/Corepack/Yarn; instalação e build acontecem no estágio anterior. Há patch explícito de PCRE2 pelo repositório Bookworm security. Essa redução não elimina todos os findings da base: o [scan e a triagem](../docs/security-image-review-2026-09-21.md) registram gate reprovado e limites para produção.
+A imagem final usa Node 24 em Alpine e retira npm/npx/Corepack/Yarn; instalação e build acontecem no estágio anterior. A base está fixada por digest. O gate de imagens analisa também os pacotes do sistema operacional e reprova qualquer vulnerabilidade HIGH/CRITICAL; `npm audit` sozinho não substitui esse gate. Consulte a [auditoria atual de segurança](../docs/publication-security.md) para as identidades e os resultados das imagens.
 
 O seed e as contas demonstrativas estão documentados no projeto principal. O frontend não cria contas, resultados de IA nem uma sessão fictícia.
 
@@ -42,11 +42,14 @@ Leitor, revisões, comparação e histórico aguardam a autorização atual ao r
 
 A edição preserva IDs de alegações, usa `If-Match` e mantém o rascunho após conflito. Execuções e exportações usam chaves de idempotência por intenção. O stream invalida consultas; o estado confirmado de `GET /runs/{id}` é a referência, com polling quando o stream não está disponível.
 
+Criação de incidentes e importações compartilham um seletor de coleções com paginação explícita. As listas carregadas preservam o cursor do servidor, inclusive quando o total não é informado. Durante a gravação, os formulários de incidente, dossiê, revisão e investigação impedem alterações que poderiam ser perdidas ao receber a resposta. Fechar uma justificativa de revisão preenchida pede confirmação; recarregar mantém a proteção nativa contra perda do trabalho.
+
 ## Verificar
 
 ```powershell
 npm run typecheck
 npm run lint
+npm run format:check
 npm run test
 npm run build
 ```
@@ -76,4 +79,4 @@ IBM Plex Sans/Mono são distribuídas sob SIL Open Font License; PDF.js sob Apac
 
 A CSP usa nonce por resposta para scripts, o que exige renderização dinâmica das páginas. Estilos inline permanecem permitidos para medidas dos painéis e do canvas; JavaScript inline sem nonce não é permitido. CSP, escaping e cookies não substituem autorização no servidor.
 
-Consulte [a revisão do frontend](../docs/frontend-review.md) para evidências de testes e limites observados. Resultados locais não representam SLO de produção, validação humana de conclusões ou certificação completa de acessibilidade.
+Consulte [a revisão do frontend](../docs/frontend-review.md) para arquitetura, cobertura de testes e imagens versionadas, e [a auditoria de publicação](../docs/publication-frontend.md) para as correções desta entrega. Resultados locais não representam SLO de produção, validação humana de conclusões ou certificação completa de acessibilidade.

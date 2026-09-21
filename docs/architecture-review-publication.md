@@ -1,0 +1,44 @@
+# Revisão da arquitetura para publicação
+
+Revisão de 21/09/2026 sobre o backend e seus contratos. A arquitetura é adequada ao escopo de uma bancada local de investigação: conciliação determinística, monólito modular, fila transacional, fontes imutáveis e revisão humana separada da geração. O perfil hospedado continua exigindo validação própria.
+
+## Falhas corrigidas
+
+| Problema | Comportamento corrigido | Regressão |
+| --- | --- | --- |
+| Uma conciliação derivada exigia ACL da coleção, mas não associação ao incidente de origem. | A leitura do agregado exige um run existente, com o mesmo snapshot, e acesso atual ao incidente de origem. Revogar apenas a associação ao incidente bloqueia o agregado; os originais da coleção continuam seguindo a ACL da coleção. | [test_evidence_scope.py](../backend/tests/integration/test_evidence_scope.py) verifica leitura HTTP antes/depois da revogação e acesso ao dossiê. |
+| Uma citação podia reutilizar a conciliação de outro incidente com o mesmo snapshot. A leitura direta de ferramenta também não aplicava a janela operacional. | A resolução central recebe o incidente e valida coleção, origem do agregado e janela de eventos/snapshots. Citações, leitura de trechos e validação anterior ao despacho compartilham esse controle. | [test_evidence_scope.py](../backend/tests/integration/test_evidence_scope.py) verifica rejeição de agregado de outro incidente e cinco combinações de ocorrência/observação. |
+| A listagem de coleções encerrava a busca em 100 itens e devolvia esse corte como total. | Paginação por nome e ID, cursor assinado vinculado a organização/usuário e ACL reaplicada a cada página. `total: null` comunica que não houve contagem completa. | [test_recent_lists.py](../backend/tests/integration/test_recent_lists.py) percorre mais de 100 coleções e cobre nomes iguais, revogação e cursors de outro usuário/tenant ou adulterados. [test_pagination.py](../backend/tests/unit/test_pagination.py) cobre Unicode e posição inválida. |
+| O endpoint Azure autorizado estava vinculado a um recurso pessoal, impedindo a configuração de outro operador. | Endpoint, deployment e hosts permitidos são explícitos. Apenas rotas HTTPS de recursos Azure são aceitas; releases persistidas precisam continuar autorizadas pela allowlist atual antes do despacho. | [test_model_release.py](../backend/tests/unit/test_model_release.py) cobre formato, autorização e revogação de hosts. [test_azure_runtime.py](../scripts/test_azure_runtime.py) verifica o helper Windows com DPAPI real, diretórios temporários e comando de inicialização simulado. |
+
+A resolução de agregados consulta o run sem chamar a autorização completa de dossiês, evitando recursão entre run → dossiê → evidência → run. A verificação de recorte mantém a precedência existente `occurred_at` → `observed_at` → `as_of`; documentos continuam disponíveis como contexto documental.
+
+## Verificação executada
+
+| Verificação | Resultado |
+| --- | --- |
+| Suíte backend completa, PostgreSQL real descartável e role de aplicação | **235 testes passaram**, zero falhas ou skips, 58,99 s. [JUnit final](evidence/publication/backend-release.xml). |
+| Helper Azure Windows | **Sete testes passaram**, com DPAPI real e sem chamadas ao provedor. Integram a [suíte de scripts Windows](evidence/publication/scripts-windows.json). |
+| Ruff | Sem erros. |
+| Formatação Ruff | 138 arquivos conformes. |
+| Mypy | Sem erros em 75 arquivos de código. |
+| Provedor externo | Zero chamadas Azure nesta revisão; os testes de geração usam transporte simulado explícito. |
+
+A suíte completa exercita importação e hash, RLS com IDs repetidos entre organizações, conexão reutilizada sem tenant, cancelamento, perda de lease, concorrência de upload, edição com conflito, aprovação independente, exportação escapada, quotas, retenção e reaplicação do ledger de exclusão. Esses testes usam banco e arquivos reais; não demonstram disponibilidade de produção.
+
+O ambiente desta rodada foi Windows/Python 3.11.9 com PostgreSQL Linux em Docker, isolado da demonstração. Foi usado `PYTHONPATH=backend/src`, pois o ambiente virtual local tinha uma instalação editável apontando para um nome anterior da pasta. Permanece um aviso de depreciação de Starlette/AnyIO sobre `BlockingPortal`; ele não impediu os testes.
+
+## Avaliação das decisões
+
+- **Isolamento e autorização:** RLS limita organizações e ACLs delimitam recursos. A nova verificação de origem fecha a diferença entre fonte original e agregado de incidente. As leituras de fontes continuam consultando permissões atuais.
+- **Consistência de jobs:** intenção e enfileiramento compartilham transação; lease/fencing e lock de política protegem a publicação. Repetição automática após despacho ao provedor é recusada para evitar cobrança duplicada com resultado perdido.
+- **Evidências e revisão:** snapshots e revisões preservam proveniência; a aprovação não é transferida para uma edição. Texto de exportação é escapado e downloads dependem da autorização atual.
+- **Complexidade:** manter API e worker no mesmo monólito permite reutilizar controles de domínio sem introduzir um broker ou serviços de autorização adicionais. O serviço ML separado evita carregar dependências pesadas no core.
+- **Portabilidade do provedor:** a identidade de uma geração permanece registrada na release, enquanto a autorização para alcançar o endpoint vem da configuração atual. O helper Windows protege a chave com DPAPI e grava configuração validada de forma atômica.
+- **Manutenção:** a arquitetura pública foi reescrita com fluxo, fronteiras, invariantes e tradeoffs. Links para documentos privados ou removidos e referências ao histórico da conversa foram retirados.
+
+## Limites da conclusão
+
+O lock de política serializa mutações por organização; o efeito em throughput deve ser medido com carga representativa. A autorização de um dossiê percorre suas revisões e fontes; o crescimento do histórico precisa de medição antes de otimizar ou mudar essa regra. Réplicas locais compartilham host e volume, portanto não demonstram tolerância à perda do host.
+
+A rodada não inclui pentest externo, avaliação semântica humana de citações, ensaio de alta disponibilidade, rollout Azure, nova inferência paga ou benchmark de desempenho. A situação atual das imagens e dependências está na [revisão de segurança](publication-security.md), e o conjunto da entrega está no [relatório de publicação](publication.md). A decisão de publicar o código é distinta de liberar o serviço para uso de produção; esta revisão não atribui uma nota absoluta nem certifica ausência de defeitos.
