@@ -1,0 +1,83 @@
+[
+  {
+    "recorded_at": "2026-09-21T07:55:55.753381+00:00",
+    "containers": [
+      {
+        "BlockIO": "102kB / 0B",
+        "CPUPerc": "100.41%",
+        "Container": "1938f007c14f",
+        "ID": "1938f007c14f",
+        "MemPerc": "34.14%",
+        "MemUsage": "174.8MiB / 512MiB",
+        "Name": "pf-evidencedesk-capacity-review006-api-1",
+        "NetIO": "118MB / 922kB",
+        "PIDs": "39"
+      },
+      {
+        "BlockIO": "19.5MB / 421MB",
+        "CPUPerc": "15.66%",
+        "Container": "f04a0e261474",
+        "ID": "f04a0e261474",
+        "MemPerc": "32.04%",
+        "MemUsage": "164MiB / 512MiB",
+        "Name": "pf-evidencedesk-capacity-review006-db-1",
+        "NetIO": "51.5MB / 125MB",
+        "PIDs": "10"
+      }
+    ]
+  },
+  {
+    "recorded_at": "2026-09-21T07:55:59.918361+00:00",
+    "containers": [
+      {
+        "BlockIO": "102kB / 0B",
+        "CPUPerc": "98.94%",
+        "Container": "1938f007c14f",
+        "ID": "1938f007c14f",
+        "MemPerc": "32.09%",
+        "MemUsage": "164.3MiB / 512MiB",
+        "Name": "pf-evidencedesk-capacity-review006-api-1",
+        "NetIO": "143MB / 1.08MB",
+        "PIDs": "38"
+      },
+      {
+        "BlockIO": "19.5MB / 421MB",
+        "CPUPerc": "24.91%",
+        "Container": "f04a0e261474",
+        "ID": "f04a0e261474",
+        "MemPerc": "32.15%",
+        "MemUsage": "164.6MiB / 512MiB",
+        "Name": "pf-evidencedesk-capacity-review006-db-1",
+        "NetIO": "51.5MB / 143MB",
+        "PIDs": "10"
+      }
+    ]
+  },
+  {
+    "recorded_at": "2026-09-21T07:56:03.565609+00:00",
+    "containers": [
+      {
+        "BlockIO": "102kB / 0B",
+        "CPUPerc": "87.53%",
+        "Container": "1938f007c14f",
+        "ID": "1938f007c14f",
+        "MemPerc": "32.13%",
+        "MemUsage": "164.5MiB / 512MiB",
+        "Name": "pf-evidencedesk-capacity-review006-api-1",
+        "NetIO": "159MB / 1.19MB",
+        "PIDs": "37"
+      },
+      {
+        "BlockIO": "19.5MB / 421MB",
+        "CPUPerc": "22.74%",
+        "Container": "f04a0e261474",
+        "ID": "f04a0e261474",
+        "MemPerc": "32.03%",
+        "MemUsage": "164MiB / 512MiB",
+        "Name": "pf-evidencedesk-capacity-review006-db-1",
+        "NetIO": "51.6MB / 166MB",
+        "PIDs": "10"
+      }
+    ]
+  }
+]

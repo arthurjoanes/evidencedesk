@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "migration": "0007_to_0008",
+  "known_previous_month": 30,
+  "reserved_previous_month": 100,
+  "unattributed_reserved_preserved": 25,
+  "unattributed_reported_preserved": 10,
+  "provider_calls": "fixture_only_no_network"
+}

@@ -1,0 +1,32 @@
+{
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.36",
+  "torch": "2.14.0+cu130",
+  "cuda_runtime": "13.0",
+  "cuda_available": true,
+  "ram_available_gib": 12.16,
+  "process_peak_rss_mib": 510.99,
+  "cgroup_memory_max": "3221225472",
+  "cgroup_memory_current": 1274896384,
+  "packages": {
+    "sentence-transformers": "6.1.0",
+    "transformers": "5.17.0",
+    "datasets": "5.0.1",
+    "mlflow-skinny": "3.16.1"
+  },
+  "gpu": "NVIDIA GeForce RTX 5070 Ti",
+  "capability": [
+    12,
+    0
+  ],
+  "cuda_arches": [
+    "sm_75",
+    "sm_80",
+    "sm_86",
+    "sm_90",
+    "sm_100",
+    "sm_120"
+  ],
+  "vram_free_gib": 14.56,
+  "vram_total_gib": 15.89,
+  "status": "cuda_computation_passed"
+}

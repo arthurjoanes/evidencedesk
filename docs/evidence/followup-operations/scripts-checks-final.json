@@ -1,0 +1,58 @@
+{
+  "started_at": "2026-09-21T12:50:34.145291+00:00",
+  "checks": [
+    {
+      "name": "ruff-check-final",
+      "exit_code": 0,
+      "log": "ruff-check-final.txt"
+    },
+    {
+      "name": "ruff-format-final",
+      "exit_code": 0,
+      "log": "ruff-format-final.txt"
+    },
+    {
+      "name": "scripts-windows-final",
+      "exit_code": 0,
+      "log": "scripts-windows-final.txt",
+      "tests": 37,
+      "skipped": 1
+    },
+    {
+      "name": "scripts-linux-final",
+      "exit_code": 0,
+      "log": "scripts-linux-final.txt",
+      "tests": 37,
+      "skipped": 0
+    }
+  ],
+  "completed_at": "2026-09-21T12:50:38.101411+00:00",
+  "status": "passed",
+  "scripts_sha256": {
+    "azure_smoke.py": "9ba967b9995ca1d76c07a783ed0cc776bb3b883bf82a829095de4d17d141896d",
+    "backup.py": "f451a255cd9f7b5ba5c90746db331d3e352b9d7cb6c056a34a69ce44f047eff3",
+    "capacity_http.py": "5403e30e33a2e083ba045239d261d1ff6475c1ab6312ede9b231a40b591b9a35",
+    "capacity_jobs.py": "34226f224b29aca7d85dbcc2ad112aefd0ac1ebc9084353094bfb5e9f8c7d52e",
+    "check_alert_recovery.py": "47edbb3c79166ef2f7c4eed9e1bf3a1ed666e756ee6dc9379074ac0c48ffeb4d",
+    "check_azure_iac.py": "2aab730997e6612ae1fc577db3cec5d94f66f79bd6ff2498e1ede66cef6876bf",
+    "check_erasure_restore.py": "a67c2785e9c503e6866263fc0ca37714d8cd40160cd3859a1890e6e6e9c0c755",
+    "check_infra.py": "afb1d3f5f0aa7a0112aaeed7a3a2fcc15c69d4a05625de204d072e606e1e6dca",
+    "check_observability.py": "76d6fa117703235bdb9c90e0636f0c46568d78a0588f70bfbc8608d89627328f",
+    "check_vulnerability_report.py": "97f11f014427f94b6e022ba730ee439da6dc032b9ce5a352b845507a81720efe",
+    "ops.py": "8d87cf67fb4ba1fd9b99e00110800ee25a418c14f9dbc3abe528967f361af9bc",
+    "prepare_e2e.py": "bf23bf5e21d15f045fd385c34345ddf18dc14a43ecb765ded019c01a5c0a6662",
+    "publish_vulnerability_report.py": "7aaf8f38257cfdbc1dd33b47947097bfa5a98cb1a6658f2e510a24d6017e6794",
+    "scan_runtime_images.py": "5d83f95367f2f6f23f1df809bfc4a001a0e7dad7988535b16d84cd1541d2ba5d",
+    "storage_snapshot.py": "4b932871147853f22a048159b2b968c377940b8f30c59ffb9901327a78d05326",
+    "test_alert_recovery.py": "b3031a0234b7a41dbc7f7150de65b353da21a5c4793de476756d487eb3ea3bde",
+    "test_backup.py": "232728a4635ba8473e490478497740e5d4c93057f3915fbb4522107c86a0b76f",
+    "test_erasure_restore.py": "8dc8c836292337bc9b25ac19dd5e242777528138f120f93464fa065364fd4b48",
+    "test_maintenance_command.py": "29eae802bad8f6d1f693d2b5b91dd585893d3fdbf656bf4f0159d82430a66bde",
+    "test_observability.py": "e435de62d8dea884f7159d15ff0dd3d63727d5e158168b5e78128a6024909cab",
+    "test_ops.py": "f0c6a7673e5adc26c17ec795c2d5075e64351382801a9a758a623c3004704cf4",
+    "test_prepare_e2e.py": "60cbaa743f0a63d0610e2bf175b1f8ac23f29f3c91b5b8c004e6d716b99b9959",
+    "test_receiver.py": "8cc11087a1be471c94e35241559f7405e05a84655ba73710b93484ec2a6bf0b9",
+    "test_scan_runtime_images.py": "dd27c7a9fb5680431e20a2d18232be0d092817c65126c3e532c34823c6e78245",
+    "test_vulnerability_report.py": "e026f6f750d53aebc542e8c06df0dd4d0799fce11760e52fbacd7162351805d6"
+  }
+}

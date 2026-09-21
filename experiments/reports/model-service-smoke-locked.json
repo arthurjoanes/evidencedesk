@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "transport": "real_internal_http",
+  "dimensions": 384,
+  "passages": 2,
+  "scores": [
+    -4.87618350982666,
+    -4.896695613861084
+  ],
+  "elapsed_seconds": 0.9863761600026919,
+  "health": {
+    "status": "ready",
+    "embedding_revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+    "reranker_revision": "1427fd652930e4ba29e8149678df786c240d8825",
+    "device": "cuda",
+    "concurrency": 1
+  },
+  "provider_calls": 0
+}

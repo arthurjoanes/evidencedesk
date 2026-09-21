@@ -1,0 +1,35 @@
+{
+  "status": "built_from_final_lock_and_smoke_passed",
+  "image": {
+    "tag": "pf-evidencedesk-ml:torch2.14-cu130-locked-20260921",
+    "id": "sha256:54acfbc838b283a957207ccc5029c91c34355c382f4052bb1e92a72d3820440a",
+    "created_at": "2026-09-21T08:34:07.506583067Z"
+  },
+  "previous_image_preserved": {
+    "tag": "pf-evidencedesk-ml:torch2.14-cu130",
+    "id": "sha256:fa816116e9a165cb5d504dcc124b3078005fe8d9646900bd324e3083c0663602"
+  },
+  "dockerfile_sha256": "75ee3d7226ec9f32b91c7a190024e999288175dfbab0232850709a952d70b7e6",
+  "lock_sha256": "fe6a15df74d68958ce9ebc2d84b1cc48e9f508a6b7732f8b0fa52825369a0249",
+  "locked_packages_checked": 116,
+  "install_command_observed_in_image_history": "pip install --no-deps -r /tmp/requirements-ml.lock",
+  "pip_check": "No broken requirements found.",
+  "runtime": {
+    "container_image_id": "sha256:54acfbc838b283a957207ccc5029c91c34355c382f4052bb1e92a72d3820440a",
+    "memory_limit_bytes": 3221225472,
+    "nano_cpus": 2000000000,
+    "read_only_root": true,
+    "health": "healthy",
+    "observed_memory_usage": "2.262GiB / 3GiB",
+    "observed_cpu_percent": "0.11%"
+  },
+  "environment_report_sha256": "d81fd6fda980142e514494aa7977737b32e763d89466ed024d9a13309fa6f26b",
+  "http_smoke_report_sha256": "d29e2cbaf31b83b67d91686aff118a2f4259c405c92eab8302a003070b505915",
+  "same_model_revisions_and_dimensions_as_previous_smoke": true,
+  "same_locked_packages_as_previous_image": true,
+  "model_weights_downloaded": false,
+  "training_performed": false,
+  "azure_calls": 0,
+  "dependency_network": "Exact locked dependencies were allowed; initial network-none build failed URL resolution.",
+  "interpretation": "Build and functional HTTP verification only; not a new quality or capacity benchmark."
+}

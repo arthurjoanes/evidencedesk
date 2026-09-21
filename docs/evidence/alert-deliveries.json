@@ -1,0 +1,114 @@
+{
+  "recorded_at": "2026-09-21T07:50:38.961994+00:00",
+  "project": "pf-evidencedesk",
+  "deliveries": [
+    {
+      "received_at": "2026-09-21T07:18:40.313366+00:00",
+      "status": "firing",
+      "alerts": [
+        {
+          "status": "firing",
+          "labels": {
+            "alertname": "EvidenceDeskQualityUnknown",
+            "environment": "local-lab",
+            "job": "api",
+            "project": "evidencedesk",
+            "severity": "warning",
+            "status": "unknown"
+          }
+        }
+      ]
+    },
+    {
+      "received_at": "2026-09-21T07:18:55.325419+00:00",
+      "status": "firing",
+      "alerts": [
+        {
+          "status": "firing",
+          "labels": {
+            "alertname": "EvidenceDeskQualityUnknown",
+            "environment": "local-lab",
+            "job": "api",
+            "project": "evidencedesk",
+            "severity": "warning"
+          }
+        },
+        {
+          "status": "firing",
+          "labels": {
+            "alertname": "EvidenceDeskQualityUnknown",
+            "environment": "local-lab",
+            "job": "api",
+            "project": "evidencedesk",
+            "severity": "warning",
+            "status": "unknown"
+          }
+        }
+      ]
+    },
+    {
+      "received_at": "2026-09-21T07:30:55.309043+00:00",
+      "status": "firing",
+      "alerts": [
+        {
+          "status": "firing",
+          "labels": {
+            "alertname": "EvidenceDeskUnavailable",
+            "environment": "local-lab",
+            "job": "readiness",
+            "project": "evidencedesk",
+            "severity": "critical"
+          }
+        }
+      ]
+    },
+    {
+      "received_at": "2026-09-21T07:32:10.323516+00:00",
+      "status": "resolved",
+      "alerts": [
+        {
+          "status": "resolved",
+          "labels": {
+            "alertname": "EvidenceDeskUnavailable",
+            "environment": "local-lab",
+            "job": "readiness",
+            "project": "evidencedesk",
+            "severity": "critical"
+          }
+        }
+      ]
+    },
+    {
+      "received_at": "2026-09-21T07:32:40.339723+00:00",
+      "status": "firing",
+      "alerts": [
+        {
+          "status": "firing",
+          "labels": {
+            "alertname": "EvidenceDeskServerErrors",
+            "environment": "local-lab",
+            "project": "evidencedesk",
+            "severity": "critical"
+          }
+        }
+      ]
+    },
+    {
+      "received_at": "2026-09-21T07:38:55.470414+00:00",
+      "status": "resolved",
+      "alerts": [
+        {
+          "status": "resolved",
+          "labels": {
+            "alertname": "EvidenceDeskServerErrors",
+            "environment": "local-lab",
+            "project": "evidencedesk",
+            "severity": "critical"
+          }
+        }
+      ]
+    }
+  ],
+  "trigger": "Real maintenance closure during backup/restore; initial owner-token CLI failure extended the window. The CLI was corrected and restore repeated.",
+  "limits": "ServerErrors initially included readiness requests; this false product-error interpretation was corrected by excluding health/metrics and adding rule regression tests. No external notifications."
+}

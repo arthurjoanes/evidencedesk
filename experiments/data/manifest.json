@@ -1,0 +1,32 @@
+{
+  "version": "reranker-synthetic-documents-v2",
+  "files": [
+    {
+      "path": "train.jsonl",
+      "sha256": "01aa0bb56c28db72ac995d14f8b4da7cfa24d9022bf903b69beb53c77275a52b",
+      "pairs": 1200,
+      "query_groups": 150
+    },
+    {
+      "path": "dev.jsonl",
+      "sha256": "b1c01533192f5b85b15f25b65f7fe5564d6bf22fe9c5997daedd627af4cd8050",
+      "pairs": 240,
+      "query_groups": 30
+    }
+  ],
+  "annotation": "synthetic_not_human_adjudicated",
+  "promotion_eligible": false,
+  "shared_reference_lineages": [
+    "shared-procedure-v2",
+    "shared-collection-guide-v1",
+    "shared-unrelated-hr-v1",
+    "shared-unrelated-catalogue-v1"
+  ],
+  "serving_alignment": "document spans only; operational reconciliation is never learned by this reranker",
+  "limitations": [
+    "Compartilhamento declarado de quatro referências; dev avalia novos casos sobre documentos conhecidos.",
+    "Cinco moldes de pergunta e oito famílias: não equivale à diversidade de produção.",
+    "Nenhuma fonte, questão ou gold da avaliação final integra o treino.",
+    "Rótulos e auditoria automáticos não substituem adjudicação semântica humana."
+  ]
+}

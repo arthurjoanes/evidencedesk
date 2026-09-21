@@ -1,0 +1,138 @@
+{
+  "observed_at": "2026-09-21T08:42:00.296959+00:00",
+  "read_only_probe": true,
+  "containers": {
+    "api": {
+      "image_id": "sha256:c156ff946075f3dd50175427f5ff224b3f2ec9c0459b1dc1959caa2c22136ea0",
+      "checks": {
+        "architecture": {
+          "command": [
+            "uname",
+            "-m"
+          ],
+          "exit_code": 0,
+          "stdout": "x86_64\n",
+          "stderr": ""
+        },
+        "perl_word_size": {
+          "command": [
+            "perl",
+            "-V:ivsize",
+            "-V:ptrsize"
+          ],
+          "exit_code": 0,
+          "stdout": "ivsize='8';\nptrsize='8';\n",
+          "stderr": ""
+        },
+        "archive_tar_module": {
+          "command": [
+            "perl",
+            "-MArchive::Tar",
+            "-e",
+            "print $Archive::Tar::VERSION"
+          ],
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "Can't locate Archive/Tar.pm in @INC (you may need to install the Archive::Tar module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.36.0 /usr/local/share/perl/5.36.0 /usr/lib/x86_64-linux-gnu/perl5/5.36 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.36 /usr/share/perl/5.36 /usr/local/lib/site_perl).\nBEGIN failed--compilation aborted.\n"
+        },
+        "packages": {
+          "command": [
+            "dpkg-query",
+            "-W",
+            "-f=${binary:Package}\t${Version}\tEssential=${Essential}\n",
+            "perl-base",
+            "libsqlite3-0",
+            "libsystemd0",
+            "libudev1",
+            "zlib1g",
+            "libpcre2-8-0",
+            "util-linux",
+            "libminizip1",
+            "systemd-homed",
+            "gcc",
+            "build-essential"
+          ],
+          "exit_code": 1,
+          "stdout": "libpcre2-8-0:amd64\t10.42-1+deb12u1\tEssential=no\nlibsqlite3-0:amd64\t3.40.1-2+deb12u2\tEssential=no\nlibsystemd0:amd64\t252.39-1~deb12u2\tEssential=no\nlibudev1:amd64\t252.39-1~deb12u2\tEssential=no\nperl-base\t5.36.0-7+deb12u3\tEssential=yes\nutil-linux\t2.38.1-5+deb12u3\tEssential=yes\nzlib1g:amd64\t1:1.2.13.dfsg-1\tEssential=no\n",
+          "stderr": "dpkg-query: no packages found matching libminizip1\ndpkg-query: no packages found matching systemd-homed\ndpkg-query: no packages found matching gcc\ndpkg-query: no packages found matching build-essential\n"
+        },
+        "systemd_homed_binary": {
+          "command": [
+            "test",
+            "-e",
+            "/usr/lib/systemd/systemd-homed"
+          ],
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": ""
+        }
+      }
+    },
+    "frontend": {
+      "image_id": "sha256:04eeda744513865c113ab92c7b413aaa7a37bd4d0aa3f1b96a7e9e118cf2c2da",
+      "checks": {
+        "architecture": {
+          "command": [
+            "uname",
+            "-m"
+          ],
+          "exit_code": 0,
+          "stdout": "x86_64\n",
+          "stderr": ""
+        },
+        "perl_word_size": {
+          "command": [
+            "perl",
+            "-V:ivsize",
+            "-V:ptrsize"
+          ],
+          "exit_code": 0,
+          "stdout": "ivsize='8';\nptrsize='8';\n",
+          "stderr": ""
+        },
+        "archive_tar_module": {
+          "command": [
+            "perl",
+            "-MArchive::Tar",
+            "-e",
+            "print $Archive::Tar::VERSION"
+          ],
+          "exit_code": 2,
+          "stdout": "",
+          "stderr": "Can't locate Archive/Tar.pm in @INC (you may need to install the Archive::Tar module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.36.0 /usr/local/share/perl/5.36.0 /usr/lib/x86_64-linux-gnu/perl5/5.36 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.36 /usr/share/perl/5.36 /usr/local/lib/site_perl).\nBEGIN failed--compilation aborted.\n"
+        },
+        "packages": {
+          "command": [
+            "dpkg-query",
+            "-W",
+            "-f=${binary:Package}\t${Version}\tEssential=${Essential}\n",
+            "perl-base",
+            "libsqlite3-0",
+            "libsystemd0",
+            "libudev1",
+            "zlib1g",
+            "libpcre2-8-0",
+            "util-linux",
+            "libminizip1",
+            "systemd-homed",
+            "gcc",
+            "build-essential"
+          ],
+          "exit_code": 1,
+          "stdout": "libpcre2-8-0:amd64\t10.42-1\tEssential=no\nlibsystemd0:amd64\t252.39-1~deb12u2\tEssential=no\nlibudev1:amd64\t252.39-1~deb12u2\tEssential=no\nperl-base\t5.36.0-7+deb12u3\tEssential=yes\nutil-linux\t2.38.1-5+deb12u3\tEssential=yes\nzlib1g:amd64\t1:1.2.13.dfsg-1\tEssential=no\n",
+          "stderr": "dpkg-query: no packages found matching libsqlite3-0\ndpkg-query: no packages found matching libminizip1\ndpkg-query: no packages found matching systemd-homed\ndpkg-query: no packages found matching gcc\ndpkg-query: no packages found matching build-essential\n"
+        },
+        "systemd_homed_binary": {
+          "command": [
+            "test",
+            "-e",
+            "/usr/lib/systemd/systemd-homed"
+          ],
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": ""
+        }
+      }
+    }
+  }
+}

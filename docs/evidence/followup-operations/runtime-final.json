@@ -1,0 +1,22 @@
+{
+  "recorded_at": "2026-09-21T12:53:22.914245+00:00",
+  "status": "passed",
+  "scope": "final runtime after explicitly coordinated image promotion",
+  "images": {
+    "api": "sha256:7d3cad0c97e06bc8c4e6587d9a13e4a94f62458c9af7cbd684b9bbdfd6bed194",
+    "worker": "sha256:7d3cad0c97e06bc8c4e6587d9a13e4a94f62458c9af7cbd684b9bbdfd6bed194",
+    "frontend": "sha256:0a6a99b2db7a94b46dc83f3969db6d098278afd1eab72369f77f8e303c4489ce"
+  },
+  "database": {
+    "schema": "0008",
+    "provider_calls": 1,
+    "maintenance": false
+  },
+  "http": {
+    "api": 200,
+    "frontend": 200
+  },
+  "azure_credential_delivery": "DPAPI helper, no credential recorded",
+  "new_inference_requests": 0,
+  "schema_migration_run": false
+}

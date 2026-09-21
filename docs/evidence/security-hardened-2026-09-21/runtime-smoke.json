@@ -1,0 +1,43 @@
+{
+  "observed_at": "2026-09-21T08:54:16.578132+00:00",
+  "image_id": "sha256:7640031e0466f32e1db469fc3e81201804e6b33c2ca6975bb040a36070df1fb7",
+  "health": "healthy",
+  "checks": {
+    "node": {
+      "command": [
+        "node",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout": "v24.19.0"
+    },
+    "pcre2": {
+      "command": [
+        "dpkg-query",
+        "-W",
+        "libpcre2-8-0"
+      ],
+      "exit_code": 0,
+      "stdout": "libpcre2-8-0:amd64\t10.42-1+deb12u1"
+    },
+    "runtime_tools": {
+      "command": [
+        "node",
+        "-e",
+        "const fs=require(\"fs\"); const paths=[\"/usr/local/bin/npm\",\"/usr/local/bin/npx\",\"/usr/local/bin/corepack\",\"/usr/local/bin/yarn\",\"/usr/local/lib/node_modules/npm\",\"/opt/yarn-v1.22.22\"]; console.log(JSON.stringify({entrypoint:fs.existsSync(\"/usr/local/bin/docker-entrypoint.sh\"),tools_removed:paths.every(p=>!fs.existsSync(p))})); if(paths.some(p=>fs.existsSync(p))) process.exit(1)"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"entrypoint\":true,\"tools_removed\":true}"
+    }
+  },
+  "browser_smoke": {
+    "startTime": "2026-09-21T08:49:43.570Z",
+    "duration": 3477.466,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browser_result": "../../../frontend/artifacts/e2e-runtime-hardening.json",
+  "scope": "one real login and source read; controlled second authorization denial; no Azure generation"
+}

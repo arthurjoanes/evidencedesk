@@ -1,0 +1,23 @@
+{
+  "recorded_at": "2026-09-21T12:55:55.810644+00:00",
+  "status": "passed",
+  "stopped_project": "pf-evidencedesk-e2e-review",
+  "qa_running_containers": [],
+  "main_running_containers": [
+    "pf-evidencedesk-frontend-1",
+    "pf-evidencedesk-api-1",
+    "pf-evidencedesk-worker-1",
+    "pf-evidencedesk-prometheus-1",
+    "pf-evidencedesk-grafana-1",
+    "pf-evidencedesk-loki-1",
+    "pf-evidencedesk-probe-1",
+    "pf-evidencedesk-collector-1",
+    "pf-evidencedesk-receiver-1",
+    "pf-evidencedesk-tempo-1",
+    "pf-evidencedesk-alertmanager-1",
+    "pf-evidencedesk-db-1"
+  ],
+  "main_api_readiness_http": 200,
+  "volumes_preserved": true,
+  "scope": "real project-label shutdown after browser QA completion; no main shutdown"
+}

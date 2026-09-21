@@ -1,0 +1,69 @@
+{
+  "recorded_at": "2026-09-21T12:37:38.174648+00:00",
+  "status": "passed",
+  "scope": "terraform-format-provider-schema-validation",
+  "azure_resource_validation": false,
+  "plan_executed": false,
+  "deployment_executed": false,
+  "terraform_version": "1.16.3",
+  "terraform_executable_sha256": "d92457fc7173492c833fcead64d76629d279ee73dc3cf8f7bb24c6acac360710",
+  "checks": [
+    {
+      "root": "foundation",
+      "check": "format",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "root": "foundation",
+      "check": "init",
+      "exit_code": 0,
+      "output": "Initializing provider plugins...\n- Reusing previous version of hashicorp/azurerm from the dependency lock file\n- Using previously-installed hashicorp/azurerm v5.6.0\n\nTerraform has been successfully initialized!\n"
+    },
+    {
+      "root": "foundation",
+      "check": "validate",
+      "exit_code": 0,
+      "result": {
+        "format_version": "1.0",
+        "valid": true,
+        "error_count": 0,
+        "warning_count": 0,
+        "diagnostics": []
+      }
+    },
+    {
+      "root": "runtime-contract",
+      "check": "format",
+      "exit_code": 0,
+      "output": ""
+    },
+    {
+      "root": "runtime-contract",
+      "check": "init",
+      "exit_code": 0,
+      "output": "Initializing provider plugins...\n- Reusing previous version of hashicorp/azurerm from the dependency lock file\n- Using previously-installed hashicorp/azurerm v5.6.0\n\nTerraform has been successfully initialized!\n"
+    },
+    {
+      "root": "runtime-contract",
+      "check": "validate",
+      "exit_code": 0,
+      "result": {
+        "format_version": "1.0",
+        "valid": true,
+        "error_count": 0,
+        "warning_count": 0,
+        "diagnostics": []
+      }
+    }
+  ],
+  "sources": {
+    "infra/azure/.terraform.lock.hcl": "86fa0332c28180163fcf6fabe4812c97987c10d5835c86d574846722ad4df910",
+    "infra/azure/data.tf": "dc8b0acb29562321c5d9f4e28a54d4015099f083fbd8c6ada52f900e7e0193b4",
+    "infra/azure/main.tf": "e4b352fa3a7c18c1a1a28951c4b835fc704d22b11e8439faa1c46675de03de5f",
+    "infra/azure/network.tf": "ff111d17dc8dc84c25375465eec39aa0bf5bdfad8ef6a4babedec2c5d7a4be20",
+    "infra/azure/platform.tf": "ffb60ee91eb06d35253e46b8abd54cb257939a58352c49aa59336c1151450b59",
+    "infra/azure/runtime-contract/.terraform.lock.hcl": "86fa0332c28180163fcf6fabe4812c97987c10d5835c86d574846722ad4df910",
+    "infra/azure/runtime-contract/main.tf": "a1ca082a39fd196cc15d8c72572c9691be1d3fe711614b72fa9d64fe6c37867f"
+  }
+}

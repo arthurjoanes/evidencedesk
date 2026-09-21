@@ -1,0 +1,26 @@
+# Model card — EvidenceDesk
+
+Sistema de apoio à investigação de incidentes comerciais. Concilia fatos estruturados, recupera documentos autorizados e propõe um rascunho com referências. A finalidade é ajudar um revisor a distinguir observação, hipótese, contradição e ausência de informação. Não executa reparos no sistema de origem nem aprova suas próprias conclusões.
+
+| Componente | Identidade e função | Estado |
+|---|---|---|
+| Encoder | `intfloat/multilingual-e5-small` / `614241f622f53c4eeff9890bdc4f31cfecc418b3`; vetores normalizados de 384 dimensões, prefixos query/passage | Base disponível no perfil ML; MIT |
+| Reranker | `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1` / `1427fd652930e4ba29e8149678df786c240d8825`; ordena até vinte candidatos | Base disponível no perfil ML; Apache 2.0 |
+| Candidato supervisionado | Fine-tuning do reranker base, 1.200 pares/150 grupos, 75 passos, seed 42 | Treinado e avaliado em dev; **não promovido** |
+| Síntese Azure | Deployment configurado pelo operador e congelado por execução; Responses API, `store=false`, `background=false` | A aplicação controla contexto, quota e persistência; não assume versão de modelo pelo nome do deployment |
+
+Os modelos locais carregam arquivos cacheados de revisões fixas, sem código remoto nem download implícito. Tokens reais são conferidos antes de inferência, com limite de 512 por entrada E5 ou par do reranker. Scores do reranker são valores de ordenação; não são confiança calibrada nem probabilidade de uma alegação ser verdadeira. A imagem ML e seu lock ficam separados da API.
+
+Os dados de treino são autorais/sintéticos: duas fontes do caso (incluindo contestação), referências gerais e negativos de outros pedidos ou assuntos. Há 240 pares/30 grupos dev; quatro referências gerais compartilhadas são declaradas, e linhagens específicas de casos são separadas. Cinco moldes de pergunta e oito famílias favorecem regularidades simples, inclusive correspondência de IDs. Rótulos receberam auditoria por regras/agente, sem adjudicação humana. Não houve treino no Azure nem uso do conjunto reservado.
+
+Medições completas em [experiments/README.md](../experiments/README.md). Com planner lexical OR, sobre 124 documentos e 30 consultas dev, nDCG@10 base/candidato foi 0,7011/0,8047 e recall@10 candidato 0,5167. O ganho pareado foi +0,1036, IC bootstrap por grupo [0,0737; 0,1370]. A razão de p95 observada foi 1,006. A rodada anterior com AND falhou a razão máxima de latência (1,318 > 1,25); permanece publicada. Intervalos sobre grupos sintéticos não representam incerteza sobre toda a população de incidentes reais.
+
+O treino consumiu pico de 2.669,7 MiB RSS e 2.228,9 MiB GPU alocada na RTX 5070 Ti, em container de 3 GiB/duas CPUs. Foram 34,65 segundos de treino. Esse custo pequeno resulta de uma amostra pequena e não comprova capacidade de treino distribuído. A smoke do serviço privado comprova contratos HTTP/inferência, não throughput sob concorrência.
+
+Promoção exige ganho pareado mínimo 0,02, p95 relativo <=1,25, memória <=3 GiB, ausência de regressões críticas e gate semântico humano. Falta de amostra ou adjudicação gera estado inconclusivo. O processo não escolhe silenciosamente a melhor rodada e não implanta candidatos sozinho.
+
+Limitações: recuperação pode omitir contraevidência; documentação válida pode ser aplicada incorretamente; uma referência pode existir sem sustentar o texto; fontes podem conter instruções maliciosas; o conjunto sintético tem pouca diversidade. O sistema reduz esses riscos por autorização externa ao modelo, papéis temporais, ferramentas somente leitura, budgets, citações verificáveis e revisão independente. Eles não desaparecem com schema estrito. O pipeline de chunks v2 exige nova avaliação antes de transferir métricas documentais anteriores.
+
+Informações operacionais de prompts, textos, tokens de autenticação e exceções do provedor não são atributos de telemetria. Artefatos de execução privados preservam resposta/manifesto conforme política de retenção. `store=false` não substitui revisão das condições de processamento do provedor; a aplicação mantém sua própria persistência autorizada.
+
+Fontes primárias fixadas: [E5 na revisão utilizada](https://huggingface.co/intfloat/multilingual-e5-small/tree/614241f622f53c4eeff9890bdc4f31cfecc418b3), [reranker na revisão utilizada](https://huggingface.co/cross-encoder/mmarco-mMiniLMv2-L12-H384-v1/tree/1427fd652930e4ba29e8149678df786c240d8825), [treino de CrossEncoder](https://sbert.net/docs/cross_encoder/training_overview.html), [índice oficial PyTorch CUDA 13.0](https://download.pytorch.org/whl/cu130/torch/). Hashes dos arquivos efetivamente baixados estão no [manifesto de download](../experiments/reports/download-manifest.json).

@@ -1,0 +1,10 @@
+{
+  "recorded_at": "2026-09-21T08:30:30.496255+00:00",
+  "status": "failed",
+  "scope": "first final observability probe",
+  "stage": "Tempo trace lookup",
+  "http_status": 404,
+  "trace_id": "41aefb84a8287af9bfc027a33b903b6c",
+  "finding": "Loki log was visible before independent trace exporter completed; probe did not wait for Tempo yet",
+  "remediation": "Bounded independent trace wait, only retry404; missing trace or server error still fails. Two regression tests."
+}

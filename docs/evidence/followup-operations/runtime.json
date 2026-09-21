@@ -1,0 +1,61 @@
+{
+  "recorded_at": "2026-09-21T12:42:18.567496+00:00",
+  "status": "passed",
+  "scope": "read-only main stack inspection",
+  "main_restarted": false,
+  "new_provider_calls": 0,
+  "http": {
+    "api": 200,
+    "frontend": 200
+  },
+  "database": {
+    "schema": "0008",
+    "provider_calls": 1,
+    "maintenance": false
+  },
+  "containers": [
+    {
+      "service": "api",
+      "state": "running",
+      "health": "healthy",
+      "image_id": "sha256:c156ff946075f3dd50175427f5ff224b3f2ec9c0459b1dc1959caa2c22136ea0",
+      "oom_killed": false
+    },
+    {
+      "service": "worker",
+      "state": "running",
+      "health": null,
+      "image_id": "sha256:c156ff946075f3dd50175427f5ff224b3f2ec9c0459b1dc1959caa2c22136ea0",
+      "oom_killed": false
+    },
+    {
+      "service": "frontend",
+      "state": "running",
+      "health": "healthy",
+      "image_id": "sha256:7640031e0466f32e1db469fc3e81201804e6b33c2ca6975bb040a36070df1fb7",
+      "oom_killed": false
+    },
+    {
+      "service": "db",
+      "state": "running",
+      "health": "healthy",
+      "image_id": "sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+      "oom_killed": false
+    },
+    {
+      "service": "collector",
+      "state": "running",
+      "health": null,
+      "image_id": "sha256:fd328de2552466ad78385e1b1289c3f2402b1c45f265b252aab1955b42845ac1",
+      "oom_killed": false
+    },
+    {
+      "service": "models",
+      "state": "exited",
+      "health": null,
+      "image_id": "sha256:54acfbc838b283a957207ccc5029c91c34355c382f4052bb1e92a72d3820440a",
+      "oom_killed": false
+    }
+  ],
+  "azure_runtime_powershell_syntax": "passed"
+}

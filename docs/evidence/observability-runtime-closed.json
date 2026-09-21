@@ -1,0 +1,23 @@
+{
+  "started_at": "2026-09-21T08:53:03.816167+00:00",
+  "completed_at": "2026-09-21T08:53:10.256693+00:00",
+  "status": "passed",
+  "project": "pf-evidencedesk",
+  "scope": "application HTTP -> SDK -> collector -> Loki/Tempo; Prometheus -> Alertmanager -> receiver",
+  "request_id": "ff930200f210404fa4642f4cf1863cf9",
+  "trace_id": "673ffc25ed0804e1bf6c4d26dd991c8d",
+  "checks": {
+    "metrics_require_bearer": true,
+    "prometheus_targets": {
+      "api": "up",
+      "collector-health": "up",
+      "prometheus": "up",
+      "readiness": "up"
+    },
+    "loki_log_and_tempo_trace_correlated": true,
+    "query_marker_absent_from_telemetry": true,
+    "grafana_database_healthy": true,
+    "quality_unknown_delivered": true
+  },
+  "limits": "This check does not adjudicate model quality or establish availability SLOs."
+}

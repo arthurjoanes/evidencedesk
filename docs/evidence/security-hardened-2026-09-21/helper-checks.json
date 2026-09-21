@@ -1,0 +1,32 @@
+{
+  "recorded_at": "2026-09-21T08:55:15.320509+00:00",
+  "scope": "local checks observed after security helper corrections; GitHub workflow not executed",
+  "unittest": {
+    "command": ".venv/Scripts/python.exe -m unittest discover -s scripts -p test_*.py",
+    "tests": 28,
+    "exit_code": 0
+  },
+  "ruff_check": {
+    "command": ".venv/Scripts/python.exe -m ruff check scripts --config backend/pyproject.toml",
+    "exit_code": 0
+  },
+  "ruff_format": {
+    "command": ".venv/Scripts/python.exe -m ruff format --check scripts --config backend/pyproject.toml",
+    "files": 23,
+    "exit_code": 0
+  },
+  "publication": {
+    "frozen_image_id": "sha256:7640031e0466f32e1db469fc3e81201804e6b33c2ca6975bb040a36070df1fb7",
+    "real_archive_configuration_verified": true,
+    "redacted_report_matches_local_scan": true
+  },
+  "independent_review_fixes": [
+    "require OS and language package targets",
+    "normalize null vulnerability lists",
+    "bind CI publication to frozen Docker image via verified configuration digest"
+  ],
+  "warnings": [
+    "mocked alert tests print expected failed scenarios; their assertions passed",
+    "initial full format check failed on three other scripts; owners formatted them and final check passed"
+  ]
+}

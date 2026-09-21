@@ -1,0 +1,56 @@
+{
+  "started_at": "2026-09-21T12:52:48.989040+00:00",
+  "scanner_image": "aquasec/trivy@sha256:bcc376de8d77cfe086a917230e818dc9f8528e3c852f7b1aff648949b6258d1c",
+  "scanner_version": "Version: 0.69.3",
+  "offline": true,
+  "scanners": [
+    "vuln"
+  ],
+  "database": {
+    "Version": 2,
+    "NextUpdate": "2026-09-22T07:13:21.41309079Z",
+    "UpdatedAt": "2026-09-21T07:13:21.413091201Z",
+    "DownloadedAt": "2026-09-21T12:51:37.17585292Z"
+  },
+  "database_sha256": "sha256:a325c841036f662fee39ed929422f113030cd36ca71c55f6192cbc5f2d5d01b1",
+  "database_age_hours_at_start": 5.66,
+  "images": [
+    {
+      "targets": 2,
+      "severities": {
+        "LOW": 104,
+        "HIGH": 55,
+        "MEDIUM": 110,
+        "CRITICAL": 5,
+        "UNKNOWN": 1
+      },
+      "passed": false,
+      "service": "api",
+      "reference": "pf-evidencedesk-backend:local",
+      "image_id": "sha256:7d3cad0c97e06bc8c4e6587d9a13e4a94f62458c9af7cbd684b9bbdfd6bed194",
+      "config_digest": "sha256:4e90c80f03b45cb4e45fee69ef5be0a1d85370af97f771dc04ec316d9be51de0",
+      "duration_seconds": 24.156,
+      "report": "api-vulnerabilities.json"
+    },
+    {
+      "targets": 2,
+      "severities": {
+        "LOW": 72,
+        "HIGH": 52,
+        "MEDIUM": 92,
+        "UNKNOWN": 3,
+        "CRITICAL": 4
+      },
+      "passed": false,
+      "service": "frontend",
+      "reference": "pf-evidencedesk-frontend:local",
+      "image_id": "sha256:0a6a99b2db7a94b46dc83f3969db6d098278afd1eab72369f77f8e303c4489ce",
+      "config_digest": "sha256:b28b80d67e1962db081ccc881204d605cff49a52b3ef194c75e4d2bd9f9a30ca",
+      "duration_seconds": 56.766,
+      "report": "frontend-vulnerabilities.json"
+    }
+  ],
+  "scope": "local runtime images; no hosted deployment or GitHub runner",
+  "completed_at": "2026-09-21T12:54:11.209815+00:00",
+  "passed": false
+}
