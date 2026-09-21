@@ -1,0 +1,54 @@
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+receivers:
+  otlp:
+    protocols:
+      http: {endpoint: 0.0.0.0:4318}
+processors:
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 128
+    spike_limit_mib: 32
+  transform/privacy:
+    error_mode: ignore
+    trace_statements:
+      - context: span
+        statements:
+          - keep_keys(resource.attributes, ["service.name", "service.version", "deployment.environment.name"])
+          - keep_keys(span.attributes, ["http.request.method", "http.route", "http.response.status_code", "error.type", "ed.operation", "ed.outcome", "ed.job_id", "ed.run_id", "ed.request_id", "ed.fencing_token", "ed.tool", "ed.output_bytes", "model.revision", "model.outcome", "gen_ai.operation.name", "gen_ai.provider.name", "gen_ai.request.model", "gen_ai.usage.input_tokens", "gen_ai.usage.output_tokens", "evidencedesk.model.provider", "evidencedesk.model.deployment", "evidencedesk.model.usage_status", "evidencedesk.model.latency_ms", "evidencedesk.model.input_tokens", "evidencedesk.model.output_tokens"])
+      - context: spanevent
+        statements:
+          - keep_keys(spanevent.attributes, ["exception.type", "ed.event", "ed.code"])
+    log_statements:
+      - context: log
+        statements:
+          - keep_keys(resource.attributes, ["service.name", "service.version", "deployment.environment.name"])
+          - keep_keys(log.attributes, ["ed.event", "ed.code", "ed.operation", "ed.outcome", "ed.job_id", "ed.run_id", "ed.request_id", "http.route", "http.response.status_code", "error.type", "ed.duration_ms", "ed.fencing_token"])
+          - set(log.body, "structured application event")
+  batch:
+    timeout: 2s
+    send_batch_size: 128
+    send_batch_max_size: 256
+exporters:
+  otlp_http/tempo:
+    endpoint: http://tempo:4318
+    timeout: 5s
+    sending_queue: {enabled: true, queue_size: 256}
+    retry_on_failure: {enabled: true, max_elapsed_time: 30s}
+  otlp_http/loki:
+    endpoint: http://loki:3100/otlp
+    timeout: 5s
+    sending_queue: {enabled: true, queue_size: 256}
+    retry_on_failure: {enabled: true, max_elapsed_time: 30s}
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [memory_limiter, transform/privacy, batch]
+      exporters: [otlp_http/tempo]
+    logs:
+      receivers: [otlp]
+      processors: [memory_limiter, transform/privacy, batch]
+      exporters: [otlp_http/loki]

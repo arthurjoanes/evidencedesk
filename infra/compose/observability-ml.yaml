@@ -1,0 +1,5 @@
+# Add only when the optional models service is intentionally enabled.
+services:
+  prometheus:
+    volumes:
+      - ../observability/model-targets.enabled.json:/etc/prometheus/model-targets.json:ro

@@ -1,0 +1,31 @@
+# Apply only with --project-name pf-evidencedesk-capacity-<run>.
+services:
+  db:
+    ports: !reset []
+  api:
+    image: ${ED_CAPACITY_IMAGE:-pf-evidencedesk-capacity:review006}
+    ports: !override ["127.0.0.1::8106"]
+    environment:
+      ED_AI_PROVIDER: disabled
+      AZURE_OPENAI_API_KEY: ""
+      OTEL_EXPORTER_OTLP_ENDPOINT: ""
+    mem_limit: 512m
+    cpus: 1.0
+  worker:
+    image: ${ED_CAPACITY_IMAGE:-pf-evidencedesk-capacity:review006}
+    environment:
+      ED_AI_PROVIDER: disabled
+      AZURE_OPENAI_API_KEY: ""
+      OTEL_EXPORTER_OTLP_ENDPOINT: ""
+    mem_limit: 512m
+    cpus: 1.0
+  seed:
+    image: ${ED_CAPACITY_IMAGE:-pf-evidencedesk-capacity:review006}
+    environment:
+      ED_AI_PROVIDER: disabled
+      AZURE_OPENAI_API_KEY: ""
+      OTEL_EXPORTER_OTLP_ENDPOINT: ""
+  migrate:
+    image: ${ED_CAPACITY_IMAGE:-pf-evidencedesk-capacity:review006}
+  frontend:
+    profiles: [not-in-capacity-run]

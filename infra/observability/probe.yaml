@@ -1,0 +1,8 @@
+modules:
+  http_ready:
+    prober: http
+    timeout: 4s
+    http:
+      method: GET
+      valid_status_codes: [200]
+      preferred_ip_protocol: ip4

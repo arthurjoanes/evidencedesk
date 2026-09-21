@@ -1,0 +1,206 @@
+name: ${ED_COMPOSE_PROJECT:-pf-evidencedesk}
+
+x-backend: &backend
+  image: ${ED_BACKEND_IMAGE:-pf-evidencedesk-backend:local}
+  build:
+    context: ../../backend
+    dockerfile: Dockerfile
+  init: true
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  pids_limit: 160
+  tmpfs:
+    - /tmp:rw,noexec,nosuid,size=128m,mode=1777
+  volumes:
+    - evidence_data:/data
+    - deletion_ledger:/ledger
+    - model_cache:/models
+  environment: &backend-environment
+    ED_DATABASE_URL: postgresql+psycopg://ed_app:${ED_DB_APP_PASSWORD:-ed_app_local_demo}@db:5432/evidencedesk
+    ED_STORAGE_ROOT: /data
+    ED_DELETION_LEDGER_ROOT: /ledger
+    ED_ALLOWED_ORIGINS: ${ED_ALLOWED_ORIGINS:-http://localhost:3106,http://127.0.0.1:3106}
+    ED_COOKIE_SECURE: ${ED_COOKIE_SECURE:-false}
+    ED_METRICS_TOKEN: ${ED_METRICS_TOKEN:-ed_metrics_local_demo}
+    ED_AI_PERIOD_TOKEN_BUDGET: ${ED_AI_PERIOD_TOKEN_BUDGET:-100000}
+    ED_AI_MAX_INPUT_TOKENS: ${ED_AI_MAX_INPUT_TOKENS:-10000}
+    ED_AI_MAX_OUTPUT_TOKENS: ${ED_AI_MAX_OUTPUT_TOKENS:-2400}
+    ED_POOL_SIZE: ${ED_POOL_SIZE:-4}
+    ED_CURSOR_SECRET: ${ED_CURSOR_SECRET:-local-only-change-before-non-loopback}
+    ED_RETRIEVAL_MODE: ${ED_RETRIEVAL_MODE:-lexical}
+    ED_MODEL_SERVICE_TOKEN: ${ED_MODEL_SERVICE_TOKEN:-}
+    ED_AI_PROVIDER: ${ED_AI_PROVIDER:-azure_openai}
+    AZURE_OPENAI_BASE_URL: ${AZURE_OPENAI_BASE_URL:-https://agentes-sol-foundry.openai.azure.com/openai/v1/}
+    AZURE_OPENAI_DEPLOYMENT: ${AZURE_OPENAI_DEPLOYMENT:-gpt-5.6-luna}
+    AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY:-}
+    HF_HOME: /models/huggingface
+    OMP_NUM_THREADS: "2"
+    TOKENIZERS_PARALLELISM: "false"
+    OTEL_SERVICE_NAME: evidencedesk
+    OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+  logging:
+    driver: json-file
+    options: {max-size: "5m", max-file: "3"}
+
+services:
+  db:
+    image: pgvector/pgvector:0.8.6-pg17-bookworm@sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f
+    environment:
+      POSTGRES_DB: evidencedesk
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${ED_DB_ADMIN_PASSWORD:-ed_admin_local_demo}
+      ED_DB_OWNER_PASSWORD: ${ED_DB_OWNER_PASSWORD:-ed_owner_local_demo}
+      ED_DB_APP_PASSWORD: ${ED_DB_APP_PASSWORD:-ed_app_local_demo}
+      POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    ports:
+      - 127.0.0.1:${ED_DATABASE_PORT:-5546}:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ../init.sql:/docker-entrypoint-initdb.d/10-evidencedesk.sql:ro
+    command: [postgres, -c, max_connections=60, -c, shared_buffers=128MB, -c, work_mem=4MB]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U postgres -d evidencedesk"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
+    mem_limit: 512m
+    cpus: 1.0
+    pids_limit: 120
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options: {max-size: "5m", max-file: "3"}
+
+  migrate:
+    <<: *backend
+    command: [alembic, upgrade, head]
+    environment:
+      <<: *backend-environment
+      ED_MIGRATION_DATABASE_URL: postgresql+psycopg://ed_owner:${ED_DB_OWNER_PASSWORD:-ed_owner_local_demo}@db:5432/evidencedesk
+    depends_on:
+      db: {condition: service_healthy}
+    restart: "no"
+    mem_limit: 384m
+    cpus: 0.5
+
+  api:
+    <<: *backend
+    command: [uvicorn, evidencedesk.app:create_app, --factory, --host, 0.0.0.0, --port, "8106", --no-access-log, --limit-concurrency, "64", --timeout-keep-alive, "5"]
+    ports:
+      - 127.0.0.1:${ED_API_PORT:-8106}:8106
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8106/api/v1/health/ready', timeout=3)"]
+      interval: 10s
+      timeout: 4s
+      retries: 6
+      start_period: 15s
+    mem_limit: 512m
+    cpus: 1.0
+    restart: unless-stopped
+    stop_grace_period: 30s
+
+  seed:
+    <<: *backend
+    profiles: [tools]
+    command: [python, -m, evidencedesk.seed, --dataset-root, /datasets]
+    environment:
+      <<: *backend-environment
+      ED_MIGRATION_DATABASE_URL: postgresql+psycopg://ed_owner:${ED_DB_OWNER_PASSWORD:-ed_owner_local_demo}@db:5432/evidencedesk
+    volumes:
+      - evidence_data:/data
+      - deletion_ledger:/ledger
+      - model_cache:/models
+      - ../../datasets/generated:/datasets:ro
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    restart: "no"
+    mem_limit: 768m
+    cpus: 1.0
+
+  worker:
+    <<: *backend
+    command: [python, -m, evidencedesk.worker]
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+    mem_limit: 1536m
+    cpus: 2.0
+    restart: unless-stopped
+    stop_grace_period: 45s
+
+  models:
+    image: ${ED_ML_IMAGE:-pf-evidencedesk-ml:torch2.14-cu130-locked-20260921}
+    profiles: [ml]
+    init: true
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 160
+    mem_limit: 3g
+    memswap_limit: 3g
+    cpus: 2.0
+    gpus: all
+    volumes:
+      - ../../backend/src/evidencedesk:/app/evidencedesk:ro
+      - model_cache:/models:ro
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m,mode=1777
+    environment:
+      PYTHONPATH: /app
+      HF_HOME: /models/huggingface
+      HF_HUB_OFFLINE: "1"
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      TOKENIZERS_PARALLELISM: "false"
+      OMP_NUM_THREADS: "2"
+      ED_MODEL_DEVICE: cuda
+      ED_MODEL_SERVICE_TOKEN: ${ED_MODEL_SERVICE_TOKEN:-}
+    command: [uvicorn, evidencedesk.retrieval.model_service:application, --factory, --host, 0.0.0.0, --port, "8090", --no-access-log]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8090/healthz',timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 30s
+    logging:
+      driver: json-file
+      options: {max-size: "5m", max-file: "3"}
+
+  frontend:
+    image: ${ED_FRONTEND_IMAGE:-pf-evidencedesk-frontend:local}
+    build:
+      context: ../../frontend
+      dockerfile: Dockerfile
+    init: true
+    environment:
+      API_INTERNAL_URL: http://api:8106
+      PORT: "3106"
+      HOSTNAME: 0.0.0.0
+      NEXT_TELEMETRY_DISABLED: "1"
+    ports:
+      - 127.0.0.1:${ED_FRONTEND_PORT:-3106}:3106
+    depends_on:
+      api: {condition: service_healthy}
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m,mode=1777
+      - /app/.next/cache:rw,noexec,nosuid,size=64m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 160
+    mem_limit: 512m
+    cpus: 1.0
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options: {max-size: "5m", max-file: "3"}
+
+volumes:
+  db_data:
+  evidence_data:
+  deletion_ledger:
+  model_cache:

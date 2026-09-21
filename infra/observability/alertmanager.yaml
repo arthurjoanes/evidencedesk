@@ -1,0 +1,14 @@
+global:
+  resolve_timeout: 1m
+route:
+  receiver: local
+  group_by: [alertname, project]
+  group_wait: 5s
+  group_interval: 15s
+  repeat_interval: 1h
+receivers:
+  - name: local
+    webhook_configs:
+      - url: http://receiver:9187/alerts
+        send_resolved: true
+        max_alerts: 30

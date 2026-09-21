@@ -1,0 +1,9 @@
+apiVersion: 1
+providers:
+  - name: EvidenceDesk
+    folder: EvidenceDesk
+    type: file
+    disableDeletion: true
+    editable: false
+    options:
+      path: /etc/grafana/provisioning/dashboards
