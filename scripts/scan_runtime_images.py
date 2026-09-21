@@ -68,12 +68,13 @@ def configuration_digest(archive: Path, image_id: str) -> str:
         current = image_id
         for _ in range(3):
             document = blob(current)
+            # Image configurations also contain a runtime "config" object, not a descriptor.
+            if "rootfs" in document:
+                return current
             if "config" in document:
                 configuration = document["config"]["digest"]
                 blob(configuration)
                 return configuration
-            if "rootfs" in document:
-                return current
             platforms = [
                 item
                 for item in document.get("manifests", [])

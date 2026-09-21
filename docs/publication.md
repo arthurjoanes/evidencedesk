@@ -20,7 +20,7 @@ Detalhes: [arquitetura e contratos](architecture-review-publication.md), [interf
 | Backend | **235 testes aprovados**, sem falhas ou skips, PostgreSQL real descartável. Inclui RLS, ACL, importação, concorrência, revisão, retenção e configuração Azure. [JUnit final](evidence/publication/backend-release.xml). |
 | Frontend | **61 testes unitários aprovados**, TypeScript, ESLint, Prettier e build. |
 | Navegador | **11 jornadas aprovadas**, zero falhas/retries. Uma leitura opcional de geração Azure histórica foi ignorada porque não há esses dados no clone. [Resumo por cenário](evidence/publication-frontend.json). |
-| Scripts | **48 testes multiplataforma**: no [Windows](evidence/publication/scripts-windows.json), 47 passaram e um cenário de links simbólicos foi ignorado por falta de permissão; no [Linux](evidence/publication/scripts-linux.json), 41 passaram e os sete cenários exclusivos de DPAPI/PowerShell Windows foram ignorados. A rodada Linux usa o runtime sem root e com filesystem somente leitura. |
+| Scripts | **49 testes multiplataforma**: no [Windows](evidence/publication/scripts-windows.json), 48 passaram e um cenário de links simbólicos foi ignorado por falta de permissão; no [Linux](evidence/publication/scripts-linux.json), 42 passaram e os sete cenários exclusivos de DPAPI/PowerShell Windows foram ignorados. A rodada Linux usa o runtime sem root e com filesystem somente leitura. |
 | Imagens e dependências | API e frontend: zero vulnerabilidades reportadas na base consultada. `npm audit --omit=dev`: zero findings. Consulte a [cobertura e as identidades do scanner](publication-security.md). |
 | Revisão visual | Bancada, fila, leitor de fontes, teclado e larguras 320/768/1440 px conferidos. As [capturas](publication-frontend.md) usam dados sintéticos da aplicação real. |
 | Primeira instalação | Uma cópia apenas dos arquivos publicáveis iniciou em volumes novos. Sem `datasets/generated` prévio, o seed criou seis pacotes e carregou 30 incidentes, sem chamar um modelo. |
@@ -29,7 +29,9 @@ Os testes que simulam transporte/modelo estão identificados; eles verificam con
 
 ## Reprodução
 
-O [README](../README.md) contém a instalação da demonstração; o [guia de desenvolvimento](development.md) prepara as dependências e os bancos de teste. O [workflow](../.github/workflows/ci.yaml) usa cinco jobs e permissões somente de leitura. A validação local de sua sintaxe passou; sua execução no GitHub depende da publicação do repositório.
+O [README](../README.md) contém a instalação da demonstração; o [guia de desenvolvimento](development.md) prepara as dependências e os bancos de teste. O [workflow](../.github/workflows/ci.yaml) usa cinco jobs e permissões somente de leitura. A validação local de sua sintaxe passou.
+
+A [primeira execução remota do CI](https://github.com/arthurjoanes/evidencedesk/actions/runs/35663777096) aprovou backend, frontend, jornadas no navegador e histórico de segredos. Os dois jobs de imagens encontraram uma incompatibilidade do publicador de relatórios com configurações OCI que contêm tanto `rootfs` como `config`. O reconhecimento da configuração foi corrigido, preservando a validação do hash. A regressão reproduziu a falha e passou após a correção, incluindo a rejeição de conteúdo adulterado. As duas rodadas de scripts acima incluem esse teste. Os resultados remotos de cada commit estão nas [execuções do GitHub Actions](https://github.com/arthurjoanes/evidencedesk/actions/workflows/ci.yaml).
 
 O verificador `scripts/check_repository_docs.py` exige que cada link local e imagem pertença ao conjunto publicável. Arquivos presentes apenas em caches, diretórios ignorados ou pastas externas não satisfazem a verificação.
 
