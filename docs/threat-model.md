@@ -2,8 +2,6 @@
 
 Escopo: laboratório local com dois tenants, dados sintéticos, papéis distintos e inferência Azure. Não é auditoria de segurança profissional nem certificação de imunidade a prompt injection.
 
-Fontes desta seção, conferidas em **22/09/2026**: [identity/service.py](../backend/src/evidencedesk/identity/service.py) · [azure.py](../backend/src/evidencedesk/model_runtime/azure.py) · [deletion_ledger.py](../backend/src/evidencedesk/deletion_ledger.py).
-
 ## Fronteiras
 
 ```mermaid
@@ -23,8 +21,6 @@ flowchart LR
 ```
 
 O proxy Next não é autoridade de negócio. Cookie, cursor, snapshot, ID de evidência e pedido do modelo nunca concedem permissão por si. O tenant deriva da sessão/ExecutionContext, não do corpo enviado pelo navegador ou da instrução recuperada.
-
-Fontes desta seção, conferidas em **22/09/2026**: [identity/service.py](../backend/src/evidencedesk/identity/service.py) · [azure.py](../backend/src/evidencedesk/model_runtime/azure.py) · [deletion_ledger.py](../backend/src/evidencedesk/deletion_ledger.py).
 
 ## Ameaças e controles verificáveis
 
@@ -46,18 +42,12 @@ Fontes desta seção, conferidas em **22/09/2026**: [identity/service.py](../bac
 | Exfiltração em logs/traces                 | Allowlist de campos/atributos e cabeçalhos; sem corpo/prompt/chave/email, cardinalidade controlada                      | Exportadores locais testados. Azure Monitor hospedado não está validado.                                                    |
 | Arquivo original executa HTML/JS           | Leitor canônico, PDF lazy, CSP/sandbox/nosniff, export escapado e aprovado                                              | Original é servido por rota autorizada; não há link público permanente.                                                     |
 
-Fontes desta seção, conferidas em **22/09/2026**: [identity/service.py](../backend/src/evidencedesk/identity/service.py) · [azure.py](../backend/src/evidencedesk/model_runtime/azure.py) · [deletion_ledger.py](../backend/src/evidencedesk/deletion_ledger.py).
-
 ## Segredos e egress
 
 A chave Azure reside no runtime do backend; no host Windows há cópia DPAPI fora do Git/OneDrive. Administradores do host/daemon conseguem inspecionar o ambiente de containers: isso não é isolamento contra o dono da máquina. Não transportar `docker inspect` completo para evidências.
 
 O endpoint de geração é allowlist HTTPS explícita. O serviço ML usa host interno fixo, token próprio, `trust_env=False` e não baixa pesos implicitamente. O armazenamento Blob preparado aceita nome de conta validado e Managed Identity, sem SAS público; não está conectado ao ciclo local de GC/ledger.
 
-Fontes desta seção, conferidas em **22/09/2026**: [identity/service.py](../backend/src/evidencedesk/identity/service.py) · [azure.py](../backend/src/evidencedesk/model_runtime/azure.py) · [deletion_ledger.py](../backend/src/evidencedesk/deletion_ledger.py).
-
 ## Pendências antes de exposição pública
 
 Não expor os defaults de demonstração. O perfil hospedado requer identidade corporativa/TLS, revisão da rede/egress, rotação e RBAC, validação do armazenamento compartilhado e recuperação de desastre fora do host. Upload/limpeza remoto precisam de quarentena durável de I/O para preservar quota e fencing sem segurar conexão de banco durante rede. Não substituir isso por um mount no disco efêmero do container.
-
-Fontes desta seção, conferidas em **22/09/2026**: [identity/service.py](../backend/src/evidencedesk/identity/service.py) · [azure.py](../backend/src/evidencedesk/model_runtime/azure.py) · [deletion_ledger.py](../backend/src/evidencedesk/deletion_ledger.py).

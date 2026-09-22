@@ -19,23 +19,17 @@ A revisão acompanha responsabilidades e garantias: localizar uma regra, alterar
 | Operação        | Adequada com ressalva | `scripts/ops.py:1`, `scripts/backup.py:1`                                                         | Comandos propagam falha e não removem volumes globais. Cache de listagem resolveu custo medido; orçamento do host compartilhado ainda limita ensaios.                        |
 | Documentação    | Adequada com ressalva | `docs/verification.md:1`                                                                          | Matriz distingue real, fixture e pendente. Manter relatos negativos e comandos; um YAML ou teste unitário de SDK não comprova hospedagem.                                    |
 
-Fontes desta seção, conferidas em **22/09/2026**: [test_maintenance_examples.py](../backend/tests/unit/test_maintenance_examples.py) · [reconciliation-content.ts](../frontend/src/features/evidence/reconciliation-content.ts) · [evidence-reader.tsx](../frontend/src/features/evidence/evidence-reader.tsx).
-
 ## Exercício 1 — novo evento observado
 
 Incluído o caso `shipment.delivery_attempted` em [test_maintenance_examples.py](../backend/tests/unit/test_maintenance_examples.py). Ele atravessa o contrato de evento, mapeamento explícito, conciliação e geração da evidência canônica. A timeline preserva tipo/pedido; uma observação e um evento lógico não criam uma divergência inventada.
 
 Arquivos alterados para o exercício: somente esse teste. O contrato já permite tipos de evento extensíveis; `evidence_records` apresenta `source_event` e título de domínio. Nenhuma mudança no leitor, parser ou auth foi necessária. O teste passou com `python -m pytest backend/tests/unit/test_maintenance_examples.py -q`. Acrescentar uma regra de negócio específica para o evento seria outra alteração, com outro oráculo; este exercício não finge implementá-la.
 
-Fontes desta seção, conferidas em **22/09/2026**: [test_maintenance_examples.py](../backend/tests/unit/test_maintenance_examples.py).
-
 ## Exercício 2 — apresentação de conciliação
 
 O agregado antes aparecia como texto JSON. Foram acrescentados [reconciliation-content.ts](../frontend/src/features/evidence/reconciliation-content.ts), [reconciliation-summary.tsx](../frontend/src/features/evidence/reconciliation-summary.tsx) e a escolha de modo no [EvidenceReader](../frontend/src/features/evidence/evidence-reader.tsx). O formato original, números, escapes e hash continuam preservados. Ausência de campo não é zero.
 
 A regra de conciliação e o conteúdo persistido foram preservados. Testes unitários cobrem contradições e preservação lexical; a rodada histórica de navegador abriu o resultado Azure existente e verificou leitura móvel/axe. A mudança demonstrou separação de apresentação e domínio. As capturas atuais estão na [revisão do frontend](frontend-review.md).
-
-Fontes desta seção, conferidas em **22/09/2026**: [reconciliation-content.ts](../frontend/src/features/evidence/reconciliation-content.ts) · [reconciliation-summary.tsx](../frontend/src/features/evidence/reconciliation-summary.tsx) · [evidence-reader.tsx](../frontend/src/features/evidence/evidence-reader.tsx).
 
 ## Achados corrigidos na revisão
 
@@ -48,5 +42,3 @@ Fontes desta seção, conferidas em **22/09/2026**: [reconciliation-content.ts](
 - Limites por arquivo não impediam expansão cumulativa de quarenta documentos: o worker passa a aplicar orçamento por lote antes de acumular extrações/evidências.
 
 Os módulos de concorrência e exclusão precisam continuar sendo revisados por suas invariantes. A ordem dos locks e as condições de publicação devem permanecer visíveis ao alterar esses módulos.
-
-Fontes desta seção, conferidas em **22/09/2026**: [test_maintenance_examples.py](../backend/tests/unit/test_maintenance_examples.py) · [reconciliation-content.ts](../frontend/src/features/evidence/reconciliation-content.ts) · [evidence-reader.tsx](../frontend/src/features/evidence/evidence-reader.tsx).

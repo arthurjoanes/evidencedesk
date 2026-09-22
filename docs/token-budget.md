@@ -13,5 +13,3 @@ A migração0008 importa chamadas existentes usando seu `created_at` UTC e produ
 O rollout da0008 requer workers gerativos parados durante migração e atualização: o código antigo não preenche `budget_period`. Atualize banco, API e workers de forma coordenada. A migração foi verificada no PostgreSQL descartável de testes; o comando de deploy deve aplicar o mesmo procedimento no ambiente pretendido.
 
 Testes em PostgreSQL real cobrem virada de mês, reserva desconhecida carregada, confirmação tardia, reinício de conexões, reconciliação concorrente, isolamento RLS, ledger sem permissão de alteração e imutabilidade do período. A configuração atual suporta somente `calendar_month_utc`; períodos móveis e faturamento monetário por tabela de preços não estão implementados.
-
-Fontes desta seção, conferidas em **22/09/2026**: [monthly-budget-migration.json](../evals/reports/monthly-budget-migration.json).

@@ -2,8 +2,6 @@
 
 Bancada de investigação construída em Next.js App Router. A API Python continua responsável por autorização, conciliação, publicação e decisões. Esta aplicação apresenta o estado confirmado pelo servidor.
 
-Fontes desta seção, conferidas em **22/09/2026**: [package.json](package.json) · [package-lock.json](package-lock.json) · [publication-frontend.json](../docs/evidence/publication-frontend.json).
-
 ## Executar
 
 Use Node.js 24 e a API do projeto em execução. Na pasta `frontend`:
@@ -29,8 +27,6 @@ A imagem final usa Node 24 em Alpine e retira npm/npx/Corepack/Yarn; instalaçã
 
 O seed e as contas demonstrativas estão documentados no projeto principal. O frontend não cria contas, resultados de IA nem uma sessão fictícia.
 
-Fontes desta seção, conferidas em **22/09/2026**: [package.json](package.json) · [package-lock.json](package-lock.json) · [publication-frontend.json](../docs/evidence/publication-frontend.json).
-
 ## Organização
 
 - `src/app`: rotas, layout, estilos e proxy da API.
@@ -47,8 +43,6 @@ Leitor, revisões, comparação e histórico aguardam a autorização atual ao r
 A edição preserva IDs de alegações, usa `If-Match` e mantém o rascunho após conflito. Execuções e exportações usam chaves de idempotência por intenção. O stream invalida consultas; o estado confirmado de `GET /runs/{id}` é a referência, com polling quando o stream não está disponível.
 
 Criação de incidentes e importações compartilham um seletor de coleções com paginação explícita. As listas carregadas preservam o cursor do servidor, inclusive quando o total não é informado. Durante a gravação, os formulários de incidente, dossiê, revisão e investigação impedem alterações que poderiam ser perdidas ao receber a resposta. Fechar uma justificativa de revisão preenchida pede confirmação; recarregar mantém a proteção nativa contra perda do trabalho.
-
-Fontes desta seção, conferidas em **22/09/2026**: [package.json](package.json) · [package-lock.json](package-lock.json) · [publication-frontend.json](../docs/evidence/publication-frontend.json).
 
 ## Verificar
 
@@ -73,8 +67,6 @@ npm run test:e2e
 
 `existing-run.spec.ts` é opcional: informe `ED_E2E_EXISTING_RUN_ID` e `ED_E2E_EXISTING_INCIDENT_ID` de uma geração já concluída para testar leitura e citações. O ensaio não admite uma nova geração. Sem esses valores ele é explicitamente ignorado. A conta demonstrativa está sujeita ao limite real de login; execuções completas repetidas dentro de 15 minutos podem receber 429. Use `npm run test:e2e -- nome.spec.ts` para a regressão afetada e respeite a janela, sem reduzir a política do servidor.
 
-Fontes desta seção, conferidas em **22/09/2026**: [package.json](package.json) · [package-lock.json](package-lock.json) · [publication-frontend.json](../docs/evidence/publication-frontend.json).
-
 ## Dependências e limites
 
 Next 16 / React 19, TypeScript 6, Tailwind 4, Radix, TanStack Query/Table, React Hook Form/Zod e PDF.js têm versões exatas no lock. ESLint 9.39.5 foi mantido porque os plugins distribuídos pelo config do Next instalado ainda declaram suporte até a versão 9; acompanhar a migração desse conjunto é uma manutenção pendente. Primitivos Radix e CSS de domínio são locais; `components.json` descreve a configuração compatível com shadcn, sem acrescentar um segundo framework de componentes.
@@ -88,5 +80,3 @@ IBM Plex Sans/Mono são distribuídas sob SIL Open Font License; PDF.js sob Apac
 A CSP usa nonce por resposta para scripts, o que exige renderização dinâmica das páginas. Estilos inline permanecem permitidos para medidas dos painéis e do canvas; JavaScript inline sem nonce não é permitido. CSP, escaping e cookies não substituem autorização no servidor.
 
 Consulte [a revisão do frontend](../docs/frontend-review.md) para arquitetura, cobertura de testes e imagens versionadas, e [a auditoria de publicação](../docs/publication-frontend.md) para as correções desta entrega. Resultados locais não representam SLO de produção, validação humana de conclusões ou certificação completa de acessibilidade.
-
-Fontes desta seção, conferidas em **22/09/2026**: [package.json](package.json) · [package-lock.json](package-lock.json) · [publication-frontend.json](../docs/evidence/publication-frontend.json).

@@ -2,8 +2,6 @@
 
 Revisão de 21/09/2026 sobre o backend e seus contratos. A arquitetura é adequada ao escopo de uma bancada local de investigação: conciliação determinística, monólito modular, fila transacional, fontes imutáveis e revisão humana separada da geração. O perfil hospedado continua exigindo validação própria.
 
-Fontes desta seção, conferidas em **22/09/2026**: [test_evidence_scope.py](../backend/tests/integration/test_evidence_scope.py) · [backend-release.xml](evidence/publication/backend-release.xml) · [scripts-windows.json](evidence/publication/scripts-windows.json).
-
 ## Falhas corrigidas
 
 | Problema                                                                                                                                                     | Comportamento corrigido                                                                                                                                                                                                               | Regressão                                                                                                                                                                                                                                                                                  |
@@ -14,8 +12,6 @@ Fontes desta seção, conferidas em **22/09/2026**: [test_evidence_scope.py](../
 | O endpoint Azure autorizado estava vinculado a um recurso pessoal, impedindo a configuração de outro operador.                                               | Endpoint, deployment e hosts permitidos são explícitos. Apenas rotas HTTPS de recursos Azure são aceitas; releases persistidas precisam continuar autorizadas pela allowlist atual antes do despacho.                                 | [test_model_release.py](../backend/tests/unit/test_model_release.py) cobre formato, autorização e revogação de hosts. [test_azure_runtime.py](../scripts/test_azure_runtime.py) verifica o helper Windows com DPAPI real, diretórios temporários e comando de inicialização simulado.      |
 
 A resolução de agregados consulta o run sem chamar a autorização completa de dossiês, evitando recursão entre run → dossiê → evidência → run. A verificação de recorte mantém a precedência existente `occurred_at` → `observed_at` → `as_of`; documentos continuam disponíveis como contexto documental.
-
-Fontes desta seção, conferidas em **22/09/2026**: [test_evidence_scope.py](../backend/tests/integration/test_evidence_scope.py) · [test_recent_lists.py](../backend/tests/integration/test_recent_lists.py) · [test_pagination.py](../backend/tests/unit/test_pagination.py).
 
 ## Verificação executada
 
@@ -32,8 +28,6 @@ A suíte completa exercita importação e hash, RLS com IDs repetidos entre orga
 
 O ambiente desta rodada foi Windows/Python 3.11.9 com PostgreSQL Linux em Docker, isolado da demonstração. Foi usado `PYTHONPATH=backend/src`, pois o ambiente virtual local tinha uma instalação editável apontando para um nome anterior da pasta. Permanece um aviso de depreciação de Starlette/AnyIO sobre `BlockingPortal`; ele não impediu os testes.
 
-Fontes desta seção, conferidas em **22/09/2026**: [backend-release.xml](evidence/publication/backend-release.xml) · [scripts-windows.json](evidence/publication/scripts-windows.json).
-
 ## Avaliação das decisões
 
 - **Isolamento e autorização:** RLS limita organizações e ACLs delimitam recursos. A nova verificação de origem fecha a diferença entre fonte original e agregado de incidente. As leituras de fontes continuam consultando permissões atuais.
@@ -43,12 +37,8 @@ Fontes desta seção, conferidas em **22/09/2026**: [backend-release.xml](eviden
 - **Portabilidade do provedor:** a identidade de uma geração permanece registrada na release, enquanto a autorização para alcançar o endpoint vem da configuração atual. O helper Windows protege a chave com DPAPI e grava configuração validada de forma atômica.
 - **Manutenção:** a arquitetura pública foi reescrita com fluxo, fronteiras, invariantes e tradeoffs. Links para documentos privados ou removidos e referências ao histórico da conversa foram retirados.
 
-Fontes desta seção, conferidas em **22/09/2026**: [test_evidence_scope.py](../backend/tests/integration/test_evidence_scope.py) · [backend-release.xml](evidence/publication/backend-release.xml) · [scripts-windows.json](evidence/publication/scripts-windows.json).
-
 ## Limites da conclusão
 
 O lock de política serializa mutações por organização; o efeito em throughput deve ser medido com carga representativa. A autorização de um dossiê percorre suas revisões e fontes; o crescimento do histórico precisa de medição antes de otimizar ou mudar essa regra. Réplicas locais compartilham host e volume, portanto não demonstram tolerância à perda do host.
 
 A rodada não inclui pentest externo, avaliação semântica humana de citações, ensaio de alta disponibilidade, rollout Azure, nova inferência paga ou benchmark de desempenho. A situação atual das imagens e dependências está na [revisão de segurança](publication-security.md), e o conjunto da entrega está no [relatório de publicação](publication.md). A decisão de publicar o código é distinta de liberar o serviço para uso de produção; esta revisão não atribui uma nota absoluta nem certifica ausência de defeitos.
-
-Fontes desta seção, conferidas em **22/09/2026**: [test_evidence_scope.py](../backend/tests/integration/test_evidence_scope.py) · [backend-release.xml](evidence/publication/backend-release.xml) · [scripts-windows.json](evidence/publication/scripts-windows.json).

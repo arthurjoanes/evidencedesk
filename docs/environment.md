@@ -1,20 +1,18 @@
 # Ambiente de desenvolvimento observado
 
-Esta página distingue configuração do projeto de recursos efetivamente observados. A conferência documental foi realizada em **22/09/2026**. Leituras antigas de memória/disco livres e versões do host sem um recibo versionado não são usadas como requisito nem como evidência de capacidade.
+Esta página distingue configuração do projeto de recursos efetivamente observados. Leituras antigas de memória/disco livres e versões do host sem um recibo versionado não são usadas como requisito nem como evidência de capacidade.
 
-| Configuração local                                    | Fonte e data de conferência                                                                      |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| PostgreSQL: teto de 512 MiB; API: 512 MiB             | [Compose principal](../infra/compose/compose.yaml), 22/09/2026                                   |
-| Worker: teto de 1.536 MiB; frontend: 512 MiB          | [Compose principal](../infra/compose/compose.yaml), 22/09/2026                                   |
-| Modelos opcionais: 3 GiB e duas CPUs                  | [Perfil ML](../infra/compose/compose.yaml), 22/09/2026                                           |
-| Serviços publicados em loopback; portas configuráveis | [Compose](../infra/compose/compose.yaml) e [configuração do host](../scripts/ops.py), 22/09/2026 |
-| Observabilidade separada do núcleo                    | [Compose de observabilidade](../infra/compose/observability.yaml), 22/09/2026                    |
+| Configuração local                                    | Fonte                                                                                |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| PostgreSQL: teto de 512 MiB; API: 512 MiB             | [Compose principal](../infra/compose/compose.yaml)                                   |
+| Worker: teto de 1.536 MiB; frontend: 512 MiB          | [Compose principal](../infra/compose/compose.yaml)                                   |
+| Modelos opcionais: 3 GiB e duas CPUs                  | [Perfil ML](../infra/compose/compose.yaml)                                           |
+| Serviços publicados em loopback; portas configuráveis | [Compose](../infra/compose/compose.yaml) e [configuração do host](../scripts/ops.py) |
+| Observabilidade separada do núcleo                    | [Compose de observabilidade](../infra/compose/observability.yaml)                    |
 
-Esses valores são tetos configurados, não consumo medido nem recomendação universal de hardware. Banco, modelos e arquivos privados usam volumes próprios; sincronizar as fontes não faz backup desses volumes. Fontes: [Compose](../infra/compose/compose.yaml) e [backup](../scripts/backup.py), conferidos em **22/09/2026**.
+Esses valores são tetos configurados, não consumo medido nem recomendação universal de hardware. Banco, modelos e arquivos privados usam volumes próprios; sincronizar as fontes não substitui o [backup desses volumes](../scripts/backup.py).
 
 A configuração foi exercitada em **21/09/2026** no [registro de infraestrutura](evidence/infra-config-check.json). Esse registro sustenta checks locais de configuração, não ingestão completa de telemetria nem implantação Azure. A [execução de capacidade](evidence/capacity-summary.json), registrada em **21/09/2026**, identifica suas próprias imagens, condições e limites.
-
-Fontes desta seção, conferidas em **22/09/2026**: [compose.yaml](../infra/compose/compose.yaml) · [ops.py](../scripts/ops.py) · [observability.yaml](../infra/compose/observability.yaml).
 
 ## Evidências posteriores à inspeção inicial
 
@@ -25,5 +23,3 @@ A GPU em container foi posteriormente validada e o laboratório ML executou trei
 O núcleo operacional e os scripts de backup usam biblioteca padrão; scripts de capacidade/observabilidade usam `httpx` do ambiente do backend. Terraform 1.16.3/AzureRM 5.6.0 foram usados somente para validação local, com cache posterior fora do OneDrive. Um cache inicial `.terraform` permanece ignorado no diretório de IaC; ele não contém state nem segredos de implantação.
 
 [Capacidade](runbooks/capacity.md), [backup/restore](runbooks/backup-restore.md), [observabilidade](runbooks/observability.md) e [limites do perfil Azure hospedado](runbooks/azure-hosted.md) distinguem checks de configuração, execução real e objetivos ainda não comprovados. Os diretórios de dados do Docker não são protegidos automaticamente pela sincronização das fontes.
-
-Fontes desta seção, conferidas em **22/09/2026**: [runtime-final.json](evidence/runtime-final.json) · [azure-persistence-final.json](evidence/azure-persistence-final.json).

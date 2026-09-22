@@ -2,8 +2,6 @@
 
 Data: 21/09/2026. Escopo: bancada, importação, revisão, acessibilidade dos formulários e documentação do frontend. Consulte a [revisão da arquitetura](frontend-review.md) e o [guia de execução](../frontend/README.md).
 
-Fontes desta seção, conferidas em **22/09/2026**: [publication-frontend.json](evidence/publication-frontend.json) · [browser-review.json](evidence/editorial-payment-20260922/browser-review.json) · [syntax-highlight-20260922.json](evidence/syntax-highlight-20260922.json).
-
 ## Problemas corrigidos
 
 - **Coleções após o limite inicial:** a API e os dois formulários só alcançavam as primeiras cem coleções. A API agora fornece cursor, e incidente/importação compartilham um seletor com “Carregar mais coleções”, erro recuperável e estado vazio.
@@ -13,8 +11,6 @@ Fontes desta seção, conferidas em **22/09/2026**: [publication-frontend.json](
 - **Erros dos formulários:** campos de criação, resumo, resultado, alegação e pergunta de investigação agora expõem estado inválido e descrição associada ao erro; a navegação principal informa a página atual.
 - **Mensagem de IA indisponível:** detalhes de configuração do servidor foram substituídos por uma orientação ao investigador: continuar a investigação e editar o dossiê manualmente.
 - **Documentação que dependia de arquivos ignorados:** a revisão antiga apontava relatórios e imagens locais ausentes em um clone novo. A revisão atual aponta código, comandos reproduzíveis e imagens selecionadas para versionamento.
-
-Fontes desta seção, conferidas em **22/09/2026**: [publication-frontend.json](evidence/publication-frontend.json) · [browser-review.json](evidence/editorial-payment-20260922/browser-review.json) · [syntax-highlight-20260922.json](evidence/syntax-highlight-20260922.json).
 
 ## Evidência desta revisão
 
@@ -30,8 +26,6 @@ A inspeção adicional pelo navegador in-app usou a conta sintética Bruno: fila
 
 Depois da última alteração, restrita ao texto de IA indisponível na API, a mensagem foi conferida novamente pelo navegador in-app. A jornada visual foi repetida às **22:17:22 UTC**: **1 passou em 7,3 s**, sem skip, falha ou retry, usando a mesma imagem frontend e a API atualizada. O resumo estruturado preserva as identidades de ambas as execuções; a rodada completa não é atribuída à imagem posterior.
 
-Fontes desta seção, conferidas em **22/09/2026**: [publication-frontend.json](evidence/publication-frontend.json).
-
 ## Imagens versionadas
 
 As capturas desta seção são recortes nativos de 22/09/2026, com a conta sintética Ana, para manter o texto legível sem embutir uma página longa. A tabela foi capturada por `visual.spec.ts`; o JSON colorido foi capturado posteriormente por `json-syntax.spec.ts`, após a mudança de realce sintático. Os resultados de 21/09 descritos acima continuam pertencendo ao seu registro original. O [inventário das imagens](screenshots.md) separa essas capturas das provas históricas preservadas.
@@ -45,8 +39,6 @@ O leitor móvel mantém o nome do incidente, a navegação e o texto original; a
 O [registro do realce sintático](evidence/syntax-highlight-20260922.json) identifica o código, a imagem e os testes desta alteração. Original e modo formatado recebem cores por token; selecionar o código conserva o texto exibido. Novas exportações HTML usam o mesmo destaque nas fontes JSON, nos localizadores e no recorte de revisão. Os arquivos exportados anteriormente e a captura monocromática permanecem vinculados às suas revisões originais.
 
 Os relatórios brutos e traces temporários permanecem ignorados pelo Git. O resumo acima contém somente campos de teste selecionados, sem caminhos pessoais, cookies ou credenciais.
-
-Fontes desta seção, conferidas em **22/09/2026**: [syntax-highlight-20260922.json](evidence/syntax-highlight-20260922.json).
 
 ## Revisão documental e de coerência em 22/09/2026
 
@@ -63,8 +55,6 @@ Esta revisão documental anterior leu os componentes, jornadas e o resumo acima 
 
 Não se encontrou inconsistência que justificasse mudar o desenho nesta leitura. Isso é uma revisão estática limitada aos estados presentes nas fontes e às duas capturas, sem novo teste de zoom nativo, leitor de tela ou uso por analistas. O [guia de problemas e decisões](problem-solution.md) explica os casos e limites operacionais associados. A única verificação executada nesta rodada é o verificador offline de links publicáveis `scripts/check_repository_docs.py`, além da conferência de whitespace do diff.
 
-Fontes desta seção, conferidas em **22/09/2026**: [incident-workspace.tsx](../frontend/src/features/incidents/incident-workspace.tsx) · [visual.spec.ts](../frontend/e2e/visual.spec.ts) · [evidence-reader.tsx](../frontend/src/features/evidence/evidence-reader.tsx).
-
 ## Nova jornada manual de pagamento em 22/09/2026
 
 Depois da leitura documental acima, executei a [jornada de pagamento](../frontend/e2e/payment-story.spec.ts) contra o aplicativo real em um projeto Compose próprio. Não alterei componentes, estilos ou respostas para preparar imagens. A rodada final teve **1 pass, zero skips, falhas e retries**; o [registro de navegador](evidence/editorial-payment-20260922/browser-review.json) conserva a versão do teste, os hashes das capturas e a separação da primeira tentativa. As contas são sintéticas e ambas foram operadas pela automação.
@@ -72,5 +62,3 @@ Depois da leitura documental acima, executei a [jornada de pagamento](../fronten
 O [roteiro com imagens](demo.md) acompanha uma nova investigação sobre a mesma janela e snapshot de `demo-aurora-09`: pagamento às 12:00:30 UTC, estado pendente às 12:10 UTC, duas divergências, elaboração manual, decisão por Bruno e HTML exportado. A abertura/fechamento de fonte verifica o retorno de foco ao acionador. A captura de 390 px espera a reautorização após redimensionar. Os recortes preservam os originais completos; não são um novo desenho da interface.
 
 Os **61 testes frontend em 10 arquivos**, TypeScript e lint/formatação do novo teste passaram. As verificações desta rodada não repetem toda a matriz anterior de acessibilidade, zoom e larguras. A negativa recebida por Ana comprova a falta do papel de revisora; a proibição de autor com esse papel aprovar a própria revisão é coberta separadamente pelo [teste de integração](../backend/tests/integration/test_manual_workflow.py), executado nesta rodada. Aprovação, contagem de divergências e correção operacional continuam sendo fatos distintos.
-
-Fontes desta seção, conferidas em **22/09/2026**: [payment-story.spec.ts](../frontend/e2e/payment-story.spec.ts) · [browser-review.json](evidence/editorial-payment-20260922/browser-review.json) · [test_manual_workflow.py](../backend/tests/integration/test_manual_workflow.py).

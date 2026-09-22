@@ -17,5 +17,3 @@ Revisão do código implementado e dos relatórios em 21/09/2026, abrangendo int
 | Clean code             | Componentes grandes e SQL de autorização repetido aumentam custo de mudança.                         | Invariantes visíveis, apresentação separada da regra; sem repository genérico.                                                     | Dois exercícios de manutenção e [avaliação por dimensão](clean-code-review.md). Sem certificação de autoria ou “100% clean code”. |
 
 Pendências externas, experimentais e operacionais estão em [revisão para publicação](publication.md) e [verification](verification.md). Nenhuma revisão transforma transporte simulado em chamada de provedor, Terraform validate em implantação ou schema válido em resposta verdadeira.
-
-Fontes desta seção, conferidas em **22/09/2026**: [integration](../backend/tests/integration) · [e2e](../frontend/e2e) · [protocol.json](../experiments/protocol.json).

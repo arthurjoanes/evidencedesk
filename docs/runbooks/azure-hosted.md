@@ -1,12 +1,10 @@
 # Azure hospedado: preparação, não implantação
 
-Fontes externas consultadas em **22/09/2026**: [orçamentos Azure](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets) notificam e não interrompem recursos por si; [daily cap do Log Analytics](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/daily-cap) não garante um teto monetário exato. Nenhum preço mensal é publicado aqui. Custos dependem de região, consumo e contrato; parâmetros Terraform abaixo são escolhas locais, não uma cotação.
+[orçamentos Azure](https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets) notificam e não interrompem recursos por si; [daily cap do Log Analytics](https://learn.microsoft.com/en-us/azure/azure-monitor/logs/daily-cap) não garante um teto monetário exato. Nenhum preço mensal é publicado aqui. Custos dependem de região, consumo e contrato; parâmetros Terraform abaixo são escolhas locais, não uma cotação.
 
 O ambiente executado e testado é o Compose local com inferência Azure. Os arquivos Terraform em `infra/azure` são uma preparação de infraestrutura; nenhum recurso Azure foi criado, alterado ou validado por uma chamada de gerenciamento. [A evidência](../evidence/azure-iac-validation.json) registra `terraform fmt -check`, inicialização com backend desativado e `terraform validate` sem erros/avisos, não um deploy bem-sucedido.
 
 A raiz `infra/azure` prepara rede, PostgreSQL Flexible Server 17, Blob privado, Key Vault, ACR, identidade gerenciada e observabilidade. Ele deliberadamente não instancia a raiz separada `infra/azure/runtime-contract`. Essa segunda raiz descreve o contrato futuro de API, worker e frontend; validá-la não torna o armazenamento local compatível com várias máquinas.
-
-Fontes desta seção, conferidas em **22/09/2026**: [azure-iac-validation.json](../evidence/azure-iac-validation.json).
 
 ## Decisões e limites
 
@@ -16,8 +14,6 @@ Fontes desta seção, conferidas em **22/09/2026**: [azure-iac-validation.json](
 - O worker de polling PostgreSQL mantém `minReplicas=1`. O teto de 2 não o faz escalar automaticamente: não há regra KEDA por tamanho da fila nesta preparação. API e frontend têm regras HTTP. O pool e `max_connections` precisarão ser dimensionados considerando réplicas antigas e novas durante atualizações.
 - O SKU Burstable, disco de 32 GB, backup de 7 dias e ausência de HA são escolhas de laboratório, não garantia de capacidade ou disponibilidade. Sem valor mensal inventado: antes de provisionar, calcular região, instâncias mínimas, PostgreSQL, private endpoints, ACR, tráfego e retenção no Azure Pricing Calculator. Orçamentos notificam, não desligam recursos automaticamente.
 - Log Analytics tem retenção de 30 dias e quota diária de 1 GB. Isso limita coleta e pode causar lacunas; não é um teto absoluto de fatura. Alertas de ausência de telemetria e de cap atingido precisam ser configurados fora do fluxo que pode ficar sem dados. Application Insights exige autenticação Entra; o exporter/MI e RBAC de Monitor ainda não foram ensaiados.
-
-Fontes desta seção, conferidas em **22/09/2026**: [main.tf](../../infra/azure/main.tf) · [main.tf](../../infra/azure/runtime-contract/main.tf) · [azure-iac-validation.json](../evidence/azure-iac-validation.json).
 
 ## Bloqueadores antes de qualquer rollout
 
@@ -31,11 +27,9 @@ O contrato de runtime possui `runtime_rollout_ready=false` por padrão e uma pre
 
 O protocolo local de backup/restore e a inferência Azure já executada permanecem evidências separadas. Esta preparação não altera o projeto Foundry existente nem cria outro deployment de modelo.
 
-Fontes desta seção, conferidas em **22/09/2026**: [main.tf](../../infra/azure/main.tf) · [main.tf](../../infra/azure/runtime-contract/main.tf) · [azure-iac-validation.json](../evidence/azure-iac-validation.json).
-
 ## Validação reproduzível
 
-Use Terraform `1.16.3` e AzureRM `5.6.0`, ambos fixados nas configurações; as duas raízes incluem `.terraform.lock.hcl`. O ZIP Windows usado veio da [distribuição oficial HashiCorp](https://releases.hashicorp.com/terraform/1.16.3/) e seu SHA-256 `6f908a90e5637afe72705290afd1cd71fc4f2877303ca77f05a8c6ead196b11c` foi conferido com o [SHA256SUMS oficial](https://releases.hashicorp.com/terraform/1.16.3/terraform_1.16.3_SHA256SUMS), consultado em **22/09/2026**. O provider foi verificado pela assinatura HashiCorp durante `init`. Binário e cache das validações seguintes ficam fora do repositório/OneDrive.
+Use Terraform `1.16.3` e AzureRM `5.6.0`, ambos fixados nas configurações; as duas raízes incluem `.terraform.lock.hcl`. O ZIP Windows usado veio da [distribuição oficial HashiCorp](https://releases.hashicorp.com/terraform/1.16.3/) e seu SHA-256 `6f908a90e5637afe72705290afd1cd71fc4f2877303ca77f05a8c6ead196b11c` foi conferido com o [SHA256SUMS oficial](https://releases.hashicorp.com/terraform/1.16.3/terraform_1.16.3_SHA256SUMS). O provider foi verificado pela assinatura HashiCorp durante `init`. Binário e cache das validações seguintes ficam fora do repositório/OneDrive.
 
 ```powershell
 .venv/Scripts/python.exe scripts/check_azure_iac.py --terraform C:/caminho/terraform.exe --data-root C:/cache/evidencedesk-terraform
@@ -43,8 +37,6 @@ Use Terraform `1.16.3` e AzureRM `5.6.0`, ambos fixados nas configurações; as 
 
 O script executa somente format check, `init -backend=false -lockfile=readonly` e `validate -json`. O download do provider usa o Registry público; não há `az login`, consulta de assinatura, `plan`, `apply`, `what-if` ou validação ARM remota. Não foram verificados quotas, políticas, SKU regional ou acesso de rede da assinatura.
 
-Antes de qualquer implantação futura, definir backend remoto cifrado e com acesso restrito: `sensitive=true` evita a exibição casual, mas não remove segredos do state ([documentação HashiCorp](https://developer.hashicorp.com/terraform/language/manage-sensitive-data), consultada em **22/09/2026**). O executor de Terraform também precisará de acesso à rede privada e RBAC de dados para gerenciar containers de Blob; desativar chaves compartilhadas exige autenticação Entra. A identidade do executor é diferente das identidades da aplicação. Não salvar `tfvars` com segredos nem state no repositório.
+Antes de qualquer implantação futura, definir backend remoto cifrado e com acesso restrito: `sensitive=true` evita a exibição casual, mas não remove segredos do state ([documentação HashiCorp](https://developer.hashicorp.com/terraform/language/manage-sensitive-data)). O executor de Terraform também precisará de acesso à rede privada e RBAC de dados para gerenciar containers de Blob; desativar chaves compartilhadas exige autenticação Entra. A identidade do executor é diferente das identidades da aplicação. Não salvar `tfvars` com segredos nem state no repositório.
 
 Referências oficiais: [escala de Container Apps](https://learn.microsoft.com/azure/container-apps/scale-app), [schema de Container Apps](https://learn.microsoft.com/azure/templates/microsoft.app/containerapps), [PostgreSQL privado](https://learn.microsoft.com/azure/postgresql/network/concepts-networking-private), [pgvector](https://learn.microsoft.com/en-us/azure/postgresql/extensions/how-to-use-pgvector), [schema Blob](https://learn.microsoft.com/azure/templates/microsoft.storage/2025-06-01/storageaccounts/blobservices/containers), [Application Insights](https://learn.microsoft.com/azure/templates/microsoft.insights/2020-02-02/components).
-
-Fontes desta seção, conferidas em **22/09/2026**: [main.tf](../../infra/azure/main.tf) · [main.tf](../../infra/azure/runtime-contract/main.tf) · [azure-iac-validation.json](../evidence/azure-iac-validation.json).

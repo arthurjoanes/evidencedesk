@@ -2,8 +2,6 @@
 
 O ensaio usa namespace `pf-evidencedesk-capacity-review006`, volumes próprios e portas efêmeras de API em loopback. Provedor desativado, chave vazia e zero chamadas de modelo em todas as fases. O corpus inicial contém os seis pacotes sintéticos e 30 incidentes; o ambiente principal não recebeu carga. [O manifesto](../evidence/capacity-summary.json) liga os arquivos brutos, hashes e as duas imagens congeladas.
 
-Fontes desta seção, conferidas em **22/09/2026**: [capacity-summary.json](../evidence/capacity-summary.json).
-
 ## Leituras HTTP
 
 `scripts/capacity_http.py` oferece 10 requisições/s durante 20 s, totalizando 200 por execução. Distribui os dois tenants e quatro rotas (`collections`, lista/detalhe de incidentes e imports) pelas réplicas. Não há load balancer sob teste: o gerador roteia explicitamente. Cada API tem 1 CPU/512 MiB; o PostgreSQL único tem 1 CPU/512 MiB. Pool: 4 conexões por API, sem overflow.
@@ -23,8 +21,6 @@ O gargalo era `incident_payload`: a lista recalculava conciliação completa par
 
 Entre versões, os ensaios de fila adicionaram documentos sintéticos e dossiês manuais ao banco isolado. O corpus grande de eventos não mudou, mas não é um experimento com estado físico de banco exatamente idêntico. Os testes unitários/integrados isolam reuso, TTL, invalidação e autorização; a comparação de carga mostra efeito combinado das versões congeladas, não atribuição causal perfeita de cada milissegundo.
 
-Fontes desta seção, conferidas em **22/09/2026**: [capacity_http.py](../../scripts/capacity_http.py) · [capacity_jobs.py](../../scripts/capacity_jobs.py) · [capacity-summary.json](../evidence/capacity-summary.json).
-
 ## Fila real, dois tenants
 
 `scripts/capacity_jobs.py` prepara revisão manual por uma pessoa diferente e enfileira 8 exports HTML + 8 ingestões Markdown de aproximadamente 31 KiB. Aurora recebe 12 jobs, Horizonte recebe 4; Aurora entra primeiro. Cada worker tem 1 CPU/512 MiB. Nenhuma geração fake é apresentada como IA.
@@ -38,8 +34,6 @@ Fontes desta seção, conferidas em **22/09/2026**: [capacity_http.py](../../scr
 
 \* Inclui partida dos containers e polling de observação. Os tempos `queue_seconds` incluem a preparação deliberada do backlog; não são latência contínua de produção. Todos os jobs tiveram uma tentativa. As 32 exportações entre as quatro execuções foram baixadas, comparadas ao SHA-256 persistido e verificadas quanto a escape de HTML; as 32 ingestões publicaram snapshots. O tenant menor progrediu cedo, mas um lote finito não prova ausência de starvation em qualquer carga.
 
-Fontes desta seção, conferidas em **22/09/2026**: [capacity_http.py](../../scripts/capacity_http.py) · [capacity_jobs.py](../../scripts/capacity_jobs.py) · [capacity-summary.json](../evidence/capacity-summary.json).
-
 ## Recursos e limites da conclusão
 
 Treino/modelos ficaram parados durante as janelas. Outros projetos do host continuaram ativos e podem interferir. A amostra original mostra API saturada; as amostras finais estão datadas. A de uma API corrigida ocorreu **depois** da janela e não representa pico/média. A de duas APIs caiu dentro da janela; APIs em cerca de 128 MiB e CPU de 4–6% naquele instante. Tetos reservados não equivalem a consumo real.
@@ -47,5 +41,3 @@ Treino/modelos ficaram parados durante as janelas. Outros projetos do host conti
 As imagens testadas foram `40da9ef4…` (antes) e `927be276…` (corrigida); hashes completos estão no manifesto. A imagem final principal recebeu ainda ajustes posteriores de parsing/proveniência e não foi submetida a outro benchmark. Não transferir esses números automaticamente para Azure, arquivos máximos, PDFs/OCR, inferência, carga sustentada ou produção.
 
 Ao terminar, foram parados apenas os containers do namespace de capacidade; volumes foram preservados. Não há `prune` nem agendamento de carga.
-
-Fontes desta seção, conferidas em **22/09/2026**: [capacity_http.py](../../scripts/capacity_http.py) · [capacity_jobs.py](../../scripts/capacity_jobs.py) · [capacity-summary.json](../evidence/capacity-summary.json).

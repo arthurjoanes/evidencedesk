@@ -21,8 +21,6 @@ O limite inicial de cópia é 50 mil arquivos/4 GiB e o ledger até 16 MiB. São
 
 Ensaios necessários para aceitar operação: arquivo corrompido, objeto ausente, exclusão posterior ao backup, ledger ausente e restore completo. Testes unitários de arquivo não substituem os ensaios no banco real. Consulte as evidências datadas antes de afirmar que esses cenários passaram.
 
-Fontes desta seção, conferidas em **22/09/2026**: [backup.py](../../scripts/backup.py) · [storage_snapshot.py](../../scripts/storage_snapshot.py) · [erasure-restore-20260921.json](../evidence/erasure-restore-20260921.json).
-
 ## Ensaios executados em 21/09/2026
 
 O backup local criou uma cópia privada de 110 objetos referenciados em 6,735 s. A [restauração isolada aprovada](../evidence/restore-review0733.json) verificou 110 referências em 34,734 s, com ledger na sequência 0, destino fechado/parado e origem reaberta. Isso é um RTO de laboratório para aquela massa, não garantia de 10 min em produção. Não há agendamento diário implementado que comprove RPO de 24 h.
@@ -37,8 +35,6 @@ A [restauração](../evidence/restore-erasure0854.json) concluiu em 29,141 s, co
 
 Para repetir em outro namespace de capacidade previamente preparado, use `python scripts/check_erasure_restore.py --project pf-evidencedesk-capacity-<id> --backup C:\caminho-protegido\backups\novo --target pf-evidencedesk-restore-<id> --output docs/evidence/erasure-<id>.json`. O helper exige o prefixo isolado, zero chamadas de provedor e destino/arquivo de evidência novos; importa apenas sua fonte sintética, preserva o restante do corpus e para os containers ao terminar. A execução inteira de 21/09 levou 58,890 s; isso inclui preparação e verificações, não apenas restore.
 
-Fontes desta seção, conferidas em **22/09/2026**: [restore-review0733.json](../evidence/restore-review0733.json) · [restore-review0730.json](../evidence/restore-review0730.json) · [erasure-restore-20260921.json](../evidence/erasure-restore-20260921.json).
-
 ## Reabertura opcional conferida em 22/09/2026
 
 Para preparar um ambiente sintético novo e executar a sequência completa, consulte os [pré-requisitos e o comando de reprodução](../restore-read-story.md#reprodução-e-dificuldades). O novo `scripts/prove_restore_read.py` constrói a associação fonte/imagem e congela também as entradas do seed. Seus controles foram testados no host; o percurso completo desse novo wrapper ainda não foi executado. O manifesto conserva os comandos efetivamente usados na prova abaixo.
@@ -50,5 +46,3 @@ A [prova com navegador](../restore-read-story.md) passou no destino `pf-evidence
 A API não é tornada somente leitura ao sair da manutenção. A prova limita o percurso e compara 17 tabelas de domínio, `provider_calls` e checkpoint; sessões/auditoria/controles têm mudanças legítimas explicitamente fora dessa igualdade. Os containers foram parados, com volumes preservados para inspeção. A prova não altera o procedimento para restaurar sobre um ambiente principal nem autoriza remover volumes compartilhados.
 
 [Manifesto, fontes e capturas](../evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json). A preparação falhada por `claim.id` em vez de `claim_id` foi preservada; somente a segunda tentativa é apresentada como aprovada. Tokens/backup/saídas brutas continuam privados, fora do repositório. Para perda do host ainda é necessário ensaiar cópia protegida e ledger em destino independente.
-
-Fontes desta seção, conferidas em **22/09/2026**: [manifest.json](../evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json).

@@ -23,5 +23,3 @@ Os nomes de pedido são repetidos entre organizações de propósito. Acesso é 
 As dez famílias incluem reentrega, atraso, ordem de recepção diferente da ocorrência, timeout com aceite incerto, expiração, snapshot antigo, identificação ausente, procedimento obsoleto, falha parcial e falta de coleta. Os dados incluem casos normais para comparação. Variações são sintéticas: não sustentam alegações de ganho em produção.
 
 Não importe `evals/` ou `experiments/` no corpus. Golds, rótulos e casos reservados ficam fora do índice da demo.
-
-Fontes desta seção, conferidas em **22/09/2026**: [generate.py](generate.py) · [ingestion/contracts.py](../backend/src/evidencedesk/ingestion/contracts.py) · [reconciliation/contracts.py](../backend/src/evidencedesk/reconciliation/contracts.py).

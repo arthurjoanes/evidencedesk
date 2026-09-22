@@ -1,12 +1,12 @@
 # Política de segurança
 
-Política publicada em **22/09/2026**. O EvidenceDesk é um laboratório de portfólio com dados sintéticos. Seu [modelo de ameaças](docs/threat-model.md) descreve os controles implementados e as condições que ainda precisam ser atendidas antes de uma exposição pública.
+O EvidenceDesk é um laboratório de portfólio com dados sintéticos. Seu [modelo de ameaças](docs/threat-model.md) descreve os controles implementados e as condições que ainda precisam ser atendidas antes de uma exposição pública.
 
 ## Revisões e escopo
 
 A versão atual da branch `main` é a referência para analisar relatos e desenvolver correções. Informe também o SHA da revisão afetada; relatórios, imagens e commits históricos conservam o escopo da execução original. Esta política não estabelece manutenção LTS, backports ou prazo garantido de resposta e correção.
 
-O perfil local publica serviços em loopback e inclui contas de demonstração. A exposição pública exige revisar identidade, TLS, rede, segredos e recuperação fora do host. Fontes conferidas em **22/09/2026**: [Compose](infra/compose/compose.yaml), [seed](backend/src/evidencedesk/seed.py) e [requisitos do perfil hospedado](docs/runbooks/azure-hosted.md).
+O [perfil local](infra/compose/compose.yaml) publica serviços em loopback e inclui contas de demonstração. A exposição pública exige revisar identidade, TLS, rede, segredos e recuperação fora do host, conforme os [requisitos do perfil hospedado](docs/runbooks/azure-hosted.md).
 
 ## Relatar uma vulnerabilidade
 
@@ -32,6 +32,6 @@ Não publique credenciais, dados pessoais, arquivos privados ou detalhes de expl
 | [Workflow de CI](.github/workflows/ci.yaml)                      | Verificações automatizadas e seus escopos                                       |
 | [Configuração do Gitleaks](.gitleaks.toml)                       | Regras padrão e exceções delimitadas para valores comprovados                   |
 
-Fontes locais conferidas em **22/09/2026**. Um scan sem achados cobre a imagem e a base identificadas naquele relatório; não demonstra ausência universal de vulnerabilidades. O gate de API/frontend não cobre automaticamente ML, PostgreSQL ou observabilidade. Os testes e o backport de ML têm registros próprios. Esta política não constitui auditoria profissional ou certificação de produção.
+Um scan sem achados cobre a imagem e a base identificadas naquele relatório; não demonstra ausência universal de vulnerabilidades. O gate de API/frontend não cobre automaticamente ML, PostgreSQL ou observabilidade. Os testes e o backport de ML têm registros próprios. Esta política não constitui auditoria profissional ou certificação de produção.
 
-A localização deste arquivo segue a [documentação oficial de políticas de segurança do GitHub](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/configure-vulnerability-reporting/add-security-policy), consultada em **22/09/2026**.
+A localização deste arquivo segue a [documentação oficial de políticas de segurança do GitHub](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/configure-vulnerability-reporting/add-security-policy).

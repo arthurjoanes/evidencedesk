@@ -2,8 +2,6 @@
 
 Revisão de 21/09/2026. O frontend apresenta incidentes, fontes e revisões confirmados pela API. A conciliação, a autorização, a publicação de snapshots e a aprovação permanecem no backend. Uma investigação bem-sucedida produz um rascunho; a interface distingue esse resultado da revisão humana aprovada.
 
-Fontes desta seção, conferidas em **22/09/2026**: [package.json](../frontend/package.json) · [http.ts](../frontend/src/lib/http.ts) · [publication-frontend.json](evidence/publication-frontend.json).
-
 ## Arquitetura e escolhas
 
 Next App Router organiza as rotas; `src/features` reúne os fluxos de incidentes, fontes, dossiês, importações, coleções e identidade. TanStack Query gerencia os dados remotos; o recorte da investigação vive na URL. Os formulários usam React Hook Form e Zod, com mensagens locais de validação. Não há um segundo estado global duplicando o cache remoto.
@@ -20,8 +18,6 @@ O leitor de conciliação mostra os valores registrados, a regra e a cobertura. 
 
 SSE invalida consultas, e `GET /runs/{id}` permanece a referência. Polling mantém a atualização quando o stream falha; cancelamento depende de confirmação do servidor. O índice apresenta capacidade, cobertura e execução separadamente, sem confundir processamento parcial com disponibilidade completa.
 
-Fontes desta seção, conferidas em **22/09/2026**: [package.json](../frontend/package.json) · [http.ts](../frontend/src/lib/http.ts) · [publication-frontend.json](evidence/publication-frontend.json).
-
 ## Verificação reproduzível
 
 Na pasta `frontend`, execute:
@@ -36,7 +32,7 @@ npm run test
 npm run build
 ```
 
-O [registro de 21/09/2026, 22:11 UTC](evidence/publication-frontend.json) contém **61 testes unitários** e os checks de tipos, lint e formatação. Esse artefato foi conferido em **22/09/2026**; não é uma nova execução desta revisão documental. Eles cobrem a fronteira HTTP, isolamento de sessão, navegação, validação de importações, leitura da conciliação, revisão de alegações e limites dos formulários. A atualização dos contratos de formulário inclui vinte fontes e trinta pedidos por alegação, vinte notas por lista, limites de texto e rejeição local de um resultado com evidências sem alegações citadas.
+O [registro de 21/09/2026, 22:11 UTC](evidence/publication-frontend.json) contém **61 testes unitários** e os checks de tipos, lint e formatação. O artefato preserva o escopo dessa execução. Eles cobrem a fronteira HTTP, isolamento de sessão, navegação, validação de importações, leitura da conciliação, revisão de alegações e limites dos formulários. A atualização dos contratos de formulário inclui vinte fontes e trinta pedidos por alegação, vinte notas por lista, limites de texto e rejeição local de um resultado com evidências sem alegações citadas.
 
 As jornadas Playwright estão em `frontend/e2e`. O [runbook de CI](runbooks/ci.md) descreve como preparar API, worker, seed e coleção `qa-imports` em um projeto isolado. A conta demo possui limite real de login: prefira a regressão afetada ao repetir testes no mesmo laboratório. Nunca aponte os testes de escrita a dados de produção.
 
@@ -54,8 +50,6 @@ Paginação com mais de cem coleções, falhas, revogações e estados do índic
 
 Os resultados de execução e as capturas atuais estão registrados na [auditoria de publicação](publication-frontend.md). As imagens selecionadas são versionadas para aparecer também em um clone novo; relatórios temporários e traces ficam em diretórios ignorados e não são dependências da documentação pública.
 
-Fontes desta seção, conferidas em **22/09/2026**: [publication-frontend.json](evidence/publication-frontend.json).
-
 ## Avaliação de manutenção e limites
 
 A organização por fluxo corresponde ao produto. Parsing da conciliação, comparação de revisões, hashing de arquivos e construção das URLs são funções separadas e testáveis. A seleção compartilhada de coleções elimina duas implementações que antes não alcançavam itens depois do limite inicial.
@@ -65,5 +59,3 @@ A organização por fluxo corresponde ao produto. Parsing da conciliação, comp
 As regras axe executadas, o teclado e as larguras verificadas são evidências delimitadas, não uma certificação completa de acessibilidade. Ainda são úteis avaliação com leitores de tela, navegadores adicionais e usuários da operação. Não foi medido SLO em produção, nem inferida qualidade semântica da IA a partir de testes de interface. A retomada de upload após perda da resposta inicial de criação e o desempenho de PDFs grandes não são garantidos por estes ensaios.
 
 A operação em Azure e a qualidade das conclusões exigem suas próprias evidências. A [auditoria de segurança](publication-security.md) identifica as imagens atuais e seu scan, incluindo o sistema operacional; um `npm audit` limpo não comprova ausência de vulnerabilidades no runtime.
-
-Fontes desta seção, conferidas em **22/09/2026**: [package.json](../frontend/package.json) · [http.ts](../frontend/src/lib/http.ts) · [publication-frontend.json](evidence/publication-frontend.json).

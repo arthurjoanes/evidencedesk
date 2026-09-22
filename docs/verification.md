@@ -2,8 +2,6 @@
 
 Última rodada documentada: **22/09/2026, jornada manual de pagamento pendente**. Laboratório Windows/WSL2 com Docker e dados sintéticos. Cada relatório preserva seu próprio corpus, revisão e condições; números de rodadas diferentes não são somados como uma única suíte.
 
-Fontes desta seção, conferidas em **22/09/2026**: [checks.json](evidence/editorial-payment-20260922/checks.json) · [integration-tests.json](evidence/editorial-payment-20260922/integration-tests.json) · [unit-tests.json](evidence/editorial-payment-20260922/unit-tests.json).
-
 ## Jornada de pagamento pendente — 22/09/2026
 
 O [roteiro e suas capturas](demo.md) acompanham o mesmo pedido: pagamento confirmado, snapshot posterior ainda pendente, dossiê manual, revisão por outra conta e exportação. A rodada passou em **59 testes unitários backend, 9 integrações com PostgreSQL, 61 testes frontend e 1 jornada real de navegador**, sem falhas ou skips nessas seleções. Consulte os [unitários backend](evidence/editorial-payment-20260922/unit-tests.json), [integrações](evidence/editorial-payment-20260922/integration-tests.json), [checks frontend e estáticos](evidence/editorial-payment-20260922/checks.json) e [execução final do navegador](evidence/editorial-payment-20260922/browser-review.json).
@@ -11,8 +9,6 @@ O [roteiro e suas capturas](demo.md) acompanham o mesmo pedido: pagamento confir
 Os dois [builds](evidence/editorial-payment-20260922/runtime-build.json) e suas [instâncias](evidence/editorial-payment-20260922/runtime-identity.json) têm identidades próprias. O [Trivy desta rodada](evidence/editorial-payment-security-20260922/summary.json) reportou zero vulnerabilidades nas duas imagens, com a base de 22/09 e gate HIGH/CRITICAL preservado. O [scan de segredos](evidence/editorial-payment-20260922/secret-scan.json) separa histórico, conjunto publicável e complemento documental. O [manifesto](evidence/editorial-payment-20260922/manifest.json) vincula os arquivos da entrega.
 
 Não houve mudança de aplicação ou dependências, nova suíte completa backend ou chamada paga. A [contagem do provedor](evidence/editorial-payment-20260922/provider-check.json) permaneceu em zero; as duas divergências não mudaram após aprovar o dossiê. Contas operadas por automação verificam o fluxo, não a qualidade de uma revisão humana. Os [recursos próprios foram encerrados](evidence/editorial-payment-20260922/cleanup.json).
-
-Fontes desta seção, conferidas em **22/09/2026**: [unit-tests.json](evidence/editorial-payment-20260922/unit-tests.json) · [integration-tests.json](evidence/editorial-payment-20260922/integration-tests.json) · [checks.json](evidence/editorial-payment-20260922/checks.json).
 
 ## Rodadas anteriores preservadas
 
@@ -23,8 +19,6 @@ A [revisão para publicação](publication.md) conserva as rodadas de autorizaç
 No ensaio de **21/09/2026**, a suíte backend passou com **195 testes em 60,65s**, sem skips e sem chamadas Azure. Houve um aviso de depreciação de Starlette/AnyIO. Ruff passou, 103 arquivos estavam formatados e Mypy passou em 74 módulos. [JUnit preservado](evidence/backend-final.xml).
 
 A matriz e os relatos seguintes pertencem a essas execuções anteriores, inclusive as referências a “final”, “atual” e ao CI ainda não executado na época. Não substituem as provas datadas da jornada de pagamento nem indicam o estado do CI de um commit posterior.
-
-Fontes desta seção, conferidas em **22/09/2026**: [manifest.json](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json) · [backend-final.xml](evidence/backend-final.xml).
 
 ## Matriz histórica requisito → evidência
 
@@ -59,8 +53,6 @@ Fontes desta seção, conferidas em **22/09/2026**: [manifest.json](evidence/res
 | Última leitura de saúde                           | [delivery-health](evidence/delivery-health.json)                                                                                                                      | Frontend e readiness API HTTP200. Uma leitura pontual não é SLO.                                                                                                                                                                                  |
 | Estado de encerramento                            | [runtime-closed](evidence/runtime-closed.json)                                                                                                                        | Schema0008, manutenção desligada, worker/collector ativos, frontend corrigido; fixtures removidas e modelos desligados deliberadamente.                                                                                                           |
 
-Fontes desta seção, conferidas em **22/09/2026**: [worker-upload-concurrency.xml](evidence/worker-upload-concurrency.xml) · [retention-integration.xml](evidence/retention-integration.xml) · [azure-smoke.json](evidence/azure-smoke.json).
-
 ## Comandos e separação dos ambientes
 
 Os testes de integração exigem `ED_TEST_DATABASE_URL` e `ED_TEST_ADMIN_DATABASE_URL` apontando para um banco descartável. Os de manutenção têm `ED_MAINTENANCE_TEST_DATABASE_URL`/owner explícitos. Não executar contra5546 com dados da demonstração. O usuário da aplicação continua `ed_app`; o admin da fixture não representa a role do produto.
@@ -77,8 +69,6 @@ python scripts/check_infra.py
 
 Frontend, a partir de `frontend/`: `npm run test`, `npm run typecheck`, `npm run lint`, `npm run format:check` e `npm run build`. O E2E requer API/worker/seed e deve respeitar10 logins/15min por conta; a repetição que atingiu esse limite está preservada como falha, não passe. O CI usa os mesmos checks, mas ainda não foi executado no GitHub.
 
-Fontes desta seção, conferidas em **22/09/2026**: [checks.json](evidence/editorial-payment-20260922/checks.json) · [integration-tests.json](evidence/editorial-payment-20260922/integration-tests.json) · [unit-tests.json](evidence/editorial-payment-20260922/unit-tests.json).
-
 ## Limites das medições históricas
 
 - Segurança das imagens: os scans históricos abaixo reprovaram e foram preservados. As imagens desta publicação têm uma [avaliação própria](publication-security.md). A execução remota do workflow depende da publicação no GitHub.
@@ -89,5 +79,3 @@ Fontes desta seção, conferidas em **22/09/2026**: [checks.json](evidence/edito
 - Preço monetário Azure: não configurado; tokens reais são reportados separadamente de estimativa/reserva/desconhecido.
 
 O primeiro smoke Azure usou uma imagem anterior aos steps duráveis e guarda `steps=[]`. O relatório histórico não foi reescrito para parecer uma validação posterior. A segurança e as etapas mais recentes são verificadas em testes próprios e no rebuild final, sem repetir chamada paga desnecessária.
-
-Fontes desta seção, conferidas em **22/09/2026**: [checks.json](evidence/editorial-payment-20260922/checks.json) · [integration-tests.json](evidence/editorial-payment-20260922/integration-tests.json) · [unit-tests.json](evidence/editorial-payment-20260922/unit-tests.json).
