@@ -43,19 +43,43 @@ Na jornada registrada acima, a [consulta independente ao banco](docs/evidence/ed
 
 ## Arquitetura
 
+O EvidenceDesk é um **monólito modular com dois processos de backend**: a API atende consultas e admite operações; o worker executa os trabalhos demorados. O desenho mostra o perfil local do [Compose](infra/compose/compose.yaml). O banco concentra domínio, fila e orçamento; os módulos internos e as transações estão detalhados no guia.
+
 ```mermaid
 flowchart TB
-    UI[Next.js] --> API[FastAPI]
-    API --> DB[(PostgreSQL e fila)]
-    API --> Files[Arquivos privados]
-    Worker[Worker Python] <--> DB
-    Worker --> Files
-    Worker --> Models[IA opcional]
+    UI["Next.js :3106<br/>Investigação e revisão"]
+    API["FastAPI :8106<br/>Sessão, ACL e domínio"]
+    DB[("PostgreSQL / pgvector<br/>Corpus, revisões e jobs")]
+    Worker["Worker Python<br/>Ingestão, geração e exportação"]
+    Files[("Volume privado /data<br/>Originais e artefatos")]
+    Parser["Parser isolado<br/>Extração + localizadores"]
+    Models["Serviço ML :8090<br/>Embeddings e reranker"]
+    Azure["Azure OpenAI<br/>Rascunho estruturado"]
+
+    UI -->|"Proxy /api/v1<br/>cookie + CSRF"| API
+    API -->|"Consulta / revisão<br/>ou intenção + job"| DB
+    API -->|"Upload e download<br/>com autorização"| Files
+    DB -->|"Worker faz polling<br/>SKIP LOCKED + lease"| Worker
+    Worker -->|"Commit com token<br/>e política atuais"| DB
+    Worker -->|"Ler fontes<br/>gravar resultados"| Files
+    Worker -->|"Extração limitada"| Parser
+    Worker -.->|"Busca híbrida opcional"| Models
+    Worker -.->|"Reserva de tokens<br/>e fontes autorizadas"| Azure
 ```
 
-O [Compose](infra/compose/compose.yaml) separa API, worker, banco e frontend. A [fila](backend/src/evidencedesk/jobs/service.py) usa PostgreSQL; lease e identidade da execução protegem a publicação após perda de posse. A autorização combina organização, coleção e incidente; referências de resultados não dispensam a permissão atual.
+Setas contínuas representam o caminho local; pontilhadas, integrações opcionais. O progresso passa pela API e pelo proxy, sem conexão direta do navegador ao banco. O worker compartilha código, banco e volumes com a API; os módulos de domínio não são microsserviços independentes.
 
-Os [arquivos privados](backend/src/evidencedesk/evidence/storage.py) e o [ledger de exclusões](backend/src/evidencedesk/deletion_ledger.py) usam volumes locais. O adaptador Blob e a infraestrutura Azure são preparações separadas, com bloqueadores antes de uma operação entre hosts. Veja a [arquitetura completa](docs/architecture.md).
+| Fronteira | O que acontece nela | Implementação |
+| --- | --- | --- |
+| Navegador → API | O proxy preserva sessão e streaming; o backend confere CSRF e acesso ao recorte. | [Proxy](frontend/src/app/api/v1/%5B...path%5D/route.ts), [identidade](backend/src/evidencedesk/identity/service.py) |
+| HTTP → fila | Finalizar importação, pedir geração ou exportar grava a intenção e o job antes de responder. | [Ingestão](backend/src/evidencedesk/ingestion/routes.py), [jobs](backend/src/evidencedesk/jobs/service.py) |
+| Worker → publicação | Parsing e rede ocorrem fora da transação; o commit revalida lease, token de execução e política. | [Dispatcher](backend/src/evidencedesk/worker.py), [processamento](backend/src/evidencedesk/ingestion/processing.py) |
+| Fontes → decisão | O snapshot fixa o corpus; regras calculam divergências, e uma revisão imutável exige decisão de outra conta. | [Conciliação](backend/src/evidencedesk/reconciliation/rules.py), [revisões](backend/src/evidencedesk/reviews/service.py) |
+| Aplicação → IA | Busca lexical funciona sem ML; geração recebe fontes delimitadas e não aprova nem altera pedidos. | [Ferramentas de leitura](backend/src/evidencedesk/investigations/tools.py), [admissão de tokens](backend/src/evidencedesk/investigations/budget.py) |
+
+**Percurso principal:** manifesto e upload → extração → snapshot → incidente e conciliação → dossiê manual ou rascunho opcional → revisão por outra conta → exportação HTML autorizada. A interface acompanha geração por eventos SSE persistidos, retomáveis com `Last-Event-ID`.
+
+No perfil local, `db_data`, `evidence_data` e `deletion_ledger` são volumes distintos no mesmo host. O adaptador Blob e a infraestrutura Azure têm bloqueadores de implantação próprios. A [arquitetura detalhada](docs/architecture.md) descreve contratos entre módulos, sequência de importação, modelo de dados, falhas e observabilidade.
 
 <a id="o-que-eu-implementei"></a>
 <a id="stack"></a>
