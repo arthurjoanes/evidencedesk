@@ -49,3 +49,9 @@ Uma exclusão posterior ao backup precisa continuar valendo depois da restauraç
 ## Como ler as provas
 
 Os exemplos acima apontam implementações e testes existentes. As execuções, datas e limites estão na [verificação para publicação](publication.md); o [roteiro de demonstração](demo.md) permite explorar o fluxo manual. A revisão de 22/09/2026 alterou somente documentação: conferiu fontes e capturas versionadas, sem troca visual, nova jornada de navegador, stack de integração ou inferência. O [mapeamento da interface](publication-frontend.md) separa essa leitura das provas anteriores. Hospedagem completa no Azure, alta disponibilidade e qualidade humana suficiente continuam fora do resultado demonstrado.
+
+## Recuperação verificável também pela interface
+
+O [ensaio de reabertura](restore-read-story.md) complementa o restore fechado: aplicou o ledger de exclusão atual, conferiu os objetos e só então abriu outro destino local. O navegador autenticado leu o incidente sobrevivente; fonte, original e dossiê excluídos continuaram retornando 404, com ausência física conferida separadamente. A origem permaneceu em manutenção durante a janela de leitura, evitando tratar um ledger antigo como autorização para reabrir. São 108 referências remanescentes desta execução sintética; os restores históricos têm outros conjuntos e durações.
+
+A mesma página apresenta rastreabilidade da revisão e conflito de edição como casos anteriores ao backup, sem confundir esses cenários. O [pacote de avaliação semântica](../evals/human-review/README.md) trata outra questão: se a fonte realmente sustenta a frase. Está preparado, sem participantes ou resultados novos.

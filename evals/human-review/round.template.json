@@ -1,0 +1,28 @@
+{
+  "status": "not_started",
+  "round_id": null,
+  "purpose": "development_semantic_review",
+  "split": "dev",
+  "release": {
+    "id": null,
+    "commit": null,
+    "image_id": null,
+    "corpus_sha256": null,
+    "chunk_policy": null,
+    "parser_rules_version": null,
+    "retrieval_profile": null,
+    "encoder_revision": null,
+    "reranker_revision": null,
+    "generation_deployment_revision": null
+  },
+  "planned_case_ids": [],
+  "system_codes": [],
+  "presentation_order": [],
+  "participant_ids": [],
+  "started_at": null,
+  "completed_at": null,
+  "paid_calls_authorized": false,
+  "reserved_dataset_access": false,
+  "human_gate": "inconclusive",
+  "promotion": "not_requested"
+}

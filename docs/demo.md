@@ -18,3 +18,7 @@ Resultado real de IA disponível nesta execução: run `2605b0dcf3fd4045a345a51f
 Para mostrar revogação, use o ensaio isolado em `test_administration.py`; não revogue a coleção principal durante apresentação sem preparar a recuperação. Captura de erro controlado do frontend é fixture de transporte, identificada como tal, e não falha real do Azure.
 
 Se um dado não estiver disponível, aponte a lacuna. A demonstração deve permitir conferir e discordar, não apenas admirar texto gerado.
+
+## Provas para acompanhar a apresentação
+
+A [sequência com capturas de 22/09](restore-read-story.md) mostra uma revisão aprovada com sua fonte, um conflito real 409 preservando rascunho e a leitura de incidente após restauração. Revisão/conflito aconteceram na origem antes do backup; restauração/exclusão têm run e destino próprios. A aprovação usou duas contas por automação, sem revisor humano nem geração por modelo. As imagens permitem conferir o mecanismo, enquanto o [pacote semântico](../evals/human-review/README.md) prepara a avaliação de qualidade ainda pendente.

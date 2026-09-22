@@ -1,6 +1,8 @@
 """Consistent local backup and closed, isolated restore verification."""
 
 import argparse
+import contextlib
+import contextvars
 import json
 import re
 import subprocess
@@ -11,10 +13,12 @@ from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
 
-from ops import ROOT, compose_command, project_name, run
+from ops import ROOT, compose_command, project_name
+from ops import run as ops_run
 from storage_snapshot import file_digest, inspect_archive
 
 RESTORE_OVERRIDE = ROOT / "infra/compose/restore.yaml"
+_DEADLINE = contextvars.ContextVar("backup_deadline", default=None)
 REFERENCES_SQL = """
 SELECT COALESCE(json_agg(ref), '[]') FROM (
   SELECT object_key, sha256 FROM import_entries WHERE object_key IS NOT NULL
@@ -27,7 +31,35 @@ SELECT COALESCE(json_agg(ref), '[]') FROM (
 """
 
 
-def maintenance(base, action, *extra):
+@contextlib.contextmanager
+def command_budget(seconds, *, cleanup=False):
+    """Bound a probe/operation; cleanup uses its own explicit reserved budget."""
+    if not 1 <= seconds <= 900:
+        raise ValueError("Operation budget must be between 1 and 900 seconds.")
+    deadline = time.monotonic() + seconds
+    if not cleanup and _DEADLINE.get() is not None:
+        deadline = min(deadline, _DEADLINE.get())
+    token = _DEADLINE.set(deadline)
+    try:
+        yield
+    finally:
+        _DEADLINE.reset(token)
+
+
+def command_timeout(maximum=180):
+    remaining = maximum if _DEADLINE.get() is None else _DEADLINE.get() - time.monotonic()
+    if remaining <= 0:
+        raise TimeoutError("Operation exceeded its reserved execution window.")
+    return min(maximum, remaining)
+
+
+def run(command, *, capture=False):
+    # Parse ownership tokens before any post-command deadline rejection, so finally
+    # can release an enter that succeeded immediately before the deadline.
+    return ops_run(command, capture=capture, timeout=command_timeout())
+
+
+def maintenance(base, action, *extra, error_output=None):
     arguments = iter(extra)
     # URL-safe random ownership tokens can begin with '-'. Bind the value explicitly.
     flags = [f"--token={next(arguments)}" if value == "--token" else value for value in arguments]
@@ -45,14 +77,23 @@ def maintenance(base, action, *extra):
     ]
     try:
         output = run(command, capture=True)
-    except subprocess.CalledProcessError as error:
+    except subprocess.SubprocessError as error:
         # A timed-out enter returns its ownership token for explicit operator recovery.
         if error.stdout:
-            print(error.stdout, file=sys.stderr)
-        raise ValueError(f"Maintenance {action} failed (exit {error.returncode}).") from None
+            value = (
+                error.stdout.decode("utf-8", errors="replace")
+                if isinstance(error.stdout, bytes)
+                else error.stdout
+            )
+            if error_output is not None:
+                with Path(error_output).open("x", encoding="utf-8", newline="\n") as stream:
+                    stream.write(value)
+            else:
+                print(value, file=sys.stderr)
+        raise ValueError(f"Maintenance {action} failed ({type(error).__name__}).") from None
     value = json.loads(output)
     if not isinstance(value, dict):
-        raise ValueError("Invalid maintenance response.")
+        raise TypeError("Invalid maintenance response.")
     return value
 
 
@@ -87,7 +128,8 @@ def helper(base, action, mount=None):
 
 def binary_file(command, destination):
     with destination.open("xb") as stream:
-        subprocess.run(command, cwd=ROOT, stdout=stream, check=True)
+        subprocess.run(command, cwd=ROOT, stdout=stream, check=True, timeout=command_timeout())
+        command_timeout()
 
 
 def outside_repository(path):
@@ -136,7 +178,9 @@ def create_backup(base, output, project):
             capture=True,
         )
         (output / "references.json").write_text(
-            json.dumps(json.loads(references), ensure_ascii=False), encoding="utf-8"
+            json.dumps(json.loads(references), ensure_ascii=False),
+            encoding="utf-8",
+            newline="\n",
         )
         binary_file(
             helper(base, "snapshot", output) + ["--references", "/backup/references.json"],
@@ -161,7 +205,9 @@ def create_backup(base, output, project):
             "ledger": "Excluded intentionally; restore must acquire the current independent ledger.",
         }
         (output / "manifest.json").write_text(
-            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+            json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+            newline="\n",
         )
         return {
             "backup": str(output),
@@ -169,7 +215,8 @@ def create_backup(base, output, project):
             "elapsed_seconds": manifest["elapsed_seconds"],
         }
     finally:
-        maintenance(base, "leave", "--token", token)
+        with command_budget(60, cleanup=True):
+            maintenance(base, "leave", "--token", token)
 
 
 def verify_backup(directory):
@@ -222,7 +269,7 @@ def target_is_new(project):
             raise ValueError("Restore target already has resources; refusing to reuse it.")
 
 
-def verify_restore(source, args):
+def verify_restore(source, args, *, verified_probe=None, target_claimed=None):
     directory = outside_repository(args.backup).resolve(strict=True)
     manifest = verify_backup(directory)
     if manifest["project"] != args.project:
@@ -246,6 +293,10 @@ def verify_restore(source, args):
             # Freeze the source through reconciliation; no deletion can race this copy.
             binary_file(helper(source, "ledger-export"), temporary / "ledger.jsonl")
             binary_file(helper(source, "checkpoint-export"), temporary / "checkpoint.json")
+            if target_claimed is not None:
+                # The caller may retry scoped cleanup even if this operation fails.
+                # This notification is never sent for a rejected existing target.
+                target_claimed(base)
             run(base + ["up", "-d", "--wait", "--wait-timeout", "90", "db"])
             with (directory / "database.dump").open("rb") as dump:
                 subprocess.run(
@@ -266,7 +317,9 @@ def verify_restore(source, args):
                     cwd=ROOT,
                     stdin=dump,
                     check=True,
+                    timeout=command_timeout(),
                 )
+                command_timeout()
             run(helper(base, "restore", directory) + ["--archive", "/backup/objects.tar"])
             run(helper(base, "ledger-install", temporary) + ["--archive", "/backup/ledger.jsonl"])
             run(
@@ -307,7 +360,9 @@ def verify_restore(source, args):
                 text=True,
                 encoding="utf-8",
                 capture_output=True,
+                timeout=command_timeout(),
             )
+            command_timeout()
             status = maintenance(base, "status")
             if status.get("maintenance") is not True or status.get("ledger_ready") is not True:
                 raise ValueError("Restored target is not closed with a reconciled ledger.")
@@ -323,12 +378,22 @@ def verify_restore(source, args):
                 "reconciliation": reconciliation,
                 "target_opened": False,
             }
+            if verified_probe is not None:
+                # The source remains owned and closed throughout the optional read journey.
+                # Never reopen from a saved report after releasing the current ledger window.
+                opened = verified_probe(base=base, manifest=manifest, record=record)
+                if opened.get("status") != "passed" or opened.get("target_closed") is not True:
+                    raise ValueError("The optional restore journey did not close safely.")
+                record["target_opened"] = True
+                record["read_journey"] = opened
     finally:
         # Only resources created above, with a validated namespace, are stopped.
         try:
-            run(base + ["stop"])
+            with command_budget(45, cleanup=True):
+                run(base + ["stop"])
         finally:
-            maintenance(source, "leave", "--token", source_token)
+            with command_budget(60, cleanup=True):
+                maintenance(source, "leave", "--token", source_token)
     record["source_reopened"] = True
     record["target_stopped"] = True
     record["elapsed_seconds"] = round(time.monotonic() - started, 3)
@@ -337,7 +402,9 @@ def verify_restore(source, args):
     )
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(
-        json.dumps(record, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        json.dumps(record, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+        newline="\n",
     )
     return record
 

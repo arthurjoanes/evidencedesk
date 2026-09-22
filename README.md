@@ -61,13 +61,15 @@ Os testes exercitam isolamento entre organizações, permissões de fontes, conc
 python scripts/check_repository_docs.py
 ```
 
+A [história de revisão e recuperação](docs/restore-read-story.md) reúne capturas de aprovação com fonte, conflito que preserva rascunho e reabertura após exclusão. Na execução local de 22/09, o destino manteve a fonte/original/dossiê excluídos inacessíveis, conferiu 108 referências remanescentes e fez zero chamadas ao provedor. A aprovação por contas distintas foi automatizada; não é avaliação humana da qualidade.
+
 Para a suíte completa, veja o [guia de desenvolvimento e testes](docs/development.md). Para apresentar o produto, siga a [demonstração de cinco minutos](docs/demo.md).
 
 ## IA e escopo
 
 A integração com Azure OpenAI já foi exercitada com uma geração real e reabertura do resultado após reinício. Embeddings, reranker e um experimento supervisionado usam dados sintéticos; seus [resultados e protocolo](experiments/README.md) estão versionados. O candidato treinado permanece separado do modelo ativo até cumprir os critérios de avaliação.
 
-Citações estruturadas permitem conferir uma resposta, mas a qualidade semântica ainda exige avaliação humana. A aplicação completa roda localmente; a infraestrutura Azure é um perfil em desenvolvimento. O [model card](docs/model-card.md) e a [avaliação de segurança](docs/publication-security.md) detalham essas condições.
+Citações estruturadas permitem conferir uma resposta, mas a qualidade semântica ainda exige avaliação humana. O [pacote preparado para revisão](evals/human-review/README.md) reúne 60 casos sintéticos de desenvolvimento em oito famílias, rubrica e formulários. Ainda não houve participantes ou adjudicação nesse pacote; o conjunto reservado não foi aberto. A aplicação completa roda localmente; a infraestrutura Azure é um perfil em desenvolvimento. O [model card](docs/model-card.md) e a [avaliação de segurança](docs/publication-security.md) detalham essas condições.
 
 O perfil opcional de ML aplica uma [correção verificável no carregamento de checkpoints](docs/ml-checkpoint-security.md): shards devem ser arquivos regulares dentro da pasta do checkpoint. O build executa 15 regressões locais; isso não substitui a avaliação de segurança das demais dependências da imagem.
 

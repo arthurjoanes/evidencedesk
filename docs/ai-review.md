@@ -24,6 +24,8 @@ Verificação desta revisão: 71 testes unitários/de métricas de chunks/runtim
 
 Gates de qualidade permanecem separados:
 
+O [pacote local de revisão semântica](../evals/human-review/README.md) torna o próximo passo executável: casos dev e fontes identificados, rubrica por alegação e formulários para rodada/resposta. Seus campos humanos permanecem vazios. Preparar esse material não promove o candidato nem altera as métricas históricas.
+
 - **Executado:** PostgreSQL FTS, E5, RRF, reranker base/candidato, treino GPU, smoke HTTP privada e testes determinísticos. Resultados e hashes estão em [experiments/reports](../experiments/reports/index.json).
 - **Não aprovado:** promoção do candidato. A primeira rodada falhou latência; a segunda passou a medida observada, com candidatos diferentes. Ambas permanecem no relatório.
 - **Pendente:** adjudicação humana de rótulos/respostas, regressões semânticas, validade temporal de interpretações, abstenção e robustez contra instruções em fontes. Testes conhecidos de isolamento/contratos não certificam segurança universal de modelos.

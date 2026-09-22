@@ -1,0 +1,39 @@
+{
+  "version": "semantic-review-v1",
+  "status": "prepared_not_executed",
+  "claim_labels": [
+    "supported",
+    "contradicted",
+    "insufficient",
+    "irrelevant"
+  ],
+  "dimensions": [
+    "support",
+    "counterevidence",
+    "coverage",
+    "temporal_validity",
+    "abstention",
+    "deterministic_numbers",
+    "causal_overstatement"
+  ],
+  "unassessed_value": null,
+  "each_claim_requires": [
+    "claim_id",
+    "exact_claim",
+    "source_id",
+    "source_sha256",
+    "span_or_locator",
+    "label",
+    "rationale"
+  ],
+  "human_adjudication_required": true,
+  "threshold_source": "../README.md",
+  "metrics_source": "../metrics.py",
+  "critical_flags": [
+    "unsupported_root_cause",
+    "wrong_order_or_period",
+    "omitted_decisive_counterevidence",
+    "unsupported_financial_action"
+  ],
+  "critical_flags_are_review_findings_not_automatically_assigned": true
+}

@@ -1,0 +1,95 @@
+{
+  "status": "passed",
+  "recorded_at": "2026-09-22T07:24:09.399Z",
+  "run_id": "a468f70ee9bb",
+  "target_project": "pf-evidencedesk-restore-edread-492911fe-r2",
+  "ledger_sequence": 1,
+  "base_url": "http://127.0.0.1:60297",
+  "survivor_incident": {
+    "id": "demo-aurora-01",
+    "title": "Reentrega do webhook de pagamento",
+    "description": "Caso fictício para investigação. Horários, empresas e pedidos são sintéticos.",
+    "status": "resolved",
+    "collection_id": "commerce-main",
+    "window": {
+      "from": "2026-07-01T12:00:00Z",
+      "to": "2026-07-01T12:30:00Z",
+      "time_zone": "America/Sao_Paulo"
+    },
+    "evidence_snapshot_id": "94b9c0c531f241f4803be04daabc1239",
+    "counts": {
+      "orders": 222,
+      "divergences": 0
+    },
+    "coverage": [
+      {
+        "event_types": [],
+        "clock_uncertainty_ms": 500,
+        "source_system": "payments",
+        "status": "complete",
+        "from": "2026-07-01T12:00:00Z",
+        "to": "2026-07-01T12:30:00Z",
+        "gaps": []
+      },
+      {
+        "event_types": [],
+        "clock_uncertainty_ms": 500,
+        "source_system": "orders",
+        "status": "complete",
+        "from": "2026-07-01T12:00:00Z",
+        "to": "2026-07-01T12:30:00Z",
+        "gaps": []
+      },
+      {
+        "event_types": [],
+        "clock_uncertainty_ms": 500,
+        "source_system": "inventory",
+        "status": "complete",
+        "from": "2026-07-01T12:00:00Z",
+        "to": "2026-07-01T12:30:00Z",
+        "gaps": []
+      }
+    ]
+  },
+  "erased_checks": [
+    {
+      "resource": "evidence",
+      "path": "/api/v1/evidence/ev_540aed4ca0260e9d99b0913fd91c794b?evidence_snapshot_id=7b6c30b96bb340c4acb1aa2146db2e32",
+      "status": 404,
+      "code": "resource_not_found",
+      "message": "Recurso não encontrado ou sem acesso.",
+      "request_id": "b5a310b404df475082ad9046c414051f",
+      "retryable": false
+    },
+    {
+      "resource": "original",
+      "path": "/api/v1/evidence/ev_540aed4ca0260e9d99b0913fd91c794b/content?evidence_snapshot_id=7b6c30b96bb340c4acb1aa2146db2e32",
+      "status": 404,
+      "code": "resource_not_found",
+      "message": "Recurso não encontrado ou sem acesso.",
+      "request_id": "7ae76bb71b0d4b7e8eab60c80e3bd485",
+      "retryable": false
+    },
+    {
+      "resource": "dossier",
+      "path": "/api/v1/dossiers/c7eae26a83f84903b25414a870c987a9",
+      "status": 404,
+      "code": "resource_not_found",
+      "message": "Recurso não encontrado ou sem acesso.",
+      "request_id": "637c1035037f408db23af96ec1ad9fe3",
+      "retryable": false
+    }
+  ],
+  "generation_post_attempts": [],
+  "blocked_requests": [],
+  "screenshots": [
+    "screenshots/restore-survivor-desktop.png",
+    "screenshots/restore-erased-source-desktop.png",
+    "screenshots/restore-erased-dossier-desktop.png"
+  ],
+  "publication": {
+    "raw_sha256": "607e3e464a01f80ba3706cf3f3e47a30319048ebbe065e68693694d0ea153c59",
+    "format": "UTF-8 LF",
+    "changes": "Screenshot paths made relative; this publication metadata added. Raw private proof preserved."
+  }
+}
