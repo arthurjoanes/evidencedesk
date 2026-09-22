@@ -10,6 +10,7 @@ Revisão de 21/09/2026. O objetivo é uma entrega de portfólio que outra pessoa
 - Azure deixa de depender de um hostname pessoal. A configuração explícita conserva validação HTTPS, domínio de recurso, allowlist atual e proteção da chave no Windows.
 - As imagens usam bases atualizadas e OpenSSL corrigido. O CI verifica vulnerabilidades, histórico de segredos e documentação, além do funcionamento.
 - O primeiro seed gera a massa sintética ausente. README, arquitetura e capturas passam a pertencer integralmente ao repositório publicável.
+- Tentativas de um e-mail já bloqueado não consomem a quota global de login. A reserva continua atômica, e novas chaves permanecem sujeitas aos limites globais, de cardinalidade e de verificação de senha.
 
 Detalhes: [arquitetura e contratos](architecture-review-publication.md), [interface](publication-frontend.md) e [segurança](publication-security.md).
 
@@ -27,13 +28,17 @@ Detalhes: [arquitetura e contratos](architecture-review-publication.md), [interf
 
 Os testes que simulam transporte/modelo estão identificados; eles verificam contratos, falhas e autorização. A rodada de publicação não fez nova inferência paga. A execução Azure anterior e os experimentos GPU têm [evidências próprias](verification.md).
 
+A correção posterior de admissão de login passou em cinco [testes de integração com PostgreSQL](../backend/tests/integration/test_login_admission.py). Após dez verificações de senha inválida, 129 rejeições do mesmo e-mail mantiveram a quota global em dez; o login válido de outro tenant foi aceito e elevou o contador a onze. Concorrência no último slot, cardinalidade e proteção de CPU também passaram. Essa rodada direcionada não é somada aos 235 testes da rodada anterior.
+
 ## Reprodução
 
-O [README](../README.md) contém a instalação da demonstração; o [guia de desenvolvimento](development.md) prepara as dependências e os bancos de teste. O [workflow](../.github/workflows/ci.yaml) usa cinco jobs e permissões somente de leitura. A validação local de sua sintaxe passou.
+O [README](../README.md) contém a instalação da demonstração; o [guia de desenvolvimento](development.md) prepara as dependências e os bancos de teste. O [workflow](../.github/workflows/ci.yaml) usa seis jobs e permissões somente de leitura. A validação local de sua sintaxe passou.
 
 A [primeira execução remota do CI](https://github.com/arthurjoanes/evidencedesk/actions/runs/35663777096) aprovou backend, frontend, jornadas no navegador e histórico de segredos. Os dois jobs de imagens encontraram uma incompatibilidade do publicador de relatórios com configurações OCI que contêm tanto `rootfs` como `config`. O reconhecimento da configuração foi corrigido, preservando a validação do hash. A regressão reproduziu a falha e passou após a correção, incluindo a rejeição de conteúdo adulterado. As duas rodadas de scripts acima incluem esse teste. Os resultados remotos de cada commit estão nas [execuções do GitHub Actions](https://github.com/arthurjoanes/evidencedesk/actions/workflows/ci.yaml).
 
 O verificador `scripts/check_repository_docs.py` exige que cada link local e imagem pertença ao conjunto publicável. Arquivos presentes apenas em caches, diretórios ignorados ou pastas externas não satisfazem a verificação.
+
+A [execução remota após a correção OCI](https://github.com/arthurjoanes/evidencedesk/actions/runs/35666019875) aprovou os seis jobs. Ela precede a correção de admissão de login; cada revisão posterior tem sua própria execução no GitHub Actions.
 
 ## Limites do resultado
 

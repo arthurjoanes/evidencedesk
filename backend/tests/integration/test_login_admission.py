@@ -124,7 +124,7 @@ def test_cardinality_cap_and_bounded_expiration_preserve_existing_email_window(
                     text("SELECT failures FROM login_limits WHERE key_hash=:key"),
                     {"key": admission.GLOBAL_LOGIN_KEY},
                 ).scalar_one()
-                == 22
+                == 21
             )
     finally:
         remove_keys(workspace, keys)
@@ -172,3 +172,92 @@ def test_argon2_capacity_fails_fast_without_holding_database_connections(workspa
         assert [future.result().status_code for future in pending] == [401, 401]
     monkeypatch.setattr(service, "PASSWORDS", SimpleNamespace(verify=lambda *_: False))
     assert attempt().status_code == 401  # all permits were released
+
+
+def test_blocked_email_retries_leave_global_capacity_for_another_tenant(workspace, monkeypatch):
+    monkeypatch.setenv("ED_LOGIN_GLOBAL_PER_MINUTE", "120")
+    get_settings.cache_clear()
+    email = workspace["tenants"][0] + "-unknown@fixture.invalid"
+    key = service.session_digest(email)
+    password_checks = 0
+    original_verify = service.PASSWORDS.verify
+
+    def verify(password_hash, password):
+        nonlocal password_checks
+        password_checks += 1
+        return original_verify(password_hash, password)
+
+    monkeypatch.setattr(service, "PASSWORDS", SimpleNamespace(verify=verify))
+    client = TestClient(workspace["app"], base_url=ORIGIN)
+    try:
+        for _ in range(10):
+            response = client.post(
+                "/api/v1/auth/login",
+                json={"email": email, "password": "incorrect"},
+                headers={"Origin": ORIGIN},
+            )
+            assert response.status_code == 401
+            assert response.json()["error"]["code"] == "invalid_credentials"
+        for _ in range(129):
+            response = client.post(
+                "/api/v1/auth/login",
+                json={"email": email, "password": "incorrect"},
+                headers={"Origin": ORIGIN},
+            )
+            assert response.status_code == 429
+            assert response.json()["error"]["code"] == "login_limited"
+        assert password_checks == 10
+        with transaction() as connection:
+            counts = dict(
+                connection.execute(
+                    text("SELECT key_hash,failures FROM login_limits WHERE key_hash=ANY(:keys)"),
+                    {"keys": [key, admission.GLOBAL_LOGIN_KEY]},
+                ).all()
+            )
+            assert counts == {key: 10, admission.GLOBAL_LOGIN_KEY: 10}
+
+        other = workspace["client"](tenant_index=1)
+        session = other.get("/api/v1/auth/session")
+        assert session.status_code == 200
+        assert session.json()["tenant"]["id"] == workspace["tenants"][1]
+        assert password_checks == 11
+        with transaction() as connection:
+            assert (
+                connection.execute(
+                    text("SELECT failures FROM login_limits WHERE key_hash=:key"),
+                    {"key": admission.GLOBAL_LOGIN_KEY},
+                ).scalar_one()
+                == 11
+            )
+    finally:
+        client.close()
+        remove_keys(workspace, [key])
+
+
+def test_concurrent_email_rejections_reserve_only_one_remaining_global_attempt(workspace):
+    key = own_keys(workspace, 1)[0]
+
+    def attempt(_):
+        try:
+            admission.reserve_password_attempt(key)
+            return "accepted"
+        except Problem as error:
+            return error.code
+
+    try:
+        for _ in range(9):
+            admission.reserve_password_attempt(key)
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            outcomes = list(pool.map(attempt, range(8)))
+        assert outcomes.count("accepted") == 1
+        assert outcomes.count("login_limited") == 7
+        with transaction() as connection:
+            counts = dict(
+                connection.execute(
+                    text("SELECT key_hash,failures FROM login_limits WHERE key_hash=ANY(:keys)"),
+                    {"keys": [key, admission.GLOBAL_LOGIN_KEY]},
+                ).all()
+            )
+            assert counts == {key: 10, admission.GLOBAL_LOGIN_KEY: 10}
+    finally:
+        remove_keys(workspace, [key])
