@@ -1,0 +1,7 @@
+{
+  "recorded_at": "2026-09-22T12:34:28.994448+00:00",
+  "scope": "Read-only SQL count over all tenants as local PostgreSQL administrator, before/after the manual browser journey.",
+  "before": 0,
+  "after": 0,
+  "seed_files_unchanged": true
+}

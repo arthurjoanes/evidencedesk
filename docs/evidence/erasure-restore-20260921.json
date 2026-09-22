@@ -10,9 +10,10 @@
       "source_sha256": "ccf26eeffbf72792512186a53d1e503cb9e04d07942ad5a81351f615a6942f84"
     },
     "backup": {
-      "backup": "C:\\Users\\arthu\\AppData\\Local\\Packages\\OpenAI.Codex_2p2nqsd0c76g0\\LocalCache\\Local\\EvidenceDesk\\backups\\erasure-20260921-0854",
+      "backup": "erasure-20260921-0854",
       "files": 173,
-      "elapsed_seconds": 6.797
+      "elapsed_seconds": 6.797,
+      "publication_note": "Nome do diretório local; caminho absoluto omitido na publicação. Resultados, tempos e hashes da execução preservados."
     },
     "after_deletion": {
       "source_http_status": 404,

@@ -1,0 +1,43 @@
+{
+  "recorded_at": "2026-09-22T12:30:04.894694+00:00",
+  "project": "pf-evidencedesk-e2e-editorial-payment",
+  "compose": [
+    "infra/compose/compose.yaml",
+    "infra/compose/e2e.yaml"
+  ],
+  "services": [
+    {
+      "service": "api",
+      "container": "pf-evidencedesk-e2e-editorial-payment-api-1",
+      "image_id": "sha256:d4876ea45b61eb6449b0b23dae1d26f3706f86d5a17e2b235318d66ab121357e",
+      "ports": {
+        "8106/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8107"
+          }
+        ]
+      }
+    },
+    {
+      "service": "frontend",
+      "container": "pf-evidencedesk-e2e-editorial-payment-frontend-1",
+      "image_id": "sha256:31138833b22b3473d9f6da98ebdd28997e08534ff4cbef5fa0ba3f7c2e2f6cb6",
+      "ports": {
+        "3106/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "3107"
+          }
+        ]
+      }
+    }
+  ],
+  "generation": {
+    "provider": "disabled",
+    "generation_enabled": false,
+    "key_present": false
+  },
+  "backend_python": "Python 3.12.14",
+  "frontend_node": "v24.19.0"
+}

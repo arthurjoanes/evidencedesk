@@ -1,8 +1,18 @@
 # Segurança das imagens para publicação
 
+## Scan da jornada de pagamento — 22/09/2026
+
+As imagens `pf-evidencedesk-backend:editorial-payment-20260922` e `pf-evidencedesk-frontend:editorial-payment-20260922` passaram no gate HIGH/CRITICAL, com **zero vulnerabilidades reportadas em todas as severidades**. O [resumo desta rodada](evidence/editorial-payment-security-20260922/summary.json) identifica imagens, configurações OCI e base; os relatórios [API](evidence/editorial-payment-security-20260922/api-vulnerabilities.json) e [frontend](evidence/editorial-payment-security-20260922/frontend-vulnerabilities.json) conservam o inventário inspecionado.
+
+Usei Trivy **0.74.0** fixado por digest, sem rede durante o scan, com a base atualizada em **22/09/2026 às 02:00 UTC**, válida no início da execução. Não houve nova exceção, filtro para vulnerabilidades sem correção ou mudança de dependência. Os [builds](evidence/editorial-payment-20260922/runtime-build.json) e as [instâncias usadas na jornada](evidence/editorial-payment-20260922/runtime-identity.json) correspondem às mesmas imagens do scan. A [verificação funcional](verification.md) registra as seleções executadas; o [scan de segredos](evidence/editorial-payment-20260922/secret-scan.json) tem escopo separado.
+
+O resultado cobre essas duas imagens locais e a base consultada, não ML, PostgreSQL, observabilidade ou uma implantação hospedada. As limitações de cobertura do feed Alpine descritas abaixo continuam aplicáveis. Os registros de 21/09 são históricos; seus hashes, comparações byte a byte e checks adicionais não são atribuídos aos builds de 22/09.
+
+## Histórico da publicação — 21/09/2026
+
 A revisão do perfil opcional de ML em 21/09/2026 identificou CVE-2026-69112 no Accelerate. A [correção local do loader](ml-checkpoint-security.md) inclui hashes e 15 regressões; é um ensaio separado do gate de API/frontend abaixo. O pacote mantém sua versão original nos metadados, portanto scanners por versão continuam identificando o advisory.
 
-Em **21/09/2026**, o gate das imagens finais locais Linux/amd64 de API e frontend passou com **zero vulnerabilidades reportadas em todas as severidades**. O [resumo verificável](evidence/publication-security-release/summary.json) registra as identidades das imagens, a versão do scanner e o hash da base. Este ensaio inclui as últimas validações de formulário, a configuração Azure portátil e a mensagem final de disponibilidade do gerador; substitui, para a revisão atual, o [scan intermediário](evidence/publication-security/summary.json). O resultado se aplica às imagens inspecionadas e à cobertura dessa base; não é uma certificação de ausência de vulnerabilidades.
+Em **21/09/2026**, o gate das imagens finais locais Linux/amd64 de API e frontend passou com **zero vulnerabilidades reportadas em todas as severidades**. O [resumo verificável](evidence/publication-security-release/summary.json) registra as identidades das imagens, a versão do scanner e o hash da base. Este ensaio inclui as últimas validações de formulário, a configuração Azure portátil e a mensagem final de disponibilidade do gerador; substituiu, naquela revisão, o [scan intermediário](evidence/publication-security/summary.json). O resultado se aplica às imagens inspecionadas e à cobertura dessa base; não é uma certificação de ausência de vulnerabilidades.
 
 | Imagem | Pacotes de sistema inspecionados | Pacotes de aplicação inspecionados | HIGH / CRITICAL |
 | --- | ---: | ---: | ---: |
