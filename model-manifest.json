@@ -1,7 +1,7 @@
 {
   "schema_version": "1",
   "artifact_kind": "model_and_evaluation_evidence_index",
-  "review_date": "2026-09-21",
+  "review_date": "2026-09-22",
   "contains_credentials": false,
   "local_models": [
     {
@@ -46,15 +46,24 @@
     "scope": "locked dependency build, pip check and real HTTP smoke",
     "vulnerability_scan": "not_performed_in_this_task"
   },
+  "ml_checkpoint_security": {
+    "report": "experiments/reports/checkpoint-security.json",
+    "patch_id": "evidencedesk-accelerate-shards-v1",
+    "scope": "local Accelerate backport; 15 offline loader regressions",
+    "package_version_metadata": "preserved; version-based scanners still report advisory",
+    "training_or_quality_re_evaluation": false
+  },
   "artifacts_sha256": {
     "experiments/protocol.json": "88dc324eedc35ad763e01c435b8505d8b6e4293a403929790c8ce4b478fee64d",
-    "experiments/requirements-ml.lock": "fe6a15df74d68958ce9ebc2d84b1cc48e9f508a6b7732f8b0fa52825369a0249",
-    "experiments/Dockerfile": "75ee3d7226ec9f32b91c7a190024e999288175dfbab0232850709a952d70b7e6",
+    "experiments/requirements-ml.lock": "2d994242fbab69e83dcc980dc6f4ae5f54ce91ed5ba890452886b7c5140fe766",
+    "experiments/Dockerfile": "e74302adf432454835c8bd2e483859a133f8ee4417bc8009b2c2d39a3e01a0bf",
+    "experiments/patch_accelerate.py": "4c160ef19ce4126e49c0444830ab2a2ea882ed07d0eb5daa7850ccc74d206a92",
+    "experiments/test_checkpoint_security.py": "bd484e676b54c355d8fc45a66e55c1c3ae32553fdceca59bb9b301105b2f8ad8",
     "experiments/data/train.jsonl": "01aa0bb56c28db72ac995d14f8b4da7cfa24d9022bf903b69beb53c77275a52b",
     "experiments/data/dev.jsonl": "b1c01533192f5b85b15f25b65f7fe5564d6bf22fe9c5997daedd627af4cd8050",
     "backend/src/evidencedesk/retrieval/local_models.py": "956b80067fb68a698cae73f288bc4c940a429ac8a3d67b838fadd4b2c90b431d",
     "backend/src/evidencedesk/retrieval/chunking.py": "ecf12546c92f380f350ff3f3edbdfaff60fbadc75f87c33e69bbd1c47e2be2b9",
-    "backend/src/evidencedesk/model_runtime/release.py": "2d8d3fe1516e193ef883761f6dcdfcf1f96dbab502d7369d28437b716be5130d",
+    "backend/src/evidencedesk/model_runtime/release.py": "2734e47396c33e16200715b8319f0d327e51763092fb1a95effbbe5a5b797a25",
     "backend/src/evidencedesk/reconciliation/rules.py": "aecb7f7151198a8dd9fab29b4ccae4d3a907dbd9a2fef0aeb4a9b574f727282a",
     "experiments/reports/preflight.json": "0c295eaae327e88103bf652f873559059c81c4fcb1eeac8000ed8f3a144164a3",
     "experiments/reports/download-manifest.json": "e56151db93d26453e55240ed6de237b5911c70a9d4aa276319d04fd3d149356f",
@@ -71,8 +80,10 @@
     "experiments/reports/environment-check-previous.json": "d81fd6fda980142e514494aa7977737b32e763d89466ed024d9a13309fa6f26b",
     "experiments/reports/environment-check-locked.json": "d81fd6fda980142e514494aa7977737b32e763d89466ed024d9a13309fa6f26b",
     "experiments/reports/model-service-smoke-locked.json": "d29e2cbaf31b83b67d91686aff118a2f4259c405c92eab8302a003070b505915",
-    "experiments/reports/ml-final-build.json": "2587b1958976717a4b680397f770b1c36973df9fb3223c25fdaa8366b8181090",
-    "experiments/reports/index.json": "942205f33d432293fc5087a21b60bddb255bc2b99f538fc329008eebc1fc3da0"
+    "experiments/reports/ml-final-build.json": "0d1eeb20051774182b27e5b6c7f8566fed2c9b75c52ed5f4f3f28e7abc1cb1bb",
+    "experiments/reports/checkpoint-security.json": "fb3f86c65adfd1f0e9c0c8911373b082f8bb01c0fb696824a76e37c047af9471",
+    "experiments/reports/checkpoint-security-tests.log": "6848cf6a39dc774e7f7ed56f9aa442a2009d467adb50de23efe32c30626cf68d",
+    "experiments/reports/index.json": "74359505020014779177d90acaeaacf76d08e505dc39f9f8f64c2ed045ce18e9"
   },
   "limitations": [
     "Synthetic annotation is not human adjudication.",

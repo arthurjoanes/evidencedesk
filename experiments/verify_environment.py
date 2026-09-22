@@ -5,6 +5,8 @@ import hashlib
 import importlib.metadata
 import json
 import re
+import subprocess
+import sys
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
@@ -14,13 +16,10 @@ from packaging.utils import canonicalize_name, parse_wheel_filename
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--lock", type=Path, default=Path("experiments/requirements-ml.lock")
-    )
-    parser.add_argument(
-        "--output", type=Path, default=Path("/runs/environment-check-locked.json")
-    )
+    parser.add_argument("--lock", type=Path, default=Path("experiments/requirements-ml.lock"))
+    parser.add_argument("--output", type=Path, default=Path("/runs/environment-check-locked.json"))
     args = parser.parse_args()
+    subprocess.run([sys.executable, "/opt/evidencedesk/patch_accelerate.py", "--check"], check=True)
     installed = {
         canonicalize_name(row.metadata["Name"]): row.version
         for row in importlib.metadata.distributions()
@@ -35,9 +34,7 @@ def main():
         expected = str(requirement.specifier)
         if requirement.url:
             parsed = urlsplit(requirement.url)
-            _, version, _, _ = parse_wheel_filename(
-                unquote(parsed.path.rsplit("/", 1)[-1])
-            )
+            _, version, _, _ = parse_wheel_filename(unquote(parsed.path.rsplit("/", 1)[-1]))
             expected = "==" + str(version)
             assert actual == str(version)
             expected_hash = re.fullmatch(r"sha256=([a-f0-9]{64})", parsed.fragment)
@@ -56,6 +53,7 @@ def main():
         "mismatches": mismatches,
         "lock_sha256": hashlib.sha256(args.lock.read_bytes()).hexdigest(),
         "packages": packages,
+        "accelerate_patch": "evidencedesk-accelerate-shards-v1",
         "network_used": False,
         "weights_loaded": False,
     }

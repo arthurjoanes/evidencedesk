@@ -20,6 +20,8 @@ def main():
         "experiments/protocol.json",
         "experiments/requirements-ml.lock",
         "experiments/Dockerfile",
+        "experiments/patch_accelerate.py",
+        "experiments/test_checkpoint_security.py",
         "experiments/data/train.jsonl",
         "experiments/data/dev.jsonl",
         "backend/src/evidencedesk/retrieval/local_models.py",
@@ -30,13 +32,11 @@ def main():
     report_index = json.loads((root / "experiments/reports/index.json").read_text())
     paths.extend("experiments/reports/" + name for name in report_index)
     paths.append("experiments/reports/index.json")
-    hashes = {
-        name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in paths
-    }
+    hashes = {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in paths}
     manifest = {
         "schema_version": "1",
         "artifact_kind": "model_and_evaluation_evidence_index",
-        "review_date": "2026-09-21",
+        "review_date": "2026-09-22",
         "contains_credentials": False,
         "local_models": [
             {
@@ -80,6 +80,13 @@ def main():
             "report": "experiments/reports/ml-final-build.json",
             "scope": "locked dependency build, pip check and real HTTP smoke",
             "vulnerability_scan": "not_performed_in_this_task",
+        },
+        "ml_checkpoint_security": {
+            "report": "experiments/reports/checkpoint-security.json",
+            "patch_id": "evidencedesk-accelerate-shards-v1",
+            "scope": "local Accelerate backport; 15 offline loader regressions",
+            "package_version_metadata": "preserved; version-based scanners still report advisory",
+            "training_or_quality_re_evaluation": False,
         },
         "artifacts_sha256": hashes,
         "limitations": [
