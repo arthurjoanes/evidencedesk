@@ -4,6 +4,10 @@ Investigação de pedidos com fontes verificáveis e revisão por outra pessoa.
 
 Desenvolvi o EvidenceDesk para reunir o material que um analista precisa quando o pagamento foi confirmado, mas o pedido continua pendente. Eventos, snapshots — fotografias do estado de outro sistema — e procedimentos sustentam uma investigação com fontes e revisão. É uma aplicação de portfólio com demonstração sintética, sem adoção comercial ou ganho de produtividade medido.
 
+![Página principal do EvidenceDesk](docs/readme/home.png)
+
+*Página principal da demonstração.*
+
 [Na prática](#na-prática) · [Implementação](#implementação) · [Executar e verificar](#executar-e-verificar) · [Limites e manutenção](#limites-e-manutenção)
 
 <p><img src="docs/readme/uso.svg" width="800" height="8" alt=""></p>
