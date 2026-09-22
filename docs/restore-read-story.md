@@ -4,6 +4,8 @@ Um backup antigo pode conter uma fonte apagada depois. Recuperar os bytes sem re
 
 **Resultado local de 22/09/2026:** o destino restaurado abriu um incidente preservado no navegador e recusou a fonte excluída, seu original e o dossiê dependente com HTTP 404. O ledger avançou de 0 para 1 e foram verificadas **108 referências remanescentes**. Houve zero chamadas ao provedor. O [manifesto da rodada](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json) relaciona fontes, imagens, fases, testes e capturas.
 
+Fontes desta seção, conferidas em **22/09/2026**: [manifest.json](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json).
+
 ## Três situações, com provas distintas
 
 | Situação                  | O que foi observado                                                                                                   | Consequência para quem investiga                             |
@@ -15,6 +17,8 @@ Um backup antigo pode conter uma fonte apagada depois. Recuperar os bytes sem re
 Os dois primeiros casos ocorreram na origem, **antes do backup**, com run de revisão `319b9f2fe2f4`. O terceiro pertence ao run de exclusão/restauração `a468f70ee9bb`, em outro projeto. O conflito de edição não é apresentado como causa da restauração.
 
 O dossiê foi criado pela API com trecho literal de fonte sintética e aprovado por outra conta da aplicação. Isso verifica separação de papéis e rastreabilidade. **Não foi uma avaliação humana da conclusão**, nem geração por IA; a própria justificativa da aprovação identifica a automação.
+
+Fontes desta seção, conferidas em **22/09/2026**: [prove_restore_read.py](../scripts/prove_restore_read.py) · [restore_read_probe.py](../scripts/restore_read_probe.py) · [manifest.json](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json).
 
 ## Capturas autênticas
 
@@ -39,6 +43,8 @@ _O incidente `demo-aurora-01` preserva o recorte e explica que duas observaçõe
 _O acesso direto ao dossiê excluído falhou no destino reaberto. O mesmo ensaio conferiu HTTP 404 da fonte e do arquivo original, além de sua ausência no armazenamento._
 
 O manifesto inclui mais duas capturas: revisão aprovada sem leitor e erro da fonte excluída. A captura longa da lista de fontes precisa ser aberta no tamanho original para conferir seus detalhes.
+
+Fontes desta seção, conferidas em **22/09/2026**: [prove_restore_read.py](../scripts/prove_restore_read.py) · [restore_read_probe.py](../scripts/restore_read_probe.py) · [manifest.json](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json).
 
 ## Por que abrir dentro da janela de recuperação
 
@@ -66,6 +72,8 @@ A jornada permitiu login e leituras e verificou ausência de chamadas de geraç�
 
 Foram comparados hashes por linha de **17 tabelas de domínio**, além de linhas/contagem de `provider_calls` e checkpoint do ledger, antes/depois da leitura. As tabelas estão enumeradas na evidência. Sessões, limites de login, auditoria e controle operacional ficam fora dessa igualdade porque login/manutenção produzem alterações legítimas. Não é comparação integral do banco, nem afirmação de que importar e excluir deixaram a origem inteira inalterada.
 
+Fontes desta seção, conferidas em **22/09/2026**: [restore_read_probe.py](../scripts/restore_read_probe.py).
+
 ## Resultado físico e duração
 
 A origem foi `pf-evidencedesk-capacity-edread-492911fe`; o destino, `pf-evidencedesk-restore-edread-492911fe-r2`. A exclusão posterior ao backup avançou o ledger e concluiu o purge. O restore reaplicou um registro de exclusão, esvaziou o conteúdo de uma evidência e verificou 108 referências restantes. A inspeção posterior confirmou tombstone, texto canônico e alegações apagados, objeto original ausente e nenhuma referência à chave excluída.
@@ -81,6 +89,8 @@ A origem foi `pf-evidencedesk-capacity-edread-492911fe`; o destino, `pf-evidence
 As duas últimas linhas estão contidas nas anteriores; não devem ser somadas como fases independentes. Esta tentativa reutilizou a origem sintética preparada anteriormente. Build e seed não estão incluídos nesses tempos. É uma execução local, não estimativa de RTO comercial, recuperação entre hosts ou teste de capacidade. Os objetivos de RPO/RTO do runbook continuam separados destas observações.
 
 Os containers dos projetos foram parados ao final e a ausência de containers ativos foi conferida. **Volumes foram preservados para inspeção**, conforme o contrato do helper existente; não foram removidos nem houve prune global. Manifests completos do backup, tokens, ambiente e saídas privadas ficam fora do repositório/OneDrive. A projeção pública identifica hashes e dados sintéticos sem publicar esses segredos.
+
+Fontes desta seção, conferidas em **22/09/2026**: [prove_restore_read.py](../scripts/prove_restore_read.py) · [restore_read_probe.py](../scripts/restore_read_probe.py) · [manifest.json](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json).
 
 ## Reprodução e dificuldades
 
@@ -100,8 +110,12 @@ A primeira preparação falhou por usar `id` onde o contrato da alegação expõ
 
 A revisão do executor também tratou fechamento de destino em falha antecipada, limite da árvore do processo de navegador e digest por linha para evitar agregar o texto inteiro do corpus. Essas mudanças protegem a prova e a operação local. Os testes host e eventuais ajustes de diagnóstico posteriores têm seus próprios registros no manifesto; não são outra execução no banco nem repetição da suíte completa do produto.
 
+Fontes desta seção, conferidas em **22/09/2026**: [prove_restore_read.py](../scripts/prove_restore_read.py) · [check_erasure_restore.py](../scripts/check_erasure_restore.py) · [prepare_review_capture.py](../scripts/prepare_review_capture.py).
+
 ## O que isso permite avaliar — e o que falta
 
 Para uma revisão técnica, agora é possível seguir o problema, a ordem dos controles, a recusa e a leitura real após recuperação. Uma tela de sucesso ou um dump existente, sozinhos, não forneceriam essa evidência. O caso usa uma fonte e um dossiê dependente; os testes de duplicatas, ledger divergente e unlink parcial têm evidências próprias e não são apresentados como parte desta mesma execução física.
 
 Permanecem pendentes cópia/destino fora do computador e julgamento semântico por pessoas. O [pacote de revisão](../evals/human-review/README.md) prepara 60 casos de desenvolvimento, referências e rubrica, mas não contém respostas julgadas. A busca lexical/manual segue como referência; o candidato de modelo não foi promovido. Abertura local verificada e aprovação por conta distinta não substituem essas validações.
+
+Fontes desta seção, conferidas em **22/09/2026**: [prove_restore_read.py](../scripts/prove_restore_read.py) · [restore_read_probe.py](../scripts/restore_read_probe.py) · [manifest.json](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json).

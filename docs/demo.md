@@ -2,11 +2,15 @@
 
 Preparei este roteiro para demonstrar uma investigação completa do **mesmo pedido**, sem geração por modelo. Pré-condição: seed carregado, API, worker e frontend prontos. Use apenas contas fictícias em um projeto local descartável. A aprovação por contas operadas pelo teste verifica o mecanismo, não equivale a julgamento semântico por uma pessoa.
 
+Fontes desta seção, conferidas em **22/09/2026**: [payment-story.spec.ts](../frontend/e2e/payment-story.spec.ts) · [payment-story.json](evidence/editorial-payment-20260922/payment-story.json) · [provider-check.json](evidence/editorial-payment-20260922/provider-check.json).
+
 ## O que precisa ser conferido
 
 O pedido `PED-009-000`, em `demo-aurora-09`, tem pagamento confirmado às **12:00:30 UTC de 09/07/2026**. O snapshot de pedidos das **12:10:00 UTC** ainda informa `pending_payment`: são 570 segundos depois. A política fictícia espera a transição em 300 segundos, até 12:05:30 UTC. A cobertura declarada inclui todo esse período, mas não há `order.payment_confirmed` no recorte.
 
 O resultado esperado é **duas divergências sobre um pedido**, entre 222 pedidos do incidente. O dossiê deve citar o pagamento e o snapshot, registrar que a causa não foi estabelecida e deixar uma próxima verificação. Aprovar a revisão encerra a investigação na aplicação; **não muda esses registros nem comprova a correção do pedido**.
+
+Fontes desta seção, conferidas em **22/09/2026**: [payment-story.spec.ts](../frontend/e2e/payment-story.spec.ts) · [payment-story.json](evidence/editorial-payment-20260922/payment-story.json) · [provider-check.json](evidence/editorial-payment-20260922/provider-check.json).
 
 ## Execução manual conferida em 22/09/2026
 
@@ -41,6 +45,8 @@ O caso de pagamento pendente é `demo-aurora-09`, também usado nas [capturas ve
 | 3:15–4:10 | Submeter; entrar como Bruno e comparar a revisão exata          | O autor não aprova a própria submissão; aprovação aponta IDs de alegações. Exporte somente depois de aprovar.                          |
 | 4:10–5:00 | Exportar a versão aprovada e retornar às divergências           | O HTML conserva as fontes e a justificativa. Os dois registros operacionais continuam divergentes: aprovação não é remediação.         |
 
+Fontes desta seção, conferidas em **22/09/2026**: [payment-story.json](evidence/editorial-payment-20260922/payment-story.json) · [crop.json](evidence/editorial-payment-20260922/crop.json) · [provider-check.json](evidence/editorial-payment-20260922/provider-check.json).
+
 ## Executar a jornada automatizada
 
 A [jornada de pagamento](../frontend/e2e/payment-story.spec.ts) usa a interface e a API reais, sem substituir respostas ou texto no DOM. É opt-in porque cria uma investigação e um dossiê sobre as fontes do seed. Confere os horários contra valores esperados independentes, os IDs das duas fontes, a negativa à autora, a identidade do revisor, o HTML exportado e a preservação da conciliação após aprovar. As duas contas precisam estar disponíveis no seed.
@@ -74,6 +80,8 @@ Os testes que sustentam as decisões são separados da captura:
 
 O teste de revisão independente usa um autor com capacidade de revisão para verificar a proibição específica de aprovar o próprio trabalho. Na jornada visual, Ana não possui esse papel e recebe 403; essa negativa sozinha não comprova a segunda regra.
 
+Fontes desta seção, conferidas em **22/09/2026**: [payment-story.spec.ts](../frontend/e2e/payment-story.spec.ts).
+
 ## IA histórica e outros casos
 
 Resultado real de IA **de outra execução histórica**: run `2605b0dcf3fd4045a345a51fd2f80bdf`, incidente `demo-aurora-01`, dossiê `35de4e41bc4f4a1c863ecbf665bf1505`. Pertence ao caso de reentrega, não ao pagamento pendente demonstrado acima. Há três alegações em rascunho e fontes do agregado determinístico. Outro checkout só possui esse resultado se restaurar os dados correspondentes; o seed não falsifica uma chamada Azure. A [jornada de reabertura](../frontend/e2e/existing-run.spec.ts) exige os IDs existentes e não admite uma nova geração.
@@ -82,6 +90,10 @@ Para mostrar revogação, use o ensaio isolado em `test_administration.py`; não
 
 Se um dado não estiver disponível, aponte a lacuna. A demonstração deve permitir conferir e discordar, não apenas admirar texto gerado.
 
+Fontes desta seção, conferidas em **22/09/2026**: [existing-run.spec.ts](../frontend/e2e/existing-run.spec.ts).
+
 ## Provas para acompanhar a apresentação
 
 A [sequência com capturas de 22/09](restore-read-story.md) mostra uma revisão aprovada com sua fonte, um conflito real 409 preservando rascunho e a leitura de incidente após restauração. Revisão/conflito aconteceram na origem antes do backup; restauração/exclusão têm run e destino próprios. A aprovação usou duas contas por automação, sem revisor humano nem geração por modelo. As imagens permitem conferir o mecanismo, enquanto o [pacote semântico](../evals/human-review/README.md) prepara a avaliação de qualidade ainda pendente.
+
+Fontes desta seção, conferidas em **22/09/2026**: [payment-story.spec.ts](../frontend/e2e/payment-story.spec.ts) · [payment-story.json](evidence/editorial-payment-20260922/payment-story.json) · [provider-check.json](evidence/editorial-payment-20260922/provider-check.json).

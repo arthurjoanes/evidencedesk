@@ -12,17 +12,17 @@ Treino real: uma época, 75 passos, batch 2 com acumulação 8, float32, comprim
 
 A recuperação executou E5 e PostgreSQL FTS/pgvector reais sobre 124 documentos dev. Cada consulta gerou candidatos por busca; o reranker apenas os reordenou. Nenhum positivo ausente foi inserido usando o gold. Ambas as rodadas permanecem publicadas:
 
-| Medida | Planner AND original | Planner OR com até 16 lexemas |
-|---|---:|---:|
-| nDCG@10 lexical | 0,0000 | 0,4949 |
-| nDCG@10 E5 | 0,5663 | 0,5663 |
-| nDCG@10 RRF | 0,5663 | 0,5738 |
-| nDCG@10 reranker base | 0,6906 | 0,7011 |
-| nDCG@10 candidato | 0,7818 | 0,8047 |
-| Ganho pareado candidato/base | +0,0912 | +0,1036 |
-| Recall@10 candidato | 0,4917 | 0,5167 |
-| p95 base/candidato | 109,02/143,67 ms | 101,06/101,68 ms |
-| Razão p95 candidato/base | 1,318 — falhou limite 1,25 | 1,006 — passou nesta rodada |
+| Medida                       |       Planner AND original | Planner OR com até 16 lexemas |
+| ---------------------------- | -------------------------: | ----------------------------: |
+| nDCG@10 lexical              |                     0,0000 |                        0,4949 |
+| nDCG@10 E5                   |                     0,5663 |                        0,5663 |
+| nDCG@10 RRF                  |                     0,5663 |                        0,5738 |
+| nDCG@10 reranker base        |                     0,6906 |                        0,7011 |
+| nDCG@10 candidato            |                     0,7818 |                        0,8047 |
+| Ganho pareado candidato/base |                    +0,0912 |                       +0,1036 |
+| Recall@10 candidato          |                     0,4917 |                        0,5167 |
+| p95 base/candidato           |           109,02/143,67 ms |              101,06/101,68 ms |
+| Razão p95 candidato/base     | 1,318 — falhou limite 1,25 |   1,006 — passou nesta rodada |
 
 O AND da pergunta inteira era restritivo demais; esse achado motivou `lexical-v2` no core. A rodada com OR usa o mesmo candidato e dev, sem retreinamento, com candidatos diferentes. Não substitui a rodada anterior nem comprova estabilidade de latência. Bootstrap pareado sintético de 30 grupos produziu intervalos de ganho [0,0611; 0,1248] e [0,0737; 0,1370]; a amostra não representa qualidade em produção. O recall continua limitado e a análise de regressões semânticas exige revisão humana. Não houve promoção automática ou execução oportunista do holdout.
 
@@ -53,6 +53,8 @@ O [serviço privado de modelos](../docs/model-service.md) passou uma smoke HTTP 
 
 Depois do benchmark, o produto recebeu chunks `utf8-bytes-352-v2`; essa mudança não altera os relatórios anteriores. A [verificação de tokenizers](reports/chunk-policy-tokenizers.json) usou somente os noventa documentos da demo e probes Unicode, sem pesos, Azure ou gold reservado: 180 chunks, máximos80 tokens E5 e97 no par para a pergunta padrão. É uma verificação de compatibilidade, não nova medição de qualidade. Reavaliar retrieval sobre os novos spans exige corpus/referências/release próprios.
 
-O [manifesto público](../model-manifest.json) reúne  hashes de modelos, ambiente, código e evidências medidas. Os oito arquivos do candidato foram [identificados por SHA-256](reports/candidate-files.json), sem exportar pesos. Para atualizar o índice após uma revisão intencional, rode `python experiments/build_manifest.py`; não substitua silenciosamente relatórios antigos.
+O [manifesto público](../model-manifest.json) reúne hashes de modelos, ambiente, código e evidências medidas. Os oito arquivos do candidato foram [identificados por SHA-256](reports/candidate-files.json), sem exportar pesos. Para atualizar o índice após uma revisão intencional, rode `python experiments/build_manifest.py`; não substitua silenciosamente relatórios antigos.
 
 Fontes: [PyTorch e CUDA](https://pytorch.org/get-started/locally/), [índice oficial CUDA 13.0](https://download.pytorch.org/whl/cu130/torch/), [NVIDIA WSL](https://docs.nvidia.com/cuda/wsl-user-guide/), [E5](https://huggingface.co/intfloat/multilingual-e5-small), [reranker](https://huggingface.co/cross-encoder/mmarco-mMiniLMv2-L12-H384-v1), [treino de CrossEncoder](https://sbert.net/docs/cross_encoder/training_overview.html).
+
+Fontes desta seção, conferidas em **22/09/2026**: [protocol.json](protocol.json) · [20260921T074245Z-train-manifest.json](reports/20260921T074245Z-train-manifest.json) · [retrieval-dev.json](reports/retrieval-dev.json).

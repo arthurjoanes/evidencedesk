@@ -15,6 +15,8 @@ O [inventário inicial verificável](evidence/screenshots-20260922.json) conserv
 
 Os prints longos das execuções históricas aparecem apenas como links. As imagens embutidas no README e nas docs são a tabela, o novo JSON colorido e o detalhe original do snapshot (473 × 582). Os cortes vêm de `locator.screenshot()` ou do registro nativo já documentado; não há reconstrução, substituição de texto ou redesenho de pixels.
 
+Fontes desta seção, conferidas em **22/09/2026**: [syntax-highlight-20260922.json](evidence/syntax-highlight-20260922.json) · [screenshots-20260922.json](evidence/screenshots-20260922.json).
+
 ## Reproduzir a leitura
 
 Com a aplicação e o seed local disponíveis, a partir de `frontend`:
@@ -28,6 +30,10 @@ npm run test:e2e -- json-syntax.spec.ts visual.spec.ts
 
 A saída fica fora do repositório. Inspecione fonte e texto carregados antes de selecionar capturas; preserve os arquivos vinculados a manifestos históricos. Para outros sistemas, use um navegador instalado compatível com Playwright.
 
+Fontes desta seção, conferidas em **22/09/2026**: [visual.spec.ts](../frontend/e2e/visual.spec.ts) · [screenshots-20260922.json](evidence/screenshots-20260922.json) · [syntax-highlight-20260922.json](evidence/syntax-highlight-20260922.json).
+
 ## Limpeza conferida
 
 As 17 imagens possuem referência documental ou vínculo com um manifesto. A nova apresentação conserva somente um recorte móvel do JSON; o arquivo anterior permanece para validar o registro da primeira revisão. Caches, dependências, builds, traces, relatórios temporários e dados locais já estão ignorados pelo Git e foram preservados para execução. O pequeno `experiments/reports/checkpoint-security-tests.log` é uma prova citada por três manifestos; não é um log de sessão descartável. Licenças, dados sintéticos de avaliação e evidências históricas continuam necessários às verificações documentadas.
+
+Fontes desta seção, conferidas em **22/09/2026**: [visual.spec.ts](../frontend/e2e/visual.spec.ts) · [screenshots-20260922.json](evidence/screenshots-20260922.json) · [syntax-highlight-20260922.json](evidence/syntax-highlight-20260922.json).

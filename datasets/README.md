@@ -24,3 +24,4 @@ As dez famílias incluem reentrega, atraso, ordem de recepção diferente da oco
 
 Não importe `evals/` ou `experiments/` no corpus. Golds, rótulos e casos reservados ficam fora do índice da demo.
 
+Fontes desta seção, conferidas em **22/09/2026**: [generate.py](generate.py) · [ingestion/contracts.py](../backend/src/evidencedesk/ingestion/contracts.py) · [reconciliation/contracts.py](../backend/src/evidencedesk/reconciliation/contracts.py).
