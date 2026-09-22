@@ -1,0 +1,28 @@
+{
+  "recorded_at": "2026-09-22T12:38:55.274249+00:00",
+  "baseline_tracked_implementation_files_unchanged": 296,
+  "frontend_unit": {
+    "command": "npm test",
+    "passed": 61,
+    "failed": 0,
+    "skipped": 0,
+    "files": 10
+  },
+  "static_checks": [
+    {
+      "command": "npm run typecheck",
+      "status": "passed"
+    },
+    {
+      "command": "npx eslint e2e/payment-story.spec.ts",
+      "status": "passed"
+    },
+    {
+      "command": "npx prettier --check e2e/payment-story.spec.ts",
+      "status": "passed"
+    }
+  ],
+  "scope": "Only documentation and a new opt-in browser journey changed. Backend and frontend application sources/configurations remain identical to the recorded baseline; the tests above do not claim a complete new backend regression suite.",
+  "source_rechecked_at": "2026-09-22T12:46:32.275626+00:00",
+  "runtime_build_files_unchanged": 173
+}

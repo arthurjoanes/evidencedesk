@@ -1,0 +1,47 @@
+{
+  "recorded_at": "2026-09-22T12:27:22.699822+00:00",
+  "command": "python -m pytest backend/tests/integration/test_manual_workflow.py::test_import_review_conflict_independent_approval_and_escaped_export backend/tests/integration/test_manual_workflow.py::test_cross_tenant_http_rls_connection_reuse_and_revoked_derived_data backend/tests/integration/test_evidence_scope.py backend/tests/integration/test_administration.py::test_grant_revocation_hides_all_incident_surfaces_and_cancels_work -q",
+  "scope": "Current worktree, disposable PostgreSQL project pf-evidencedesk-editorial-tests; no provider.",
+  "tests": 9,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "cases": [
+    {
+      "module": "tests.integration.test_manual_workflow",
+      "name": "test_import_review_conflict_independent_approval_and_escaped_export"
+    },
+    {
+      "module": "tests.integration.test_manual_workflow",
+      "name": "test_cross_tenant_http_rls_connection_reuse_and_revoked_derived_data"
+    },
+    {
+      "module": "tests.integration.test_evidence_scope",
+      "name": "test_derived_evidence_requires_origin_incident_membership_and_matching_claim_scope"
+    },
+    {
+      "module": "tests.integration.test_evidence_scope",
+      "name": "test_direct_tool_read_enforces_operational_window[None-2026-08-01T11:00:00Z-True]"
+    },
+    {
+      "module": "tests.integration.test_evidence_scope",
+      "name": "test_direct_tool_read_enforces_operational_window[2026-08-01T11:00:00Z-2026-08-02T11:00:00Z-True]"
+    },
+    {
+      "module": "tests.integration.test_evidence_scope",
+      "name": "test_direct_tool_read_enforces_operational_window[2026-08-02T11:00:00Z-2026-08-01T11:00:00Z-False]"
+    },
+    {
+      "module": "tests.integration.test_evidence_scope",
+      "name": "test_direct_tool_read_enforces_operational_window[None-2026-08-02T11:00:00Z-False]"
+    },
+    {
+      "module": "tests.integration.test_evidence_scope",
+      "name": "test_direct_tool_read_enforces_operational_window[None-None-False]"
+    },
+    {
+      "module": "tests.integration.test_administration",
+      "name": "test_grant_revocation_hides_all_incident_surfaces_and_cancels_work"
+    }
+  ]
+}

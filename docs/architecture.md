@@ -1,8 +1,8 @@
 # Arquitetura
 
-O EvidenceDesk investiga pedidos com divergências entre pagamento, estoque e entrega. O sistema preserva as fontes usadas, calcula a conciliação com regras determinísticas e permite que um analista produza um dossiê. A IA pode propor um rascunho com citações; uma pessoa diferente do autor e do responsável pela submissão decide sobre a revisão.
+Desenvolvi o EvidenceDesk para investigar pedidos com divergências entre pagamento, estoque e entrega. Preservei as fontes usadas e separei a conciliação determinística da elaboração do dossiê. A IA pode propor um rascunho com citações; uma pessoa diferente do autor e do responsável pela submissão decide sobre a revisão.
 
-A implementação é um monólito modular, com API e workers em processos separados. O perfil de demonstração roda em Docker local; Azure OpenAI é uma integração opcional. O estado das verificações e os limites de entrega estão em [verification.md](verification.md).
+Organizei a implementação como um monólito modular, com API e workers em processos separados. Essa separação retira extração e inferência da requisição HTTP, mantendo autorização e publicação na mesma base de código. O perfil de demonstração roda em Docker local; Azure OpenAI é uma integração opcional. O estado das verificações e os limites de entrega estão em [verification.md](verification.md).
 
 Para partir de situações concretas antes dos contratos, veja [problemas, exemplos e decisões](problem-solution.md). O guia explica por que reentrega não significa cobrança duplicada, como uma edição concorre com outra e por que uma tentativa de IA incerta conserva sua reserva.
 
@@ -73,6 +73,8 @@ Tokens conhecidos são contabilizados no mês UTC da chamada. Reservas desconhec
 Schema válido e referência existente não comprovam que a fonte sustenta a frase. A avaliação de suporte, contradição e abstenção requer julgamento humano; resultados sintéticos e testes de integração não substituem esse gate.
 
 ## Decisões e tradeoffs
+
+Esta tabela explicita motivos técnicos sustentados pelo código e seus custos atuais. Não documenta uma comparação histórica de alternativas nem presume experiência de produção. Implementei o domínio e os controles da aplicação; PostgreSQL, Next.js, FastAPI, Azure OpenAI e as ferramentas de observabilidade são dependências e integrações de terceiros.
 
 | Decisão | Motivo | Custo ou limite |
 | --- | --- | --- |

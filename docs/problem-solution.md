@@ -1,14 +1,16 @@
 # Problemas, exemplos e decisões
 
-O EvidenceDesk atende à investigação de pedidos cujo pagamento, estoque e estado operacional não concordam. O produto reúne fontes autorizadas, calcula divergências e registra uma hipótese revisável. Os dados de demonstração são sintéticos; não houve estudo com analistas que demonstre redução de tempo ou benefício comercial.
+Desenvolvi o EvidenceDesk para investigar pedidos cujo pagamento, estoque e estado operacional não concordam. Reuni fontes autorizadas, regras de conciliação e uma conclusão revisável. Os dados de demonstração são sintéticos; não houve estudo com analistas que demonstre redução de tempo ou benefício comercial. As razões abaixo explicam efeitos e compromissos da implementação atual, sem atribuir uma motivação histórica não registrada.
 
 ## Pagamento confirmado e pedido pendente
 
 Abra `demo-aurora-09`, **Divergências**, e confira as duas fontes da comparação: evento de pagamento e snapshot do sistema de pedidos. A regra considera o instante do fato e o `as_of` do snapshot, além do mapeamento do pedido e da incerteza dos relógios. A data de importação não prova a ordem dos acontecimentos.
 
+No [gerador da demonstração](../datasets/generate.py), `incident_records` define `PED-009-000` com pagamento às **12:00:30 UTC de 09/07/2026** e snapshot `pending_payment` às **12:10:00 UTC**. A diferença é de 570 segundos. Com prazo de 300 segundos, a confirmação seria esperada até **12:05:30 UTC**; a coleta de pedidos está declarada completa até 12:30:00 UTC e não contém essa transição. Os resultados esperados são `payment_snapshot_mismatch` e `transition_not_observed`, ambos sobre o mesmo pedido. Os outros 221 pedidos normais explicam o total de 222 no recorte.
+
 Um exemplo pequeno está na fixture de [conciliação](../backend/tests/unit/test_reconciliation.py): pagamento aos 10 segundos e snapshot pendente aos 400 produzem `payment_snapshot_mismatch`; mover o snapshot para 5 segundos elimina essa comparação. Relógio desconhecido ou instantes próximos demais para sua precisão produzem uma avaliação inconclusiva. Ausência de transição exige cobertura suficiente até o prazo; o sistema não transforma falta de coleta em prova de falha.
 
-As [regras puras](../backend/src/evidencedesk/reconciliation/rules.py) separam cálculo da redação. Isso torna o resultado reproduzível, ao custo de exigir regras e contratos explícitos para cada integração. A divergência indica o que merece investigação; não identifica sozinha a causa nem corrige o pedido. [Contrato temporal e de cobertura](data-contract.md).
+Separei cálculo e redação nas [regras puras](../backend/src/evidencedesk/reconciliation/rules.py), chamadas por `load_reconciliation` no [serviço de incidentes](../backend/src/evidencedesk/incidents/service.py). Isso torna o resultado reproduzível, ao custo de exigir regras e contratos explícitos para cada integração. Uma consulta SQL específica poderia bastar em um caso isolado; aqui o contrato também preserva quais fontes, snapshot e revisão de regra sustentam cada resultado. A divergência indica o que merece investigação; não identifica sozinha a causa nem corrige o pedido. [Contrato temporal e de cobertura](data-contract.md).
 
 ## Reentrega não comprova cobrança duplicada
 
@@ -26,9 +28,11 @@ RLS oferece uma segunda fronteira por organização, com role sem privilégios d
 
 ## Revisões concorrentes e aprovação independente
 
-Se Ana e outro analista editam a mesma base, a primeira gravação cria uma revisão. A segunda recebe conflito 409; o editor preserva seu texto para comparação e nova decisão. `If-Match` e a revisão-base impedem sobrescrita silenciosa. Editar novamente cria outra revisão, que não herda a aprovação anterior.
+Se Ana e outro analista editam a mesma base, a primeira gravação cria uma revisão. A segunda recebe conflito 409; o editor preserva seu texto para comparação e nova decisão. O cabeçalho HTTP `If-Match` informa a versão esperada: junto da revisão-base, impede sobrescrita silenciosa. Editar novamente cria outra revisão, que não herda a aprovação anterior.
 
 Depois da submissão, nem o autor nem quem submeteu podem aprovar. O revisor confere a versão e as alegações exatas; a exportação exige revisão aprovada e permissão atual. É possível aprovar uma abstenção bem fundamentada: isso registra a revisão humana, não uma causa confirmada. [Serviço de revisão](../backend/src/evidencedesk/reviews/service.py), [integração de conflito/aprovação/exportação](../backend/tests/integration/test_manual_workflow.py) e [jornada manual](../frontend/e2e/investigation.spec.ts).
+
+Implementei esse vínculo na revisão: `validate_claims` revalida cada fonte e retira a aprovação semântica ao editar; `assert_base_revision` exige base e `If-Match` atuais; `review_revision` impede que autor ou submissor aprovem e exige todas as alegações da versão. Uma simples edição do texto atual seria menor, mas perderia a comparação com aquilo que outra pessoa conferiu. **“Resolvido” é o estado da investigação após aprovação do dossiê**, não uma confirmação de que o pedido ou pagamento foi corrigido. O serviço não executa essa remediação.
 
 Essa escolha preserva a responsabilidade de cada decisão, mas exige trabalho de comparação. Revisão imutável significa que edições não reescrevem a versão anterior; uma exclusão administrativa de fontes continua tendo efeitos auditados sobre sua disponibilidade e seus derivados.
 
@@ -48,7 +52,7 @@ Uma exclusão posterior ao backup precisa continuar valendo depois da restauraç
 
 ## Como ler as provas
 
-Os exemplos acima apontam implementações e testes existentes. As execuções, datas e limites estão na [verificação para publicação](publication.md); o [roteiro de demonstração](demo.md) permite explorar o fluxo manual. A revisão de 22/09/2026 alterou somente documentação: conferiu fontes e capturas versionadas, sem troca visual, nova jornada de navegador, stack de integração ou inferência. O [mapeamento da interface](publication-frontend.md) separa essa leitura das provas anteriores. Hospedagem completa no Azure, alta disponibilidade e qualidade humana suficiente continuam fora do resultado demonstrado.
+Os exemplos acima apontam implementações e testes existentes. As execuções, datas e limites estão na [verificação para publicação](publication.md); o [roteiro de demonstração](demo.md) permite explorar o fluxo manual. Uma revisão documental anterior, também em 22/09/2026, conferiu fontes e capturas versionadas sem nova execução. O [mapeamento da interface](publication-frontend.md) conserva esse escopo histórico; a jornada de pagamento tem comando e evidência próprios. Hospedagem completa no Azure, alta disponibilidade e qualidade humana suficiente continuam fora do resultado demonstrado.
 
 ## Recuperação verificável também pela interface
 

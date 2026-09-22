@@ -1,16 +1,26 @@
 # Verificação
 
-Data:21/09/2026. Laboratório Windows/WSL2 com Docker e dados sintéticos. Cada relatório preserva seu próprio corpus, revisão e condições; números de rodadas diferentes não são somados como uma única suíte. A suíte final do backend passou com **195 testes em 60,65s**, sem skips e sem chamadas Azure. Há um aviso de depreciação de Starlette/AnyIO. Ruff passou, 103 arquivos estão formatados e Mypy passou em 74 módulos. [JUnit completo](evidence/backend-final.xml).
+Última rodada documentada: **22/09/2026, jornada manual de pagamento pendente**. Laboratório Windows/WSL2 com Docker e dados sintéticos. Cada relatório preserva seu próprio corpus, revisão e condições; números de rodadas diferentes não são somados como uma única suíte.
 
-## Verificação atual
+## Jornada de pagamento pendente — 22/09/2026
 
-A prova adicional de 22/09/2026 está na [história de revisão e restauração](restore-read-story.md) e em seu [manifesto](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json): três jornadas Playwright passaram, com seis capturas reais e zero chamadas de provedor. A exclusão posterior ao backup foi reaplicada antes da leitura; as comparações de domínio e os controles físicos passaram. O conjunto host atual teve 53 passes e um skip em 54 casos. Esta prova local tem versões e limites próprios; não reclassifica as execuções históricas abaixo.
+O [roteiro e suas capturas](demo.md) acompanham o mesmo pedido: pagamento confirmado, snapshot posterior ainda pendente, dossiê manual, revisão por outra conta e exportação. A rodada passou em **59 testes unitários backend, 9 integrações com PostgreSQL, 61 testes frontend e 1 jornada real de navegador**, sem falhas ou skips nessas seleções. Consulte os [unitários backend](evidence/editorial-payment-20260922/unit-tests.json), [integrações](evidence/editorial-payment-20260922/integration-tests.json), [checks frontend e estáticos](evidence/editorial-payment-20260922/checks.json) e [execução final do navegador](evidence/editorial-payment-20260922/browser-review.json).
 
-A [revisão para publicação](publication.md) reúne os resultados da versão atual: correções de autorização/recorte temporal, paginação de coleções, validação de formulários, reprodução da instalação e novas imagens runtime. A [avaliação de segurança](publication-security.md) registra o scan atual por identidade de imagem.
+Os dois [builds](evidence/editorial-payment-20260922/runtime-build.json) e suas [instâncias](evidence/editorial-payment-20260922/runtime-identity.json) têm identidades próprias. O [Trivy desta rodada](evidence/editorial-payment-security-20260922/summary.json) reportou zero vulnerabilidades nas duas imagens, com a base de 22/09 e gate HIGH/CRITICAL preservado. O [scan de segredos](evidence/editorial-payment-20260922/secret-scan.json) separa histórico, conjunto publicável e complemento documental. O [manifesto](evidence/editorial-payment-20260922/manifest.json) vincula os arquivos da entrega.
 
-Os ensaios abaixo pertencem à implementação anterior. Seus relatórios continuam disponíveis para comparação e não substituem a verificação da versão atual.
+Não houve mudança de aplicação ou dependências, nova suíte completa backend ou chamada paga. A [contagem do provedor](evidence/editorial-payment-20260922/provider-check.json) permaneceu em zero; as duas divergências não mudaram após aprovar o dossiê. Contas operadas por automação verificam o fluxo, não a qualidade de uma revisão humana. Os [recursos próprios foram encerrados](evidence/editorial-payment-20260922/cleanup.json).
 
-## Matriz requisito → evidência
+## Rodadas anteriores preservadas
+
+A prova de restauração de **22/09/2026 às 07:22 UTC** está na [história de revisão e restauração](restore-read-story.md) e em seu [manifesto](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json): três jornadas Playwright passaram, com seis capturas reais e zero chamadas de provedor. A exclusão posterior ao backup foi reaplicada antes da leitura; as comparações de domínio e os controles físicos passaram. O conjunto host daquela entrega teve 53 passes e um skip em 54 casos. Esta prova local tem versões e limites próprios; não foi repetida pela jornada de pagamento.
+
+A [revisão para publicação](publication.md) conserva as rodadas de autorização/recorte temporal, paginação de coleções, validação de formulários e reprodução da instalação. A [avaliação de segurança](publication-security.md) distingue o scan de 22/09 dos anteriores por data e identidade de imagem.
+
+No ensaio de **21/09/2026**, a suíte backend passou com **195 testes em 60,65s**, sem skips e sem chamadas Azure. Houve um aviso de depreciação de Starlette/AnyIO. Ruff passou, 103 arquivos estavam formatados e Mypy passou em 74 módulos. [JUnit preservado](evidence/backend-final.xml).
+
+A matriz e os relatos seguintes pertencem a essas execuções anteriores, inclusive as referências a “final”, “atual” e ao CI ainda não executado na época. Não substituem as provas datadas da jornada de pagamento nem indicam o estado do CI de um commit posterior.
+
+## Matriz histórica requisito → evidência
 
 | Requisito | Execução/evidência | Interpretação |
 | --- | --- | --- |

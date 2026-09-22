@@ -1,0 +1,186 @@
+{
+  "recorded_at": "2026-09-22T12:54:59.266987+00:00",
+  "baseline_commit": "09d90f2697e2251a788280ec640f9989cb24ce36",
+  "scope": "Editorial documentation, one opt-in real browser journey, selected synthetic evidence and screenshots. No application/runtime/dependency change; no historical evidence rewritten.",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "6a7647b9fc193b13e105128e652ae9f74bfa568a0b9ca55749440a76b4924565",
+      "bytes": 8902
+    },
+    {
+      "path": "docs/architecture.md",
+      "sha256": "2c3eb93a3e71bbb1014bbe96f57aaf92651727408aa65e0ff0bcdcc4de9a1353",
+      "bytes": 15151
+    },
+    {
+      "path": "docs/demo.md",
+      "sha256": "e6b90e3c2ba878bbfe935b1918db94bff91cac5a3e1f9bf1356d99d5beb0c18c",
+      "bytes": 10242
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/baseline.json",
+      "sha256": "eee40838298304d6fac11d84ded75b4fb95c09750631f4c305b5ca8dbc505e52",
+      "bytes": 51549
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/browser-review.json",
+      "sha256": "d1db98e84ad0081b8a321c698d0829deb0defa73e94306a042cefe35478f3e0f",
+      "bytes": 2904
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/checks.json",
+      "sha256": "5a854a86dc9cd8770586b1bae9b68293fd1ae54d82f22b636cf4945570256235",
+      "bytes": 882
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/cleanup.json",
+      "sha256": "759a52dde4a86ccefbff0ef09b894ab817b652b8c99516ea5c395a1b81c06694",
+      "bytes": 340
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/crop.json",
+      "sha256": "0f9e41c054c36cf6fad5138afab8c1c6b212b783b95094f79f03d659b6b2dd5c",
+      "bytes": 525
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/integration-tests.json",
+      "sha256": "773921cec0e58949aded727d7094713011aa034f23e6936e470a6e6984bbeacc",
+      "bytes": 2176
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/markdown-review.json",
+      "sha256": "e8629f6573745f21055c9395755401a67ee8bae0bcabe22259e0a03cfd368633",
+      "bytes": 1253
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/payment-story.json",
+      "sha256": "1d1db5d274bebfaf234a9408bf9ac3d53878d91bd864492b795804bfcb0ead56",
+      "bytes": 10422
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/provider-check.json",
+      "sha256": "6a18ef2a5890089f31fd766bf44458814570107328f4ff6b853a909ec32a56d6",
+      "bytes": 244
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/runtime-build.json",
+      "sha256": "fdcacbae3de66f24723e193a3eb3b7eb4cf0389bad7470641f95e2cd5601a1e1",
+      "bytes": 31063
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/runtime-identity.json",
+      "sha256": "524d7ee823bdbd452f0348296c87de06febdbd9e67309fb9d3016189da8af0ce",
+      "bytes": 1087
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/secret-scan.json",
+      "sha256": "7ff3d28c67ba52079422b18b4b1c5ffe08918fc2db75048f01c9cde228e52132",
+      "bytes": 1865
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/seed-inputs.json",
+      "sha256": "56792e50677fd157afa0d1c42bc7572e5b97bb9115af8d85b0e1f97be7a62d91",
+      "bytes": 23317
+    },
+    {
+      "path": "docs/evidence/editorial-payment-20260922/unit-tests.json",
+      "sha256": "db0f439c1e08ca0c4476dc0012d9f1dd091675d85e8287a39f6833d11a03ec60",
+      "bytes": 9280
+    },
+    {
+      "path": "docs/evidence/editorial-payment-security-20260922/api-vulnerabilities.json",
+      "sha256": "78ae5ed1edffa0577953f633b5e8d9e4d8fbf5bd19d53fd0ffe93642c782dd36",
+      "bytes": 9021
+    },
+    {
+      "path": "docs/evidence/editorial-payment-security-20260922/frontend-vulnerabilities.json",
+      "sha256": "c8f90e36efe2111340fb3b1a81df50f2348ac52caf97203cba7c8e3c6f5ea9a2",
+      "bytes": 3836
+    },
+    {
+      "path": "docs/evidence/editorial-payment-security-20260922/summary.json",
+      "sha256": "8e222bfcc0deebf6404dfe550b8a3bb64cd066e0e00ace16f7e75496a80a3d12",
+      "bytes": 1656
+    },
+    {
+      "path": "docs/images/payment-story-20260922/01-pagamento-e-divergencias.png",
+      "sha256": "2a4db6f793a17dcfd019fed2fc7cccf2abd73c8af70eefe91d878d9496120e2c",
+      "bytes": 111878
+    },
+    {
+      "path": "docs/images/payment-story-20260922/02-snapshot-detalhe.png",
+      "sha256": "6b94f543e4a7ca82addfe68f02e79fbdd664e4b00e65b91d7a0bf47e30848b38",
+      "bytes": 22275
+    },
+    {
+      "path": "docs/images/payment-story-20260922/02-snapshot-pendente.png",
+      "sha256": "b69f1ba07f61944f3ef6dd09439f01820c9709ead5cd5cc0504c7dbd414ccce9",
+      "bytes": 106775
+    },
+    {
+      "path": "docs/images/payment-story-20260922/03-decisao-da-revisao.png",
+      "sha256": "afa85d9d7c950a9480ac0948dcdf13094c0114c984aabc9f6cea4d7ad725054d",
+      "bytes": 110581
+    },
+    {
+      "path": "docs/images/payment-story-20260922/04-dossie-aprovado.png",
+      "sha256": "4fd1f2322d620818efae286da399b7554931c902b20078de6c009ccc5aa7d10c",
+      "bytes": 117823
+    },
+    {
+      "path": "docs/images/payment-story-20260922/05-dossie-com-fonte.png",
+      "sha256": "f71978397c12f60a997eb95a20a466dcb46f54b736ee09a40072e656d79cb074",
+      "bytes": 156381
+    },
+    {
+      "path": "docs/images/payment-story-20260922/05-dossie-detalhe-recorte.png",
+      "sha256": "7252e4e8a92fdab60548d4f5d623d7a6ab00048280027cbe0d9a34a40ca3a2b5",
+      "bytes": 38593
+    },
+    {
+      "path": "docs/images/payment-story-20260922/06-fonte-mobile.png",
+      "sha256": "c30509eacb840ed12dfaf1cabc306ca2a42359af99c44eac8914d8a6f84639e9",
+      "bytes": 41367
+    },
+    {
+      "path": "docs/problem-solution.md",
+      "sha256": "ffc3435d1926238c9ef98e4d6854cbeb2275643ccbab55c89a81c5eeb160c6e5",
+      "bytes": 10707
+    },
+    {
+      "path": "docs/publication-frontend.md",
+      "sha256": "b751e3187a5894d924bf9cbd1af4ce88b986b617560f25e311554f2e4d700f97",
+      "bytes": 9180
+    },
+    {
+      "path": "docs/publication-security.md",
+      "sha256": "d55417f328b1829a38fc99315816347c966a47078c7c9cf0349aa8e8eb7d5300",
+      "bytes": 8831
+    },
+    {
+      "path": "docs/publication.md",
+      "sha256": "f22435dd300024f9b621b8fe3fe19f5a596fc4c820fe7f41701d5e114061b416",
+      "bytes": 10190
+    },
+    {
+      "path": "docs/verification.md",
+      "sha256": "2f3fa1bc4eaf1f7c45779450b43ffb55d0d6d0498c2f710d9b7e538668dcf4db",
+      "bytes": 13273
+    },
+    {
+      "path": "frontend/e2e/payment-story.spec.ts",
+      "sha256": "8712083600444514570bbddc310ac15b4831aed2c7bccf22f53a70536e94e887",
+      "bytes": 15959
+    }
+  ],
+  "source_verification": {
+    "baseline_tracked_implementation_files_unchanged": 296,
+    "runtime_build_files_unchanged": 173
+  },
+  "limits": [
+    "Hashes describe raw bytes; new and edited text files use LF, matching repository attributes.",
+    "This manifest excludes itself; integration handoff outside the repository includes its SHA-256.",
+    "No production deployment, paid model call, human semantic evaluation or new complete backend regression suite."
+  ]
+}

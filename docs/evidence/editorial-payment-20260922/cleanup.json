@@ -1,0 +1,9 @@
+{
+  "checked_at": "2026-09-22T12:38:55.359278+00:00",
+  "active_containers": {
+    "pf-evidencedesk-e2e-editorial-payment": [],
+    "pf-evidencedesk-editorial-tests": []
+  },
+  "volumes": "Preserved for inspection; no shared resources stopped or removed.",
+  "browser": "Playwright closed its isolated browser context after the journey."
+}

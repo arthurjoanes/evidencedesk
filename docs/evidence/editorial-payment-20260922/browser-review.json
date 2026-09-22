@@ -1,0 +1,67 @@
+{
+  "recorded_at": "2026-09-22T12:35:44.021615+00:00",
+  "status": "passed",
+  "stats": {
+    "startTime": "2026-09-22T12:34:16.049Z",
+    "duration": 12732.393,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "script": {
+    "path": "frontend/e2e/payment-story.spec.ts",
+    "sha256": "8712083600444514570bbddc310ac15b4831aed2c7bccf22f53a70536e94e887"
+  },
+  "capture_scope": "Real EvidenceDesk UI/API; synthetic data; browser default zoom; waits for fonts and authorization; no response or DOM substitution. Snapshot detail is a native browser clip; complete page retained.",
+  "screenshots": [
+    {
+      "path": "docs/images/payment-story-20260922/01-pagamento-e-divergencias.png",
+      "sha256": "2a4db6f793a17dcfd019fed2fc7cccf2abd73c8af70eefe91d878d9496120e2c",
+      "bytes": 111878
+    },
+    {
+      "path": "docs/images/payment-story-20260922/02-snapshot-detalhe.png",
+      "sha256": "6b94f543e4a7ca82addfe68f02e79fbdd664e4b00e65b91d7a0bf47e30848b38",
+      "bytes": 22275
+    },
+    {
+      "path": "docs/images/payment-story-20260922/02-snapshot-pendente.png",
+      "sha256": "b69f1ba07f61944f3ef6dd09439f01820c9709ead5cd5cc0504c7dbd414ccce9",
+      "bytes": 106775
+    },
+    {
+      "path": "docs/images/payment-story-20260922/03-decisao-da-revisao.png",
+      "sha256": "afa85d9d7c950a9480ac0948dcdf13094c0114c984aabc9f6cea4d7ad725054d",
+      "bytes": 110581
+    },
+    {
+      "path": "docs/images/payment-story-20260922/04-dossie-aprovado.png",
+      "sha256": "4fd1f2322d620818efae286da399b7554931c902b20078de6c009ccc5aa7d10c",
+      "bytes": 117823
+    },
+    {
+      "path": "docs/images/payment-story-20260922/05-dossie-com-fonte.png",
+      "sha256": "f71978397c12f60a997eb95a20a466dcb46f54b736ee09a40072e656d79cb074",
+      "bytes": 156381
+    },
+    {
+      "path": "docs/images/payment-story-20260922/06-fonte-mobile.png",
+      "sha256": "c30509eacb840ed12dfaf1cabc306ca2a42359af99c44eac8914d8a6f84639e9",
+      "bytes": 41367
+    }
+  ],
+  "earlier_attempt": {
+    "functional_result": "passed",
+    "capture_issue": "Mobile screenshot captured reauthorization loading after resize; not selected. Final journey waits for canonical source content and creates a fresh normal incident over the same seeded window/snapshot. No state reset."
+  },
+  "concurrency": "Other authorized portfolio work included API alert verification and backend image builds during parts of this round. These are functional checks, not isolated performance measurements; timings do not establish causality or capacity.",
+  "command": "node node_modules/@playwright/test/cli.js test payment-story.spec.ts",
+  "working_directory": "frontend",
+  "environment": {
+    "ED_PAYMENT_STORY": "1",
+    "ED_E2E_BROWSER_CHANNEL": "msedge",
+    "ED_E2E_BASE_URL": "http://127.0.0.1:3107",
+    "ED_E2E_ARTIFACT_DIR": "runtime/editorial/browser-final (absolute local path)"
+  }
+}

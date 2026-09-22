@@ -1,0 +1,180 @@
+{
+  "SchemaVersion": 2,
+  "Metadata": {
+    "ImageID": "sha256:32b731cda7887141945034ff86cefc79f1e1b15335ffd67c9bc605d71a4f9ece",
+    "OS": {
+      "Family": "alpine",
+      "Name": "3.24.1"
+    }
+  },
+  "Results": [
+    {
+      "Target": "/scan/frontend.tar (alpine 3.24.1)",
+      "Class": "os-pkgs",
+      "Type": "alpine",
+      "Packages": [
+        {
+          "Name": "alpine-baselayout",
+          "Version": "3.7.2-r1"
+        },
+        {
+          "Name": "alpine-baselayout-data",
+          "Version": "3.7.2-r1"
+        },
+        {
+          "Name": "alpine-keys",
+          "Version": "2.6-r0"
+        },
+        {
+          "Name": "alpine-release",
+          "Version": "3.24.1-r0"
+        },
+        {
+          "Name": "apk-tools",
+          "Version": "3.0.6-r0"
+        },
+        {
+          "Name": "busybox",
+          "Version": "1.37.0-r31"
+        },
+        {
+          "Name": "busybox-binsh",
+          "Version": "1.37.0-r31"
+        },
+        {
+          "Name": "ca-certificates-bundle",
+          "Version": "20260611-r0"
+        },
+        {
+          "Name": "libapk",
+          "Version": "3.0.6-r0"
+        },
+        {
+          "Name": "libcrypto3",
+          "Version": "3.5.8-r0"
+        },
+        {
+          "Name": "libgcc",
+          "Version": "15.2.0-r5"
+        },
+        {
+          "Name": "libssl3",
+          "Version": "3.5.8-r0"
+        },
+        {
+          "Name": "libstdc++",
+          "Version": "15.2.0-r5"
+        },
+        {
+          "Name": "musl",
+          "Version": "1.2.6-r2"
+        },
+        {
+          "Name": "musl-utils",
+          "Version": "1.2.6-r2"
+        },
+        {
+          "Name": "scanelf",
+          "Version": "1.3.9-r1"
+        },
+        {
+          "Name": "ssl_client",
+          "Version": "1.37.0-r31"
+        },
+        {
+          "Name": "zlib",
+          "Version": "1.3.2-r0"
+        }
+      ],
+      "Vulnerabilities": []
+    },
+    {
+      "Target": "Node.js",
+      "Class": "lang-pkgs",
+      "Type": "node-pkg",
+      "Packages": [
+        {
+          "Name": "@edge-runtime/cookies",
+          "Version": "6.0.0"
+        },
+        {
+          "Name": "@edge-runtime/ponyfill",
+          "Version": "4.0.0"
+        },
+        {
+          "Name": "@edge-runtime/primitives",
+          "Version": "6.0.0"
+        },
+        {
+          "Name": "@img/colour",
+          "Version": "1.1.0"
+        },
+        {
+          "Name": "@img/sharp-libvips-linuxmusl-x64",
+          "Version": "1.3.3"
+        },
+        {
+          "Name": "@img/sharp-linuxmusl-x64",
+          "Version": "0.35.4"
+        },
+        {
+          "Name": "@next/env",
+          "Version": "16.3.5"
+        },
+        {
+          "Name": "@swc/helpers",
+          "Version": "0.5.23"
+        },
+        {
+          "Name": "client-only",
+          "Version": "0.0.1"
+        },
+        {
+          "Name": "detect-libc",
+          "Version": "2.1.2"
+        },
+        {
+          "Name": "evidencedesk-frontend",
+          "Version": "0.1.0"
+        },
+        {
+          "Name": "next",
+          "Version": "16.3.5"
+        },
+        {
+          "Name": "react",
+          "Version": "19.3.0"
+        },
+        {
+          "Name": "react-dom",
+          "Version": "19.3.0"
+        },
+        {
+          "Name": "react-is",
+          "Version": "19.3.0-canary-cbb046ab-20260731"
+        },
+        {
+          "Name": "regenerator-runtime",
+          "Version": "0.13.4"
+        },
+        {
+          "Name": "semver",
+          "Version": "6.3.1"
+        },
+        {
+          "Name": "semver",
+          "Version": "7.8.5"
+        },
+        {
+          "Name": "sharp",
+          "Version": "0.35.4"
+        },
+        {
+          "Name": "styled-jsx",
+          "Version": "5.1.6"
+        }
+      ],
+      "Vulnerabilities": []
+    }
+  ]
+}

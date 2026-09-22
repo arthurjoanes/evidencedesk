@@ -1,0 +1,279 @@
+{
+  "recorded_at": "2026-09-22T12:34:28.439Z",
+  "browser_version": "153.0.4234.48",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1280
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "scenario": "Synthetic seeded pending-payment incident; live UI/API, no provider generation",
+  "human_evaluation": false,
+  "incident_id": "0f2e37db4fe44bc592fbb5944c5b449d",
+  "seed_incident_id": "demo-aurora-09",
+  "source_snapshot_unchanged_from_seed": true,
+  "order_reference": "PED-009-000",
+  "snapshot_id": "23246107c76f4600b26d5ba5f097c02a",
+  "observed_counts": {
+    "orders": 222,
+    "divergences": 2
+  },
+  "reconciliation": {
+    "items": [
+      {
+        "id": "fact_ecfa7f22216d975780ac8a47",
+        "order_reference": "PED-009-000",
+        "rule_code": "payment_snapshot_mismatch",
+        "rule_revision": "commerce-demo-v1",
+        "status": "divergence",
+        "summary": "A fonte de pagamento registra confirmação anterior a um snapshot ainda incompatível.",
+        "evidence_ids": [
+          "ev_5ee24d533804d828a9177137b4ea25b2",
+          "ev_fdcc4c20b20592d17fb0d226f81de160"
+        ],
+        "evidence_snapshot_id": "23246107c76f4600b26d5ba5f097c02a"
+      },
+      {
+        "id": "fact_5cea4c66e9b0fdb8b77b793c",
+        "order_reference": "PED-009-000",
+        "rule_code": "transition_not_observed",
+        "rule_revision": "commerce-demo-v1",
+        "status": "divergence",
+        "summary": "A transição esperada não foi observada até o prazo neste recorte e cobertura.",
+        "evidence_ids": [
+          "ev_5ee24d533804d828a9177137b4ea25b2"
+        ],
+        "evidence_snapshot_id": "23246107c76f4600b26d5ba5f097c02a"
+      }
+    ],
+    "next_cursor": null,
+    "total": 2,
+    "evidence_snapshot_id": "23246107c76f4600b26d5ba5f097c02a",
+    "coverage": [
+      {
+        "from": "2026-07-09T12:00:00Z",
+        "to": "2026-07-09T12:30:00Z",
+        "source_system": "payments",
+        "status": "complete",
+        "gaps": [],
+        "event_types": [],
+        "clock_uncertainty_ms": 500
+      },
+      {
+        "from": "2026-07-09T12:00:00Z",
+        "to": "2026-07-09T12:30:00Z",
+        "source_system": "orders",
+        "status": "complete",
+        "gaps": [],
+        "event_types": [],
+        "clock_uncertainty_ms": 500
+      },
+      {
+        "from": "2026-07-09T12:00:00Z",
+        "to": "2026-07-09T12:30:00Z",
+        "source_system": "inventory",
+        "status": "complete",
+        "gaps": [],
+        "event_types": [],
+        "clock_uncertainty_ms": 500
+      }
+    ]
+  },
+  "timeline": {
+    "items": [
+      {
+        "id": "event_17cedc44142a75938187e66c",
+        "evidence_id": "ev_c0db5ea8b87899b772ec67e1f252b11f",
+        "order_reference": "PED-009-000",
+        "source_system": "inventory",
+        "event_type": "inventory.reserved",
+        "occurred_at": "2026-07-09T12:00:15Z",
+        "observed_at": "2026-07-09T12:00:16Z",
+        "ingested_at": "2026-09-22T12:26:14.001106Z",
+        "temporal_quality": "uncertain",
+        "delivery_count": 1,
+        "observation_evidence_ids": [
+          "ev_c0db5ea8b87899b772ec67e1f252b11f"
+        ]
+      },
+      {
+        "id": "event_0e19f9bca0f77f155d612d44",
+        "evidence_id": "ev_5ee24d533804d828a9177137b4ea25b2",
+        "order_reference": "PED-009-000",
+        "source_system": "payments",
+        "event_type": "payment.confirmed",
+        "occurred_at": "2026-07-09T12:00:30Z",
+        "observed_at": "2026-07-09T12:00:31Z",
+        "ingested_at": "2026-09-22T12:26:14.001106Z",
+        "temporal_quality": "uncertain",
+        "delivery_count": 1,
+        "observation_evidence_ids": [
+          "ev_5ee24d533804d828a9177137b4ea25b2"
+        ]
+      }
+    ],
+    "next_cursor": null,
+    "total": 2,
+    "evidence_snapshot_id": "23246107c76f4600b26d5ba5f097c02a",
+    "coverage": [
+      {
+        "from": "2026-07-09T12:00:00Z",
+        "to": "2026-07-09T12:30:00Z",
+        "source_system": "payments",
+        "status": "complete",
+        "gaps": [],
+        "event_types": [],
+        "clock_uncertainty_ms": 500
+      },
+      {
+        "from": "2026-07-09T12:00:00Z",
+        "to": "2026-07-09T12:30:00Z",
+        "source_system": "orders",
+        "status": "complete",
+        "gaps": [],
+        "event_types": [],
+        "clock_uncertainty_ms": 500
+      },
+      {
+        "from": "2026-07-09T12:00:00Z",
+        "to": "2026-07-09T12:30:00Z",
+        "source_system": "inventory",
+        "status": "complete",
+        "gaps": [],
+        "event_types": [],
+        "clock_uncertainty_ms": 500
+      }
+    ],
+    "ordering": "occurred_at_nulls_last"
+  },
+  "sources": [
+    {
+      "id": "ev_5ee24d533804d828a9177137b4ea25b2",
+      "kind": "source_event",
+      "title": "payment.confirmed · PAYMENTS-PED-009-000",
+      "version": "1",
+      "sha256": "411525326ca80ef01b94ef4a786d1ac06b0e6fee66b06f561c9b3c4390246590",
+      "source_system": "payments",
+      "temporal_role": "historical_artifact",
+      "valid_from": null,
+      "valid_until": null,
+      "canonical_text": "{\n  \"source_system\": \"payments\",\n  \"source_event_id\": \"demo-aurora-09-PED-009-000-payment.confirmed\",\n  \"delivery_id\": \"delivery-demo-aurora-09-PED-009-000-payment.confirmed\",\n  \"order_reference\": \"PAYMENTS-PED-009-000\",\n  \"event_type\": \"payment.confirmed\",\n  \"occurred_at\": \"2026-07-09T12:00:30Z\",\n  \"observed_at\": \"2026-07-09T12:00:31Z\",\n  \"source_timezone\": \"UTC\",\n  \"schema_version\": \"1\",\n  \"payload\": {},\n  \"time_unknown_reason\": null\n}",
+      "locator": {
+        "line_end": 2000,
+        "line_start": 2000
+      },
+      "original": {
+        "media_type": "application/x-ndjson",
+        "byte_size": 1428198,
+        "content_url": "/api/v1/evidence/ev_5ee24d533804d828a9177137b4ea25b2/content?evidence_snapshot_id=23246107c76f4600b26d5ba5f097c02a"
+      },
+      "canonical_text_sha256": "4135e306a452fb3c010c28b3d36c8be06c73d49dca7706f3708cba797df69325"
+    },
+    {
+      "id": "ev_fdcc4c20b20592d17fb0d226f81de160",
+      "kind": "order_snapshot",
+      "title": "pending_payment · ORDERS-PED-009-000",
+      "version": "1",
+      "sha256": "aec06ab56e341c787d9784640063f5a71de121264ffab42b7a9b6aac49502600",
+      "source_system": "orders",
+      "temporal_role": "historical_artifact",
+      "valid_from": null,
+      "valid_until": null,
+      "canonical_text": "{\n  \"source_system\": \"orders\",\n  \"snapshot_id\": \"snapshot-demo-aurora-09-PED-009-000\",\n  \"order_reference\": \"ORDERS-PED-009-000\",\n  \"status\": \"pending_payment\",\n  \"as_of\": \"2026-07-09T12:10:00Z\",\n  \"source_timezone\": \"UTC\"\n}",
+      "locator": {
+        "as_of": "2026-07-09T12:10:00Z",
+        "line_end": 668,
+        "line_start": 668
+      },
+      "original": {
+        "media_type": "text/csv",
+        "byte_size": 103335,
+        "content_url": "/api/v1/evidence/ev_fdcc4c20b20592d17fb0d226f81de160/content?evidence_snapshot_id=23246107c76f4600b26d5ba5f097c02a"
+      },
+      "canonical_text_sha256": "fd9933a8ab38cf69e926fb45c16798888a680f9739e35c175829dc9443bfb17c"
+    }
+  ],
+  "dossier_id": "7920b694fb5f4b5e839155f1f6d3a036",
+  "revision": {
+    "id": "cc54d214a89e429caea7f825b3c3c36e",
+    "number": 1,
+    "base_revision_id": null,
+    "summary": "PED-009-000: o pagamento foi confirmado às 12:00:30 UTC; às 12:10:00 UTC, o snapshot de pedidos ainda registra pendência. O recorte demonstra a divergência, mas não identifica sua causa nem comprova uma correção.",
+    "claims": [
+      {
+        "kind": "observed_fact",
+        "text": "Para PED-009-000, payments confirma o pagamento às 12:00:30 UTC de 09/07/2026; o snapshot de orders às 12:10:00 UTC ainda informa pending_payment. São registros incompatíveis neste recorte, sem causa estabelecida.",
+        "claim_id": "093f18b7159541c1bdb236520aad265e",
+        "evidence_links": [
+          {
+            "relation": "supports",
+            "evidence_id": "ev_5ee24d533804d828a9177137b4ea25b2"
+          },
+          {
+            "relation": "supports",
+            "evidence_id": "ev_fdcc4c20b20592d17fb0d226f81de160"
+          }
+        ],
+        "support_status": "reviewed",
+        "order_references": [
+          "PED-009-000"
+        ],
+        "suggested_checks": [],
+        "missing_information": []
+      }
+    ],
+    "outcome": "evidence_found",
+    "created_by": "aurora-ana",
+    "created_at": "2026-09-22T12:34:23.491529Z",
+    "review_status": "approved",
+    "missing_information": [
+      "Não há evidência suficiente para atribuir a falha a um componente.",
+      "Não foi consultado o estado atual do pedido fora deste snapshot."
+    ],
+    "suggested_checks": [
+      "Conferir o processamento da confirmação no serviço de pedidos, preservando os IDs e os horários das fontes."
+    ],
+    "impact_summary": {
+      "orders": 222,
+      "source": "deterministic_reconciliation",
+      "divergences": 2,
+      "observations": 665,
+      "not_evaluable": 0,
+      "rule_revision": "commerce-demo-v1",
+      "logical_events": 665,
+      "evidence_snapshot_id": "23246107c76f4600b26d5ba5f097c02a"
+    },
+    "etag": "\"cc54d214a89e429caea7f825b3c3c36e\"",
+    "review": {
+      "submitted_by": "aurora-ana",
+      "reviewed_by": "aurora-bruno",
+      "reason": "Ensaio automatizado com contas distintas. Foram conferidos o evento de pagamento, o snapshot posterior e os vínculos desta alegação. A causa e a correção do pedido permanecem não demonstradas. Esta aprovação verifica o fluxo, não substitui avaliação humana.",
+      "claim_ids": [
+        "093f18b7159541c1bdb236520aad265e"
+      ],
+      "updated_at": "2026-09-22T12:34:25.707374Z"
+    }
+  },
+  "author_id": "aurora-ana",
+  "reviewer_id": "aurora-bruno",
+  "self_review_status": 403,
+  "self_review_error": "reviewer_required",
+  "export": {
+    "status": 200,
+    "sha256": "cd3f35ce651fe43c7f904edd1c77f6ed6e1b1e302c230771263b53e1f6775bb7",
+    "bytes": 4717
+  },
+  "reconciliation_unchanged_after_review": true,
+  "original_downloads_match_declared_hash_and_size": true,
+  "generation_posts": 0,
+  "page_errors": [],
+  "limitations": [
+    "Automated use of distinct accounts is not human semantic review.",
+    "Approval closes the investigation, not the operational payment mismatch.",
+    "No source revocation, restore, paid generation or performance measurement in this journey."
+  ]
+}

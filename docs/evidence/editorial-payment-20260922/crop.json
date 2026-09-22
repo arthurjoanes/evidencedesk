@@ -1,0 +1,13 @@
+{
+  "type": "Unannotated crop of the original application screenshot; no pixels/content changed inside selection",
+  "source": "docs/images/payment-story-20260922/05-dossie-com-fonte.png",
+  "source_sha256": "f71978397c12f60a997eb95a20a466dcb46f54b736ee09a40072e656d79cb074",
+  "target": "docs/images/payment-story-20260922/05-dossie-detalhe-recorte.png",
+  "sha256": "7252e4e8a92fdab60548d4f5d623d7a6ab00048280027cbe0d9a34a40ca3a2b5",
+  "bounds": {
+    "left": 234,
+    "top": 666,
+    "width": 679,
+    "height": 830
+  }
+}

@@ -50,6 +50,16 @@ O [pacote de avaliação semântica](../evals/human-review/README.md) organiza 6
 
 A [checagem de segredos da entrega](evidence/restore-read-secret-scan.json) passou sobre os arquivos publicáveis. Dois hashes de fontes foram reconhecidos como falsos positivos e receberam exceções restritas à regra, ao caminho e aos valores exatos; uma chave sintética diferente no mesmo caminho continuou sendo detectada. Esse scan local não substitui a verificação do histórico pelo CI.
 
+## Complemento editorial: pagamento pendente em 22/09/2026
+
+Documentei o mesmo caso do começo ao fim no [roteiro de demonstração](demo.md): pagamento confirmado, snapshot posterior ainda pendente, dossiê manual com as duas fontes, revisão por outra conta e exportação. A nova [jornada opt-in](../frontend/e2e/payment-story.spec.ts) passou contra imagens construídas deste checkout, com provedor desabilitado e zero chamadas antes/depois. As fontes e as duas divergências continuaram iguais após a aprovação; “Resolvido” encerra a investigação, não corrige o pedido.
+
+Esta rodada acrescentou **59 testes unitários backend, 9 integrações com PostgreSQL, 61 testes frontend e 1 jornada real de navegador aprovados**, sem falhas ou skips nessas seleções. Não somei essas contagens às rodadas históricas. TypeScript, lint e formatação do novo teste passaram; o código da aplicação e suas configurações permaneceram iguais ao [baseline](evidence/editorial-payment-20260922/baseline.json). Os [checks](evidence/editorial-payment-20260922/checks.json), [identidades das imagens](evidence/editorial-payment-20260922/runtime-build.json) e [scan Trivy](evidence/editorial-payment-security-20260922/summary.json) delimitam o candidato: zero vulnerabilidades reportadas nas duas imagens com a base consultada, sem exceções no gate HIGH/CRITICAL.
+
+O [registro funcional](evidence/editorial-payment-20260922/payment-story.json) vincula fontes, hashes de originais, revisão e exportação. A [revisão no navegador](evidence/editorial-payment-20260922/browser-review.json) separa a primeira tentativa funcional, cuja captura móvel ainda carregava, da execução final que aguardou a fonte autorizada. Os projetos descartáveis foram [encerrados](evidence/editorial-payment-20260922/cleanup.json), preservando seus volumes. Não houve nova inferência paga, avaliação por analistas nem alteração visual do produto.
+
+O [manifesto desta entrega](evidence/editorial-payment-20260922/manifest.json) reúne os arquivos novos e alterados, sem reatribuir provas antigas ao candidato. O [scan de segredos](evidence/editorial-payment-20260922/secret-scan.json) passou no histórico e no conjunto publicável, sem mudar exceções. A [revisão do Markdown](evidence/editorial-payment-20260922/markdown-review.json) registra o render local e seus limites; não é uma nova execução do CI remoto.
+
 ## Limites atuais
 
 Os dados são sintéticos. Avaliação semântica humana, estudo com analistas, disponibilidade durante 30 dias e recuperação entre hosts continuam exigindo ensaios próprios. O modelo treinado permanece fora do serviço ativo. A aplicação completa ainda não está hospedada no Azure.

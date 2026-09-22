@@ -1,10 +1,14 @@
 # EvidenceDesk
 
-Investigação de incidentes de pedidos com evidências, IA e revisão humana.
+Investigação de pedidos com fontes verificáveis e revisão por outra pessoa.
 
-O pagamento foi confirmado, mas o pedido continua pendente. O EvidenceDesk reúne eventos, snapshots e procedimentos para conferir o que aconteceu, registrar uma hipótese com fontes e submetê-la a outro analista. A conciliação calcula as divergências; a IA ajuda a redigir a investigação.
+Desenvolvi o EvidenceDesk para reunir o material que um analista precisa quando o pagamento foi confirmado, mas o pedido continua pendente. Eventos, snapshots — fotografias do estado de outro sistema — e procedimentos sustentam uma investigação com fontes e revisão. É uma aplicação de portfólio com demonstração sintética, sem adoção comercial ou ganho de produtividade medido.
 
-![Bancada de investigação com leitor de evidências](docs/images/workspace-desktop.png)
+![Pedido PED-009-000 com duas divergências e o evento de pagamento aberto](docs/images/payment-story-20260922/01-pagamento-e-divergencias.png)
+
+*Execução local de 22/09/2026, com dados sintéticos: o mesmo pedido aparece em duas verificações, entre 222 pedidos do recorte. Duas divergências não significam dois pedidos afetados. [Abrir a imagem](docs/images/payment-story-20260922/01-pagamento-e-divergencias.png) · [Conferir snapshot, dossiê e revisão da mesma investigação](docs/demo.md).*
+
+**Entrada → resultado:** no pedido sintético `PED-009-000`, o pagamento ocorreu às **12:00:30 UTC** e o snapshot das **12:10:00 UTC** ainda informa `pending_payment`. As regras apontam a incompatibilidade e a confirmação não observada no prazo de 300 segundos. Elas não identificam a causa, não reenviam o pagamento e não corrigem o pedido.
 
 ## Uma investigação do início ao fim
 
@@ -15,6 +19,16 @@ O pagamento foi confirmado, mas o pedido continua pendente. O EvidenceDesk reún
 5. Exporte a revisão aprovada com suas fontes e os dados da decisão.
 
 O fluxo manual funciona sem conta Azure. A geração é opcional e produz rascunhos sujeitos à revisão.
+
+## O que eu implementei
+
+- **Importação com proveniência:** valido manifesto, tamanho e hash; preservo texto canônico, localizadores e a composição de cada snapshot. O original continua acessível conforme a permissão atual.
+- **Conciliação independente da IA:** separei eventos lógicos de reentregas e comparei ocorrência, estado, mapeamento e cobertura em regras testáveis. A ausência de coleta impede conclusões que os dados não sustentam.
+- **Autorização sobre fontes e resultados:** combinei isolamento por organização com permissões de coleção e incidente, inclusive para dossiês, ferramentas e conciliações derivadas.
+- **Edição e revisão:** implementei versões que não sobrescrevem as anteriores, conflito explícito de gravação, revisão por outra conta e exportação da versão aprovada.
+- **Execução assíncrona e recuperação:** implementei admissão, lease, publicação protegida contra workers atrasados e reaplicação de exclusões após restore. Configurei observabilidade e integrei serviços opcionais de modelos; não desenvolvi essas ferramentas de terceiros.
+
+O [guia de casos](docs/problem-solution.md) relaciona cada comportamento ao código, aos testes e ao custo da escolha. As justificativas descrevem a implementação atual; não são relatos de incidentes de clientes.
 
 Dois exemplos distinguem o trabalho feito: um pagamento anterior a um snapshot ainda pendente pode gerar uma divergência; duas entregas do mesmo evento lógico contam como duas observações, não como dois pagamentos. A conclusão conserva o recorte, a cobertura e as fontes usadas. O [guia de problemas, exemplos e decisões](docs/problem-solution.md) liga esses casos às regras e aos testes, incluindo permissões revogadas, edição concorrente, custo incerto de IA e retenção.
 
@@ -31,8 +45,8 @@ flowchart LR
     Worker --> Models[Embeddings e reranker · opcionais]
 ```
 
-- **Monólito modular, API e worker separados.** As regras ficam em módulos por responsabilidade. Trabalhos demorados saem da requisição HTTP; a fila usa o mesmo PostgreSQL, com lease e fencing para impedir publicação por um worker que perdeu o job.
-- **Autorização no backend.** RLS separa organizações; permissões de coleção e incidente limitam cada leitura, inclusive as fontes de resultados derivados. O modelo recebe apenas o contexto autorizado.
+- **Monólito modular, API e worker separados.** As regras ficam em módulos por responsabilidade. Trabalhos demorados saem da requisição HTTP; a fila usa o mesmo PostgreSQL. Um prazo de posse (*lease*) e a validação da identidade de execução (*fencing*) impedem que um worker publique depois de perder o trabalho.
+- **Autorização no backend.** Políticas de acesso por linha no PostgreSQL (RLS) separam organizações; permissões de coleção e incidente limitam cada leitura, inclusive as fontes de resultados derivados. O modelo recebe apenas o contexto autorizado.
 - **Evidências e revisões imutáveis.** Um snapshot fixa as fontes da investigação. Editar o dossiê cria outra revisão; a aprovação pertence à versão conferida e exige outro usuário.
 - **Conciliação separada da geração.** Regras determinísticas calculam divergências. O modelo sintetiza fontes com orçamento limitado. Um resultado externo incerto exige tratamento explícito para evitar repetir uma chamada cobrada.
 
@@ -56,6 +70,8 @@ As contas e os dados são fictícios; os serviços são publicados apenas em loo
 ## Verificar e explorar
 
 Os testes exercitam isolamento entre organizações, permissões de fontes, concorrência, perda de lease, edição de revisões, retenção e restauração. As jornadas no navegador incluem importação, leitura, aprovação e exportação. A [verificação da versão](docs/publication.md) registra os comandos, resultados e limites.
+
+A [nova jornada manual](docs/evidence/editorial-payment-20260922/payment-story.json) conferiu os dois originais por tamanho e SHA-256, criou o dossiê pela interface, verificou a decisão de outra conta e exportou a revisão. A conciliação permaneceu igual depois da aprovação e o banco registrou zero chamadas ao provedor. O teste automatiza as contas; não é uma avaliação humana da conclusão.
 
 ```powershell
 python scripts/check_repository_docs.py

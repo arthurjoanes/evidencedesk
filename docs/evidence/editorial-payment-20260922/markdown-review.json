@@ -1,0 +1,30 @@
+{
+  "checked_at": "2026-09-22T12:46:34.905Z",
+  "engine": "MarkdownIt commonmark with tables; local Edge headless",
+  "viewport": {
+    "width": 1120,
+    "height": 1000
+  },
+  "documents": [
+    "README.md",
+    "docs/demo.md",
+    "docs/problem-solution.md",
+    "docs/architecture.md",
+    "docs/publication.md",
+    "docs/publication-frontend.md"
+  ],
+  "broken_images": 0,
+  "global_overflow": 0,
+  "visual_review": "README and demo opening inspected as rendered; payment overview, snapshot detail, approved dossier crop and mobile source inspected at original resolution. Captions and synthetic identifiers match the functional receipt.",
+  "limits": "Local rendering is not a GitHub hosted preview. Existing Mermaid source was reviewed unchanged; this local renderer displays its source, not a generated graph. No new screen-reader, full accessibility matrix or human semantic evaluation.",
+  "editorial_followup": {
+    "checked_at": "2026-09-22T12:54:48.895Z",
+    "documents": [
+      "docs/verification.md",
+      "docs/publication-security.md"
+    ],
+    "broken_images": 0,
+    "global_overflow": 0,
+    "scope": "Dated current payment journey and image scan added before explicitly historical reports. No application browser rerun."
+  }
+}
