@@ -4,6 +4,8 @@ O EvidenceDesk investiga pedidos com divergências entre pagamento, estoque e en
 
 A implementação é um monólito modular, com API e workers em processos separados. O perfil de demonstração roda em Docker local; Azure OpenAI é uma integração opcional. O estado das verificações e os limites de entrega estão em [verification.md](verification.md).
 
+Para partir de situações concretas antes dos contratos, veja [problemas, exemplos e decisões](problem-solution.md). O guia explica por que reentrega não significa cobrança duplicada, como uma edição concorre com outra e por que uma tentativa de IA incerta conserva sua reserva.
+
 ## Componentes e fluxo
 
 ```mermaid

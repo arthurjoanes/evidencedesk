@@ -1,0 +1,51 @@
+# Problemas, exemplos e decisões
+
+O EvidenceDesk atende à investigação de pedidos cujo pagamento, estoque e estado operacional não concordam. O produto reúne fontes autorizadas, calcula divergências e registra uma hipótese revisável. Os dados de demonstração são sintéticos; não houve estudo com analistas que demonstre redução de tempo ou benefício comercial.
+
+## Pagamento confirmado e pedido pendente
+
+Abra `demo-aurora-09`, **Divergências**, e confira as duas fontes da comparação: evento de pagamento e snapshot do sistema de pedidos. A regra considera o instante do fato e o `as_of` do snapshot, além do mapeamento do pedido e da incerteza dos relógios. A data de importação não prova a ordem dos acontecimentos.
+
+Um exemplo pequeno está na fixture de [conciliação](../backend/tests/unit/test_reconciliation.py): pagamento aos 10 segundos e snapshot pendente aos 400 produzem `payment_snapshot_mismatch`; mover o snapshot para 5 segundos elimina essa comparação. Relógio desconhecido ou instantes próximos demais para sua precisão produzem uma avaliação inconclusiva. Ausência de transição exige cobertura suficiente até o prazo; o sistema não transforma falta de coleta em prova de falha.
+
+As [regras puras](../backend/src/evidencedesk/reconciliation/rules.py) separam cálculo da redação. Isso torna o resultado reproduzível, ao custo de exigir regras e contratos explícitos para cada integração. A divergência indica o que merece investigação; não identifica sozinha a causa nem corrige o pedido. [Contrato temporal e de cobertura](data-contract.md).
+
+## Reentrega não comprova cobrança duplicada
+
+Receber novamente o mesmo ID lógico, com o mesmo conteúdo, gera outra observação. Na mesma fixture, duas observações resultam em **um evento lógico e um pedido**, com `delivery_count=2`. A UI apresenta a reentrega como observação. Se o mesmo ID traz conteúdo conflitante, a regra marca o conflito como não avaliável e não escolhe arbitrariamente uma das versões para comparar o pagamento.
+
+O motivo é operacional: entrega de mensagem e operação financeira têm identidades diferentes. Investigar duas cobranças requer suas evidências; contar linhas de log não basta. Os testes `test_redelivery_does_not_duplicate_logical_event_or_orders` e `test_same_identity_with_changed_domain_content_is_not_consolidated` fixam essa distinção.
+
+## Uma fonte disponível ontem pode estar proibida hoje
+
+O snapshot conserva as fontes usadas, mas não conserva para sempre a permissão de quem o abriu. A autorização combina organização, coleção e incidente; uma conciliação derivada também exige acesso ao incidente de origem. A API revalida cada leitura, ferramenta e exportação. Na interface, reabrir uma fonte espera a autorização atual e oculta o texto em cache durante a verificação ou após recusa.
+
+[Identidade](../backend/src/evidencedesk/identity/service.py), [escopo das evidências](../backend/tests/integration/test_evidence_scope.py) e [revogação real](../backend/tests/integration/test_administration.py) demonstram a regra no servidor. A [jornada do leitor](../frontend/e2e/protected-source.spec.ts) usa uma primeira leitura real e uma recusa de transporte controlada; ela verifica a proteção visual, sem se apresentar como uma nova revogação real no banco.
+
+RLS oferece uma segunda fronteira por organização, com role sem privilégios de bypass; não substitui as permissões do domínio. As propriedades e exceções de RLS estão na [documentação do PostgreSQL](https://www.postgresql.org/docs/17/ddl-rowsecurity.html), e a revalidação por acesso segue a orientação da [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html). O custo é aplicar a política também aos resultados derivados e reautorizar a leitura, em vez de confiar apenas no cache.
+
+## Revisões concorrentes e aprovação independente
+
+Se Ana e outro analista editam a mesma base, a primeira gravação cria uma revisão. A segunda recebe conflito 409; o editor preserva seu texto para comparação e nova decisão. `If-Match` e a revisão-base impedem sobrescrita silenciosa. Editar novamente cria outra revisão, que não herda a aprovação anterior.
+
+Depois da submissão, nem o autor nem quem submeteu podem aprovar. O revisor confere a versão e as alegações exatas; a exportação exige revisão aprovada e permissão atual. É possível aprovar uma abstenção bem fundamentada: isso registra a revisão humana, não uma causa confirmada. [Serviço de revisão](../backend/src/evidencedesk/reviews/service.py), [integração de conflito/aprovação/exportação](../backend/tests/integration/test_manual_workflow.py) e [jornada manual](../frontend/e2e/investigation.spec.ts).
+
+Essa escolha preserva a responsabilidade de cada decisão, mas exige trabalho de comparação. Revisão imutável significa que edições não reescrevem a versão anterior; uma exclusão administrativa de fontes continua tendo efeitos auditados sobre sua disponibilidade e seus derivados.
+
+## A tentativa de IA pode terminar com resultado incerto
+
+Uma queda depois do envio ao provedor pode perder a resposta antes de gravá-la. Repetir automaticamente poderia cobrar duas chamadas. A tentativa expirada não é repetida depois do despacho, mesmo quando algum uso já foi reportado. A reserva desconhecida continua comprometendo orçamento; uma confirmação tardia concilia o consumo no mês UTC original, de forma idempotente. [Falhas do worker](../backend/tests/integration/test_worker_failures.py), [contabilidade mensal](../backend/tests/integration/test_monthly_budget.py) e [orçamento](token-budget.md).
+
+O painel distingue tentativa, etapa, erro e uso; uma revisão aprovada anterior não representa sucesso da tentativa atual. Reabrir um resultado persistido não gera novamente. Tokens conhecidos, reserva e uso desconhecido são estados diferentes; o produto não converte esses números em fatura monetária. A reserva conservadora pode bloquear novas admissões até uma conciliação administrativa verificável.
+
+A [prova Azure histórica](verification.md) registra uma geração real, com 1.166 tokens de entrada e 784 de saída, e reabertura após reinício. Isso não é uma avaliação de qualidade semântica. Schema e citações válidos não demonstram que cada frase é sustentada; o rascunho continua sujeito à revisão humana. Nenhuma nova chamada paga foi feita nesta revisão documental.
+
+## Retenção sem ressuscitar fontes excluídas
+
+Temporários e exportações vencidas podem ser removidos sem apagar por idade os dossiês publicados. No perfil local, a exportação vale 24 horas; a revisão continua no banco. A rotina só libera quota após confirmar a limpeza, respeitando referências e produtores ativos. Falhas físicas ficam registradas para nova tentativa, sem descontar os mesmos bytes duas vezes.
+
+Uma exclusão posterior ao backup precisa continuar valendo depois da restauração. Por isso o procedimento reaplica o ledger de exclusões. O [ensaio preservado](evidence/erasure-restore-20260921.json) verifica fonte, original e dossiê indisponíveis após restore, com o objeto ausente. Os [testes de retenção](../backend/tests/integration/test_retention.py) e o [runbook](runbooks/retention.md) detalham pisos, lotes e recuperação. A rotina local não inicia um agendador nem comprova retenção entre hosts ou em Blob.
+
+## Como ler as provas
+
+Os exemplos acima apontam implementações e testes existentes. As execuções, datas e limites estão na [verificação para publicação](publication.md); o [roteiro de demonstração](demo.md) permite explorar o fluxo manual. A revisão de 22/09/2026 alterou somente documentação: conferiu fontes e capturas versionadas, sem troca visual, nova jornada de navegador, stack de integração ou inferência. O [mapeamento da interface](publication-frontend.md) separa essa leitura das provas anteriores. Hospedagem completa no Azure, alta disponibilidade e qualidade humana suficiente continuam fora do resultado demonstrado.
