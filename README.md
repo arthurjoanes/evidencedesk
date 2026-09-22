@@ -30,6 +30,20 @@ O fluxo manual funciona sem conta Azure. A geração é opcional e produz rascun
 
 Duas entregas do mesmo evento lógico contam como duas observações, não como dois pagamentos. A conclusão conserva o recorte, a cobertura — quais fontes foram coletadas e até quando — e os registros usados. O [guia de casos e decisões](docs/problem-solution.md) liga esse comportamento, permissões revogadas, edição concorrente e retenção ao código e aos testes.
 
+## Stack
+
+<p>
+  <img src="docs/stack/python.svg" alt="Python" width="72" height="72">
+  <img src="docs/stack/fastapi.svg" alt="FastAPI" width="72" height="72">
+  <img src="docs/stack/postgresql.svg" alt="PostgreSQL" width="72" height="72">
+  <img src="docs/stack/typescript.svg" alt="TypeScript" width="72" height="72">
+  <img src="docs/stack/react.svg" alt="React" width="72" height="72">
+  <img src="docs/stack/nextjs.svg" alt="Next.js" width="72" height="72">
+  <img src="docs/stack/docker.svg" alt="Docker" width="72" height="72">
+</p>
+
+Python e FastAPI no backend; PostgreSQL/pgvector nos dados; TypeScript, React e Next.js na interface. Docker Compose organiza a execução local. Azure OpenAI e os modelos locais são perfis opcionais.
+
 ## Arquitetura e escolhas
 
 ```mermaid
@@ -88,4 +102,6 @@ Citações estruturadas permitem conferir uma resposta, mas a qualidade semânti
 
 O perfil opcional de ML aplica uma [correção no carregamento de checkpoints](docs/ml-checkpoint-security.md): suas partes devem ser arquivos regulares dentro da pasta do modelo salvo. O build executa 15 regressões locais; isso não substitui a avaliação de segurança das demais dependências da imagem.
 
-Python · FastAPI · PostgreSQL/pgvector · Next.js · TypeScript · Docker. [Licença MIT](LICENSE).
+[Licença MIT](LICENSE).
+
+Ícones da stack: [Devicon — licença MIT](docs/stack/LICENSE.devicon).
