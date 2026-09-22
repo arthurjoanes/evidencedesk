@@ -52,22 +52,6 @@ def reserve_password_attempt(email_key: str) -> None:
                 retryable=True,
             )
         else:
-            connection.execute(
-                text("UPDATE login_limits SET failures=failures+1 WHERE key_hash=:key"),
-                {"key": GLOBAL_LOGIN_KEY},
-            )
-            # The existing table has a primary-key index. Both scans are bounded
-            # by the admission cardinality cap; cleanup deletes at most one batch.
-            connection.execute(
-                text(f"""
-                DELETE FROM login_limits WHERE key_hash IN (
-                  SELECT key_hash FROM login_limits WHERE {EMAIL_KEY_SQL}
-                    AND window_start<=now()-interval '15 minutes'
-                  ORDER BY window_start,key_hash LIMIT :batch
-                )
-                """),
-                {"batch": settings.login_cleanup_batch},
-            )
             email_state = (
                 connection.execute(
                     text("""
@@ -86,34 +70,52 @@ def reserve_password_attempt(email_key: str) -> None:
                     "Muitas tentativas. Aguarde alguns minutos.",
                     retryable=True,
                 )
-            elif (
-                email_state is None
-                and connection.execute(
-                    text(
-                        f"SELECT count(*) FROM (SELECT 1 FROM login_limits WHERE {EMAIL_KEY_SQL} LIMIT :maximum) limited"
-                    ),
-                    {"maximum": settings.login_max_email_keys},
-                ).scalar_one()
-                >= settings.login_max_email_keys
-            ):
-                denied = Problem(
-                    503,
-                    "login_capacity",
-                    "O acesso está ocupado. Tente novamente em instantes.",
-                    retryable=True,
-                )
             else:
+                # Already blocked e-mails do not trigger cleanup or consume quota.
+                # The global row lock serializes both the cap check and reservations.
+                # Each cleanup/count scan remains bounded by the cardinality cap.
                 connection.execute(
-                    text("""
+                    text("UPDATE login_limits SET failures=failures+1 WHERE key_hash=:key"),
+                    {"key": GLOBAL_LOGIN_KEY},
+                )
+                connection.execute(
+                    text(f"""
+                    DELETE FROM login_limits WHERE key_hash IN (
+                      SELECT key_hash FROM login_limits WHERE {EMAIL_KEY_SQL}
+                        AND window_start<=now()-interval '15 minutes'
+                      ORDER BY window_start,key_hash LIMIT :batch
+                    )
+                    """),
+                    {"batch": settings.login_cleanup_batch},
+                )
+                if (
+                    email_state is None
+                    and connection.execute(
+                        text(
+                            f"SELECT count(*) FROM (SELECT 1 FROM login_limits WHERE {EMAIL_KEY_SQL} LIMIT :maximum) limited"
+                        ),
+                        {"maximum": settings.login_max_email_keys},
+                    ).scalar_one()
+                    >= settings.login_max_email_keys
+                ):
+                    denied = Problem(
+                        503,
+                        "login_capacity",
+                        "O acesso está ocupado. Tente novamente em instantes.",
+                        retryable=True,
+                    )
+                else:
+                    connection.execute(
+                        text("""
                     INSERT INTO login_limits(key_hash,failures,window_start) VALUES(:key,1,now())
                     ON CONFLICT(key_hash) DO UPDATE SET
                       failures=CASE WHEN login_limits.window_start<=now()-interval '15 minutes' THEN 1 ELSE login_limits.failures+1 END,
                       window_start=CASE WHEN login_limits.window_start<=now()-interval '15 minutes' THEN now() ELSE login_limits.window_start END
                     """),
-                    {"key": email_key},
-                )
-    # Commit admission even when the e-mail bucket is full. Raising inside the
-    # transaction would roll back the shared quota and allow cheap repeated work.
+                        {"key": email_key},
+                    )
+    # Reservations commit before password verification. An already blocked e-mail
+    # never consumes shared quota; new-key cleanup/capacity work still does.
     if denied is not None:
         raise denied
 
