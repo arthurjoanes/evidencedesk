@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { logout } from "./session";
 
 // Opt-in: this story adds a manual dossier to a disposable seeded E2E project.
 // No transport fixtures, DOM substitutions or generation requests are used.
@@ -290,7 +291,7 @@ test("payment story: two real sources, manual dossier and independent review", a
   // is separately covered by test_manual_workflow.py.
   expect(selfReviewError).toBe("reviewer_required");
   const dossierUrl = page.url();
-  await page.getByRole("button", { name: "Sair da sessão" }).click();
+  await logout(page);
   const reviewer = await login("bruno@aurora.demo");
   expect(reviewer.user.id).not.toBe(author.user.id);
   await page.goto(dossierUrl);

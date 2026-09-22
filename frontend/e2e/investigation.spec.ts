@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { logout } from "./session";
 const password = process.env.ED_E2E_PASSWORD ?? "EvidenceDesk-demo-2026!";
 async function login(
   page: Page,
@@ -51,10 +52,7 @@ test("real session, bounded evidence reader, keyboard return and responsive queu
   await expect(
     page.getByText("A sequência não comprova causalidade.", { exact: false }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Sair da sessão" }).click();
-  await expect(
-    page.getByRole("heading", { name: "Acessar a bancada" }),
-  ).toBeVisible();
+  await logout(page);
   await page.getByLabel("E-mail", { exact: true }).fill("carla@horizonte.demo");
   await page.getByLabel("Senha", { exact: true }).fill(password);
   await page.getByRole("button", { name: "Entrar", exact: true }).click();
@@ -199,7 +197,7 @@ test("manual abstention, independent review and authorized export", async ({
     page.getByRole("button", { name: "Registrar decisão", exact: true }),
   ).toHaveCount(0);
   const url = page.url();
-  await page.getByRole("button", { name: "Sair da sessão" }).click();
+  await logout(page);
   await login(page, process.env.ED_E2E_REVIEWER_EMAIL ?? "bruno@aurora.demo");
   await page.goto(url);
   await page
