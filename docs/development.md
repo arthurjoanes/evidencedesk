@@ -90,3 +90,9 @@ O [CI](runbooks/ci.md) também examina histórico Git e imagens runtime. Os rela
 `check_repository_docs.py` usa um parser CommonMark com tabelas, autolinks e tachado GFM para verificar links inline, por referência e HTML, imagens e âncoras de títulos/IDs. Capturas ignoradas, caminhos privados, arquivos ausentes ou âncoras inexistentes reprovam o check, mesmo que funcionem na máquina do autor. A comparação dos caminhos distingue maiúsculas de minúsculas também no Windows. O comando não consulta URLs externas; `--list-external` lista essas referências para revisão separada. Não substitui a inspeção visual do GitHub nem valida fragmentos específicos de PDF e código.
 
 Resultados: [verificação para publicação](publication.md) e [revisão de segurança](publication-security.md).
+
+## Apresentação de código
+
+- Em README e documentação, use blocos delimitados com a linguagem explícita e correta (`json`, `python`, `powershell`, `sh`, `sql`, `yaml` etc.) para habilitar o realce sintático do renderizador. Reserve `text` para saídas sem sintaxe, prosa e diagramas ASCII; não apresente código executável como texto comum.
+- Nas interfaces, realce código e dados estruturados conforme a linguagem conhecida, com cores legíveis no tema da aplicação. Preserve integralmente o texto original e o conteúdo copiado; formatação de leitura deve ser uma opção separada.
+- Uma mudança apenas de apresentação não deve reescrever evidências históricas, hashes ou capturas antigas. Gere uma evidência atual separada quando necessário.
