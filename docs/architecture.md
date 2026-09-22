@@ -6,6 +6,8 @@ Organizei a implementação como um monólito modular, com API e workers em proc
 
 Para partir de situações concretas antes dos contratos, veja [problemas, exemplos e decisões](problem-solution.md). O guia explica por que reentrega não significa cobrança duplicada, como uma edição concorre com outra e por que uma tentativa de IA incerta conserva sua reserva.
 
+Fontes desta seção, conferidas em **22/09/2026**: [compose.yaml](../infra/compose/compose.yaml) · [jobs/service.py](../backend/src/evidencedesk/jobs/service.py) · [reviews/service.py](../backend/src/evidencedesk/reviews/service.py).
+
 ## Componentes e fluxo
 
 ```mermaid
@@ -24,15 +26,15 @@ flowchart LR
     Worker -. Logs e traces .-> OTel
 ```
 
-| Componente | Responsabilidade | Fronteira |
-| --- | --- | --- |
-| Frontend | Fila, investigação, leitor, edição e revisão | Apresenta permissões; o backend sempre as valida. |
-| API | Sessão, autorização, consulta e admissão de trabalho | Persiste a intenção e o job na mesma transação. |
-| PostgreSQL | Conteúdo, snapshots, fila, sessões, quotas e auditoria | RLS por organização, ACL por coleção e associação ao incidente. |
-| Worker | Extração, indexação, investigação e exportação | Só publica com lease vigente, fencing e política atual. |
-| Armazenamento privado | Originais e artefatos imutáveis | Chaves criadas pelo servidor; acesso mediado pela API. |
-| Serviço de modelos | Embeddings E5 e reranker opcionais | Processo privado separado; API e worker não carregam Torch. |
-| Azure OpenAI | Rascunho estruturado com fontes | Sem autoridade para aprovar, executar SQL ou remediar pedidos. |
+| Componente            | Responsabilidade                                       | Fronteira                                                       |
+| --------------------- | ------------------------------------------------------ | --------------------------------------------------------------- |
+| Frontend              | Fila, investigação, leitor, edição e revisão           | Apresenta permissões; o backend sempre as valida.               |
+| API                   | Sessão, autorização, consulta e admissão de trabalho   | Persiste a intenção e o job na mesma transação.                 |
+| PostgreSQL            | Conteúdo, snapshots, fila, sessões, quotas e auditoria | RLS por organização, ACL por coleção e associação ao incidente. |
+| Worker                | Extração, indexação, investigação e exportação         | Só publica com lease vigente, fencing e política atual.         |
+| Armazenamento privado | Originais e artefatos imutáveis                        | Chaves criadas pelo servidor; acesso mediado pela API.          |
+| Serviço de modelos    | Embeddings E5 e reranker opcionais                     | Processo privado separado; API e worker não carregam Torch.     |
+| Azure OpenAI          | Rascunho estruturado com fontes                        | Sem autoridade para aprovar, executar SQL ou remediar pedidos.  |
 
 1. **Importar:** validar manifesto e reservar quota; conferir tamanho e SHA-256; fechar o pacote e enfileirar extração. O parser tem prazo e limites de memória/CPU no Linux. A publicação cria um snapshot de evidências.
 2. **Investigar:** fixar snapshot e janela do incidente. Regras conciliam eventos e estados; a busca recupera trechos documentais autorizados. O fluxo manual está disponível sem credencial de IA.
@@ -40,11 +42,15 @@ flowchart LR
 4. **Revisar:** salvar uma nova revisão imutável, submeter e obter decisão de outro usuário. `If-Match` e revisão de base impedem sobrescrita silenciosa. Uma edição não herda aprovação semântica anterior.
 5. **Exportar:** enfileirar uma revisão aprovada e gerar HTML com proveniência e fontes escapadas. O download exige autorização atual e tem validade limitada.
 
+Fontes desta seção, conferidas em **22/09/2026**: [compose.yaml](../infra/compose/compose.yaml) · [jobs/service.py](../backend/src/evidencedesk/jobs/service.py) · [reviews/service.py](../backend/src/evidencedesk/reviews/service.py).
+
 ## Organização do código
 
 O domínio puro de [conciliação](../backend/src/evidencedesk/reconciliation) não conhece banco, autenticação ou modelo. Os módulos de aplicação coordenam persistência e domínio: [ingestão](../backend/src/evidencedesk/ingestion), [incidentes](../backend/src/evidencedesk/incidents), [investigações](../backend/src/evidencedesk/investigations) e [revisões](../backend/src/evidencedesk/reviews). [Identidade](../backend/src/evidencedesk/identity), [jobs](../backend/src/evidencedesk/jobs), [evidências](../backend/src/evidencedesk/evidence) e [retenção](../backend/src/evidencedesk/retention) concentram controles compartilhados.
 
 O frontend se organiza por funcionalidades em [frontend/src/features](../frontend/src/features), com componentes comuns e tokens visuais. O contrato público e seus estados de erro estão em [api-contract.md](api-contract.md).
+
+Fontes desta seção, conferidas em **22/09/2026**: [reconciliation](../backend/src/evidencedesk/reconciliation) · [ingestion](../backend/src/evidencedesk/ingestion) · [incidents](../backend/src/evidencedesk/incidents).
 
 ## Invariantes de segurança e consistência
 
@@ -60,6 +66,8 @@ O frontend se organiza por funcionalidades em [frontend/src/features](../fronten
 
 **Revisão humana.** O autor e quem submeteu a revisão não podem aprová-la. A decisão se refere a IDs de alegações da revisão atual; uma aprovação exige todas as alegações. Texto e citações existentes são preservados na revisão original, e qualquer edição cria outra revisão.
 
+Fontes desta seção, conferidas em **22/09/2026**: [compose.yaml](../infra/compose/compose.yaml) · [jobs/service.py](../backend/src/evidencedesk/jobs/service.py) · [reviews/service.py](../backend/src/evidencedesk/reviews/service.py).
+
 ## Limites da integração de IA
 
 O gerador usa Azure OpenAI Responses com `store=false` e `background=false`; o sistema conserva seus próprios resultados e manifestos. Reabrir uma investigação usa esses artefatos e não gera outra resposta. Credenciais ficam em configuração de runtime externa ao repositório.
@@ -72,20 +80,24 @@ Tokens conhecidos são contabilizados no mês UTC da chamada. Reservas desconhec
 
 Schema válido e referência existente não comprovam que a fonte sustenta a frase. A avaliação de suporte, contradição e abstenção requer julgamento humano; resultados sintéticos e testes de integração não substituem esse gate.
 
+Fontes desta seção, conferidas em **22/09/2026**: [compose.yaml](../infra/compose/compose.yaml) · [jobs/service.py](../backend/src/evidencedesk/jobs/service.py) · [reviews/service.py](../backend/src/evidencedesk/reviews/service.py).
+
 ## Decisões e tradeoffs
 
 Esta tabela explicita motivos técnicos sustentados pelo código e seus custos atuais. Não documenta uma comparação histórica de alternativas nem presume experiência de produção. Implementei o domínio e os controles da aplicação; PostgreSQL, Next.js, FastAPI, Azure OpenAI e as ferramentas de observabilidade são dependências e integrações de terceiros.
 
-| Decisão | Motivo | Custo ou limite |
-| --- | --- | --- |
-| Monólito modular | Mantém autorização, auditoria e transações em uma base de código. | Mudanças exigem atenção às fronteiras entre módulos. |
-| PostgreSQL como fila | Admissão e job são atômicos; dispensa broker adicional. | A fila compartilha capacidade com consultas e exige medir contenção. |
-| Lock de política por tenant | Revogação, quotas e publicação seguem uma ordem comum. | Mutações da mesma organização serializam; não promete throughput ilimitado. |
-| Arquivos privados locais | Perfil reproduzível e controle explícito de imutabilidade. | Réplicas dependem de volume compartilhado; o perfil não oferece HA entre hosts. |
-| Busca vetorial exata autorizada | Filtra ACL e snapshot antes do ranking. | Consome mais recursos com corpus grande; índices ANN exigem avaliação própria. |
-| Cache pequeno de resumos | Reduz recálculo de contagens na fila. | Chave inclui tenant, snapshot, janela e revisão de política; autorização nunca é cacheada. |
-| Cursor assinado | Evita mistura de contexto e paginação por offsets. | Listagens refletem a ACL atual; não representam uma transação congelada entre páginas. |
-| Revisão separada da geração | Permite comparar e corrigir hipóteses com fontes. | A qualidade final depende do trabalho do revisor. |
+| Decisão                         | Motivo                                                            | Custo ou limite                                                                            |
+| ------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Monólito modular                | Mantém autorização, auditoria e transações em uma base de código. | Mudanças exigem atenção às fronteiras entre módulos.                                       |
+| PostgreSQL como fila            | Admissão e job são atômicos; dispensa broker adicional.           | A fila compartilha capacidade com consultas e exige medir contenção.                       |
+| Lock de política por tenant     | Revogação, quotas e publicação seguem uma ordem comum.            | Mutações da mesma organização serializam; não promete throughput ilimitado.                |
+| Arquivos privados locais        | Perfil reproduzível e controle explícito de imutabilidade.        | Réplicas dependem de volume compartilhado; o perfil não oferece HA entre hosts.            |
+| Busca vetorial exata autorizada | Filtra ACL e snapshot antes do ranking.                           | Consome mais recursos com corpus grande; índices ANN exigem avaliação própria.             |
+| Cache pequeno de resumos        | Reduz recálculo de contagens na fila.                             | Chave inclui tenant, snapshot, janela e revisão de política; autorização nunca é cacheada. |
+| Cursor assinado                 | Evita mistura de contexto e paginação por offsets.                | Listagens refletem a ACL atual; não representam uma transação congelada entre páginas.     |
+| Revisão separada da geração     | Permite comparar e corrigir hipóteses com fontes.                 | A qualidade final depende do trabalho do revisor.                                          |
+
+Fontes desta seção, conferidas em **22/09/2026**: [compose.yaml](../infra/compose/compose.yaml) · [jobs/service.py](../backend/src/evidencedesk/jobs/service.py) · [reviews/service.py](../backend/src/evidencedesk/reviews/service.py).
 
 ## Quando uma solução menor basta
 
@@ -93,29 +105,35 @@ O público pretendido é um analista que precisa cruzar fontes de um incidente e
 
 O fluxo manual e a busca lexical formam uma referência reproduzível sem provedor. Embeddings, reranker e geração acrescentam dependências, recursos e avaliação. São opcionais porque a existência de uma citação ou um schema válido não demonstra a qualidade da conclusão. O [pacote semântico](../evals/human-review/README.md) prepara a conferência humana com casos de desenvolvimento; não contém participantes nem resultados novos.
 
-| Dificuldade técnica identificada | Escolha e motivo | Custo que permanece |
-| --- | --- | --- |
-| A permissão pode mudar depois de construir um snapshot | Revalidar fontes e autorização antes de despacho/publicação | Revogação não desfaz conteúdo já transmitido; publicação precisa ser recusada |
-| Uma resposta externa pode se perder depois da cobrança | Persistir admissão e conservar reserva desconhecida | Orçamento pode ficar comprometido até haver evidência para conciliar |
-| Um backup antigo contém uma fonte excluída depois | Aplicar o ledger atual antes de abrir o destino | O ledger precisa sobreviver independentemente da cópia restaurada |
-| Uma referência existente pode não sustentar uma alegação | Separar validação estrutural e avaliação semântica humana | Revisão consome tempo; ainda não há resultado humano neste pacote |
+| Dificuldade técnica identificada                         | Escolha e motivo                                            | Custo que permanece                                                           |
+| -------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| A permissão pode mudar depois de construir um snapshot   | Revalidar fontes e autorização antes de despacho/publicação | Revogação não desfaz conteúdo já transmitido; publicação precisa ser recusada |
+| Uma resposta externa pode se perder depois da cobrança   | Persistir admissão e conservar reserva desconhecida         | Orçamento pode ficar comprometido até haver evidência para conciliar          |
+| Um backup antigo contém uma fonte excluída depois        | Aplicar o ledger atual antes de abrir o destino             | O ledger precisa sobreviver independentemente da cópia restaurada             |
+| Uma referência existente pode não sustentar uma alegação | Separar validação estrutural e avaliação semântica humana   | Revisão consome tempo; ainda não há resultado humano neste pacote             |
 
 Os [casos e testes](problem-solution.md), a [revisão técnica](ai-review.md) e o [runbook de recuperação](runbooks/backup-restore.md) distinguem dificuldade observada, mecanismo e limite. Essas justificativas vêm do código e dos ensaios; não atribuem ao autor incidentes de clientes ou uma experiência de uso não registrada.
 
+Fontes desta seção, conferidas em **22/09/2026**: [compose.yaml](../infra/compose/compose.yaml) · [jobs/service.py](../backend/src/evidencedesk/jobs/service.py) · [reviews/service.py](../backend/src/evidencedesk/reviews/service.py).
+
 ## Perfis e limites de implantação
 
-| Perfil | Implementado | Limite |
-| --- | --- | --- |
-| Core local | Frontend, API, PostgreSQL, arquivos e workers | Defaults de demonstração em loopback; sem alta disponibilidade. |
-| Core com Azure OpenAI | Geração real e persistência própria verificadas | Qualidade semântica e preço monetário dependem de avaliação/configuração adicional. |
-| Observabilidade | OTel, Prometheus, Loki, Tempo, Grafana e Alertmanager | Ensaios locais não comprovam disponibilidade mensal. |
-| Modelos e experimentos | E5, reranker e treino em GPU | Setup separado; métricas sintéticas e candidato sem promoção. |
-| Azure hospedado | IaC e adaptador Blob preparados | Sem rollout validado; identidade, rede, GC e ledger cloud precisam de ensaio ponta a ponta. |
+| Perfil                 | Implementado                                          | Limite                                                                                      |
+| ---------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Core local             | Frontend, API, PostgreSQL, arquivos e workers         | Defaults de demonstração em loopback; sem alta disponibilidade.                             |
+| Core com Azure OpenAI  | Geração real e persistência própria verificadas       | Qualidade semântica e preço monetário dependem de avaliação/configuração adicional.         |
+| Observabilidade        | OTel, Prometheus, Loki, Tempo, Grafana e Alertmanager | Ensaios locais não comprovam disponibilidade mensal.                                        |
+| Modelos e experimentos | E5, reranker e treino em GPU                          | Setup separado; métricas sintéticas e candidato sem promoção.                               |
+| Azure hospedado        | IaC e adaptador Blob preparados                       | Sem rollout validado; identidade, rede, GC e ledger cloud precisam de ensaio ponta a ponta. |
 
 PDFs sem texto recebem `requires_ocr`; extração OCR e tabelas digitalizadas não estão implementadas. Kubernetes/kind, MCP e um LLM gerativo local não fazem parte do runtime entregue. O [runbook local](runbooks/local.md), o [modelo de ameaças](threat-model.md) e a [revisão de arquitetura para publicação](architecture-review-publication.md) descrevem operação, riscos e verificações.
+
+Fontes desta seção, conferidas em **22/09/2026**: [compose.yaml](../infra/compose/compose.yaml) · [jobs/service.py](../backend/src/evidencedesk/jobs/service.py) · [reviews/service.py](../backend/src/evidencedesk/reviews/service.py).
 
 ## Reabertura controlada após restauração
 
 A [jornada de recuperação](restore-read-story.md) abre API e frontend em loopback somente depois de aplicar o ledger atual e verificar os objetos, mantendo a origem na mesma janela de manutenção. O destino não inicia worker nem modelos. Login/leitura são acompanhados por comparação de domínio e contagem zero de chamadas ao provedor. Ao concluir, o destino volta à manutenção e seus containers param; só então a manutenção da origem é liberada. O restore padrão continua fechado.
 
 O ledger usa volume separado da cópia de banco/objetos, mas ambos permanecem no mesmo computador. Isso evita retroceder exclusões neste ensaio; não demonstra independência contra perda do host. A API aberta conserva mutações normais: somente a jornada foi restrita à leitura após login. [Procedimento e limites](runbooks/backup-restore.md).
+
+Fontes desta seção, conferidas em **22/09/2026**: [compose.yaml](../infra/compose/compose.yaml) · [jobs/service.py](../backend/src/evidencedesk/jobs/service.py) · [reviews/service.py](../backend/src/evidencedesk/reviews/service.py).

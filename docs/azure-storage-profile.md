@@ -1,5 +1,7 @@
 # Preparação de armazenamento Azure
 
+A distinção entre exclusão corrente, versões e soft delete foi conferida na [documentação Microsoft de exclusão de blobs](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-delete-python), consultada em **22/09/2026**. Os testes locais do adaptador continuam sendo doubles; não demonstram comunicação Azure ou expurgo físico de todas as cópias.
+
 `backend/src/evidencedesk/evidence/azure_blob.py` implementa escrita imutável por chave, comparação dos bytes reais, leitura até10MiB, exclusão idempotente e paginação de prefixo por SDK. Quatro operações concorrentes por processo, paralelismo de transferência1, retries desativados e timeouts explícitos mantêm a responsabilidade de retry no chamador. Timeout do SDK/serviço não é uma transação distribuída nem prova de que o servidor não gravou o objeto.
 
 O construtor hospedado usa ManagedIdentityCredential e forma o host HTTPS a partir de um nome de conta validado. Não recebe URL arbitrária, connection string/SAS do modelo ou nome de arquivo do navegador como autoridade. Não cria conta/container nem altera RBAC. O papel da identidade e a rede precisam ser configurados no plano de infraestrutura.
@@ -15,3 +17,5 @@ Antes de selecioná-lo como storage do core, implementar/validar:
 5. Teste real de Managed Identity/RBAC, falhas de rede e Azure Monitor sem conteúdo sensível.
 
 Fontes oficiais consultadas: [upload e autorização](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blob-upload-python), [contrato BlobClient](https://learn.microsoft.com/python/api/azure-storage-blob/azure.storage.blob.blobclient) e [limites/transferência em blocos](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-tune-upload-download-python). O caminho local com inferência Azure já executada não depende desse rollout.
+
+Fontes desta seção, conferidas em **22/09/2026**: [azure_blob.py](../backend/src/evidencedesk/evidence/azure_blob.py) · [test_azure_blob.py](../backend/tests/unit/test_azure_blob.py).

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="119" height="28" viewBox="0 0 119 28" role="img" aria-label="Evidências">
+  <title>Evidências</title>
+  <rect width="119" height="28" rx="4" fill="#9A6700"/>
+  <path d="M28 0v28" stroke="white" stroke-opacity=".25"/>
+  <g fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 14 4 4 9-10"/></g>
+  <text x="73.5" y="18.5" text-anchor="middle" fill="white" font-family="Segoe UI,Arial,sans-serif" font-size="12" font-weight="600">Evidências</text>
+</svg>

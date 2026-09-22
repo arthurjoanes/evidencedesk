@@ -2,6 +2,8 @@
 
 A demonstração usa Docker e os comandos do [README](../README.md). Este guia prepara o ambiente de desenvolvimento e um PostgreSQL descartável. O banco da demonstração usa a porta 5546; os testes usam 5547 e volumes próprios.
 
+Fontes desta seção, conferidas em **22/09/2026**: [ci.yaml](../.github/workflows/ci.yaml) · [pyproject.toml](../backend/pyproject.toml) · [package.json](../frontend/package.json).
+
 ## Preparar Python
 
 Na raiz, em PowerShell:
@@ -17,6 +19,8 @@ $env:ED_AI_PROVIDER = 'disabled'
 Em Linux, use `.venv/bin/python` e `export PYTHONPATH="$PWD/backend/src"`. O [workflow](../.github/workflows/ci.yaml) contém a sequência Linux. `PYTHONPATH` evita depender de uma instalação editável vinculada a outra pasta.
 
 Os locks preservam as condições de plataforma: `uvloop` somente onde o fornecedor o suporta; `tzdata` e `colorama` também estão fixados para Windows. Ao regenerar os locks no Linux, conserve essas entradas e confira a instalação com hashes em um ambiente Windows novo. O job `windows-development` verifica esse percurso sem banco; as integrações reais permanecem no job Linux.
+
+Fontes desta seção, conferidas em **22/09/2026**: [ci.yaml](../.github/workflows/ci.yaml).
 
 ## Backend e operação
 
@@ -51,6 +55,8 @@ docker compose -p pf-evidencedesk-tests -f infra/compose/compose.yaml -f infra/c
 
 O teste de links simbólicos pode ser ignorado no Windows se a conta não tiver essa permissão. O runner Linux executa esse cenário.
 
+Fontes desta seção, conferidas em **22/09/2026**: [ci.yaml](../.github/workflows/ci.yaml) · [pyproject.toml](../backend/pyproject.toml) · [package.json](../frontend/package.json).
+
 ## Frontend
 
 Requer Node 24+. A partir de `frontend/`:
@@ -83,6 +89,8 @@ python scripts/ops.py --project pf-evidencedesk-e2e-dev --e2e stop
 
 Use uma instância nova para cada rodada completa; os limites de login continuam ativos. Apenas um perfil E2E pode ocupar 3107/8107 por vez. A leitura de uma geração Azure histórica é opcional e exige IDs já existentes; a suíte padrão não gera uma resposta paga.
 
+Fontes desta seção, conferidas em **22/09/2026**: [ci.yaml](../.github/workflows/ci.yaml) · [pyproject.toml](../backend/pyproject.toml) · [package.json](../frontend/package.json).
+
 ## Segurança e evidências
 
 O [CI](runbooks/ci.md) também examina histórico Git e imagens runtime. Os relatórios conservam imagem, versão do scanner e data da base. Uma alteração de fonte exige novo build; a aprovação de uma imagem anterior não aprova outra.
@@ -91,8 +99,12 @@ O [CI](runbooks/ci.md) também examina histórico Git e imagens runtime. Os rela
 
 Resultados: [verificação para publicação](publication.md) e [revisão de segurança](publication-security.md).
 
+Fontes desta seção, conferidas em **22/09/2026**: [ci.yaml](../.github/workflows/ci.yaml) · [pyproject.toml](../backend/pyproject.toml) · [package.json](../frontend/package.json).
+
 ## Apresentação de código
 
 - Em README e documentação, use blocos delimitados com a linguagem explícita e correta (`json`, `python`, `powershell`, `sh`, `sql`, `yaml` etc.) para habilitar o realce sintático do renderizador. Reserve `text` para saídas sem sintaxe, prosa e diagramas ASCII; não apresente código executável como texto comum.
 - Nas interfaces, realce código e dados estruturados conforme a linguagem conhecida, com cores legíveis no tema da aplicação. Preserve integralmente o texto original e o conteúdo copiado; formatação de leitura deve ser uma opção separada.
 - Uma mudança apenas de apresentação não deve reescrever evidências históricas, hashes ou capturas antigas. Gere uma evidência atual separada quando necessário.
+
+Fontes desta seção, conferidas em **22/09/2026**: [ci.yaml](../.github/workflows/ci.yaml) · [pyproject.toml](../backend/pyproject.toml) · [package.json](../frontend/package.json).

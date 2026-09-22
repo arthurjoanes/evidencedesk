@@ -1,0 +1,125 @@
+{
+  "checked_at": "2026-09-22T19:23:46.992951+00:00",
+  "source": "https://api.github.com/search/repositories?q=stars:%3E100000&sort=stars&order=desc&per_page=15",
+  "response_date": "Tue, 22 Sep 2026 19:23:46 GMT",
+  "incomplete_results": false,
+  "repositories": [
+    {
+      "rank": 1,
+      "repo": "codecrafters-io/build-your-own-x",
+      "stars": 548801,
+      "url": "https://github.com/codecrafters-io/build-your-own-x",
+      "default_branch": "master"
+    },
+    {
+      "rank": 2,
+      "repo": "sindresorhus/awesome",
+      "stars": 508964,
+      "url": "https://github.com/sindresorhus/awesome",
+      "default_branch": "main"
+    },
+    {
+      "rank": 3,
+      "repo": "public-apis/public-apis",
+      "stars": 482304,
+      "url": "https://github.com/public-apis/public-apis",
+      "default_branch": "master"
+    },
+    {
+      "rank": 4,
+      "repo": "freeCodeCamp/freeCodeCamp",
+      "stars": 455975,
+      "url": "https://github.com/freeCodeCamp/freeCodeCamp",
+      "default_branch": "main"
+    },
+    {
+      "rank": 5,
+      "repo": "EbookFoundation/free-programming-books",
+      "stars": 397453,
+      "url": "https://github.com/EbookFoundation/free-programming-books",
+      "default_branch": "main"
+    },
+    {
+      "rank": 6,
+      "repo": "openclaw/openclaw",
+      "stars": 390259,
+      "url": "https://github.com/openclaw/openclaw",
+      "default_branch": "main"
+    },
+    {
+      "rank": 7,
+      "repo": "donnemartin/system-design-primer",
+      "stars": 371295,
+      "url": "https://github.com/donnemartin/system-design-primer",
+      "default_branch": "master"
+    },
+    {
+      "rank": 8,
+      "repo": "nilbuild/developer-roadmap",
+      "stars": 367912,
+      "url": "https://github.com/nilbuild/developer-roadmap",
+      "default_branch": "master"
+    },
+    {
+      "rank": 9,
+      "repo": "jwasham/coding-interview-university",
+      "stars": 361715,
+      "url": "https://github.com/jwasham/coding-interview-university",
+      "default_branch": "main"
+    },
+    {
+      "rank": 10,
+      "repo": "vinta/awesome-python",
+      "stars": 322326,
+      "url": "https://github.com/vinta/awesome-python",
+      "default_branch": "master"
+    },
+    {
+      "rank": 11,
+      "repo": "awesome-selfhosted/awesome-selfhosted",
+      "stars": 321031,
+      "url": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "default_branch": "master"
+    },
+    {
+      "rank": 12,
+      "repo": "obra/superpowers",
+      "stars": 290136,
+      "url": "https://github.com/obra/superpowers",
+      "default_branch": "main"
+    },
+    {
+      "rank": 13,
+      "repo": "practical-tutorials/project-based-learning",
+      "stars": 284262,
+      "url": "https://github.com/practical-tutorials/project-based-learning",
+      "default_branch": "master"
+    },
+    {
+      "rank": 14,
+      "repo": "996icu/996.ICU",
+      "stars": 277194,
+      "url": "https://github.com/996icu/996.ICU",
+      "default_branch": "master"
+    },
+    {
+      "rank": 15,
+      "repo": "mattpocock/skills",
+      "stars": 267730,
+      "url": "https://github.com/mattpocock/skills",
+      "default_branch": "main"
+    }
+  ],
+  "selection": "First eight repositories returned; remaining results retained for context.",
+  "readmes_reviewed": [
+    "codecrafters-io/build-your-own-x",
+    "sindresorhus/awesome",
+    "public-apis/public-apis",
+    "freeCodeCamp/freeCodeCamp",
+    "EbookFoundation/free-programming-books",
+    "openclaw/openclaw",
+    "donnemartin/system-design-primer",
+    "nilbuild/developer-roadmap"
+  ],
+  "additional_reference": "https://github.com/NandhaKishorM/laya"
+}
