@@ -1,0 +1,283 @@
+{
+  "recorded_at": "2026-09-22T17:39:11.115908+00:00",
+  "base_commit": "5c2ed6efdc3c541b38477edf404a9d4eeef71f2b",
+  "scope": "All 16 tracked README/docs raster images. Icons and licensed vector artwork are not screenshots.",
+  "application_layout_sources": {
+    "frontend/src": {
+      "git_object": "1e0ce3b3e749cbb4096815ec03c12109fdd5dd3f",
+      "equals_historical_bases": {
+        "09d90f2": "1e0ce3b3e749cbb4096815ec03c12109fdd5dd3f",
+        "6b66964": "1e0ce3b3e749cbb4096815ec03c12109fdd5dd3f"
+      }
+    },
+    "frontend/public": {
+      "git_object": "a829bea9b51fbf3be713067267561cedf5cb1ce9",
+      "equals_historical_bases": {
+        "09d90f2": "a829bea9b51fbf3be713067267561cedf5cb1ce9",
+        "6b66964": "a829bea9b51fbf3be713067267561cedf5cb1ce9"
+      }
+    },
+    "frontend/package-lock.json": {
+      "git_object": "be5654d36781abc1c5c7428e817740add4d5d3b4",
+      "equals_historical_bases": {
+        "09d90f2": "be5654d36781abc1c5c7428e817740add4d5d3b4",
+        "6b66964": "be5654d36781abc1c5c7428e817740add4d5d3b4"
+      }
+    }
+  },
+  "concurrent_changes_excluded": [
+    "frontend/src/app/globals.css",
+    "frontend/src/features/identity/login.tsx"
+  ],
+  "concurrent_change_scope": "Login refinement by other ongoing work in login.tsx and login-scoped CSS rules; inspected diff. No audited screenshot contains login. Authenticated workspace/source/review components and styles unchanged. Concurrent edits preserved.",
+  "current_capture": {
+    "command": "npm run test:e2e -- visual.spec.ts",
+    "working_directory": "frontend",
+    "channel": "msedge",
+    "base_url": "http://127.0.0.1:3106",
+    "runtime_image": "sha256:f241eb6f1e13831ddcdf67782ae74fe13ebebf8c837b5aee486ae7c517448114",
+    "stats": {
+      "startTime": "2026-09-22T17:38:02.552Z",
+      "duration": 11081.999,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "published_images": 2,
+    "script_sha256": "4c5a08d69697f3d2b29bb0e302c9550e459363800524ffdb86b1ca7e03467a1e",
+    "capture_kind": "Native locator screenshots of divergence table and canonical source region, after fonts/content settled; no full-page embeds.",
+    "synthetic_data": true,
+    "provider_calls_requested": 0,
+    "scope": "Real page read-only journey; no UI/response substitution, no dossier/incident creation or historical operation replay."
+  },
+  "images": [
+    {
+      "path": "docs/evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/ed03-approved-desktop.png",
+      "sha256": "a5f83634b901e7086c08cf4b835f5735eb7cb736c30566ba453d2b1d526014d8",
+      "bytes": 97563,
+      "dimensions": [
+        1440,
+        1560
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/ed03-approved-source-desktop.png",
+      "sha256": "a54b615799441dc19b0aca091211793e8e5a99ef58c6f78408a63e39a036ddb5",
+      "bytes": 132369,
+      "dimensions": [
+        1440,
+        1584
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/ed03-conflict-preserved-draft-desktop.png",
+      "sha256": "b6ef7d6ace3d8d89798dcf528734b37d77d80679140fba54bb3a002453aa427e",
+      "bytes": 115308,
+      "dimensions": [
+        1440,
+        1492
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/restore-erased-dossier-desktop.png",
+      "sha256": "c9c37970ea33b2c8f7bc52c3bcc89290e31dd466eaa046affe005074309d3904",
+      "bytes": 70916,
+      "dimensions": [
+        1440,
+        1285
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/restore-erased-source-desktop.png",
+      "sha256": "9f05752befd111e1ccecfd19450fa6febbe2f1c71031d6e64ba19c455e41d384",
+      "bytes": 228470,
+      "dimensions": [
+        1440,
+        3496
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/restore-survivor-desktop.png",
+      "sha256": "29188a134573a241171a8a4947f050845b501c506304a1947179828a68067e33",
+      "bytes": 75988,
+      "dimensions": [
+        1440,
+        1285
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/images/payment-story-20260922/01-pagamento-e-divergencias.png",
+      "sha256": "2a4db6f793a17dcfd019fed2fc7cccf2abd73c8af70eefe91d878d9496120e2c",
+      "bytes": 111878,
+      "dimensions": [
+        1440,
+        1280
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/editorial-payment-20260922/browser-review.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/images/payment-story-20260922/02-snapshot-detalhe.png",
+      "sha256": "6b94f543e4a7ca82addfe68f02e79fbdd664e4b00e65b91d7a0bf47e30848b38",
+      "bytes": 22275,
+      "dimensions": [
+        473,
+        582
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/editorial-payment-20260922/browser-review.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/images/payment-story-20260922/02-snapshot-pendente.png",
+      "sha256": "b69f1ba07f61944f3ef6dd09439f01820c9709ead5cd5cc0504c7dbd414ccce9",
+      "bytes": 106775,
+      "dimensions": [
+        1440,
+        1280
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/editorial-payment-20260922/browser-review.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/images/payment-story-20260922/03-decisao-da-revisao.png",
+      "sha256": "afa85d9d7c950a9480ac0948dcdf13094c0114c984aabc9f6cea4d7ad725054d",
+      "bytes": 110581,
+      "dimensions": [
+        1440,
+        1704
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/editorial-payment-20260922/browser-review.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/images/payment-story-20260922/04-dossie-aprovado.png",
+      "sha256": "4fd1f2322d620818efae286da399b7554931c902b20078de6c009ccc5aa7d10c",
+      "bytes": 117823,
+      "dimensions": [
+        1440,
+        1790
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/editorial-payment-20260922/browser-review.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/images/payment-story-20260922/05-dossie-com-fonte.png",
+      "sha256": "f71978397c12f60a997eb95a20a466dcb46f54b736ee09a40072e656d79cb074",
+      "bytes": 156381,
+      "dimensions": [
+        1440,
+        1859
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/editorial-payment-20260922/browser-review.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/images/payment-story-20260922/05-dossie-detalhe-recorte.png",
+      "sha256": "7252e4e8a92fdab60548d4f5d623d7a6ab00048280027cbe0d9a34a40ca3a2b5",
+      "bytes": 38593,
+      "dimensions": [
+        679,
+        830
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/editorial-payment-20260922/crop.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/images/payment-story-20260922/06-fonte-mobile.png",
+      "sha256": "c30509eacb840ed12dfaf1cabc306ca2a42359af99c44eac8914d8a6f84639e9",
+      "bytes": 41367,
+      "dimensions": [
+        390,
+        1071
+      ],
+      "classification": "historical_real_capture_current_layout",
+      "visual_inspection": "reviewed",
+      "provenance": "docs/evidence/editorial-payment-20260922/browser-review.json",
+      "historical_hash_verified": true
+    },
+    {
+      "path": "docs/images/source-mobile.png",
+      "sha256": "23b29b7b116cad1df4d13634a378b3edeefffd0e0ddfc83f54939fa7dff9e7aa",
+      "bytes": 14403,
+      "dimensions": [
+        288,
+        377
+      ],
+      "classification": "current_browser_capture",
+      "visual_inspection": "reviewed",
+      "provenance": "frontend/e2e/visual.spec.ts",
+      "historical_hash_verified": false
+    },
+    {
+      "path": "docs/images/workspace-desktop.png",
+      "sha256": "038d9e75ed121d8844331b30839d1812ecef00b5c64979aed2bb393c41a07e92",
+      "bytes": 18456,
+      "dimensions": [
+        652,
+        339
+      ],
+      "classification": "current_browser_capture",
+      "visual_inspection": "reviewed",
+      "provenance": "frontend/e2e/visual.spec.ts",
+      "historical_hash_verified": false
+    }
+  ],
+  "cleanup": {
+    "unreferenced_rasters": [],
+    "duplicate_rasters": [],
+    "removed_tracked_files": [],
+    "renewed_in_place": [
+      "docs/images/workspace-desktop.png",
+      "docs/images/source-mobile.png"
+    ],
+    "retained_log": {
+      "path": "experiments/reports/checkpoint-security-tests.log",
+      "reason": "Hash-bound checkpoint-security evidence, referenced by three manifests."
+    },
+    "local_generated_files": "Ignored caches, dependencies, runtime data and build outputs preserved; not part of the repository publication."
+  },
+  "limitations": [
+    "Source identity and visual comparison establish layout compatibility, not new execution of historical business scenarios.",
+    "Historical screenshots retain their original synthetic IDs, dates and users.",
+    "No pixel-perfect equality claimed across browser executions."
+  ]
+}

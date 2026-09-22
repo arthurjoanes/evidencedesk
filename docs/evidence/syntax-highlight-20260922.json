@@ -1,0 +1,177 @@
+{
+  "recorded_at": "2026-09-22T18:05:49.744356+00:00",
+  "base_commit": "5c2ed6efdc3c541b38477edf404a9d4eeef71f2b",
+  "scope": "Canonical JSON reader: syntax colors only, preserving original text, optional formatting, selection and source authorization.",
+  "implementation": {
+    "languages": [
+      "json"
+    ],
+    "validation": "Highlight only when the existing JSON validation succeeds; plain text and invalid JSON remain plain.",
+    "rendering": "React text nodes and styled spans; no HTML insertion, parsing/re-serialization of values or new dependency.",
+    "preserved": [
+      "whitespace",
+      "duplicate keys",
+      "numeric lexemes",
+      "escapes",
+      "selected text"
+    ],
+    "source_hashes": {
+      "frontend/src/features/evidence/canonical-content.tsx": "7c2cf17c89caca3be5018674abb9694e9401b210a668a9f3143933c4f307513f",
+      "frontend/src/features/evidence/canonical-content.module.css": "90a4b9bf57afbb491e140f2c0c18285fa98679a6e6cdbbc9170c81eb83630931",
+      "frontend/src/features/evidence/json-tokens.ts": "389bab69c326f8d495f661bbe989fe310be23565f812bbdf37c6ff6c10855ca5",
+      "frontend/src/features/evidence/json-tokens.test.ts": "0cf60db7272a95bc4c6de89ee95cbc2c04bee35063f52cd8354c91f9af885f41",
+      "frontend/e2e/json-syntax.spec.ts": "f42ed90dd91a5aca2126a68e1cb291f21fc1d70d28990299511dea2e88f27414",
+      "frontend/e2e/visual.spec.ts": "4c5a08d69697f3d2b29bb0e302c9550e459363800524ffdb86b1ca7e03467a1e"
+    }
+  },
+  "runtime_image": "sha256:3b486d3c044a49e6b4cea65ad3913c1549a0ca8193d4a09a2bb239789f7c6515",
+  "checks": {
+    "unit_command": "npm test -- src/features/evidence/json-tokens.test.ts src/features/evidence/reconciliation-content.test.ts",
+    "unit_passed": 16,
+    "lint": "passed",
+    "typecheck": "passed",
+    "format_check": "passed",
+    "production_build": "Docker frontend image built successfully; only frontend service recreated.",
+    "browser_command": "npm run test:e2e -- json-syntax.spec.ts visual.spec.ts",
+    "browser_channel": "msedge",
+    "browser_base_url": "http://127.0.0.1:3106",
+    "browser_stats": {
+      "startTime": "2026-09-22T18:02:43.659Z",
+      "duration": 8624.908000000001,
+      "expected": 2,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "browser_assertions": [
+      "raw text equals authorized API response",
+      "native text selection equals canonical original",
+      "distinct token colors",
+      "readable/original toggle",
+      "no global horizontal overflow",
+      "source contrast axe rules",
+      "forced colors remain readable",
+      "source return focus"
+    ],
+    "generation_posts": 0,
+    "javascript_errors": 0
+  },
+  "capture": {
+    "path": "docs/images/source-json-mobile.png",
+    "sha256": "2a1d7d2ffb8e6b111ecd542046da1f02a92ae1aeae87d43dd37522c95d945a4a",
+    "dimensions": [
+      288,
+      377
+    ],
+    "bytes": 17894,
+    "viewport": {
+      "width": 320,
+      "height": 800
+    },
+    "method": "Native locator.screenshot() of the canonical-source region; no DOM, response or pixel replacement.",
+    "synthetic_data": true,
+    "visual_inspection": "Desktop and mobile native screenshots reviewed."
+  },
+  "previous_images": {
+    "count": 16,
+    "all_hashes_preserved": true,
+    "manifest": "docs/evidence/screenshots-20260922.json"
+  },
+  "limits": [
+    "No new financial or provider operation.",
+    "Axe and forced colors checks do not certify full accessibility.",
+    "Historical screenshots retain their original monochrome reader."
+  ],
+  "new_html_exports": {
+    "scope": "New HTML exports: canonical JSON sources, locators and review provenance. Existing exported files are unchanged.",
+    "source_hashes": {
+      "backend/src/evidencedesk/reviews/exporting.py": "ce5001b5141f6522a39618cc67af7284a8907f3d061862c5484afe4301e15743",
+      "backend/tests/unit/test_export_syntax.py": "05ec0d2f8bec9c636f0afa39a4a9175498b01b6581166d97a8299cd318176eb2"
+    },
+    "tests_passed": 18,
+    "ruff": "passed",
+    "format": "passed",
+    "mypy": "passed",
+    "runtime_images": {
+      "api": "sha256:bb8e3e0e65b45e05c00f7b866dc0a5707512a15fe18e3435852c2814fb96db51",
+      "worker": "sha256:bb8e3e0e65b45e05c00f7b866dc0a5707512a15fe18e3435852c2814fb96db51"
+    },
+    "environment_changed": false,
+    "job_counts_unchanged": true,
+    "export_jobs_enqueued_for_review": 0,
+    "browser_review": [
+      {
+        "viewport": {
+          "width": 1100,
+          "height": 800
+        },
+        "exactOriginalIncludingCRLF": true,
+        "overflow": false,
+        "colorContrast": [
+          {
+            "color": "rgb(89, 99, 110)",
+            "contrast": 6.114136455475549
+          },
+          {
+            "color": "rgb(5, 80, 174)",
+            "contrast": 7.594618616820652
+          },
+          {
+            "color": "rgb(154, 52, 18)",
+            "contrast": 7.3070519776298735
+          },
+          {
+            "color": "rgb(17, 99, 41)",
+            "contrast": 7.392832202151287
+          },
+          {
+            "color": "rgb(130, 80, 223)",
+            "contrast": 5.045442359773882
+          }
+        ],
+        "forcedColors": true,
+        "source": "Controlled export fixture, not a new operational dossier/export."
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 800
+        },
+        "exactOriginalIncludingCRLF": true,
+        "overflow": false,
+        "colorContrast": [
+          {
+            "color": "rgb(89, 99, 110)",
+            "contrast": 6.114136455475549
+          },
+          {
+            "color": "rgb(5, 80, 174)",
+            "contrast": 7.594618616820652
+          },
+          {
+            "color": "rgb(154, 52, 18)",
+            "contrast": 7.3070519776298735
+          },
+          {
+            "color": "rgb(17, 99, 41)",
+            "contrast": 7.392832202151287
+          },
+          {
+            "color": "rgb(130, 80, 223)",
+            "contrast": 5.045442359773882
+          }
+        ],
+        "forcedColors": true,
+        "source": "Controlled export fixture, not a new operational dossier/export."
+      }
+    ],
+    "original_preserved": [
+      "HTML escaped",
+      "canonical text",
+      "CRLF",
+      "duplicate keys",
+      "numeric precision",
+      "escapes"
+    ]
+  }
+}

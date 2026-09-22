@@ -4,13 +4,19 @@ Investigação de pedidos com fontes verificáveis e revisão por outra pessoa.
 
 Desenvolvi o EvidenceDesk para reunir o material que um analista precisa quando o pagamento foi confirmado, mas o pedido continua pendente. Eventos, snapshots — fotografias do estado de outro sistema — e procedimentos sustentam uma investigação com fontes e revisão. É uma aplicação de portfólio com demonstração sintética, sem adoção comercial ou ganho de produtividade medido.
 
-![Pedido PED-009-000 com duas divergências e o evento de pagamento aberto](docs/images/payment-story-20260922/01-pagamento-e-divergencias.png)
+[Na prática](#na-prática) · [Implementação](#implementação) · [Executar e verificar](#executar-e-verificar) · [Limites e manutenção](#limites-e-manutenção)
 
-*Execução local de 22/09/2026, com dados sintéticos: o mesmo pedido aparece em duas verificações, entre 222 pedidos do recorte. Duas divergências não significam dois pedidos afetados. [Abrir a imagem](docs/images/payment-story-20260922/01-pagamento-e-divergencias.png) · [Conferir snapshot, dossiê e revisão da mesma investigação](docs/demo.md).*
+<p><img src="docs/readme/uso.svg" width="800" height="8" alt=""></p>
+
+## Na prática
+
+![Recorte da tabela atual: duas divergências do mesmo pedido PED-009-000](docs/images/workspace-desktop.png)
+
+_Recorte direto da interface atual, com dados sintéticos: o mesmo pedido aparece em duas verificações, entre 222 pedidos do snapshot. Duas divergências não significam dois pedidos afetados. [Prova completa da jornada de 22/09/2026](docs/images/payment-story-20260922/01-pagamento-e-divergencias.png) · [Conferir snapshot, dossiê e revisão](docs/demo.md) · [Origem das capturas](docs/screenshots.md)._
 
 **Entrada → resultado:** no pedido sintético `PED-009-000`, o pagamento ocorreu às **12:00:30 UTC** e o snapshot das **12:10:00 UTC** ainda informa `pending_payment`. As regras apontam a incompatibilidade e a confirmação não observada no prazo de 300 segundos. Elas não identificam a causa, não reenviam o pagamento e não corrigem o pedido.
 
-## Uma investigação do início ao fim
+### Uma investigação do início ao fim
 
 1. Importe um pacote de eventos, documentos e snapshots.
 2. Abra o incidente e confira divergências, linha do tempo e cobertura das fontes.
@@ -20,7 +26,11 @@ Desenvolvi o EvidenceDesk para reunir o material que um analista precisa quando 
 
 O fluxo manual funciona sem conta Azure. A geração é opcional e produz rascunhos sujeitos à revisão.
 
-## O que eu implementei
+<p><img src="docs/readme/implementacao.svg" width="800" height="8" alt=""></p>
+
+## Implementação
+
+### O que eu implementei
 
 - **Importação com proveniência:** valido manifesto, tamanho e hash; preservo texto canônico, localizadores e a composição de cada snapshot. O original continua acessível conforme a permissão atual.
 - **Conciliação independente da IA:** separei eventos lógicos de reentregas e comparei ocorrência, estado, mapeamento e cobertura em regras testáveis. A ausência de coleta impede conclusões que os dados não sustentam.
@@ -30,7 +40,7 @@ O fluxo manual funciona sem conta Azure. A geração é opcional e produz rascun
 
 Duas entregas do mesmo evento lógico contam como duas observações, não como dois pagamentos. A conclusão conserva o recorte, a cobertura — quais fontes foram coletadas e até quando — e os registros usados. O [guia de casos e decisões](docs/problem-solution.md) liga esse comportamento, permissões revogadas, edição concorrente e retenção ao código e aos testes.
 
-## Stack
+### Stack
 
 <p>
   <img src="docs/stack/python.svg" alt="Python" width="72" height="72">
@@ -44,7 +54,7 @@ Duas entregas do mesmo evento lógico contam como duas observações, não como 
 
 Python e FastAPI no backend; PostgreSQL/pgvector nos dados; TypeScript, React e Next.js na interface. Docker Compose organiza a execução local. Azure OpenAI e os modelos locais são perfis opcionais.
 
-## Arquitetura e escolhas
+### Arquitetura e escolhas
 
 ```mermaid
 flowchart LR
@@ -57,14 +67,18 @@ flowchart LR
     Worker --> Models[Embeddings e reranker · opcionais]
 ```
 
-- **Monólito modular, API e worker separados.** As regras ficam em módulos por responsabilidade. Trabalhos demorados saem da requisição HTTP; a fila usa o mesmo PostgreSQL. Um prazo de posse (*lease*) e a validação da identidade de execução (*fencing*) impedem que um worker publique depois de perder o trabalho.
+- **Monólito modular, API e worker separados.** As regras ficam em módulos por responsabilidade. Trabalhos demorados saem da requisição HTTP; a fila usa o mesmo PostgreSQL. Um prazo de posse (_lease_) e a validação da identidade de execução (_fencing_) impedem que um worker publique depois de perder o trabalho.
 - **Autorização no backend.** Políticas de acesso por linha no PostgreSQL (RLS) separam organizações; permissões de coleção e incidente limitam cada leitura, inclusive as fontes de resultados derivados. O modelo recebe apenas o contexto autorizado.
 - **Evidências e revisões imutáveis.** Um snapshot fixa as fontes da investigação. Editar o dossiê cria outra revisão; a aprovação pertence à versão conferida e exige outro usuário.
 - **Conciliação separada da geração.** Regras determinísticas calculam divergências. O modelo sintetiza fontes com orçamento limitado. Um resultado externo incerto exige tratamento explícito para evitar repetir uma chamada cobrada.
 
 O armazenamento local compartilhado simplifica a instalação em um host. Operação entre hosts exige persistência remota e recuperação próprias. Veja os [contratos, alternativas e limites da arquitetura](docs/architecture.md).
 
-## Rodar localmente
+<p><img src="docs/readme/execucao.svg" width="800" height="8" alt=""></p>
+
+## Executar e verificar
+
+### Rodar localmente
 
 Requisitos: **Docker com Linux containers, Compose 2.24.4+ e Python 3.11+**. Na raiz do repositório:
 
@@ -79,7 +93,7 @@ O primeiro `seed` gera a massa sintética e carrega a demonstração. Abra [loca
 
 As contas e os dados são fictícios; os serviços são publicados apenas em loopback. `python scripts/ops.py stop` encerra o projeto preservando os volumes. [Configuração, Azure opcional e solução de problemas](docs/runbooks/local.md).
 
-## Verificar e explorar
+### Verificar e explorar
 
 Os testes exercitam isolamento entre organizações, permissões de fontes, concorrência, perda de lease, edição de revisões, retenção e restauração. As jornadas no navegador incluem importação, leitura, aprovação e exportação. A [verificação da versão](docs/publication.md) registra os comandos, resultados e limites.
 
@@ -94,7 +108,11 @@ A [história de revisão e recuperação](docs/restore-read-story.md) mostra con
 
 Para a suíte completa, veja o [guia de desenvolvimento e testes](docs/development.md). Para apresentar o produto, siga a [demonstração de cinco minutos](docs/demo.md).
 
-## IA e escopo
+<p><img src="docs/readme/limites.svg" width="800" height="8" alt=""></p>
+
+## Limites e manutenção
+
+### IA e escopo
 
 A integração com Azure OpenAI já foi exercitada com uma geração real e reabertura do resultado após reinício. Embeddings, reranker e um experimento supervisionado usam dados sintéticos; seus [resultados e protocolo](experiments/README.md) estão versionados. O candidato treinado permanece separado do modelo ativo até cumprir os critérios de avaliação.
 

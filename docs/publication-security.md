@@ -14,10 +14,10 @@ A revisão do perfil opcional de ML em 21/09/2026 identificou CVE-2026-69112 no 
 
 Em **21/09/2026**, o gate das imagens finais locais Linux/amd64 de API e frontend passou com **zero vulnerabilidades reportadas em todas as severidades**. O [resumo verificável](evidence/publication-security-release/summary.json) registra as identidades das imagens, a versão do scanner e o hash da base. Este ensaio inclui as últimas validações de formulário, a configuração Azure portátil e a mensagem final de disponibilidade do gerador; substituiu, naquela revisão, o [scan intermediário](evidence/publication-security/summary.json). O resultado se aplica às imagens inspecionadas e à cobertura dessa base; não é uma certificação de ausência de vulnerabilidades.
 
-| Imagem | Pacotes de sistema inspecionados | Pacotes de aplicação inspecionados | HIGH / CRITICAL |
-| --- | ---: | ---: | ---: |
-| API | 38 | 63 Python | 0 / 0 |
-| Frontend | 18 | 20 Node.js | 0 / 0 |
+| Imagem   | Pacotes de sistema inspecionados | Pacotes de aplicação inspecionados | HIGH / CRITICAL |
+| -------- | -------------------------------: | ---------------------------------: | --------------: |
+| API      |                               38 |                          63 Python |           0 / 0 |
+| Frontend |                               18 |                         20 Node.js |           0 / 0 |
 
 Os inventários e resultados estão nos relatórios [API](evidence/publication-security-release/api-vulnerabilities.json) e [frontend](evidence/publication-security-release/frontend-vulnerabilities.json). As imagens opcionais de ML, PostgreSQL e observabilidade estão fora deste ensaio.
 
@@ -43,7 +43,7 @@ O CI também possui um job separado de histórico de segredos: checkout completo
 
 Na raiz do projeto, com Docker e Python disponíveis:
 
-```console
+```sh
 docker build -t pf-evidencedesk-backend:publication-alpine backend
 docker build -t pf-evidencedesk-frontend:publication-alpine frontend
 docker pull aquasec/trivy:0.74.0@sha256:62b1e65e8869bc4b4c6aa4fa2b21595256c7c2f6018a9d9ad61caf87187c1969

@@ -1,0 +1,29 @@
+.json code {
+  font: inherit;
+}
+
+.key {
+  color: #0550ae;
+}
+
+.string {
+  color: #9a3412;
+}
+
+.number {
+  color: #116329;
+}
+
+.literal {
+  color: #8250df;
+}
+
+.punctuation {
+  color: #59636e;
+}
+
+@media (forced-colors: active) {
+  .json span {
+    color: CanvasText;
+  }
+}

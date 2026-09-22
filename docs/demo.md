@@ -12,17 +12,19 @@ O resultado esperado é **duas divergências sobre um pedido**, entre 222 pedido
 
 A jornada criou uma nova investigação pela API normal, usando a mesma coleção, janela e snapshot de `demo-aurora-09`. Isso permite repetir o roteiro sem reabrir artificialmente uma investigação já aprovada. O ID desta execução é `0f2e37db4fe44bc592fbb5944c5b449d`; o [registro funcional](evidence/editorial-payment-20260922/payment-story.json) conserva IDs de snapshot, fontes, dossiê, alegação, revisão e contas. Pagamento e estado do pedido não foram alterados para a captura.
 
-![Divergências do pedido com o pagamento original aberto](images/payment-story-20260922/01-pagamento-e-divergencias.png)
+[Captura completa da execução: divergências e pagamento original aberto](images/payment-story-20260922/01-pagamento-e-divergencias.png).
 
-*Ana confere o evento e as duas avaliações do mesmo pedido. O cabeçalho apresenta Brasília; os campos do JSON usam UTC. [Imagem completa](images/payment-story-20260922/01-pagamento-e-divergencias.png).*
+![Recorte atual das duas divergências do pedido sintético](images/workspace-desktop.png)
+
+_O recorte focal acima foi recapturado na investigação de seed com o layout atual. A prova completa linkada conserva a identidade da execução original. O cabeçalho da aplicação apresenta Brasília; os campos do JSON usam UTC._
 
 ![Detalhe do snapshot mostrando pending_payment às 12h10 UTC](images/payment-story-20260922/02-snapshot-detalhe.png)
 
-*Recorte nativo do leitor: `as_of` é o instante do snapshot, 570 segundos após o pagamento. Não é a hora do upload. [Página completa correspondente](images/payment-story-20260922/02-snapshot-pendente.png). Os dois arquivos originais foram baixados e seus hashes/tamanhos coincidiram com a proveniência declarada.*
+_Recorte nativo do leitor: `as_of` é o instante do snapshot, 570 segundos após o pagamento. Não é a hora do upload. [Página completa correspondente](images/payment-story-20260922/02-snapshot-pendente.png). Os dois arquivos originais foram baixados e seus hashes/tamanhos coincidiram com a proveniência declarada._
 
-![Revisão aprovada por Bruno com alegação, duas fontes e limites explícitos](images/payment-story-20260922/05-dossie-detalhe-recorte.png)
+[Detalhe da revisão aprovada: alegação, duas fontes e limites explícitos](images/payment-story-20260922/05-dossie-detalhe-recorte.png).
 
-*Recorte da revisão do mesmo caso: elaboração manual, decisão por Bruno e duas fontes vinculadas. A causa e a correção permanecem não demonstradas. [Original com a fonte aberta](images/payment-story-20260922/05-dossie-com-fonte.png) · [Limites do recorte da imagem](evidence/editorial-payment-20260922/crop.json).*
+_Recorte da revisão do mesmo caso: elaboração manual, decisão por Bruno e duas fontes vinculadas. A causa e a correção permanecem não demonstradas. [Original com a fonte aberta](images/payment-story-20260922/05-dossie-com-fonte.png) · [Limites do recorte da imagem](evidence/editorial-payment-20260922/crop.json)._
 
 Ana recebeu 403 ao tentar aprovar; Bruno aprovou a versão indicada e preparou o HTML exportado. O teste conferiu as duas referências e a justificativa no arquivo. As duas divergências continuaram iguais depois disso. A [contagem no banco](evidence/editorial-payment-20260922/provider-check.json) permaneceu em zero chamadas ao provedor. A [captura móvel](images/payment-story-20260922/06-fonte-mobile.png) esperou a reautorização da fonte após a mudança de largura, em vez de registrar o carregamento.
 
@@ -30,14 +32,14 @@ Essas imagens mostram o produto real com dados sintéticos, sem troca de textos 
 
 O caso de pagamento pendente é `demo-aurora-09`, também usado nas [capturas versionadas](publication-frontend.md). Na bancada, **Pedidos/Divergências no snapshot ativo** e a cobertura geral continuam descrevendo o snapshot ativo. Se escolher um snapshot anterior, o aviso explica que os registros abaixo seguem o recorte selecionado. Confira essa diferença antes de comparar contagens. O [guia de casos](problem-solution.md) explica os resultados esperados e aponta os testes, sem exigir que a apresentação provoque revogação, falha de worker ou exclusão de dados.
 
-| Tempo | Ação | O que observar |
-| --- | --- | --- |
-| 0:00–0:40 | Entrar como Ana, abrir “Pagamento confirmado e pedido pendente” | Tenant, janela, snapshot, cobertura e divergências; não confundir data de ingestão com ocorrência. |
-| 0:40–1:30 | Selecionar um pedido e abrir fonte do pagamento e snapshot | O evento confirma pagamento; snapshot posterior permanece incompatível. Clique na regra e confira localização da fonte. |
-| 1:30–2:20 | Ir à timeline e conferir cobertura | Ausência de transição significa não observada no recorte. Uma reentrega não prova cobrança duplicada. |
-| 2:20–3:15 | Criar/abrir dossiê manual, registrar hipótese citada e lacuna | Uma alegação pode ser contestada; fatos, hipótese, contexto e contraevidência não são estados equivalentes. Edite e veja nova revisão. |
-| 3:15–4:10 | Submeter; entrar como Bruno e comparar a revisão exata | O autor não aprova a própria submissão; aprovação aponta IDs de alegações. Exporte somente depois de aprovar. |
-| 4:10–5:00 | Exportar a versão aprovada e retornar às divergências | O HTML conserva as fontes e a justificativa. Os dois registros operacionais continuam divergentes: aprovação não é remediação. |
+| Tempo     | Ação                                                            | O que observar                                                                                                                         |
+| --------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| 0:00–0:40 | Entrar como Ana, abrir “Pagamento confirmado e pedido pendente” | Tenant, janela, snapshot, cobertura e divergências; não confundir data de ingestão com ocorrência.                                     |
+| 0:40–1:30 | Selecionar um pedido e abrir fonte do pagamento e snapshot      | O evento confirma pagamento; snapshot posterior permanece incompatível. Clique na regra e confira localização da fonte.                |
+| 1:30–2:20 | Ir à timeline e conferir cobertura                              | Ausência de transição significa não observada no recorte. Uma reentrega não prova cobrança duplicada.                                  |
+| 2:20–3:15 | Criar/abrir dossiê manual, registrar hipótese citada e lacuna   | Uma alegação pode ser contestada; fatos, hipótese, contexto e contraevidência não são estados equivalentes. Edite e veja nova revisão. |
+| 3:15–4:10 | Submeter; entrar como Bruno e comparar a revisão exata          | O autor não aprova a própria submissão; aprovação aponta IDs de alegações. Exporte somente depois de aprovar.                          |
+| 4:10–5:00 | Exportar a versão aprovada e retornar às divergências           | O HTML conserva as fontes e a justificativa. Os dois registros operacionais continuam divergentes: aprovação não é remediação.         |
 
 ## Executar a jornada automatizada
 
