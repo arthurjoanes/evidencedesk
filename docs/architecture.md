@@ -8,37 +8,148 @@ Para partir de situações concretas antes dos contratos, veja [problemas, exemp
 
 ## Componentes e fluxo
 
+O [mapa de processos do README](../README.md#arquitetura) mostra containers e suas conexões. Aqui, o recorte é a transformação das fontes em uma decisão revisável. Cada caixa abaixo é um módulo ou registro da aplicação; o fluxo atravessa API e worker sem criar um serviço de rede para cada etapa.
+
 ```mermaid
-flowchart LR
-    Browser[Navegador] --> Web[Next.js / React]
-    Web -->|Proxy da mesma origem| API[FastAPI]
-    API --> DB[(PostgreSQL / pgvector)]
-    API --> Objects[(Arquivos privados)]
-    DB -->|Fila e leases| Worker[Worker Python]
-    Worker --> DB
-    Worker --> Objects
-    Worker --> Parser[Subprocesso de extração]
-    Worker -. Perfil opcional .-> Models[E5 / reranker]
-    Worker -. Geração opcional .-> Azure[Azure OpenAI]
-    API -. Logs e traces .-> OTel[OpenTelemetry]
-    Worker -. Logs e traces .-> OTel
+flowchart TB
+    Package["Pacote de importação<br/>Manifesto, cobertura, hashes e arquivos"]
+    Ingest["ingestion<br/>Reserva de quota e validação de upload"]
+    Parse["Worker de ingestão<br/>Parser isolado + localizadores"]
+    Snapshot[("evidence + evidence_snapshots<br/>snapshot_members + snapshot_mappings")]
+    Incident["incidents<br/>Coleção, participantes e janela temporal"]
+    Rules["reconciliation<br/>Linha do tempo, divergências e cobertura"]
+    Search["retrieval<br/>Lexical ou híbrida com ACL atual"]
+    SourceList["incidents/evidence<br/>Consulta manual por texto e título"]
+    Manual["reviews<br/>Dossiê manual com fontes"]
+    Generate["investigations + model_runtime<br/>Release fixa, orçamento e rascunho"]
+    Revision[("dossier_revisions<br/>Alegações e citações imutáveis")]
+    Decision["revision_decisions<br/>Outra conta avalia todas as alegações"]
+    Export["Worker de exportação<br/>HTML com proveniência e validade"]
+
+    Package -->|"POST /imports + PUT de cada entrada"| Ingest
+    Ingest -->|"Finalize: pacote selado + job"| Parse
+    Parse -->|"Publicação transacional"| Snapshot
+    Snapshot -->|"Corpus fixado por ID"| Incident
+    Incident -->|"Eventos e snapshots no recorte"| Rules
+    Incident -->|"Busca para geração"| Search
+    Incident -->|"Listagem de fontes autorizadas"| SourceList
+    Rules -->|"Consulta e seleção de fontes"| Manual
+    SourceList -->|"Seleção de fontes"| Manual
+    Rules -.->|"Agregado determinístico como evidência"| Generate
+    Search -.->|"Contexto delimitado para IA opcional"| Generate
+    Manual -->|"Criação / edição"| Revision
+    Generate -.->|"Schema e referências validados"| Revision
+    Revision -->|"Submit + If-Match"| Decision
+    Decision -->|"Revisão aprovada + job"| Export
 ```
 
-| Componente            | Responsabilidade                                       | Fronteira                                                       |
-| --------------------- | ------------------------------------------------------ | --------------------------------------------------------------- |
-| Frontend              | Fila, investigação, leitor, edição e revisão           | Apresenta permissões; o backend sempre as valida.               |
-| API                   | Sessão, autorização, consulta e admissão de trabalho   | Persiste a intenção e o job na mesma transação.                 |
-| PostgreSQL            | Conteúdo, snapshots, fila, sessões, quotas e auditoria | RLS por organização, ACL por coleção e associação ao incidente. |
-| Worker                | Extração, indexação, investigação e exportação         | Só publica com lease vigente, fencing e política atual.         |
-| Armazenamento privado | Originais e artefatos imutáveis                        | Chaves criadas pelo servidor; acesso mediado pela API.          |
-| Serviço de modelos    | Embeddings E5 e reranker opcionais                     | Processo privado separado; API e worker não carregam Torch.     |
-| Azure OpenAI          | Rascunho estruturado com fontes                        | Sem autoridade para aprovar, executar SQL ou remediar pedidos.  |
+### Processos, portas e armazenamento
 
-1. **Importar:** validar manifesto e reservar quota; conferir tamanho e SHA-256; fechar o pacote e enfileirar extração. O parser tem prazo e limites de memória/CPU no Linux. A publicação cria um snapshot de evidências.
-2. **Investigar:** fixar snapshot e janela do incidente. Regras conciliam eventos e estados; a busca recupera trechos documentais autorizados. O fluxo manual está disponível sem credencial de IA.
-3. **Gerar, opcionalmente:** congelar release e limites; executar ferramentas de leitura; reservar orçamento e conferir autorização antes do envio. A resposta estruturada precisa passar pela validação de referências antes de virar rascunho persistido.
-4. **Revisar:** salvar uma nova revisão imutável, submeter e obter decisão de outro usuário. `If-Match` e revisão de base impedem sobrescrita silenciosa. Uma edição não herda aprovação semântica anterior.
-5. **Exportar:** enfileirar uma revisão aprovada e gerar HTML com proveniência e fontes escapadas. O download exige autorização atual e tem validade limitada.
+| Unidade de execução | Interface e responsabilidade | Estado / dependência |
+| --- | --- | --- |
+| `frontend` | Next.js em `:3106`; telas por funcionalidade e proxy de `/api/v1/*`, incluindo upload e SSE. | `API_INTERNAL_URL=http://api:8106`; sem conexão SQL nem credencial de IA. |
+| `api` | FastAPI em `:8106`; sessão, ACL, consultas, conciliação, revisão e admissão de jobs. | Role `ed_app`, contexto de tenant por transação, `/data` e `/ledger`. |
+| `worker` | Processo Python sem porta HTTP; polling dos tenants habilitados e despacho de `ingestion`, `investigation`, `export`, `purge` e `index_snapshot`. | Mesmo código/role/volumes da API; heartbeat renova o lease durante a execução. |
+| `db` | PostgreSQL com pgvector em `:5432`; RLS, domínio, fila e orçamento persistido. | Volume `db_data`; porta do host `127.0.0.1:5546`. |
+| `migrate` | Job de inicialização: `alembic upgrade head`, após o banco ficar saudável. | Role `ed_owner`; API e worker só iniciam após sucesso. |
+| Armazenamento privado | `evidence_data` em `/data`: uploads e artefatos; `deletion_ledger` em `/ledger`: exclusões duráveis. | API e worker compartilham os volumes; não há URL pública de objeto no fluxo local. |
+| `models` — perfil `ml` | HTTP privado em `:8090`, token de serviço, E5 e reranker; pesos pré-carregados em `/models`, montado somente para leitura. | Container próprio com GPU; o Compose básico não o inicia. |
+| Azure OpenAI — opcional | Responses chamado pelo worker com orçamento e fontes já autorizados. | Endpoint/deployment/credencial externos; não participa do dossiê manual. |
+
+As portas publicadas de frontend e API também ficam em `127.0.0.1`. Essas são as portas padrão; os parâmetros `ED_*_PORT` podem alterá-las. [Compose](../infra/compose/compose.yaml) e [proxy](../frontend/src/app/api/v1/%5B...path%5D/route.ts) são os contratos de execução. O perfil local usa HTTP em loopback e não demonstra terminação TLS, operação entre hosts ou alta disponibilidade.
+
+### Importação: da requisição ao snapshot
+
+```mermaid
+sequenceDiagram
+    actor User as Analista
+    participant API as API /imports
+    participant DB as PostgreSQL
+    participant FS as Arquivos privados
+    participant Worker as Worker de ingestão
+    participant Parser as Parser isolado
+    User->>API: POST manifesto e cobertura
+    API->>DB: Validar coleção, reservar quota, criar pacote/entradas
+    API-->>User: 201 com import_id e entradas
+    loop Cada arquivo do manifesto
+        User->>API: PUT /imports/{id}/files/{entry}
+        API->>FS: Conferir tamanho/hash e publicar objeto imutável
+        API->>DB: Confirmar referência da entrada
+    end
+    User->>API: POST /imports/{id}/finalize
+    API->>DB: Mesma transação: selar pacote + enfileirar job
+    API-->>User: 202 com estado do pacote
+    Worker->>DB: Adquirir job: SKIP LOCKED, lease, fencing token
+    Worker->>FS: Ler originais
+    Worker->>Parser: Extrair fora da transação SQL
+    Parser-->>Worker: Eventos, estados ou trechos com localizadores
+    alt Arquivo válido e posse/permissão continuam válidas
+        Worker->>DB: Revalidar política, lease e coleção
+        Worker->>DB: Commit: evidências + snapshot + job concluído
+    else Extração rejeitada, posse perdida ou política alterada
+        Worker->>DB: Registrar falha quando ainda houver posse
+        Note over DB,Worker: Nenhum snapshot parcial é publicado
+    end
+    User->>API: GET /imports/{id}
+    API->>DB: Consultar resultado com autorização atual
+    API-->>User: Estado, snapshot_id ou erro
+```
+
+O [parser](../backend/src/evidencedesk/ingestion/processing.py) recebe apenas as variáveis de ambiente permitidas, tem timeout de 25 segundos e aplica [limites de extração](../backend/src/evidencedesk/ingestion/limits.py). Um PDF sem texto extraível leva a `requires_ocr`; OCR não é executado. O snapshot novo herda membros e mapeamentos do anterior, acrescenta as entradas válidas e atualiza o snapshot ativo da coleção na mesma transação. No perfil não lexical, essa publicação também agenda `index_snapshot`; a busca vetorial exige o índice completo.
+
+### Investigação, geração e revisão
+
+1. **Fixar o recorte.** O incidente identifica coleção, membros e janela temporal; a execução recebe `evidence_snapshot_id`. A [conciliação](../backend/src/evidencedesk/reconciliation/rules.py) calcula os sinais sobre eventos/estados. A [consulta manual de fontes](../backend/src/evidencedesk/incidents/routes.py) usa busca textual/título; o módulo [retrieval](../backend/src/evidencedesk/retrieval) prepara contexto lexical ou híbrido para o worker de geração. Ambos respeitam a autorização atual. Nenhuma chamada de geração é necessária para consultar fontes ou criar um dossiê manual.
+2. **Admitir a geração opcional.** `POST /incidents/{id}/runs` exige `Idempotency-Key`. [create_run](../backend/src/evidencedesk/investigations/service.py) fixa o recorte, a release e os limites e grava a execução e o job na transação da API. O retorno é `202` com `Location`; repetir a chave com conteúdo diferente gera conflito.
+3. **Construir e enviar o contexto.** O [worker](../backend/src/evidencedesk/investigations/processing.py) usa ferramentas de leitura, preserva um agregado determinístico da conciliação como evidência e delimita os trechos enviados. Antes da rede, revalida fontes/permissões e persiste a reserva em `provider_calls`; a chamada ao provedor ocorre sem manter uma transação SQL aberta.
+4. **Publicar o rascunho.** Uso conhecido é conciliado no orçamento. A resposta deve passar pelo schema e pela validação de referências; a publicação revalida a posse da execução e o acesso às fontes. A API transmite `run_events` por SSE em `/runs/{id}/events`, com retomada por `Last-Event-ID`, reautorização durante o stream e sinalização de ressincronização quando necessário.
+5. **Revisar e exportar.** O dossiê guarda revisões imutáveis; edição, submissão e decisão usam revisão de base/`If-Match`. A aprovação pertence à revisão e exige outra conta além do autor e do responsável pela submissão. O [job de exportação](../backend/src/evidencedesk/reviews/exporting.py) grava HTML escapado com fontes e proveniência em `/data`; a referência fica válida por 24 horas, e cada download revalida o acesso.
+
+### Dados persistidos e vínculo de proveniência
+
+| Grupo de registros | Chave ou vínculo relevante | Por que existe |
+| --- | --- | --- |
+| `tenants`, `users`, `sessions`, `collection_grants`, `incident_members` | Organização, usuário, coleção e incidente | Identidade e acesso atual; uma URL ou um ID conhecido não concede permissão. |
+| `import_batches`, `import_entries` | Pacote, entrada, hash e chave privada do arquivo | Acompanhar admissão, upload e extração sem publicar um pacote incompleto. |
+| `evidence`, `evidence_snapshots`, `snapshot_members`, `snapshot_mappings` | ID de fonte, snapshot e referência do pedido por sistema | Reconstituir corpus, localizador e correspondência entre origens. |
+| `incidents`, `investigation_runs`, `run_events` | Incidente, snapshot, release, execução e sequência de eventos | Preservar o contexto e permitir reabrir o progresso/resultado sem nova geração. |
+| `jobs`, `idempotency_keys`, `provider_calls` | Recurso, tipo de operação, chave do cliente e tentativa do provedor | Controlar concorrência, repetição, posse do trabalho e orçamento durável. |
+| `dossiers`, `dossier_revisions`, `revision_decisions`, `exports` | Dossiê → revisão → alegações/decisão → arquivo exportado | A aprovação e as fontes pertencem à versão examinada. |
+| `audit_events`, `deletion_requests` e ledger em `/ledger` | Ação/recurso e intenção de exclusão | Auditar mutações e reaplicar exclusões posteriores a um backup. |
+
+O [schema inicial](../backend/migrations/versions/0001_foundation.sql) e as [migrações](../backend/migrations/versions) definem as relações; o [contrato de dados](data-contract.md) detalha os tempos e localizadores. pgvector integra o mesmo PostgreSQL, sem banco vetorial separado. Originais e HTML ficam fora das tabelas, que preservam chave privada e hash.
+
+### Falhas e limites de transação
+
+| Interrupção | Resposta da implementação | Limite que permanece |
+| --- | --- | --- |
+| Arquivo salvo, commit SQL perdido | Objeto sem referência fica para limpeza após período seguro e verificação de produtores ativos. | Arquivo e PostgreSQL não formam uma única transação distribuída. |
+| Worker perde lease ou recebe cancelamento | O token de fencing impede o commit do executor antigo. | Ter calculado um resultado não dá direito a publicá-lo. |
+| ACL muda durante a execução | O lock/revisão de política e a reautorização bloqueiam publicação com escopo antigo. | Revogação não recupera conteúdo já enviado a um provedor. |
+| Resposta do provedor fica desconhecida | Reserva continua comprometida; tentativa despachada não é repetida automaticamente após expiração. | O operador precisa de evidência para conciliar; não se presume custo zero. |
+| Duas pessoas editam a mesma base | `If-Match` e a revisão de base recusam a edição obsoleta. | O usuário precisa recarregar e decidir como incorporar a mudança. |
+| Restore usa backup anterior a uma exclusão | Ledger atual é reaplicado antes da reabertura controlada. | Volumes separados no mesmo host não resistem à perda completa desse host. |
+
+Os controles estão em [jobs](../backend/src/evidencedesk/jobs/service.py), [storage](../backend/src/evidencedesk/evidence/storage.py), [orçamento](../backend/src/evidencedesk/investigations/budget.py), [revisões](../backend/src/evidencedesk/reviews/service.py) e [retenção](runbooks/retention.md).
+
+### Observabilidade e operação
+
+O [overlay de observabilidade](../infra/compose/observability.yaml) acrescenta um caminho separado do tráfego do produto:
+
+```mermaid
+flowchart LR
+    API["API /metrics"] -->|"Scrape com Bearer"| Prom["Prometheus"]
+    Signals["API + worker<br/>Logs e spans OTLP"] -->|"HTTP :4318"| Collector["OTel Collector<br/>Filtro de atributos + batch"]
+    Collector -->|"Traces"| Tempo["Tempo"]
+    Collector -->|"Logs"| Loki["Loki"]
+    Prom -->|"Regras de alerta"| AM["Alertmanager"]
+    AM -->|"Webhook local"| Receiver["Receiver de demonstração"]
+    Grafana["Grafana"] -->|"Consulta métricas"| Prom
+    Grafana -->|"Consulta traces"| Tempo
+    Grafana -->|"Consulta logs"| Loki
+```
+
+A [configuração do collector](../infra/observability/collector.yaml) conserva atributos permitidos e reduz o corpo dos logs enviados a um evento estruturado. O [Prometheus](../infra/observability/prometheus.yaml) coleta `/metrics` e usa blackbox probes para readiness; as métricas da API também consultam fila e heartbeats persistidos. O `trace_context` acompanha o job para ligar a requisição ao span do worker. Alertas terminam no receiver local deste perfil; esse trajeto não demonstra entrega a uma equipe de plantão.
 
 ## Organização do código
 
