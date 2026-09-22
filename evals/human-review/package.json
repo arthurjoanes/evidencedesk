@@ -1,0 +1,508 @@
+{
+  "schema_version": 1,
+  "status": "prepared_not_executed",
+  "prepared_at": "2026-09-22T06:59:52.206683+00:00",
+  "scope": "Development references only; no human labels, model outputs or promotion",
+  "case_file": "../data/dev.jsonl",
+  "case_file_sha256": "85de49a7f57d75ac7e272fb9dab9802b4df1b7de7bb7ff106036369500889a9d",
+  "cases": 60,
+  "families": {
+    "duplicate_webhook": 8,
+    "delayed_delivery": 8,
+    "out_of_order": 8,
+    "ambiguous_timeout": 8,
+    "expired_reservation": 7,
+    "stale_snapshot": 7,
+    "identity_mismatch": 7,
+    "obsolete_procedure": 7
+  },
+  "reserved_content_read": false,
+  "sources_verified": 60,
+  "index": [
+    {
+      "case_id": "evaluation-dev-000",
+      "scenario_instance": "evaluation-dev-000",
+      "family": "duplicate_webhook",
+      "source_path": "../data/sources/dev/evaluation-dev-000.json",
+      "source_sha256": "9dc0bcf0a3be348cf3b4a77f822762169473ce8b6ee49243404d748fbacab7b2",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-001",
+      "scenario_instance": "evaluation-dev-001",
+      "family": "delayed_delivery",
+      "source_path": "../data/sources/dev/evaluation-dev-001.json",
+      "source_sha256": "da5c77b5eee7af7824dc90e1535af78e027a08040501110a8fcffd5bccf75d90",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-002",
+      "scenario_instance": "evaluation-dev-002",
+      "family": "out_of_order",
+      "source_path": "../data/sources/dev/evaluation-dev-002.json",
+      "source_sha256": "f13fa9267bab9caf241ffbf020e85bf2837a18581633b9742427900ff63fc57c",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-003",
+      "scenario_instance": "evaluation-dev-003",
+      "family": "ambiguous_timeout",
+      "source_path": "../data/sources/dev/evaluation-dev-003.json",
+      "source_sha256": "071c16f811849c93dca7d891da69ad5deb4451a9007d14b739fe897fd4edb1ae",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-004",
+      "scenario_instance": "evaluation-dev-004",
+      "family": "expired_reservation",
+      "source_path": "../data/sources/dev/evaluation-dev-004.json",
+      "source_sha256": "82169eaed57a00efbbd97e71bb9c3396d2665904a617d78464b90c5aa056fda0",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-005",
+      "scenario_instance": "evaluation-dev-005",
+      "family": "stale_snapshot",
+      "source_path": "../data/sources/dev/evaluation-dev-005.json",
+      "source_sha256": "47cf781cbd8bed24ff8a30693c20c5b54b1b5faa07843df431890167308e879d",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-006",
+      "scenario_instance": "evaluation-dev-006",
+      "family": "identity_mismatch",
+      "source_path": "../data/sources/dev/evaluation-dev-006.json",
+      "source_sha256": "b459e02676b98c5973ce997e0df741d75272b8bfa3e35c885264a46c935f1c6e",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-007",
+      "scenario_instance": "evaluation-dev-007",
+      "family": "obsolete_procedure",
+      "source_path": "../data/sources/dev/evaluation-dev-007.json",
+      "source_sha256": "52143afaae3ec16a639e08f91f3fbedb41635e0b2ece9c6ef589778b3f13665f",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-008",
+      "scenario_instance": "evaluation-dev-008",
+      "family": "duplicate_webhook",
+      "source_path": "../data/sources/dev/evaluation-dev-008.json",
+      "source_sha256": "8766f7df19f15e687898b0db52fb44dea279501eb0c0d4cc3d9993114c4775b3",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-009",
+      "scenario_instance": "evaluation-dev-009",
+      "family": "delayed_delivery",
+      "source_path": "../data/sources/dev/evaluation-dev-009.json",
+      "source_sha256": "a7e1b1b3f53cf2b976d839a206f4b4924de5b381c7d2db437db0bacde7efdc6c",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-010",
+      "scenario_instance": "evaluation-dev-010",
+      "family": "out_of_order",
+      "source_path": "../data/sources/dev/evaluation-dev-010.json",
+      "source_sha256": "c22fc20c1a7bf61d320bc20adb0cdd2a90759256ea8cade493c5061f12595f02",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-011",
+      "scenario_instance": "evaluation-dev-011",
+      "family": "ambiguous_timeout",
+      "source_path": "../data/sources/dev/evaluation-dev-011.json",
+      "source_sha256": "2443790913479a99c116c32c323d385434034dc90a2a833dbf997316e02539cd",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-012",
+      "scenario_instance": "evaluation-dev-012",
+      "family": "expired_reservation",
+      "source_path": "../data/sources/dev/evaluation-dev-012.json",
+      "source_sha256": "75653fe50ecae2153cb6dcb235470b54f74727710747ce39a1ea17578d8b60eb",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-013",
+      "scenario_instance": "evaluation-dev-013",
+      "family": "stale_snapshot",
+      "source_path": "../data/sources/dev/evaluation-dev-013.json",
+      "source_sha256": "56b61b02933885dd6a6dd55949cc89e218ee4410a84a5c7fb609ac8e0f5c94ea",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-014",
+      "scenario_instance": "evaluation-dev-014",
+      "family": "identity_mismatch",
+      "source_path": "../data/sources/dev/evaluation-dev-014.json",
+      "source_sha256": "cda5e90c4d5265c093fc9a3e71f1fe0df22c5efc134e8234f28eeefb91f17ebc",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-015",
+      "scenario_instance": "evaluation-dev-015",
+      "family": "obsolete_procedure",
+      "source_path": "../data/sources/dev/evaluation-dev-015.json",
+      "source_sha256": "ea4c76a14f8e0a0b08b507acde20f4698e6ff9c7a0f505be4c08ac93ced42357",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-016",
+      "scenario_instance": "evaluation-dev-016",
+      "family": "duplicate_webhook",
+      "source_path": "../data/sources/dev/evaluation-dev-016.json",
+      "source_sha256": "ee66af04395d6b596962ec9123b5102d37ffdf6445106bbbf5980d94fec1e387",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-017",
+      "scenario_instance": "evaluation-dev-017",
+      "family": "delayed_delivery",
+      "source_path": "../data/sources/dev/evaluation-dev-017.json",
+      "source_sha256": "1c09985e671f669507201d2dc62da8a42ee91c1382829b73994f937c792070a3",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-018",
+      "scenario_instance": "evaluation-dev-018",
+      "family": "out_of_order",
+      "source_path": "../data/sources/dev/evaluation-dev-018.json",
+      "source_sha256": "394c7a4adc9376d55b4994cebc26bbc31a2a4452f9c83f419d0ece8df799b479",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-019",
+      "scenario_instance": "evaluation-dev-019",
+      "family": "ambiguous_timeout",
+      "source_path": "../data/sources/dev/evaluation-dev-019.json",
+      "source_sha256": "aefaf1b608ae567cf0d14218064c0fa99c53eecaf0da920c8552b983bebd3f58",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-020",
+      "scenario_instance": "evaluation-dev-020",
+      "family": "expired_reservation",
+      "source_path": "../data/sources/dev/evaluation-dev-020.json",
+      "source_sha256": "552d0b4bdd7131965d355d7f30c1626f9596cb65e02ec19b675fb86cbeb45028",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-021",
+      "scenario_instance": "evaluation-dev-021",
+      "family": "stale_snapshot",
+      "source_path": "../data/sources/dev/evaluation-dev-021.json",
+      "source_sha256": "55d6193e23e4a7a941c070bba123c6bb74ff664e88dcd547bf48183d5b4e1f45",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-022",
+      "scenario_instance": "evaluation-dev-022",
+      "family": "identity_mismatch",
+      "source_path": "../data/sources/dev/evaluation-dev-022.json",
+      "source_sha256": "483e9f7a4563f95105eaebf69db854da6780ec98c9a1afdb61457c4bfc900fc7",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-023",
+      "scenario_instance": "evaluation-dev-023",
+      "family": "obsolete_procedure",
+      "source_path": "../data/sources/dev/evaluation-dev-023.json",
+      "source_sha256": "0360a8c4a88b23ba238f69fefa55b4654410923ea62543f008a1397656094dbc",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-024",
+      "scenario_instance": "evaluation-dev-024",
+      "family": "duplicate_webhook",
+      "source_path": "../data/sources/dev/evaluation-dev-024.json",
+      "source_sha256": "ae1a958d3c2f8df27360ad72a3844ee3e35f91210403e0c1d129ce7c80c770e5",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-025",
+      "scenario_instance": "evaluation-dev-025",
+      "family": "delayed_delivery",
+      "source_path": "../data/sources/dev/evaluation-dev-025.json",
+      "source_sha256": "63bf8eedc01998a535ce94efc7c0dc47d95be3b174d09e016241d9680d0e1373",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-026",
+      "scenario_instance": "evaluation-dev-026",
+      "family": "out_of_order",
+      "source_path": "../data/sources/dev/evaluation-dev-026.json",
+      "source_sha256": "f8b4e51a5bc1c8c239ac53f4efa6744b83b2ea443131397a9d2be8aecf13381f",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-027",
+      "scenario_instance": "evaluation-dev-027",
+      "family": "ambiguous_timeout",
+      "source_path": "../data/sources/dev/evaluation-dev-027.json",
+      "source_sha256": "de1fbd44324b81d0100cfa233b6b4e2ec66170ffce4b4afc01a6a415d49ade41",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-028",
+      "scenario_instance": "evaluation-dev-028",
+      "family": "expired_reservation",
+      "source_path": "../data/sources/dev/evaluation-dev-028.json",
+      "source_sha256": "eaa5505b53a9f50949f27c040435c8f1814024feee3b6a6f999eac51bcf483f0",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-029",
+      "scenario_instance": "evaluation-dev-029",
+      "family": "stale_snapshot",
+      "source_path": "../data/sources/dev/evaluation-dev-029.json",
+      "source_sha256": "a98ff6d7706260eaec3e4ffe25a555e7abe87eca0d6c16fcdea9f3d2c6b6b9ff",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-030",
+      "scenario_instance": "evaluation-dev-030",
+      "family": "identity_mismatch",
+      "source_path": "../data/sources/dev/evaluation-dev-030.json",
+      "source_sha256": "690b631cfdf18aa6b6e06dacf99656e61859e794d0584260025375553b160a06",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-031",
+      "scenario_instance": "evaluation-dev-031",
+      "family": "obsolete_procedure",
+      "source_path": "../data/sources/dev/evaluation-dev-031.json",
+      "source_sha256": "da904a98954b062f3157088d98095fe9b16f795e1099e473e4ec658f9182fbf2",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-032",
+      "scenario_instance": "evaluation-dev-032",
+      "family": "duplicate_webhook",
+      "source_path": "../data/sources/dev/evaluation-dev-032.json",
+      "source_sha256": "c5bfcb564f884451eda7872f9c30f031286254e80c2259cb07c720e4b5d96919",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-033",
+      "scenario_instance": "evaluation-dev-033",
+      "family": "delayed_delivery",
+      "source_path": "../data/sources/dev/evaluation-dev-033.json",
+      "source_sha256": "69d234f698dae165af0321d7fbdd327e07669f16cb25c59ab2ab1ce69607f666",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-034",
+      "scenario_instance": "evaluation-dev-034",
+      "family": "out_of_order",
+      "source_path": "../data/sources/dev/evaluation-dev-034.json",
+      "source_sha256": "dc39659d6be4007c707dfcee50b0636c4af16a18ca460183501e63bf654652fe",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-035",
+      "scenario_instance": "evaluation-dev-035",
+      "family": "ambiguous_timeout",
+      "source_path": "../data/sources/dev/evaluation-dev-035.json",
+      "source_sha256": "dae8d47e5d55c111739f336581085b6b2a97e36cfa70cbe1bbe94b18cbde7e08",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-036",
+      "scenario_instance": "evaluation-dev-036",
+      "family": "expired_reservation",
+      "source_path": "../data/sources/dev/evaluation-dev-036.json",
+      "source_sha256": "673cc10d91af33813090495d240ce8e3142c2cf914c8a1e85da5e23c4948e68f",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-037",
+      "scenario_instance": "evaluation-dev-037",
+      "family": "stale_snapshot",
+      "source_path": "../data/sources/dev/evaluation-dev-037.json",
+      "source_sha256": "28d6c79fbd398f987d5bb82141ccca81e2a6e2ffc1370496a0c2cc3148587abf",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-038",
+      "scenario_instance": "evaluation-dev-038",
+      "family": "identity_mismatch",
+      "source_path": "../data/sources/dev/evaluation-dev-038.json",
+      "source_sha256": "4940af74452a9daa7973b64abb652fa63342abf97c7b2b6ca3e3059bcde7dede",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-039",
+      "scenario_instance": "evaluation-dev-039",
+      "family": "obsolete_procedure",
+      "source_path": "../data/sources/dev/evaluation-dev-039.json",
+      "source_sha256": "2be0017ec3f5cc0a4e5da353a28485faa276107d186b37ef73fd86d782427750",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-040",
+      "scenario_instance": "evaluation-dev-040",
+      "family": "duplicate_webhook",
+      "source_path": "../data/sources/dev/evaluation-dev-040.json",
+      "source_sha256": "a99d2671b5f6d9bdc1efef166c1f87e541fe2458e55304ee594e1bbac00dcaf4",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-041",
+      "scenario_instance": "evaluation-dev-041",
+      "family": "delayed_delivery",
+      "source_path": "../data/sources/dev/evaluation-dev-041.json",
+      "source_sha256": "ae4eb578128318a9b81ab00f3512e0b57978ab746b74df6de70568a4c07677a3",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-042",
+      "scenario_instance": "evaluation-dev-042",
+      "family": "out_of_order",
+      "source_path": "../data/sources/dev/evaluation-dev-042.json",
+      "source_sha256": "07124f4cfb419a73f095634db3cc692722b9a699dc3f6f39393fe95e817a58b6",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-043",
+      "scenario_instance": "evaluation-dev-043",
+      "family": "ambiguous_timeout",
+      "source_path": "../data/sources/dev/evaluation-dev-043.json",
+      "source_sha256": "26d5170bb4954ebc90949a76c490f6b3376866e80bb221c8befc8d2f8d1c2d2a",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-044",
+      "scenario_instance": "evaluation-dev-044",
+      "family": "expired_reservation",
+      "source_path": "../data/sources/dev/evaluation-dev-044.json",
+      "source_sha256": "81c2110ed78583871718ff765483c02f642e775f202cba8129c8fe8b6cc61543",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-045",
+      "scenario_instance": "evaluation-dev-045",
+      "family": "stale_snapshot",
+      "source_path": "../data/sources/dev/evaluation-dev-045.json",
+      "source_sha256": "44eab535c8cee58502391ee50e2e705bbca922b9b089da97d99a14c7f802712d",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-046",
+      "scenario_instance": "evaluation-dev-046",
+      "family": "identity_mismatch",
+      "source_path": "../data/sources/dev/evaluation-dev-046.json",
+      "source_sha256": "962ead0a123e5a10ab3a2ebdbe1e5d15fb10d032073e2a84f2328ff3cb7290d6",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-047",
+      "scenario_instance": "evaluation-dev-047",
+      "family": "obsolete_procedure",
+      "source_path": "../data/sources/dev/evaluation-dev-047.json",
+      "source_sha256": "b74a21a09164469f596ae6d475006965f5e588978b135061101cf4a04ddfb6ce",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-048",
+      "scenario_instance": "evaluation-dev-048",
+      "family": "duplicate_webhook",
+      "source_path": "../data/sources/dev/evaluation-dev-048.json",
+      "source_sha256": "59a81fb8476b0d90afac39cc2f86696458309e80e1422269515c06f524ecba0f",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-049",
+      "scenario_instance": "evaluation-dev-049",
+      "family": "delayed_delivery",
+      "source_path": "../data/sources/dev/evaluation-dev-049.json",
+      "source_sha256": "2546260cac3a3ac6919057b2c9c0c1a8f98c34e99fc2d6f5e8de6c6594b17fdc",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-050",
+      "scenario_instance": "evaluation-dev-050",
+      "family": "out_of_order",
+      "source_path": "../data/sources/dev/evaluation-dev-050.json",
+      "source_sha256": "5e2d46993cebce6c5a15a75aa88975050e701ea3b2bd895a7245c448f80d2b9e",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-051",
+      "scenario_instance": "evaluation-dev-051",
+      "family": "ambiguous_timeout",
+      "source_path": "../data/sources/dev/evaluation-dev-051.json",
+      "source_sha256": "87fcdfcdcdd37f144428ee9af38d819c99ebbee1b0fe9e49f82356bb62077270",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-052",
+      "scenario_instance": "evaluation-dev-052",
+      "family": "expired_reservation",
+      "source_path": "../data/sources/dev/evaluation-dev-052.json",
+      "source_sha256": "c5b6d82b60ef769345ae581ad463a1ff852df4c6dac7ede15e853176e0350fd3",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-053",
+      "scenario_instance": "evaluation-dev-053",
+      "family": "stale_snapshot",
+      "source_path": "../data/sources/dev/evaluation-dev-053.json",
+      "source_sha256": "c71d3b4bb018d742fc8a1a97d695a32323d48fa511f4f59e7033e3130cab7388",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-054",
+      "scenario_instance": "evaluation-dev-054",
+      "family": "identity_mismatch",
+      "source_path": "../data/sources/dev/evaluation-dev-054.json",
+      "source_sha256": "91cdaa7f94a5c34ae6c17a58a8265e3ecc7e0986acade11056ee01217b7f7d3e",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-055",
+      "scenario_instance": "evaluation-dev-055",
+      "family": "obsolete_procedure",
+      "source_path": "../data/sources/dev/evaluation-dev-055.json",
+      "source_sha256": "72e19c3fb3691f2cca04cb5afbe053649147ece89732bbbcb96e66a0c040cea0",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-056",
+      "scenario_instance": "evaluation-dev-056",
+      "family": "duplicate_webhook",
+      "source_path": "../data/sources/dev/evaluation-dev-056.json",
+      "source_sha256": "14b2424f4d3a6b4673c57edbba5c3d500663d72587f0aa9003daaf4e740c29ea",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-057",
+      "scenario_instance": "evaluation-dev-057",
+      "family": "delayed_delivery",
+      "source_path": "../data/sources/dev/evaluation-dev-057.json",
+      "source_sha256": "41b5933866b9792124232b9a9c22b8f0c2674a56b6ffc1b440e6eb15a02068f2",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-058",
+      "scenario_instance": "evaluation-dev-058",
+      "family": "out_of_order",
+      "source_path": "../data/sources/dev/evaluation-dev-058.json",
+      "source_sha256": "4da3c0d4a5ee17e4b8815714a34ae11f0fa1a4ee33e0a62f0ff47db91c812eea",
+      "annotation_status": "synthetic_requires_human_review"
+    },
+    {
+      "case_id": "evaluation-dev-059",
+      "scenario_instance": "evaluation-dev-059",
+      "family": "ambiguous_timeout",
+      "source_path": "../data/sources/dev/evaluation-dev-059.json",
+      "source_sha256": "e318dfae08a95aa0229a35ac4302f859a46e83049e56c36ade4b52e9036db087",
+      "annotation_status": "synthetic_requires_human_review"
+    }
+  ],
+  "protocols": {
+    "evals/README.md": "9dff87811c89e4edd33709ac78513087e861efc4323b619b7c9988c6e52a5adb",
+    "evals/metrics.py": "33f23022cbe19eda92b778d80c2f99f4becb68a13ebedde6a53caeeccd133039",
+    "experiments/protocol.json": "88dc324eedc35ad763e01c435b8505d8b6e4293a403929790c8ce4b478fee64d"
+  }
+}

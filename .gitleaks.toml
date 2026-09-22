@@ -19,3 +19,13 @@ condition = "AND"
 regexTarget = "match"
 paths = ['''^scripts/check_observability\.py$''']
 regexes = ['''api:8106/api/v1/health/live"''']
+
+[[rules.allowlists]]
+description = "Two exact SHA-256 source fingerprints in the reviewed restore build inventory"
+condition = "AND"
+regexTarget = "match"
+paths = ['''^docs/evidence/restore-read-story/20260922T072246Z-492911fe/runtime-build-source\.json$''']
+regexes = [
+  '''0008_monthly_token_budget\.py"\s*:\s*"02551444fb7714176adb6d665544f8d473116484dc750fc196da8f5cbc1cb72a"''',
+  '''api\.py"\s*:\s*"670d02686d27cac8e37065fda49fbd3460d046fb28a9f57fa0918347bb9b9a1a"''',
+]

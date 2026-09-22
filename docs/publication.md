@@ -40,7 +40,17 @@ O verificador `scripts/check_repository_docs.py` exige que cada link local e ima
 
 A [execução remota após a correção OCI](https://github.com/arthurjoanes/evidencedesk/actions/runs/35666019875) aprovou os seis jobs. Ela precede a correção de admissão de login; cada revisão posterior tem sua própria execução no GitHub Actions.
 
-## Limites do resultado
+## Complemento operacional de 22/09/2026
+
+A [história de revisão e recuperação](restore-read-story.md) acrescenta três jornadas reais de navegador e seis capturas: aprovação por conta distinta, conflito HTTP 409 com rascunho preservado e leitura após restauração com a exclusão ainda efetiva. O backup tinha 109 objetos; o destino validou 108 referências após aplicar o ledger atual, de 0 para 1. Fonte, original e dossiê excluídos responderam HTTP 404; o provedor permaneceu em zero chamadas. São dados sintéticos e contas operadas pelo teste, sem avaliação humana da qualidade semântica.
+
+O [manifesto](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json) associa imagens, comandos, hashes e limites. A prova compara 17 tabelas de domínio e `provider_calls`, além do checkpoint do ledger, durante a janela de leitura. Não compara todo o banco nem demonstra recuperação fora deste computador. Os 54 testes host dessa entrega tiveram 53 passes e um skip Windows; não são somados aos resultados históricos acima. O executor público completo foi preparado depois da execução e tem essa limitação declarada.
+
+O [pacote de avaliação semântica](../evals/human-review/README.md) organiza 60 casos de desenvolvimento, fontes e rubrica para uma rodada futura. Não contém participantes, julgamentos ou ganho de produtividade medido.
+
+A [checagem de segredos da entrega](evidence/restore-read-secret-scan.json) passou sobre os arquivos publicáveis. Dois hashes de fontes foram reconhecidos como falsos positivos e receberam exceções restritas à regra, ao caminho e aos valores exatos; uma chave sintética diferente no mesmo caminho continuou sendo detectada. Esse scan local não substitui a verificação do histórico pelo CI.
+
+## Limites atuais
 
 Os dados são sintéticos. Avaliação semântica humana, estudo com analistas, disponibilidade durante 30 dias e recuperação entre hosts continuam exigindo ensaios próprios. O modelo treinado permanece fora do serviço ativo. A aplicação completa ainda não está hospedada no Azure.
 

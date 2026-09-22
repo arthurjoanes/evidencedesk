@@ -1,0 +1,243 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-09-22T07:38:17.693005+00:00",
+  "status": "passed",
+  "runtime_attempt_started_at": "2026-09-22T07:22:46.160034+00:00",
+  "runtime_attempt_completed_at": "2026-09-22T07:24:24.983097+00:00",
+  "review_run_id": "319b9f2fe2f4",
+  "restore_run_id": "a468f70ee9bb",
+  "runtime_images": {
+    "api": "sha256:f635ecd10e71bea78cb76dee9b74b493b0139f9c50c06ecd74821f241feb37e1",
+    "frontend": "sha256:51328349a9f62ea82633d15915bca24768664af34343b506cba439df50b6d1d7"
+  },
+  "browser": {
+    "playwright": "1.63.0",
+    "channel": "msedge",
+    "installed_executable_product_version": "153.0.4234.48"
+  },
+  "browser_tests": {
+    "review": 2,
+    "restore": 1,
+    "total": 3
+  },
+  "host_tests": {
+    "executed": 54,
+    "passed": 53,
+    "skipped": 1
+  },
+  "artifacts": {
+    "browser-restore-read.json": {
+      "sha256": "06782927eca7d032a786878e25489c6b974ab5d9472d1c41ed40bdf52805cf7e",
+      "bytes": 3082
+    },
+    "browser-review-approved.json": {
+      "sha256": "cd80223cc429a0bf733c0b45ba480be0d3dd22b0ce6b3a2d0003664957153e4f",
+      "bytes": 979
+    },
+    "browser-review-conflict.json": {
+      "sha256": "12737bbfd0771a11ac611a94004654fe52d91faec4f2f77865f89845d4f6e6cc",
+      "bytes": 802
+    },
+    "eslint-capture.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "host-regression.txt": {
+      "sha256": "3ae590f2ae42326a58d2edd58bf30225b75b91b80afd3ab70e9d2cfefc132f32",
+      "bytes": 9094
+    },
+    "host-verification.json": {
+      "sha256": "e80c690f809bd4bc4d5b6ec0e7d49eafb391dc3285529646f20ac63ebe6a8b1f",
+      "bytes": 4630
+    },
+    "restore-execution.json": {
+      "sha256": "462aaaece4d3b7c2235a0604574e5b28a75f9ac3479255f6941ea9919a186b5c",
+      "bytes": 11369
+    },
+    "ruff-check.txt": {
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    "ruff-format.txt": {
+      "sha256": "04eb0d6e6734823dcd2b2b704729e976f683df7a8f334da7216520ef1cb319bf",
+      "bytes": 27
+    },
+    "runtime-build-source.json": {
+      "sha256": "78cb99a6a09a74ffd69f6e917900b1a49c49389633afc19b562b1857acc8231d",
+      "bytes": 45033
+    },
+    "screenshots/ed03-approved-desktop.png": {
+      "sha256": "a5f83634b901e7086c08cf4b835f5735eb7cb736c30566ba453d2b1d526014d8",
+      "bytes": 97563
+    },
+    "screenshots/ed03-approved-source-desktop.png": {
+      "sha256": "a54b615799441dc19b0aca091211793e8e5a99ef58c6f78408a63e39a036ddb5",
+      "bytes": 132369
+    },
+    "screenshots/ed03-conflict-preserved-draft-desktop.png": {
+      "sha256": "b6ef7d6ace3d8d89798dcf528734b37d77d80679140fba54bb3a002453aa427e",
+      "bytes": 115308
+    },
+    "screenshots/restore-erased-dossier-desktop.png": {
+      "sha256": "c9c37970ea33b2c8f7bc52c3bcc89290e31dd466eaa046affe005074309d3904",
+      "bytes": 70916
+    },
+    "screenshots/restore-erased-source-desktop.png": {
+      "sha256": "9f05752befd111e1ccecfd19450fa6febbe2f1c71031d6e64ba19c455e41d384",
+      "bytes": 228470
+    },
+    "screenshots/restore-survivor-desktop.png": {
+      "sha256": "29188a134573a241171a8a4947f050845b501c506304a1947179828a68067e33",
+      "bytes": 75988
+    },
+    "seed-inputs-post-execution.json": {
+      "sha256": "6f9058a2e3aef224cb9bd397bfd1d5ca341eac756ecd878dd35ab604dd494b47",
+      "bytes": 16484
+    },
+    "source-binding.json": {
+      "sha256": "c8d6cdd9bb0ff22a3325398390e10bf69c316e0052ad99dc14ce2aa01ef9edfb",
+      "bytes": 12989
+    },
+    "typescript.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  },
+  "screenshots": [
+    {
+      "path": "screenshots/ed03-approved-desktop.png",
+      "sha256": "a5f83634b901e7086c08cf4b835f5735eb7cb736c30566ba453d2b1d526014d8",
+      "bytes": 97563
+    },
+    {
+      "path": "screenshots/ed03-approved-source-desktop.png",
+      "sha256": "a54b615799441dc19b0aca091211793e8e5a99ef58c6f78408a63e39a036ddb5",
+      "bytes": 132369
+    },
+    {
+      "path": "screenshots/ed03-conflict-preserved-draft-desktop.png",
+      "sha256": "b6ef7d6ace3d8d89798dcf528734b37d77d80679140fba54bb3a002453aa427e",
+      "bytes": 115308
+    },
+    {
+      "path": "screenshots/restore-survivor-desktop.png",
+      "sha256": "29188a134573a241171a8a4947f050845b501c506304a1947179828a68067e33",
+      "bytes": 75988
+    },
+    {
+      "path": "screenshots/restore-erased-source-desktop.png",
+      "sha256": "9f05752befd111e1ccecfd19450fa6febbe2f1c71031d6e64ba19c455e41d384",
+      "bytes": 228470
+    },
+    {
+      "path": "screenshots/restore-erased-dossier-desktop.png",
+      "sha256": "c9c37970ea33b2c8f7bc52c3bcc89290e31dd466eaa046affe005074309d3904",
+      "bytes": 70916
+    }
+  ],
+  "raw_private_sha256": {
+    "erasure-restore.json": "ba1f17beaa09bd05011f910f2457ba06a9bea867e7940c5ad6b71507590b5c4c",
+    "final-attempt.json": "ed08ef156bda3e8af098278710421c5207f358f00d8694bd5dd30268b53459bb",
+    "runtime-proof.json": "78cb99a6a09a74ffd69f6e917900b1a49c49389633afc19b562b1857acc8231d",
+    "backup/manifest.json": "9cb687497498e43175fcbbc9eaba6b3787691b193daa54661c505565b58b2034",
+    "restore-captures/read-window.json": "e1adeb2fbad23eea123f6e52193b86ba7dbc21f65aac9cc2a739187ad927ff3e",
+    "review-cases/preparation.json": "c0c296cc551b5d7c491208d41afb85e8f3d661e377ebbec85f0dbfe5c40001d9",
+    "review-cases/review-case.json": "e66914afa059e9902c5d2a29cac4904b53557957d9cbe07936dfad6cd1c9e42b",
+    "executed-source-preservation.json": "c53a966af015538f83919d8784a59df7c34aab05e4e7391847b51fcc58e4be4b",
+    "review-captures/ed03-approved-proof.json": "f78069dba6f0558aaea6a35cc2848e35714fc29b63570d7fd25def97975721f2",
+    "review-captures/ed03-conflict-proof.json": "e00e39a0d7ab29a6fa60572639212ce6ddcb5a70aab727dad5a79df55d7c080d",
+    "restore-captures/restore-read-proof.json": "607e3e464a01f80ba3706cf3f3e47a30319048ebbe065e68693694d0ea153c59"
+  },
+  "failed_preparation_attempt": {
+    "preserved_privately": true,
+    "final_attempt_sha256": "4455349bfcf40bc277cf005fca4d0a5907d01cfcf2141bf9597e4d4dd0082039",
+    "failure_log_sha256": "b33742ccbd1220a3003ddc26269710fed54768a5d0f29b3e5caf4c6e1c426aac",
+    "cleanup_confirmed": true
+  },
+  "publication": {
+    "format": "UTF-8 LF",
+    "screenshots": "Byte-exact copies; no edited or generated imagery",
+    "raw_private_records_preserved": true,
+    "private_tokens_dumps_and_browser_traces_excluded": true
+  },
+  "limitations": [
+    "Local same-host recovery; off-host durability, encryption/rotation and disaster recovery were not exercised.",
+    "The browser journey is read-only; the restored API itself is not read-only. Only loopback API/frontend were opened; no target worker or model service was started.",
+    "Selected domain snapshot: 17 named domain tables plus provider_calls rows, and the ledger checkpoint; not a full database equality proof. Sessions, login limits, audits and other listed operational tables can change.",
+    "Scripted demo roles validate the approval workflow; this is not human semantic evaluation or model factual accuracy.",
+    "The first preparation attempt failed on the new helper using id instead of claim_id, before browser/backup. It is preserved privately; its pending synthetic dossier remains in the owned source reused for attempt2. Restore target was new.",
+    "All source/target containers stopped, volumes preserved for inspection. RPO24h/RTO10min remain planning objectives, not guarantees.",
+    "The public orchestration wrapper was added after the successful run; guards/help/static checks passed, but that wrapper has not been executed end-to-end. The recorded private commands did execute.",
+    "Seed bind inputs datasets/generated and infra/init.sql were not fingerprinted before/after the successful run. The post-execution supplement identifies current inputs only; it cannot prove retroactive seed identity. Backup/restored object hashes and domain snapshots remain independent evidence."
+  ],
+  "reproduction": {
+    "entrypoint": "python scripts/prove_restore_read.py --artifacts D:/private-evidence/ed-restore-new-run --browser-channel msedge",
+    "portable_entrypoint": "python scripts/prove_restore_read.py --artifacts /private/evidence/ed-restore-new-run",
+    "preconditions": [
+      "Docker Compose with !reset/!override support and available resources; use a quiet local test window.",
+      "Install Python operational/test dependencies from backend/requirements-test.lock; frontend npm ci and Playwright browser installed. On Windows msedge selects installed Microsoft Edge.",
+      "New artifact directory outside repo/OneDrive; random or new --run-id. The runner refuses existing source/target Docker resources.",
+      "No .env credentials required: provider/model/telemetry are disabled. Synthetic seed preserves the main project."
+    ],
+    "steps": [
+      "Build API/frontend under new tags, compare runtime source hashes before/after, inspect immutable image IDs, then write runtime-proof.json automatically. No hand-authored image association is accepted by this recipe.",
+      "Prepare synthetic dataset in a bounded60s child using the existing helper; record datasets/generated and infra/init.sql hashes before seed. Initialize isolated database, migrate and load the repository synthetic dataset, start only source API/worker/frontend.",
+      "Prepare two real dossiers using admin author and bruno reviewer; capture ED03 approved source and a real optimistic-edit409 that preserves the draft.",
+      "Call check_erasure_restore.py --reopen-read with the automatically created build proof: protected backup, real deletion, fresh closed target, current-ledger replay, loopback read probe under held source maintenance, physical erasure probe; compare seed inputs after the proof; scoped cleanup."
+    ],
+    "actual_executed_commands": [
+      {
+        "step": "build",
+        "command": [
+          "docker",
+          "compose",
+          "--project-name",
+          "pf-evidencedesk-capacity-edread-492911fe",
+          "--file",
+          "infra/compose/compose.yaml",
+          "build",
+          "api",
+          "frontend"
+        ]
+      },
+      {
+        "step": "review",
+        "command": [
+          "node",
+          "frontend/node_modules/@playwright/test/cli.js",
+          "test",
+          "restore-read.spec.ts",
+          "--grep",
+          "ED03"
+        ],
+        "environment": [
+          "ED_REVIEW_CAPTURE_CASE_PATH=<private review-case.json>",
+          "ED_REVIEW_CAPTURE_ALLOW_WRITE=1",
+          "ED_E2E_BASE_URL=<verified loopback source frontend>",
+          "ED_E2E_ARTIFACT_DIR=<private capture directory>",
+          "ED_E2E_BROWSER_CHANNEL=msedge"
+        ]
+      },
+      {
+        "step": "restore",
+        "command": [
+          "python",
+          "scripts/check_erasure_restore.py",
+          "--project",
+          "pf-evidencedesk-capacity-edread-492911fe",
+          "--target",
+          "pf-evidencedesk-restore-edread-492911fe-r2",
+          "--backup",
+          "<new private backup>",
+          "--output",
+          "<new private result.json>",
+          "--reopen-read",
+          "--runtime-proof",
+          "<recorded private runtime-proof.json>",
+          "--read-artifacts",
+          "<new private capture directory>"
+        ]
+      }
+    ]
+  }
+}

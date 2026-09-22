@@ -48,7 +48,7 @@ def compose_command(args: argparse.Namespace) -> list[str]:
     return command
 
 
-def run(command: list[str], *, capture: bool = False) -> str:
+def run(command: list[str], *, capture: bool = False, timeout: float | None = None) -> str:
     result = subprocess.run(
         command,
         cwd=ROOT,
@@ -57,6 +57,7 @@ def run(command: list[str], *, capture: bool = False) -> str:
         encoding="utf-8",
         errors="replace",
         stdout=subprocess.PIPE if capture else None,
+        timeout=timeout,
     )
     return result.stdout if capture else ""
 
@@ -112,7 +113,14 @@ def ensure_demo_dataset() -> None:
             "The demo dataset is incomplete. Inspect datasets/generated, then explicitly "
             "regenerate it with: python datasets/generate.py --output datasets/generated"
         )
-    run([sys.executable, str(ROOT / "datasets" / "generate.py"), "--output", str(output)])
+    run(
+        [
+            sys.executable,
+            str(ROOT / "datasets" / "generate.py"),
+            "--output",
+            str(output),
+        ]
+    )
 
 
 def parser() -> argparse.ArgumentParser:

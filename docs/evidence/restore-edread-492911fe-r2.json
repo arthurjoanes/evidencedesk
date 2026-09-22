@@ -1,0 +1,162 @@
+{
+  "recorded_at": "2026-09-22T07:23:39.807480+00:00",
+  "source_project": "pf-evidencedesk-capacity-edread-492911fe",
+  "target_project": "pf-evidencedesk-restore-edread-492911fe-r2",
+  "status": "passed",
+  "elapsed_seconds": 63.305,
+  "manifest_sha256": "9cb687497498e43175fcbbc9eaba6b3787691b193daa54661c505565b58b2034",
+  "current_ledger_sha256": "ffe2f6b8c9e3906262767d180145c9405ec8f4d644ad85c0dad4e7b5f517aa81",
+  "objects": {
+    "verified_references": 108
+  },
+  "reconciliation": {
+    "maintenance": true,
+    "drained": true,
+    "active_jobs": 0,
+    "active_uploads": 0,
+    "ledger_ready": true,
+    "replayed_records": 1,
+    "redacted_evidence": 1,
+    "ledger_sequence": 1
+  },
+  "target_opened": true,
+  "read_journey": {
+    "status": "passed",
+    "started_at": "2026-09-22T07:23:39.807896+00:00",
+    "journey_only_read_only": true,
+    "api_is_read_only": false,
+    "volumes_preserved": true,
+    "target_closed": true,
+    "build_proof_sha256": "78cb99a6a09a74ffd69f6e917900b1a49c49389633afc19b562b1857acc8231d",
+    "domain_tables_checked": [
+      "collections",
+      "collection_grants",
+      "evidence",
+      "incidents",
+      "dossiers",
+      "dossier_revisions",
+      "import_batches",
+      "import_entries",
+      "result_artifacts",
+      "jobs",
+      "investigation_runs",
+      "revision_decisions",
+      "exports",
+      "evidence_snapshots",
+      "snapshot_members",
+      "snapshot_mappings",
+      "incident_members"
+    ],
+    "excluded_from_domain_equality": [
+      "sessions",
+      "login_limits",
+      "audit_events",
+      "operational_control",
+      "worker_heartbeats",
+      "stream_leases"
+    ],
+    "operational_sources": {
+      "frontend/e2e/restore-read.spec.ts": "1da8e8b971799196b1709949a7cd605de96f9f023c151f6c2d1c9b353df558c4",
+      "frontend/playwright.config.ts": "f9969b092ed7a0797335c6bc313762ea6e9453ecf65af87f228b11232bddab75",
+      "infra/compose/capacity.yaml": "3c732908d0c2a05e778aa19352fd61de24bdb53434e7418a120f1815bfb0e814",
+      "infra/compose/compose.yaml": "9e8cd5d40cb085e1a6d533f5993bb371db7e24de01082f070e3a8c94b8fd6b0a",
+      "infra/compose/e2e.yaml": "9b6efba3aa5d8537a5c26278d579b54229d57f4f31e89102fe65e9ece7e00a08",
+      "infra/compose/integration.yaml": "ecd6c4d3ad0c780a29d5fbd64fc80368bccdbe9a1bd817fb6a212721da2290e9",
+      "infra/compose/observability-ml.yaml": "9267559b0e0235d9e77b43874f58a167158fdb2c2d3b97dd21d2cf79778ed600",
+      "infra/compose/observability.yaml": "edb0b06bb1d307f5a49e173181604b6d98a299df4796209a8bb3eb198bb709c1",
+      "infra/compose/restore.yaml": "fba0e42b47313534b789245806c2a7e5013c52ce3a02f94a5b56844ce5a32acc",
+      "scripts/backup.py": "944c6020822e18cac82479379c556ae2fa64fae12388be4ec5cb47fc4f790464",
+      "scripts/bounded_process.py": "1a4d639393ee1002e69d428f19ec28716482d40e6aef9cb5cc427335093f90c5",
+      "scripts/capacity_http.py": "66f5269f2ea06c9932a481b79ec691c4fd3588c0abe309bc2e023ea7e242b953",
+      "scripts/capacity_jobs.py": "34226f224b29aca7d85dbcc2ad112aefd0ac1ebc9084353094bfb5e9f8c7d52e",
+      "scripts/check_erasure_restore.py": "7d36d6fb77a6e340171fa0c7b65e2ac963e9563611035766a5b28143e80a91c3",
+      "scripts/ops.py": "7d45f921b52a6da3f38aad9cf8d31eb44ea51164ae77c6bf5d94905215f520b7",
+      "scripts/prepare_review_capture.py": "241574f2ecf8708a31e34c255f89c46f644c798605154c32ed25c8f8b026a4a7",
+      "scripts/restore_read_probe.py": "13c24ad075fdfd7a5a7be87513a96043e221abea4554743b97d850a96c86dcca",
+      "scripts/storage_snapshot.py": "4b932871147853f22a048159b2b968c377940b8f30c59ffb9901327a78d05326"
+    },
+    "services": [
+      {
+        "id": "8528d1b991598017f7a8b23a20adfc111c9150a89dc0c3020e6cfa75d33d140f",
+        "image": "sha256:51328349a9f62ea82633d15915bca24768664af34343b506cba439df50b6d1d7",
+        "service": "frontend",
+        "ports": {
+          "3106/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "60297"
+            }
+          ]
+        }
+      },
+      {
+        "id": "82e665f513de396a372baffcee01e330641415c5761662f918e0229d73b0f2e6",
+        "image": "sha256:f635ecd10e71bea78cb76dee9b74b493b0139f9c50c06ecd74821f241feb37e1",
+        "service": "api",
+        "ports": {
+          "8106/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "60296"
+            }
+          ]
+        }
+      },
+      {
+        "id": "0a8c6b9d9c4d78c21bcdace9e7ed46e6605b5aa0125fcd908439a121c9fc3101",
+        "image": "sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+        "service": "db",
+        "ports": {
+          "5432/tcp": null
+        }
+      }
+    ],
+    "frontend_url": "http://127.0.0.1:60297",
+    "verified_before_open": "2026-09-22T07:23:39.807480+00:00",
+    "ready_after_seconds": 22.967,
+    "source_domain_preserved": true,
+    "provider_calls_before": 0,
+    "provider_calls_after": 0,
+    "provider_calls_delta": 0,
+    "target_domain_preserved": true,
+    "source_snapshot": {
+      "jobs": "30b26550a518f89a5b17d99c42a3111a2e5de414d81d3c26428e7c775e8b2aae",
+      "ledger": {
+        "sha256": "ffe2f6b8c9e3906262767d180145c9405ec8f4d644ad85c0dad4e7b5f517aa81",
+        "sequence": 1,
+        "ledger_id": "f715548b9b3f4412b1dcd9ec05b8ac06"
+      },
+      "exports": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "dossiers": "13fded7835e8a49b7da0d02fb35fb06e31f8099ed94fc9ad8f5b83ec7b8eb975",
+      "evidence": "fc5bd2b0f720d9dceeb2c8ab33e3f656eb3a2233e05a56a8f4d4a74dbb251958",
+      "incidents": "6be61e6ee540cb0fded28c21d7491b5262bfd50d770d9624d0f89fbf7e905879",
+      "collections": "4154bb6fd67eb60a4d3895dc7c0c26129211fad130b7b0e9b0d9dd2769df782c",
+      "import_batches": "f72b56e7b51585912b6a7cebb88415c574afa7d3d86bfbfbb0196322c41c6422",
+      "import_entries": "027b6c0f4990e505c2ac86e4b6953c251eac4156e8edd74199a3a44da731b1a6",
+      "provider_calls": 0,
+      "incident_members": "c9a217cc300dd961316d70e3ffbd7d165acbdb42d464308ae08b89b5203150aa",
+      "result_artifacts": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "snapshot_members": "05496db163239eb15f9ffdd08a5b802dc6271a4e27be2fb49b433b2d02ed6eb0",
+      "collection_grants": "29664a75ab07791afcfbf9bd6b9e30b04b9f7666b97f1b88fa8e0fddfdbc16b8",
+      "dossier_revisions": "80d35a8f5d6dc6ad740da34ec993be2e6e4a5b85070fba5c369f4317e040d8fc",
+      "snapshot_mappings": "28e5e998c5e126e99db973bd958e4360ad16e9b5013c958b695da88590a0333b",
+      "evidence_snapshots": "9d97be4b9fe9ab43691b20128c900632ce14cacd01168b2ba8171e93ae72c32d",
+      "investigation_runs": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "provider_call_rows": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "revision_decisions": "e1ca960ca175c37b3cf61f8d677bb3318108aed4f573c4916a0217bc1e1195f0"
+    },
+    "target_ledger": {
+      "sha256": "ffe2f6b8c9e3906262767d180145c9405ec8f4d644ad85c0dad4e7b5f517aa81",
+      "sequence": 1,
+      "ledger_id": "f715548b9b3f4412b1dcd9ec05b8ac06"
+    },
+    "browser_proof_sha256": "607e3e464a01f80ba3706cf3f3e47a30319048ebbe065e68693694d0ea153c59",
+    "browser_run_id": "a468f70ee9bb",
+    "source_unchanged": true,
+    "target_maintenance_reclosed": true,
+    "completed_at": "2026-09-22T07:24:16.906819+00:00",
+    "total_seconds": 37.099
+  },
+  "source_reopened": true,
+  "target_stopped": true
+}

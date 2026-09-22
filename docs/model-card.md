@@ -19,6 +19,8 @@ O treino consumiu pico de 2.669,7 MiB RSS e 2.228,9 MiB GPU alocada na RTX 5070 
 
 Promoção exige ganho pareado mínimo 0,02, p95 relativo <=1,25, memória <=3 GiB, ausência de regressões críticas e gate semântico humano. Falta de amostra ou adjudicação gera estado inconclusivo. O processo não escolhe silenciosamente a melhor rodada e não implanta candidatos sozinho.
 
+O [pacote para revisão humana](../evals/human-review/README.md) está preparado com referências de desenvolvimento e formulários sem julgamento. Ele exige congelar corpus/chunks/release e as respostas efetivamente avaliadas antes da revisão; não contém uma nova avaliação de qualidade.
+
 Limitações: recuperação pode omitir contraevidência; documentação válida pode ser aplicada incorretamente; uma referência pode existir sem sustentar o texto; fontes podem conter instruções maliciosas; o conjunto sintético tem pouca diversidade. O sistema reduz esses riscos por autorização externa ao modelo, papéis temporais, ferramentas somente leitura, budgets, citações verificáveis e revisão independente. Eles não desaparecem com schema estrito. O pipeline de chunks v2 exige nova avaliação antes de transferir métricas documentais anteriores.
 
 Informações operacionais de prompts, textos, tokens de autenticação e exceções do provedor não são atributos de telemetria. Artefatos de execução privados preservam resposta/manifesto conforme política de retenção. `store=false` não substitui revisão das condições de processamento do provedor; a aplicação mantém sua própria persistência autorizada.

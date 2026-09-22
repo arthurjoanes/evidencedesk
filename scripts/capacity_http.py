@@ -39,7 +39,9 @@ def compose(project):
 
 
 def capture(command):
-    return subprocess.check_output(command, cwd=ROOT, text=True, encoding="utf-8").strip()
+    return subprocess.check_output(
+        command, cwd=ROOT, text=True, encoding="utf-8", timeout=180
+    ).strip()
 
 
 def api_targets(project, replicas):

@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "recorded_at": "2026-09-22T07:22:57.695Z",
+  "run_id": "319b9f2fe2f4",
+  "scenario": "optimistic_edit_conflict",
+  "incident_id": "demo-aurora-01",
+  "dossier_id": "fd619f14cb41428485b563c7ee5e2b3c",
+  "revision_id": "e0a43d7672934e61a81e48a98568c3f9",
+  "concurrent_revision_id": "33874fd0a61646a786b3bf9d266c8a04",
+  "rejected_status": 409,
+  "rejected_code": "revision_conflict",
+  "draft_preserved": true,
+  "generation_post_attempts": [],
+  "screenshots": [
+    "screenshots/ed03-conflict-preserved-draft-desktop.png"
+  ],
+  "publication": {
+    "raw_sha256": "e00e39a0d7ab29a6fa60572639212ce6ddcb5a70aab727dad5a79df55d7c080d",
+    "format": "UTF-8 LF",
+    "changes": "Screenshot paths made relative; this publication metadata added. Raw private proof preserved."
+  }
+}

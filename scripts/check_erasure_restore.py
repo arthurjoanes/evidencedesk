@@ -4,13 +4,19 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import subprocess
 import time
 from datetime import UTC, datetime
 from pathlib import Path
 from uuid import uuid4
 
-from backup import RESTORE_OVERRIDE, create_backup, verify_restore
+from backup import (
+    command_budget,
+    create_backup,
+    target_is_new,
+    verify_restore,
+)
 from capacity_http import api_targets, capacity_project, compose, provider_calls
 from capacity_jobs import login, request, sql
 from ops import ROOT, compose_command
@@ -49,6 +55,7 @@ print(json.dumps(result))
 
 
 def execute(command, **kwargs):
+    kwargs.setdefault("timeout", 180)
     return subprocess.run(command, cwd=ROOT, check=True, capture_output=True, **kwargs)
 
 
@@ -71,7 +78,14 @@ def close_attempt(record, output, source, target):
         if base:
             try:
                 execute(base + ["stop"])
-            except (OSError, subprocess.CalledProcessError) as error:
+                # Compose profiles may omit a frontend opened by a previous step.
+                # Inspect all running containers by the exact owned project label.
+                remaining = scoped_running(base)
+                if remaining:
+                    execute(["docker", "stop", "--time", "15", *remaining])
+                if scoped_running(base):
+                    raise RuntimeError("Owned project still has active containers.")
+            except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
                 failures.append({"project_role": name, "error_type": type(error).__name__})
     record["containers_stopped"] = not failures
     record["volumes_preserved"] = True
@@ -80,11 +94,26 @@ def close_attempt(record, output, source, target):
         record["status"] = "failed"
         record["cleanup_failures"] = failures
     output.parent.mkdir(parents=True, exist_ok=True)
-    with output.open("x", encoding="utf-8") as stream:
+    with output.open("x", encoding="utf-8", newline="\n") as stream:
         json.dump(record, stream, ensure_ascii=False, indent=2)
     print(json.dumps({key: value for key, value in record.items() if key != "steps"}, indent=2))
     if failures:
         raise RuntimeError("Isolated cleanup was incomplete; inspect the saved evidence.")
+
+
+def scoped_running(base):
+    project = base[base.index("--project-name") + 1]
+    if not re.fullmatch(r"pf-evidencedesk-(?:capacity|restore)-[a-z0-9][a-z0-9-]{0,27}", project):
+        raise ValueError("Refusing cleanup inventory outside isolated namespaces.")
+    result = execute(
+        ["docker", "ps", "--quiet", "--filter", "label=com.docker.compose.project=" + project],
+        text=True,
+        encoding="utf-8",
+    )
+    identifiers = result.stdout.split()
+    if any(not re.fullmatch(r"[a-f0-9]{12,64}", identifier) for identifier in identifiers):
+        raise ValueError("Invalid scoped container identity.")
+    return identifiers
 
 
 def main():
@@ -93,11 +122,48 @@ def main():
     parser.add_argument("--backup", type=Path, required=True)
     parser.add_argument("--target", required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--reopen-read",
+        action="store_true",
+        help="Optional verified loopback browser journey; the API is not read-only.",
+    )
+    parser.add_argument(
+        "--runtime-proof",
+        type=Path,
+        help="Private frozen build/source proof, required for --reopen-read.",
+    )
+    parser.add_argument(
+        "--read-artifacts",
+        type=Path,
+        help="New private browser artifact directory outside repo/OneDrive.",
+    )
     args = parser.parse_args()
     if args.output.exists():
         raise ValueError("Refusing to overwrite evidence.")
     # Explicitly select current code; an older capacity image is not a restore proof.
     os.environ["ED_CAPACITY_IMAGE"] = "pf-evidencedesk-backend:local"
+    if args.reopen_read:
+        from backup import outside_repository
+        from restore_read_probe import TARGET, runtime_proof
+
+        if not args.runtime_proof or not args.read_artifacts or not TARGET.fullmatch(args.target):
+            raise ValueError(
+                "Reopening requires build proof, new private artifacts and restore namespace."
+            )
+        identities = runtime_proof(args.runtime_proof)["images"]
+        args.backup = outside_repository(args.backup)
+        args.output = outside_repository(args.output)
+        args.read_artifacts = outside_repository(args.read_artifacts)
+        if args.backup.exists():
+            raise ValueError("A new private backup directory is required.")
+        os.environ.update(
+            ED_BACKEND_IMAGE=identities["api"],
+            ED_CAPACITY_IMAGE=identities["api"],
+            ED_FRONTEND_IMAGE=identities["frontend"],
+        )
+        target_is_new(args.target)
+        if args.read_artifacts.exists():
+            raise ValueError("Refusing to overwrite browser evidence.")
     base = compose(args.project)
     record = {
         "started_at": datetime.now(UTC).isoformat(),
@@ -135,6 +201,7 @@ def main():
             f"INSERT INTO collections(tenant_id,id,name) VALUES('aurora','{collection}','Synthetic erasure restore'); INSERT INTO collection_grants(tenant_id,collection_id,user_id) VALUES('aurora','{collection}','aurora-admin')",
         )
         client = login(api_targets(args.project, 1)[0], "admin", "aurora")
+        survivor = request(client, "GET", "/incidents/demo-aurora-01") if args.reopen_read else None
         content = f"# Synthetic recovery check {tag}\nConfirm payment before releasing an order.\n".encode()
         imported = request(
             client,
@@ -253,10 +320,36 @@ def main():
             "purge_state": "succeeded",
             "ledger_sequence": sequence,
         }
-        record["steps"]["restore"] = verify_restore(source_base, backup_args)
-        target = compose_command(
-            argparse.Namespace(project=args.target, env_file=None, observability=False)
-        ) + ["--file", str(RESTORE_OVERRIDE)]
+        read_probe = None
+        if args.reopen_read:
+            from restore_read_probe import ReadJourney
+
+            read_probe = ReadJourney(
+                source_base,
+                {
+                    "run_id": tag,
+                    "survivor_incident": survivor,
+                    "erased": {
+                        "evidence": source["id"],
+                        "snapshot": snapshot,
+                        "dossier": dossier["id"],
+                    },
+                },
+                args.read_artifacts,
+                args.runtime_proof,
+            )
+
+        def claim_target(owned_base):
+            nonlocal target
+            target = owned_base
+
+        with command_budget(600):
+            record["steps"]["restore"] = verify_restore(
+                source_base,
+                backup_args,
+                verified_probe=read_probe,
+                target_claimed=claim_target,
+            )
         execute(["docker", "start", args.target + "-db-1"])
         probe_input = {
             "evidence": source["id"],

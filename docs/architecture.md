@@ -85,6 +85,21 @@ Schema válido e referência existente não comprovam que a fonte sustenta a fra
 | Cursor assinado | Evita mistura de contexto e paginação por offsets. | Listagens refletem a ACL atual; não representam uma transação congelada entre páginas. |
 | Revisão separada da geração | Permite comparar e corrigir hipóteses com fontes. | A qualidade final depende do trabalho do revisor. |
 
+## Quando uma solução menor basta
+
+O público pretendido é um analista que precisa cruzar fontes de um incidente e deixar uma conclusão revisável. Isso descreve o uso proposto; o repositório não comprova adoção por uma empresa. Para poucos casos, planilha, consulta SQL e checklist de revisão podem bastar. A estrutura deste projeto passa a fazer sentido quando é necessário conservar o conjunto exato de fontes, controlar acesso aos derivados e impedir que uma edição ou exclusão torne uma decisão antiga silenciosamente enganosa. Não houve comparação de produtividade que prove vantagem sobre esse fluxo menor.
+
+O fluxo manual e a busca lexical formam uma referência reproduzível sem provedor. Embeddings, reranker e geração acrescentam dependências, recursos e avaliação. São opcionais porque a existência de uma citação ou um schema válido não demonstra a qualidade da conclusão. O [pacote semântico](../evals/human-review/README.md) prepara a conferência humana com casos de desenvolvimento; não contém participantes nem resultados novos.
+
+| Dificuldade técnica identificada | Escolha e motivo | Custo que permanece |
+| --- | --- | --- |
+| A permissão pode mudar depois de construir um snapshot | Revalidar fontes e autorização antes de despacho/publicação | Revogação não desfaz conteúdo já transmitido; publicação precisa ser recusada |
+| Uma resposta externa pode se perder depois da cobrança | Persistir admissão e conservar reserva desconhecida | Orçamento pode ficar comprometido até haver evidência para conciliar |
+| Um backup antigo contém uma fonte excluída depois | Aplicar o ledger atual antes de abrir o destino | O ledger precisa sobreviver independentemente da cópia restaurada |
+| Uma referência existente pode não sustentar uma alegação | Separar validação estrutural e avaliação semântica humana | Revisão consome tempo; ainda não há resultado humano neste pacote |
+
+Os [casos e testes](problem-solution.md), a [revisão técnica](ai-review.md) e o [runbook de recuperação](runbooks/backup-restore.md) distinguem dificuldade observada, mecanismo e limite. Essas justificativas vêm do código e dos ensaios; não atribuem ao autor incidentes de clientes ou uma experiência de uso não registrada.
+
 ## Perfis e limites de implantação
 
 | Perfil | Implementado | Limite |
@@ -96,3 +111,9 @@ Schema válido e referência existente não comprovam que a fonte sustenta a fra
 | Azure hospedado | IaC e adaptador Blob preparados | Sem rollout validado; identidade, rede, GC e ledger cloud precisam de ensaio ponta a ponta. |
 
 PDFs sem texto recebem `requires_ocr`; extração OCR e tabelas digitalizadas não estão implementadas. Kubernetes/kind, MCP e um LLM gerativo local não fazem parte do runtime entregue. O [runbook local](runbooks/local.md), o [modelo de ameaças](threat-model.md) e a [revisão de arquitetura para publicação](architecture-review-publication.md) descrevem operação, riscos e verificações.
+
+## Reabertura controlada após restauração
+
+A [jornada de recuperação](restore-read-story.md) abre API e frontend em loopback somente depois de aplicar o ledger atual e verificar os objetos, mantendo a origem na mesma janela de manutenção. O destino não inicia worker nem modelos. Login/leitura são acompanhados por comparação de domínio e contagem zero de chamadas ao provedor. Ao concluir, o destino volta à manutenção e seus containers param; só então a manutenção da origem é liberada. O restore padrão continua fechado.
+
+O ledger usa volume separado da cópia de banco/objetos, mas ambos permanecem no mesmo computador. Isso evita retroceder exclusões neste ensaio; não demonstra independência contra perda do host. A API aberta conserva mutações normais: somente a jornada foi restrita à leitura após login. [Procedimento e limites](runbooks/backup-restore.md).

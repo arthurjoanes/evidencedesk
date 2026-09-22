@@ -1,0 +1,121 @@
+{
+  "recorded_at": "2026-09-22T07:38:17.646462+00:00",
+  "python": "3.13.15",
+  "tests_executed": 54,
+  "passed": 53,
+  "skipped": 1,
+  "skip_reason": "Existing real symlink test is skipped on Windows without symlink privilege; Linux CI test retained.",
+  "checks": [
+    {
+      "name": "host-regression",
+      "command": [
+        "-m",
+        "unittest",
+        "test_prove_restore_read",
+        "test_restore_read_probe",
+        "test_backup",
+        "test_erasure_restore",
+        "test_maintenance_command",
+        "test_ops",
+        "test_bounded_process",
+        "test_prepare_review_capture",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log": "host-regression.txt",
+      "sha256": "3ae590f2ae42326a58d2edd58bf30225b75b91b80afd3ab70e9d2cfefc132f32"
+    },
+    {
+      "name": "ruff-check",
+      "command": [
+        "-m",
+        "ruff",
+        "check",
+        "--no-cache",
+        "--config",
+        "backend/pyproject.toml",
+        "scripts/ops.py",
+        "scripts/backup.py",
+        "scripts/check_erasure_restore.py",
+        "scripts/restore_read_probe.py",
+        "scripts/test_restore_read_probe.py",
+        "scripts/test_erasure_restore.py",
+        "scripts/bounded_process.py",
+        "scripts/test_bounded_process.py",
+        "scripts/prepare_review_capture.py",
+        "scripts/test_prepare_review_capture.py",
+        "scripts/capacity_http.py",
+        "scripts/prove_restore_read.py",
+        "scripts/test_prove_restore_read.py"
+      ],
+      "exit_code": 0,
+      "log": "ruff-check.txt",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "name": "ruff-format",
+      "command": [
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "--config",
+        "backend/pyproject.toml",
+        "scripts/ops.py",
+        "scripts/backup.py",
+        "scripts/check_erasure_restore.py",
+        "scripts/restore_read_probe.py",
+        "scripts/test_restore_read_probe.py",
+        "scripts/test_erasure_restore.py",
+        "scripts/bounded_process.py",
+        "scripts/test_bounded_process.py",
+        "scripts/prepare_review_capture.py",
+        "scripts/test_prepare_review_capture.py",
+        "scripts/capacity_http.py",
+        "scripts/prove_restore_read.py",
+        "scripts/test_prove_restore_read.py"
+      ],
+      "exit_code": 0,
+      "log": "ruff-format.txt",
+      "sha256": "04eb0d6e6734823dcd2b2b704729e976f683df7a8f334da7216520ef1cb319bf"
+    },
+    {
+      "name": "eslint-capture",
+      "command": [
+        "node_modules/eslint/bin/eslint.js",
+        "e2e/restore-read.spec.ts"
+      ],
+      "exit_code": 0,
+      "log": "eslint-capture.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "typescript",
+      "command": [
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "--incremental",
+        "false"
+      ],
+      "exit_code": 0,
+      "log": "typescript.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Host regression/static checks after private diagnostic fix and public wrapper addition. Not another Docker/browser execution.",
+  "source_files_sha256": {
+    "scripts/ops.py": "7d45f921b52a6da3f38aad9cf8d31eb44ea51164ae77c6bf5d94905215f520b7",
+    "scripts/backup.py": "944c6020822e18cac82479379c556ae2fa64fae12388be4ec5cb47fc4f790464",
+    "scripts/check_erasure_restore.py": "7d36d6fb77a6e340171fa0c7b65e2ac963e9563611035766a5b28143e80a91c3",
+    "scripts/restore_read_probe.py": "0ea1d50ed949e76d1182e5069fb6fac859374f444fd37835ee4510c523524496",
+    "scripts/test_restore_read_probe.py": "7aeed38149a4fb1fd45256a579a754faed017c7ae640020f43de976638b1e175",
+    "scripts/test_erasure_restore.py": "506c3248cb47e4df1de0656b9e5d031d4f04f1bcbc605bb6a0f7bab54ffb0613",
+    "scripts/bounded_process.py": "1a4d639393ee1002e69d428f19ec28716482d40e6aef9cb5cc427335093f90c5",
+    "scripts/test_bounded_process.py": "c36ae2e6b51e95067079a82a7d033144ffd86e687825cd2758ed9824c842b79c",
+    "scripts/prepare_review_capture.py": "241574f2ecf8708a31e34c255f89c46f644c798605154c32ed25c8f8b026a4a7",
+    "scripts/test_prepare_review_capture.py": "572188932ed8f50e5ac44f8efa315be6ee947a7b0b3854215e5fc6a5e032033f",
+    "scripts/capacity_http.py": "66f5269f2ea06c9932a481b79ec691c4fd3588c0abe309bc2e023ea7e242b953",
+    "scripts/prove_restore_read.py": "81d397c5620a76f7bfe28a8c582f01daf3bb1bf03256ab8d1672f63c0e60bc3e",
+    "scripts/test_prove_restore_read.py": "5b88c6b1c4ad0ac8cdd068d800c6b42f3934782e6bfa248d16aee133573d0c56"
+  }
+}

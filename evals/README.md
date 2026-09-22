@@ -18,6 +18,8 @@ Antes de uso do reservado, congele config e hashes, registre responsável, horá
 
 Gate humano requer pelo menos 30 respostas de 15 incidentes independentes, cobrindo categorias semânticas, conforme especificação. Sem isso o estado é inconclusivo. Reamostrar incidentes/grupos para intervalos; citações do mesmo caso não são observações independentes.
 
+O [pacote de revisão semântica](human-review/README.md) reúne índice dos 60 casos dev, fontes com hashes conferidos, rubrica e formulários vazios. Está preparado, sem respostas de modelos atuais ou julgamento humano. O conjunto reservado não foi aberto na preparação.
+
 Os denominadores são explícitos em `metrics.py`:
 
 | Medida | Denominador e tratamento de ausência |

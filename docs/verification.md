@@ -4,6 +4,8 @@ Data:21/09/2026. Laboratório Windows/WSL2 com Docker e dados sintéticos. Cada 
 
 ## Verificação atual
 
+A prova adicional de 22/09/2026 está na [história de revisão e restauração](restore-read-story.md) e em seu [manifesto](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json): três jornadas Playwright passaram, com seis capturas reais e zero chamadas de provedor. A exclusão posterior ao backup foi reaplicada antes da leitura; as comparações de domínio e os controles físicos passaram. O conjunto host atual teve 53 passes e um skip em 54 casos. Esta prova local tem versões e limites próprios; não reclassifica as execuções históricas abaixo.
+
 A [revisão para publicação](publication.md) reúne os resultados da versão atual: correções de autorização/recorte temporal, paginação de coleções, validação de formulários, reprodução da instalação e novas imagens runtime. A [avaliação de segurança](publication-security.md) registra o scan atual por identidade de imagem.
 
 Os ensaios abaixo pertencem à implementação anterior. Seus relatórios continuam disponíveis para comparação e não substituem a verificação da versão atual.
