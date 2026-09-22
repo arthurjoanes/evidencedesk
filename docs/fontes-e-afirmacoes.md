@@ -72,6 +72,10 @@ As páginas abaixo foram confrontadas com as fontes primárias indicadas e receb
 | [experiments/negative-label-audit.md](../experiments/negative-label-audit.md) | [protocol.json](../experiments/protocol.json) · [20260921T074245Z-train-manifest.json](../experiments/reports/20260921T074245Z-train-manifest.json)                                                                                                                                                                                   |
 | [frontend/README.md](../frontend/README.md)                                   | [package.json](../frontend/package.json) · [package-lock.json](../frontend/package-lock.json) · [publication-frontend.json](evidence/publication-frontend.json)                                                                                                                                                                       |
 
+## Política de segurança
+
+A [política de segurança](../SECURITY.md), publicada em **22/09/2026**, reúne o contato para relatos e o escopo de manutenção. Seus limites técnicos apontam para [Compose](../infra/compose/compose.yaml), [modelo de ameaças](threat-model.md), [scans de imagens](publication-security.md) e [checkpoints ML](ml-checkpoint-security.md), conferidos na mesma data. A inclusão da política não representa um novo ensaio ou certificação de segurança.
+
 ## Preservação das evidências
 
 Recibos, relatórios históricos, manifests, fixtures, código e licenças permanecem fora da revisão editorial. Datas e hashes nesses artefatos descrevem o estado original; reformatação de Markdown vivo não refaz uma execução passada. As capturas históricas mantêm sua proveniência, e a apresentação atual preserva recortes curtos com foco legível.

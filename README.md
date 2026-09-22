@@ -131,6 +131,8 @@ O [checker](scripts/check_repository_docs.py), conferido em **22/09/2026**, veri
 
 ## Limites e segurança
 
+[Política de segurança e relato de vulnerabilidades](SECURITY.md) · [Modelo de ameaças](docs/threat-model.md) · [Scans das imagens](docs/publication-security.md).
+
 A aplicação não corrige pedidos nem executa ferramentas de escrita nos sistemas de origem. As permissões são verificadas fora do modelo. Uma chamada com resultado desconhecido conserva sua reserva de tokens; a contabilidade é de tokens, não uma tabela monetária. Fontes conferidas em **22/09/2026**: [ferramentas](backend/src/evidencedesk/investigations/tools.py), [orçamento](backend/src/evidencedesk/investigations/budget.py) e [regras](backend/src/evidencedesk/reconciliation/rules.py).
 
 O pacote humano reúne **60 casos de desenvolvimento em oito famílias**, marcado `prepared_not_executed`. Não há resultado de adjudicação nesse pacote; referências sintéticas não demonstram qualidade em incidentes reais. [Manifesto do pacote](evals/human-review/package.json), preparado em **22/09/2026** e conferido na mesma data. O conjunto reservado não foi usado nesta revisão.
@@ -141,14 +143,14 @@ A infraestrutura Azure permanece **não implantada por este projeto** nos regist
 
 [Padrão compartilhado da documentação](docs/padrao-documentacao.md) · [Fontes e afirmações](docs/fontes-e-afirmacoes.md).
 
-| Para consultar               | Documento                                                                                                                                   |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| Explorar o produto           | [Demo](docs/demo.md) · [casos e decisões](docs/problem-solution.md)                                                                         |
-| Implementar e testar         | [Arquitetura](docs/architecture.md) · [API](docs/api-contract.md) · [dados](docs/data-contract.md) · [desenvolvimento](docs/development.md) |
-| Operar e recuperar           | [Local](docs/runbooks/local.md) · [backup/restore](docs/runbooks/backup-restore.md) · [retenção](docs/runbooks/retention.md)                |
-| Entender IA e orçamento      | [Model card](docs/model-card.md) · [modelos locais](docs/model-service.md) · [tokens](docs/token-budget.md)                                 |
-| Conferir riscos e resultados | [Threat model](docs/threat-model.md) · [publicação](docs/publication.md) · [fontes e afirmações](docs/fontes-e-afirmacoes.md)               |
-| Conferir imagens             | [Origem e reprodução](docs/screenshots.md)                                                                                                  |
+| Para consultar               | Documento                                                                                                                                                            |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Explorar o produto           | [Demo](docs/demo.md) · [casos e decisões](docs/problem-solution.md)                                                                                                  |
+| Implementar e testar         | [Arquitetura](docs/architecture.md) · [API](docs/api-contract.md) · [dados](docs/data-contract.md) · [desenvolvimento](docs/development.md)                          |
+| Operar e recuperar           | [Local](docs/runbooks/local.md) · [backup/restore](docs/runbooks/backup-restore.md) · [retenção](docs/runbooks/retention.md)                                         |
+| Entender IA e orçamento      | [Model card](docs/model-card.md) · [modelos locais](docs/model-service.md) · [tokens](docs/token-budget.md)                                                          |
+| Conferir riscos e resultados | [Política de segurança](SECURITY.md) · [threat model](docs/threat-model.md) · [publicação](docs/publication.md) · [fontes e afirmações](docs/fontes-e-afirmacoes.md) |
+| Conferir imagens             | [Origem e reprodução](docs/screenshots.md)                                                                                                                           |
 
 ## Autor e licença
 
