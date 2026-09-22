@@ -35,6 +35,14 @@ As orientações de [README](https://docs.github.com/en/repositories/managing-yo
 
 Logs, JUnit, imagens novas e scans desta rodada ficaram fora do Git nas pastas temporárias `portfolio-final-audit-20260922` e `evidence-metadata-audit-20260922`. Tentativas inválidas da bancada também foram preservadas: uma montagem incorreta do banco causou falha de autenticação antes dos testes finais, e uma chamada de scripts omitiu `PYTHONPATH`; corrigir esses comandos não exigiu enfraquecer produto ou asserções. O registro abaixo conserva versões e limites anteriores.
 
+## Correção da troca de conta no E2E em 22/09/2026
+
+O [CI de `8c730819`](https://github.com/arthurjoanes/evidencedesk/actions/runs/35757450287) aprovou os sete jobs. A [execução seguinte, de `de1680e0`](https://github.com/arthurjoanes/evidencedesk/actions/runs/35758349190), aprovou seis e falhou na jornada de revisão: o teste navegava imediatamente após clicar em sair, antes de concluir o POST de logout. O trace mostrou a requisição incompleta e a nova consulta de sessão ainda autenticada. Um ensaio local reteve a requisição real e reproduziu a sessão anterior após essa navegação. O código da aplicação já aguardava a conclusão; o helper dos testes agora exige resposta 204 e tela de acesso antes de navegar. A regressão retém o POST por uma barreira, depois o libera para a API real e exige sessão 401.
+
+A primeira validação local desta correção teve 11 passes, duas falhas por quota de autenticação e quatro skips: o ensaio adicional e a nova regressão consumiram o limite de dez tentativas da mesma conta em 15 minutos. O contador foi conferido no banco; nenhum limite foi alterado ou apagado. A regressão genérica passou a usar outra conta sintética já existente. Trace remoto, controle negativo e falhas locais foram preservados na pasta temporária `evidence-logout-ci-20260922`.
+
+Em volumes novos, a suíte completa Edge/Playwright passou com **13 passes em 46,5 s**, zero falhas/retries e os mesmos quatro skips opcionais, incluindo a jornada de pagamento habilitada. TypeScript, ESLint, formatação dos quatro arquivos E2E e o verificador documental também passaram. Esta correção altera somente testes e este registro; não aumenta timeouts, não adiciona retries e não modifica o runtime. O CI do próximo commit deve ser consultado em sua própria execução.
+
 ## Publicação histórica em 21/09/2026
 
 Revisão de 21/09/2026. O objetivo é uma entrega de portfólio que outra pessoa consiga instalar, explorar e verificar a partir do repositório. A bancada funciona localmente; Azure OpenAI é opcional, com endpoint e deployment definidos pelo operador.
