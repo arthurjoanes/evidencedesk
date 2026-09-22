@@ -56,5 +56,3 @@ Depois do benchmark, o produto recebeu chunks `utf8-bytes-352-v2`; essa mudança
 O [manifesto público](../model-manifest.json) reúne hashes de modelos, ambiente, código e evidências medidas. Os oito arquivos do candidato foram [identificados por SHA-256](reports/candidate-files.json), sem exportar pesos. Para atualizar o índice após uma revisão intencional, rode `python experiments/build_manifest.py`; não substitua silenciosamente relatórios antigos.
 
 Fontes: [PyTorch e CUDA](https://pytorch.org/get-started/locally/), [índice oficial CUDA 13.0](https://download.pytorch.org/whl/cu130/torch/), [NVIDIA WSL](https://docs.nvidia.com/cuda/wsl-user-guide/), [E5](https://huggingface.co/intfloat/multilingual-e5-small), [reranker](https://huggingface.co/cross-encoder/mmarco-mMiniLMv2-L12-H384-v1), [treino de CrossEncoder](https://sbert.net/docs/cross_encoder/training_overview.html).
-
-Fontes desta seção, conferidas em **22/09/2026**: [protocol.json](protocol.json) · [20260921T074245Z-train-manifest.json](reports/20260921T074245Z-train-manifest.json) · [retrieval-dev.json](reports/retrieval-dev.json).

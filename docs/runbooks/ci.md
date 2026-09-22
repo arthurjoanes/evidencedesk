@@ -2,8 +2,6 @@
 
 O workflow `.github/workflows/ci.yaml` prepara cinco grupos em Ubuntu 24.04 e um grupo de desenvolvimento Windows. O [CI do baseline `a3bbb77`](https://github.com/arthurjoanes/evidencedesk/actions/runs/35744912275) aprovou backend, frontend, navegador, histórico e as duas imagens. O grupo Windows e o checker de âncoras foram acrescentados depois: seus resultados locais estão em [verificação](../publication.md). Confira o SHA e a conclusão correspondente nas [execuções do workflow](https://github.com/arthurjoanes/evidencedesk/actions/workflows/ci.yaml).
 
-Fontes desta seção, conferidas em **22/09/2026**: [ci.yaml](../../.github/workflows/ci.yaml) · [check_vulnerability_report.py](../../scripts/check_vulnerability_report.py) · [scan_runtime_images.py](../../scripts/scan_runtime_images.py).
-
 ## Verificações e falhas
 
 | Job                     | Verificação e condição de falha                                                                                                                                                                                                                                                                                                                                                                                |
@@ -17,15 +15,11 @@ Fontes desta seção, conferidas em **22/09/2026**: [ci.yaml](../../.github/work
 
 Os jobs têm tempo máximo e o token GitHub possui apenas `contents: read`. Actions estão fixadas por SHA; credenciais do checkout não são persistidas. Artifacts são conservados por sete dias e coletados também quando uma verificação falha. O encerramento dos projetos de teste roda com `always()`; seus volumes vivem no runner descartável.
 
-Fontes desta seção, conferidas em **22/09/2026**: [ci.yaml](../../.github/workflows/ci.yaml) · [check_vulnerability_report.py](../../scripts/check_vulnerability_report.py) · [scan_runtime_images.py](../../scripts/scan_runtime_images.py).
-
 ## Evidências e dados sensíveis
 
 Os artefatos de navegador contêm dados sintéticos e podem incluir traces de falha. Os de segurança registram a identidade da imagem e o JSON de vulnerabilidades. Trivy usa **`--scanners vuln`**; o job Gitleaks examina segredos separadamente e não publica conteúdo encontrado como artifact. `publish_vulnerability_report.py` publica somente campos permitidos de vulnerabilidades, excluindo configuração/ambiente da imagem, histórico e `Secrets/Match`. A saída intermediária `scan-private/` não entra no artifact.
 
 `--exit-code 0` na etapa do scanner permite avaliar o relatório completo no gate seguinte; não transforma findings em aprovação. `scripts/check_vulnerability_report.py` devolve código 1 para HIGH/CRITICAL e 2 para entrada inválida. Nenhum `--ignore-unfixed` ou filtro de severidade remove findings do relatório. A base do scanner é consultada no momento da execução, portanto um artefato que passou anteriormente pode reprovar depois.
-
-Fontes desta seção, conferidas em **22/09/2026**: [ci.yaml](../../.github/workflows/ci.yaml) · [check_vulnerability_report.py](../../scripts/check_vulnerability_report.py) · [scan_runtime_images.py](../../scripts/scan_runtime_images.py).
 
 ## Validação local e limites
 
@@ -38,5 +32,3 @@ Os scans iniciais de 21/09/2026 reprovaram as imagens Debian. A revisão para pu
 Para repetir o ensaio offline com Trivy e base já disponíveis, a partir da raiz: `python scripts/scan_runtime_images.py --cache-db CAMINHO_PARA_DB --services api frontend --evidence-name NOME_NOVO`. A pasta precisa conter `metadata.json` e `trivy.db`, com base de até 72h. O comando não baixa imagem/base, não reinicia serviços, congela os IDs antes do scan e recusa sobrescrever uma pasta de evidências. Usa até 1 GiB de memória e uma CPU por scanner, uma imagem por vez. A escolha explícita do cache permite usar uma base existente sem alterar seu conteúdo; o comando verifica o hash antes/depois.
 
 Referências oficiais: [Trivy para imagens](https://trivy.dev/docs/dev/guide/target/container_image/), [opções do comando image](https://trivy.dev/docs/dev/references/configuration/cli/trivy_image/) e [códigos de saída](https://trivy.dev/docs/dev/guide/configuration/others/).
-
-Fontes desta seção, conferidas em **22/09/2026**: [ci.yaml](../../.github/workflows/ci.yaml) · [check_vulnerability_report.py](../../scripts/check_vulnerability_report.py) · [scan_runtime_images.py](../../scripts/scan_runtime_images.py).

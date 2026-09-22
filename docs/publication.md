@@ -35,8 +35,6 @@ As orientações de [README](https://docs.github.com/en/repositories/managing-yo
 
 Logs, JUnit, imagens novas e scans desta rodada ficaram fora do Git nas pastas temporárias `portfolio-final-audit-20260922` e `evidence-metadata-audit-20260922`. Tentativas inválidas da bancada também foram preservadas: uma montagem incorreta do banco causou falha de autenticação antes dos testes finais, e uma chamada de scripts omitiu `PYTHONPATH`; corrigir esses comandos não exigiu enfraquecer produto ou asserções. O registro abaixo conserva versões e limites anteriores.
 
-Fontes desta seção, conferidas em **22/09/2026**: [test_document_metadata.py](../backend/tests/integration/test_document_metadata.py).
-
 ## Correção da troca de conta no E2E em 22/09/2026
 
 O [CI de `8c730819`](https://github.com/arthurjoanes/evidencedesk/actions/runs/35757450287) aprovou os sete jobs. A [execução seguinte, de `de1680e0`](https://github.com/arthurjoanes/evidencedesk/actions/runs/35758349190), aprovou seis e falhou na jornada de revisão: o teste navegava imediatamente após clicar em sair, antes de concluir o POST de logout. O trace mostrou a requisição incompleta e a nova consulta de sessão ainda autenticada. Um ensaio local reteve a requisição real e reproduziu a sessão anterior após essa navegação. O código da aplicação já aguardava a conclusão; o helper dos testes agora exige resposta 204 e tela de acesso antes de navegar. A regressão retém o POST por uma barreira, depois o libera para a API real e exige sessão 401.
@@ -44,8 +42,6 @@ O [CI de `8c730819`](https://github.com/arthurjoanes/evidencedesk/actions/runs/3
 A primeira validação local desta correção teve 11 passes, duas falhas por quota de autenticação e quatro skips: o ensaio adicional e a nova regressão consumiram o limite de dez tentativas da mesma conta em 15 minutos. O contador foi conferido no banco; nenhum limite foi alterado ou apagado. A regressão genérica passou a usar outra conta sintética já existente. Trace remoto, controle negativo e falhas locais foram preservados na pasta temporária `evidence-logout-ci-20260922`.
 
 Em volumes novos, a suíte completa Edge/Playwright passou com **13 passes em 46,5 s**, zero falhas/retries e os mesmos quatro skips opcionais, incluindo a jornada de pagamento habilitada. TypeScript, ESLint, formatação dos quatro arquivos E2E e o verificador documental também passaram. Esta correção altera somente testes e este registro; não aumenta timeouts, não adiciona retries e não modifica o runtime. O CI do próximo commit deve ser consultado em sua própria execução.
-
-Fontes desta seção, conferidas em **22/09/2026**: [backend-release.xml](evidence/publication/backend-release.xml) · [scripts-windows.json](evidence/publication/scripts-windows.json) · [checks.json](evidence/editorial-payment-20260922/checks.json).
 
 ## Publicação histórica em 21/09/2026
 
@@ -89,8 +85,6 @@ O verificador `scripts/check_repository_docs.py` exige que cada link local e ima
 
 A [execução remota após a correção OCI](https://github.com/arthurjoanes/evidencedesk/actions/runs/35666019875) aprovou os seis jobs. Ela precede a correção de admissão de login; cada revisão posterior tem sua própria execução no GitHub Actions.
 
-Fontes desta seção, conferidas em **22/09/2026**: [backend-release.xml](evidence/publication/backend-release.xml) · [publication-frontend.json](evidence/publication-frontend.json) · [scripts-windows.json](evidence/publication/scripts-windows.json).
-
 ## Complemento operacional de 22/09/2026
 
 A [história de revisão e recuperação](restore-read-story.md) acrescenta três jornadas reais de navegador e seis capturas: aprovação por conta distinta, conflito HTTP 409 com rascunho preservado e leitura após restauração com a exclusão ainda efetiva. O backup tinha 109 objetos; o destino validou 108 referências após aplicar o ledger atual, de 0 para 1. Fonte, original e dossiê excluídos responderam HTTP 404; o provedor permaneceu em zero chamadas. São dados sintéticos e contas operadas pelo teste, sem avaliação humana da qualidade semântica.
@@ -100,8 +94,6 @@ O [manifesto](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.jso
 O [pacote de avaliação semântica](../evals/human-review/README.md) organiza 60 casos de desenvolvimento, fontes e rubrica para uma rodada futura. Não contém participantes, julgamentos ou ganho de produtividade medido.
 
 A [checagem de segredos da entrega](evidence/restore-read-secret-scan.json) passou sobre os arquivos publicáveis. Dois hashes de fontes foram reconhecidos como falsos positivos e receberam exceções restritas à regra, ao caminho e aos valores exatos; uma chave sintética diferente no mesmo caminho continuou sendo detectada. Esse scan local não substitui a verificação do histórico pelo CI.
-
-Fontes desta seção, conferidas em **22/09/2026**: [manifest.json](evidence/restore-read-story/20260922T072246Z-492911fe/manifest.json) · [restore-read-secret-scan.json](evidence/restore-read-secret-scan.json).
 
 ## Complemento editorial: pagamento pendente em 22/09/2026
 
@@ -113,12 +105,8 @@ O [registro funcional](evidence/editorial-payment-20260922/payment-story.json) v
 
 O [manifesto desta entrega](evidence/editorial-payment-20260922/manifest.json) reúne os arquivos novos e alterados, sem reatribuir provas antigas ao candidato. O [scan de segredos](evidence/editorial-payment-20260922/secret-scan.json) passou no histórico e no conjunto publicável, sem mudar exceções. A [revisão do Markdown](evidence/editorial-payment-20260922/markdown-review.json) registra o render local e seus limites; não é uma nova execução do CI remoto.
 
-Fontes desta seção, conferidas em **22/09/2026**: [payment-story.spec.ts](../frontend/e2e/payment-story.spec.ts) · [baseline.json](evidence/editorial-payment-20260922/baseline.json) · [checks.json](evidence/editorial-payment-20260922/checks.json).
-
 ## Limites atuais
 
 Os dados são sintéticos. Avaliação semântica humana, estudo com analistas, disponibilidade durante 30 dias e recuperação entre hosts continuam exigindo ensaios próprios. O modelo treinado permanece fora do serviço ativo. A aplicação completa ainda não está hospedada no Azure.
 
 A revisão permite avaliar código, comportamento e reprodução desta entrega. Scans e testes têm escopo definido e precisam ser repetidos quando as dependências ou os contratos mudarem.
-
-Fontes desta seção, conferidas em **22/09/2026**: [backend-release.xml](evidence/publication/backend-release.xml) · [scripts-windows.json](evidence/publication/scripts-windows.json) · [checks.json](evidence/editorial-payment-20260922/checks.json).

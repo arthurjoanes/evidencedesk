@@ -20,7 +20,7 @@ Na publicação, revisão/claims resolvem referências novamente e o lease preci
 
 O release congela deployment, endpoint permitido, instruções e hash, schema, limites, planner lexical, perfil de retrieval e revisões E5/reranker. O endpoint e as identidades nunca vêm de argumentos do modelo. A reprodução também precisa dos hashes de corpus, imagem/código, parser e regras: o JSON de release não é um congelamento do binário inteiro. Mudanças em planner de perguntas, regra ou parser exigem versionamento e reavaliação, mesmo quando os pesos permanecem iguais.
 
-Os cenários de ferramentas, indexação, publicação e orçamento estão implementados nos [testes de integração](../backend/tests/integration) e nos [testes unitários](../backend/tests/unit), conferidos em **22/09/2026**. Esta página não usa uma contagem sem recibo próprio como prova de execução. Resultados efetivamente registrados, com fonte e escopo, estão nos [unitários da jornada editorial](evidence/editorial-payment-20260922/unit-tests.json) e na [integração da mesma rodada](evidence/editorial-payment-20260922/integration-tests.json), ambos de **22/09/2026**; essas contagens não são retroativamente atribuídas à revisão de IA de 21/09.
+Os cenários de ferramentas, indexação, publicação e orçamento estão implementados nos [testes de integração](../backend/tests/integration) e nos [testes unitários](../backend/tests/unit). Esta página não usa uma contagem sem recibo próprio como prova de execução. Resultados efetivamente registrados, com fonte e escopo, estão nos [unitários da jornada editorial](evidence/editorial-payment-20260922/unit-tests.json) e na [integração da mesma rodada](evidence/editorial-payment-20260922/integration-tests.json), ambos de **22/09/2026**; essas contagens não são retroativamente atribuídas à revisão de IA de 21/09.
 
 Gates de qualidade permanecem separados:
 
@@ -35,5 +35,3 @@ O [pacote local de revisão semântica](../evals/human-review/README.md) torna o
 Referências técnicas, licenças, revisões e limitações dos modelos: [model card](model-card.md), [manifesto](../model-manifest.json), [contrato de dados](data-contract.md), [protocolo de avaliação](../evals/README.md), [experimento](../experiments/README.md). Nenhum modelo recebeu autorização para executar comandos, acessar URLs ou decidir grants.
 
 Fechamento de reprodução: a receita final da imagem ML foi reconstruída com o lock, comparada em 116 pacotes e exercitada por HTTP real. [Evidência](../experiments/reports/ml-final-build.json). Isso fecha a pendência de execução do Dockerfile final; não altera métricas de ranking nem promove candidato. Não foi realizado scan de vulnerabilidades da imagem ML nesta etapa.
-
-Fontes desta seção, conferidas em **22/09/2026**: [integration](../backend/tests/integration) · [unit](../backend/tests/unit) · [unit-tests.json](evidence/editorial-payment-20260922/unit-tests.json).

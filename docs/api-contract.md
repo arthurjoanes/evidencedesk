@@ -2,13 +2,9 @@
 
 Base `/api/v1`. JSON usa snake_case e ISO8601 UTC. IDs são strings opacas. A API aplica as regras, contagens e permissões. Esquema resumido do erro: `{error:{code,message,request_id,retryable,field_errors?}}`; `field_errors` é um mapa de listas de mensagens. Respostas privadas usam `Cache-Control: no-store`. As estruturas resumidas abaixo são notação de contrato; campos sem valores não são corpos JSON prontos para envio.
 
-Fontes desta seção, conferidas em **22/09/2026**: [api.py](../backend/src/evidencedesk/api.py) · [config.py](../backend/src/evidencedesk/config.py) · [body_limit.py](../backend/src/evidencedesk/body_limit.py).
-
 ## Coleções acessíveis
 
 `GET /api/v1/collections?limit=50&cursor=...` retorna `items`, `next_cursor` e `total: null`. `limit` aceita de 1 a 100. A ordem é por nome e ID; `next_cursor` é nulo ao terminar a listagem. O cursor assinado pertence ao usuário e tenant autenticados. Cada página revalida as permissões atuais, e nomes iguais têm desempate pelo ID.
-
-Fontes desta seção, conferidas em **22/09/2026**: [incidents/routes.py](../backend/src/evidencedesk/incidents/routes.py) · [incidents/service.py](../backend/src/evidencedesk/incidents/service.py).
 
 ## Identidade
 
@@ -17,8 +13,6 @@ Fontes desta seção, conferidas em **22/09/2026**: [incidents/routes.py](../bac
 Session = `{user:{id,name,role},tenant:{id,name},csrf_token,expires_at,permissions:string[],runtime:{generation_enabled,provider,model_display_name,disabled_reason:null|string}}`.
 
 Papéis tenant_admin/analyst/reviewer. Demo pública local: ana@aurora.demo, bruno@aurora.demo, carla@horizonte.demo, diego@horizonte.demo. Senha fictícia de demo `EvidenceDesk-demo-2026!`, apenas seed explícito de laboratório. Ana/Carla analyst; Bruno/Diego reviewer. Contas admin de seed separadas. UI não simula troca de papel: sair/entrar com outro usuário.
-
-Fontes desta seção, conferidas em **22/09/2026**: [identity/routes.py](../backend/src/evidencedesk/identity/routes.py) · [identity/service.py](../backend/src/evidencedesk/identity/service.py) · [seed.py](../backend/src/evidencedesk/seed.py).
 
 ## Listas e incidentes
 
@@ -36,13 +30,9 @@ Incident = `{id,title,status,description,collection_id,window:{from,to,time_zone
 
 `GET /incidents/{id}/evidence?evidence_snapshot_id=&q=&cursor=&limit=` → Page<EvidenceSummary>. EvidenceSummary={id,kind,title,version,source_system,temporal_role,excerpt}. Evidências operacionais limitadas à janela; documentos de coleção autorizada pertencem ao snapshot.
 
-Fontes desta seção, conferidas em **22/09/2026**: [incidents/routes.py](../backend/src/evidencedesk/incidents/routes.py) · [pagination.py](../backend/src/evidencedesk/pagination.py).
-
 ## Evidências
 
 `GET /evidence/{id}?evidence_snapshot_id=` → Evidence. Evidence={id,kind,title,version,sha256,source_system,temporal_role,valid_from:null|string,valid_until:null|string,canonical_text,locator:{page?:number,line_start?:number,line_end?:number,char_start?:number,char_end?:number,as_of?:string},original:{media_type,byte_size,content_url}|null}. kind=document_span|source_event|delivery_attempt|order_snapshot|reconciliation_result. original.content_url relativo à API, nunca storage público. `GET /evidence/{id}/content?evidence_snapshot_id=` reautoriza antes do download. Informação revogada nunca é devolvida por cache/histórico.
-
-Fontes desta seção, conferidas em **22/09/2026**: [evidence/routes.py](../backend/src/evidencedesk/evidence/routes.py) · [evidence/service.py](../backend/src/evidencedesk/evidence/service.py).
 
 ## Dossiês e revisão
 
@@ -54,15 +44,11 @@ Claim={claim_id,kind,text,order_references:string[],evidence_links:[{evidence_id
 
 `POST /dossiers/{id}/revisions` `{base_revision_id,summary,claims:ClaimInput[],outcome}` com If-Match da base →201 Revision; 409 preserva rascunho no cliente. `POST /dossiers/{id}/submit` `{target_revision_id}` com If-Match → Revision submitted. `POST /dossiers/{id}/reviews` `{target_revision_id,claim_ids:string[],decision:'approved'|'changes_requested',reason}` com If-Match → Revision; aprovador não é autor/submissor, papel reviewer e ACL atual. Documento/revisão antigo continua imutável; estado da decisão é registro associado.
 
-Fontes desta seção, conferidas em **22/09/2026**: [reviews/routes.py](../backend/src/evidencedesk/reviews/routes.py) · [reviews/contracts.py](../backend/src/evidencedesk/reviews/contracts.py) · [reviews/service.py](../backend/src/evidencedesk/reviews/service.py).
-
 ## Investigações
 
 `POST /incidents/{id}/runs` `{evidence_snapshot_id,question}` + Idempotency-Key →202 Run, header `Location`. `GET /runs/{id}` → Run. `POST /runs/{id}/cancel` → Run. RunSummary={id,state,stage,outcome:null|string,created_at}. Run estende resumo com `{steps:[{key,status,started_at:null|string,completed_at:null|string}],cancel_requested,last_event_id,evidence_snapshot_id,dossier_id:null|string,revision_id:null|string,error:null|{code,message},started_at:null|string,completed_at:null|string,usage:{status,input_tokens:null|number,output_tokens:null|number}}`.
 
 state=queued|running|retry_wait|succeeded|failed|cancelled. `GET /runs/{id}/events` usa SSE com `id: seq`, `event: progress|snapshot|terminal|resync_required` e data `{seq,type,payload}`. Last-Event-ID suportado; snapshot e last_event_id consistentes. Evento expirado força resync, heartbeat não representa progresso. Autorização reavaliada durante stream. Front mantém polling fallback, sem disparar outro run. Estado remoto não transmite tokens não validados.
-
-Fontes desta seção, conferidas em **22/09/2026**: [investigations/routes.py](../backend/src/evidencedesk/investigations/routes.py) · [streams.py](../backend/src/evidencedesk/investigations/streams.py).
 
 ## Importação
 
@@ -70,19 +56,13 @@ Fontes desta seção, conferidas em **22/09/2026**: [investigations/routes.py](.
 
 `PUT /imports/{id}/files/{entry_id}` bytes Content-Type compatível →Import. `POST /imports/{id}/finalize` →202 Import. `GET /imports` e `GET /imports/{id}` → Page<Import>/Import. Import={id,collection_id,title,state,created_at,evidence_snapshot_id:null|string,entries:[{entry_id,filename,kind,byte_size,sha256,state,error:null|{code,message}}],error:null|{code,message}}. Lote all-or-nothing, receiving/sealed/processing/ready/rejected/failed/cancelled. Falha por arquivo nunca implica publicação parcial.
 
-Fontes desta seção, conferidas em **22/09/2026**: [ingestion/routes.py](../backend/src/evidencedesk/ingestion/routes.py) · [ingestion/contracts.py](../backend/src/evidencedesk/ingestion/contracts.py).
-
 ## Exportações
 
 `POST /dossiers/{id}/exports` `{revision_id}` + Idempotency-Key →202 Export. `GET /exports/{id}` → Export. Export={id,state,revision_id,download_url:null|string,expires_at:null|string,error:null|{code,message}}. `GET /exports/{id}/download` entrega HTML escapado da revisão autorizada, contendo proveniência/fontes. Disponibilidade exige aprovação e acesso atual, inclusive aos derivados.
 
-Fontes desta seção, conferidas em **22/09/2026**: [reviews/routes.py](../backend/src/evidencedesk/reviews/routes.py) · [exporting.py](../backend/src/evidencedesk/reviews/exporting.py).
-
 ## Administração e saúde
 
 `GET /health/live` e `GET /health/ready` não expõem segredos. Métricas endpoint interno administrativo separado de sessão de analista. Administração usa as rotas abaixo; o papel tenant_admin continua precisando de grant de coleção para ler/modificar conteúdo.
-
-Fontes desta seção, conferidas em **22/09/2026**: [administration/routes.py](../backend/src/evidencedesk/administration/routes.py) · [app.py](../backend/src/evidencedesk/app.py).
 
 ## Complementos implementados
 
@@ -94,15 +74,11 @@ Revision.review contém submitted_by,reviewed_by,reason,claim_ids,updated_at. A 
 
 Corpos de operações comuns têm limite 512 KiB e prazo 15 s, inclusive sem Content-Length confiável; uploads de arquivo seguem o limite menor declarado no manifesto. SSE tem dois streams por usuário e 32 globais, com lease compartilhado no PostgreSQL, janela de conexão de cinco minutos e polling disponível. Fechar a conexão não cancela o job. Cancelamento continua disponível durante manutenção.
 
-Fontes desta seção, conferidas em **22/09/2026**: [reviews/service.py](../backend/src/evidencedesk/reviews/service.py) · [body_limit.py](../backend/src/evidencedesk/body_limit.py) · [streams.py](../backend/src/evidencedesk/investigations/streams.py).
-
 ## Índice documental
 
 `GET /evidence-snapshots/{id}/index` → `{evidence_snapshot_id,embedding_revision,indexing_enabled,disabled_reason,total_documents,indexed_documents,complete,job:null|{id,state,stage,error,attempt}}`. Capability informa configuração do perfil, não garante saúde instantânea do serviço. POST na mesma rota com Idempotency-Key admite indexação na fila, sem carregar pesos no HTTP. Snapshot/coleção e tenant são reautorizados. Mesmo snapshot já admitido retorna a mesma identidade; falha terminal aparece no job. Índice parcial não libera busca híbrida.
 
 O perfil lexical funciona sem modelos privados. Perfil híbrido agenda indexação após importação; pesquisa sem índice completo recebe 409 `embedding_index_incomplete`. Endpoint/versão de modelos são configuração do servidor, não campos aceitos no corpo.
-
-Fontes desta seção, conferidas em **22/09/2026**: [evidence/routes.py](../backend/src/evidencedesk/evidence/routes.py) · [jobs.py](../backend/src/evidencedesk/retrieval/jobs.py).
 
 ## Administração implementada
 
@@ -114,12 +90,8 @@ Fontes desta seção, conferidas em **22/09/2026**: [evidence/routes.py](../back
 
 Papel de admin sem grant não enumera conteúdo. O frontend principal continua voltado ao analista; essas rotas são exercitadas diretamente nos testes/contratos administrativos.
 
-Fontes desta seção, conferidas em **22/09/2026**: [administration/routes.py](../backend/src/evidencedesk/administration/routes.py) · [deletion.py](../backend/src/evidencedesk/evidence/deletion.py).
-
 ## Limites adicionais de processamento
 
 Além do tamanho de upload, a extração acumulada de um lote não pode superar 50 mil linhas de registros, 50 mil evidências derivadas ou 8 MiB de texto UTF-8. Um lote excedente falha explicitamente com `extraction_budget_exceeded`; divida o material em pacotes menores. Isso limita o conjunto acumulado no worker, não só cada subprocesso individual.
 
 Os stages de investigação são `reconciliation`, `planning`, `retrieval`, `generation` e `validation`; steps persistem início/fim/status. O manifesto privado registra plano permitido, configuração congelada, fontes realmente enviadas e uso; não registra raciocínio privado do modelo. Usage pode incluir estimativa/método/período além dos tokens reportados. Nenhum campo monetário inventa preço Azure.
-
-Fontes desta seção, conferidas em **22/09/2026**: [limits.py](../backend/src/evidencedesk/ingestion/limits.py) · [processing.py](../backend/src/evidencedesk/investigations/processing.py).
