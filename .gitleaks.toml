@@ -29,3 +29,15 @@ regexes = [
   '''0008_monthly_token_budget\.py"\s*:\s*"02551444fb7714176adb6d665544f8d473116484dc750fc196da8f5cbc1cb72a"''',
   '''api\.py"\s*:\s*"670d02686d27cac8e37065fda49fbd3460d046fb28a9f57fa0918347bb9b9a1a"''',
 ]
+
+# Verified against the source files and their Git blobs on 2026-09-22.
+# Findings introduced in 4789e9af5cb46df9fcd9cb5247727e24abc16ae9.
+[[rules.allowlists]]
+description = "Two exact SHA-256 source fingerprints; verified against the original Git blobs and current files"
+condition = "AND"
+regexTarget = "match"
+paths = ['''^docs/evidence/syntax-highlight-20260922\.json$''']
+regexes = [
+  '''json-tokens\.ts"\s*:\s*"389bab69c326f8d495f661bbe989fe310be23565f812bbdf37c6ff6c10855ca5"''',
+  '''json-tokens\.test\.ts"\s*:\s*"0cf60db7272a95bc4c6de89ee95cbc2c04bee35063f52cd8354c91f9af885f41"''',
+]
