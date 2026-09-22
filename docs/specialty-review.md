@@ -1,6 +1,6 @@
 # Revisão integrada por especialidade
 
-Revisão do código implementado e dos relatórios em21/09/2026, com agentes independentes nas frentes de interface, IA/dados e operação. Os achados abaixo foram tratados como problemas de comportamento. Isso não substitui auditoria profissional ou adjudicação humana de qualidade semântica.
+Revisão do código implementado e dos relatórios em 21/09/2026, abrangendo interface, IA/dados e operação. Os achados abaixo foram tratados como problemas de comportamento. Isso não substitui auditoria profissional ou adjudicação humana de qualidade semântica.
 
 | Responsabilidade | Achado e impacto | Decisão/correção | Prova e limite |
 |---|---|---|---|

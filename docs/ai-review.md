@@ -1,6 +1,6 @@
 # Revisão de engenharia de IA e autorização
 
-Revisão de código e testes em 21/09/2026, feita por agente de desenvolvimento. Não substitui auditoria externa, revisão semântica humana ou teste de produção. O candidato treinado permanece fora do serviço.
+Revisão de código e testes em 21/09/2026. Não substitui auditoria externa, revisão semântica humana ou teste de produção. O candidato treinado permanece fora do serviço.
 
 | Achado | Correção e evidência | Limite residual |
 |---|---|---|
