@@ -1,8 +1,45 @@
 # Verificação para publicação
 
+## Auditoria do candidato local em 22/09/2026
+
+Base fixada antes de alterar arquivos: `main`, `a3bbb7768578f6325bb05bd492b867107eb6b4e3`, remoto `https://github.com/arthurjoanes/evidencedesk.git`, consulta às 13h de Brasília. A árvore estava limpa: 665 arquivos rastreados, nenhum novo e 46.829 ignorados, principalmente dependências, dados gerados e evidências locais. O SHA local e remoto permaneceu igual durante a auditoria. Este registro descreve o candidato antes da autorização posterior de commit e push, sem deploy; o [CI do baseline](https://github.com/arthurjoanes/evidencedesk/actions/runs/35744912275) aprovou os seis jobs executados, mas não aprova automaticamente o candidato. Os resultados de cada publicação posterior ficam nas [execuções do CI](https://github.com/arthurjoanes/evidencedesk/actions/workflows/ci.yaml).
+
+Chamaria o autor para entrevista de pleno pela combinação de RLS, autorização de fontes, snapshots, revisão por outra conta, fencing de workers e contabilização de chamadas incertas. Foram examinados os caminhos críticos de ingestão, publicação, fila, orçamento, retenção, autorização e revisão; frontend, scripts, CI, contratos e provas foram lidos por amostragem. Não houve leitura integral de todos os arquivos ou avaliação humana das respostas. A complexidade atende a requisitos demonstrados, mas exige manter três fronteiras distintas: permissão, tempo da evidência e validade da conclusão. Pergunta para conferir domínio: como impedir que um worker atrasado publique após revogação e por que desfazer uma transação não desfaz uma chamada já despachada ao provedor?
+
+**P1 corrigido — proveniência documental silenciosamente descartada.** `backend/src/evidencedesk/ingestion/processing.py`, funções `evidence_records` e `process_import`, atribuía a mesma identidade a bytes iguais e ignorava conflitos no insert. Uma reprodução real importou versão 1/histórica e depois versão 2/retrospectiva: ambos lotes ficaram `ready`, mas o segundo snapshot continha apenas os metadados antigos. Também foram reproduzidos papel temporal desconhecido aceito e data sem fuso convertida silenciosamente. A validação agora recusa metadados conhecidos inválidos; conflitos semânticos dos mesmos bytes rejeitam o lote inteiro, sob lock, com `document_metadata_conflict`. Evidências e snapshot anterior permanecem intactos. Reenvio equivalente, inclusive offsets equivalentes e metadados extras, continua aceito. [Contrato](data-contract.md) · [regressões com API, worker e PostgreSQL](../backend/tests/integration/test_document_metadata.py).
+
+O gerador sintético também reutilizava os mesmos bytes de procedimentos para casos com validade e linhagem distintas: quatro grupos conflitantes abrangiam 60 entradas. `datasets/generate.py` agora inclui o contexto do caso no documento. A geração e o seed novos foram feitos somente em cópia isolada: seis pacotes `ready`, 30 incidentes, 90 documentos e zero chamadas ao modelo. Dados existentes, IDs e provas históricas não foram reescritos. Esta correção não certifica retroativamente a semântica dos snapshots antigos, nem implementa reclassificação de um documento já publicado; [instruções para os dados gerados](../datasets/README.md).
+
+**P1 corrigido — instalação Windows.** A instalação documentada em ambiente novo falhou primeiro em `uvloop`, incompatível com Windows, e depois na dependência transitiva `tzdata` ausente do lock com hashes. Os locks runtime/teste e `backend/pyproject.toml` agora preservam condições de plataforma e incluem `tzdata`/`colorama` fixados para Windows. A instalação sem cache com `--require-hashes` e `pip check` passou; nenhum pacote runtime Linux teve sua versão trocada. O novo job Windows protege esse percurso, com Actions fixadas e chave de provedor vazia. Actionlint 1.7.12 aprovou a configuração; sua execução remota ainda não havia ocorrido ao concluir esta auditoria local.
+
+**P2 corrigido — documentação e seu verificador.** A repetição do README e a cobertura limitada do checker citadas no prompt foram reconfirmadas no SHA inicial. O texto agora define cobertura e apresenta um único percurso principal. `scripts/check_repository_docs.py` usa parser GFM, confere âncoras, referências, HTML, caminhos sensíveis a maiúsculas e arquivos publicáveis, e lista URLs para consulta separada. Onze regressões incluem arquivo/âncora ausentes, imagem ignorada, ciclos, títulos repetidos, acentos, autolinks, URL inválida e symlinks; os negativos verificam a saída de erro real. As dependências do checker têm lock próprio e entram no CI. Um link Microsoft com 404 foi substituído pela página oficial atual; o runbook de CI deixou de afirmar incorretamente que o workflow nunca havia rodado.
+
+| Requisito → evidência | Situação e limite |
+| --- | --- |
+| Público, tema, problema, exemplo, decisões e ajuda → leitura simulada apenas do README | **Conforme.** Analista, pagamento confirmado/pedido pendente, fontes, dossiê, revisão, primeiro uso e limites são explicados sem reconstrução em vários guias. Manutenção é encaminhada por tarefa. Não houve estudo com leitores. |
+| Fontes e autoria concreta → Stripe, PostgreSQL e OWASP junto dos mecanismos | **Conforme no alcance documental.** A fonte Stripe descreve reentrega/ordem; o projeto exercita observações sintéticas. Não implica integração Stripe, frequência de incidentes ou ganho com clientes. |
+| Dados, autorização, RLS, dinheiro, tempo, falhas e revisão → código e testes reais | **Conforme após as correções acima, no escopo testado.** Metadados não são mais descartados silenciosamente; permanecem as limitações de snapshots anteriores e avaliação semântica. |
+| Interface, identidade, hierarquia, estados, teclado e responsividade → testes e capturas reais | **Parcial.** Não houve redesign. A jornada principal e os estados controlados têm testes separados; não se certifica acessibilidade integral, estudo de uso ou qualidade de conclusões por IA. |
+| Imagens, navegação e resíduos → consumidores e manifestos | **Conforme no inventário.** 16 PNGs e um SVG têm função: pagamento, restore, publicação e ícone runtime. Histórico, falhas, licenças, migrations e provas não foram eliminados. |
+| Instalação, CI e publicação → cópia pública, locks, testes e scans | **Conforme no laboratório local.** Instalação hospedada, Azure/ML opcionais, inferência paga, restore entre hosts e novo CI remoto: **não verificados nesta rodada**. |
+
+Validações executadas no candidato: **256 testes backend passaram, sem skips**, em PostgreSQL descartável, incluindo 237 existentes e 19 regressões novas. Ruff e formato aprovaram 150 arquivos; mypy, 75 fontes. O frontend, inalterado em seu código, passou por instalação nova, tipos, lint, formato, **61 testes** e build. Nos scripts Windows, **88 coletados: 86 passes e dois skips por privilégio de symlink**. A instalação Linux final com hashes e `pip check` passou; **81 dos 88 testes de scripts passaram**, com sete skips exclusivos do Windows, e **160 unitários backend passaram**. Isso inclui os 11 testes do checker, sem skips no Linux. O aviso de depreciação Starlette/AnyIO foi preservado.
+
+Após reconstruir o backend corrigido e fazer seed em novos volumes, a suíte Edge/Playwright terminou com **12 passes em 46,1 s**, zero retries e quatro skips explícitos: um caso que exige geração Azure histórica e três que exigem um restore preparado. A jornada de pagamento foi habilitada, com originais reais, revisão por outra conta e exportação; não chamou modelo. A primeira execução de 12 passes, anterior à correção, permanece separada. Capturas reais do caso principal em desktop e celular foram inspecionadas; estados de transporte controlado não são apresentados como falhas operacionais reais.
+
+As imagens runtime foram construídas de fontes públicas isoladas; layers de dependências fixadas foram reutilizados. Trivy 0.74.0 examinou o backend final `sha256:5eaa88497ca2c401f241975c471cde718444328c8f56d2d2c091ad53a23ffafa` e o frontend `sha256:c886355a473ca5c25611221aab4e46d91849737bd267fdf0cc8fbfd7ba711256`: zero achados na base consultada em 22/09. `npm audit --omit=dev` também retornou zero. O aviso de Alpine 3.24 ausente da lista EOL do scanner permanece; isso não certifica o ciclo de suporte ou ausência de falhas desconhecidas. Gitleaks examinou histórico e arquivos publicáveis com as exceções exatas existentes; resultados de pastas contendo dependências locais não foram confundidos com o conjunto publicado.
+
+O README exibido no GitHub foi conferido no SHA inicial, incluindo hierarquia, parágrafos, tabelas, código, imagens, legendas, links, âncoras e o Mermaid efetivamente renderizado. A 320 px não houve overflow global. O candidato participou das 24 prévias locais dos seis READMEs, em 1440/320 px, claro/escuro, com CSS do GitHub e navegador offline; prévia não equivale à publicação ou à sanitização integral da plataforma. O parser verificou os destinos locais de todos os documentos; URLs externas tiveram consulta separada, com redirects e títulos conferidos, sem tratar 403 ou timeout como link morto.
+
+As orientações de [README](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes), [sintaxe](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax), [manutenção de repositórios](https://docs.github.com/en/repositories/creating-and-managing-repositories/best-practices-for-repositories) e [adequação ao público](https://developers.google.com/tech-writing/one/audience) foram consultadas. Links relativos e âncoras têm orientação oficial; um H1, quantidade de imagens e concisão são escolhas editoriais, não cotas do GitHub.
+
+Logs, JUnit, imagens novas e scans desta rodada ficaram fora do Git nas pastas temporárias `portfolio-final-audit-20260922` e `evidence-metadata-audit-20260922`. Tentativas inválidas da bancada também foram preservadas: uma montagem incorreta do banco causou falha de autenticação antes dos testes finais, e uma chamada de scripts omitiu `PYTHONPATH`; corrigir esses comandos não exigiu enfraquecer produto ou asserções. O registro abaixo conserva versões e limites anteriores.
+
+## Publicação histórica em 21/09/2026
+
 Revisão de 21/09/2026. O objetivo é uma entrega de portfólio que outra pessoa consiga instalar, explorar e verificar a partir do repositório. A bancada funciona localmente; Azure OpenAI é opcional, com endpoint e deployment definidos pelo operador.
 
-## Correções da versão
+### Correções da versão
 
 - Evidências derivadas exigem acesso ao incidente de origem. Leituras de ferramentas, citações e despacho aplicam a mesma janela e snapshot.
 - Coleções têm paginação real por nome/ID, com cursor vinculado à identidade. A interface permite carregar páginas adicionais.
@@ -14,7 +51,7 @@ Revisão de 21/09/2026. O objetivo é uma entrega de portfólio que outra pessoa
 
 Detalhes: [arquitetura e contratos](architecture-review-publication.md), [interface](publication-frontend.md) e [segurança](publication-security.md).
 
-## Resultados executados
+### Resultados executados
 
 | Verificação | Resultado e escopo |
 | --- | --- |
@@ -30,9 +67,9 @@ Os testes que simulam transporte/modelo estão identificados; eles verificam con
 
 A correção posterior de admissão de login passou em cinco [testes de integração com PostgreSQL](../backend/tests/integration/test_login_admission.py). Após dez verificações de senha inválida, 129 rejeições do mesmo e-mail mantiveram a quota global em dez; o login válido de outro tenant foi aceito e elevou o contador a onze. Concorrência no último slot, cardinalidade e proteção de CPU também passaram. Essa rodada direcionada não é somada aos 235 testes da rodada anterior.
 
-## Reprodução
+### Reprodução
 
-O [README](../README.md) contém a instalação da demonstração; o [guia de desenvolvimento](development.md) prepara as dependências e os bancos de teste. O [workflow](../.github/workflows/ci.yaml) usa seis jobs e permissões somente de leitura. A validação local de sua sintaxe passou.
+O [README](../README.md) contém a instalação da demonstração; o [guia de desenvolvimento](development.md) prepara as dependências e os bancos de teste. Na revisão de 21/09, o workflow executava seis jobs e permissões somente de leitura; a validação local de sua sintaxe passou. A configuração atual e o grupo Windows acrescentado depois estão no [runbook de CI](runbooks/ci.md).
 
 A [primeira execução remota do CI](https://github.com/arthurjoanes/evidencedesk/actions/runs/35663777096) aprovou backend, frontend, jornadas no navegador e histórico de segredos. Os dois jobs de imagens encontraram uma incompatibilidade do publicador de relatórios com configurações OCI que contêm tanto `rootfs` como `config`. O reconhecimento da configuração foi corrigido, preservando a validação do hash. A regressão reproduziu a falha e passou após a correção, incluindo a rejeição de conteúdo adulterado. As duas rodadas de scripts acima incluem esse teste. Os resultados remotos de cada commit estão nas [execuções do GitHub Actions](https://github.com/arthurjoanes/evidencedesk/actions/workflows/ci.yaml).
 

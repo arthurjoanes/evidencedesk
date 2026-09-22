@@ -1,0 +1,3 @@
+# Developer/CI Markdown checker only; not an application runtime dependency.
+markdown-it-py[linkify]==4.0.0
+github-slugger==0.0.3

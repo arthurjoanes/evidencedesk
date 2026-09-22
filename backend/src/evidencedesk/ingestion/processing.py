@@ -7,13 +7,15 @@ import sys
 from datetime import UTC, datetime
 from uuid import uuid4
 
-from sqlalchemy import text
+from pydantic import ValidationError
+from sqlalchemy import Connection, text
 
 from evidencedesk.config import get_settings
 from evidencedesk.database import transaction
 from evidencedesk.errors import Problem
 from evidencedesk.evidence.storage import PrivateStorage
 from evidencedesk.identity.service import actor_for_worker, authorize_collection
+from evidencedesk.ingestion.contracts import DocumentMetadata
 from evidencedesk.ingestion.limits import ExtractionBudget
 from evidencedesk.jobs.service import Lease, assert_publishable, complete, enqueue
 from evidencedesk.retrieval.chunking import (
@@ -120,7 +122,15 @@ def evidence_records(tenant_id: str, collection_id: str, entry: dict, parsed: di
                 }
             )
     elif entry["kind"] == "document":
-        metadata = entry["metadata"]
+        # Recheck persisted/queued imports too, not only new HTTP requests.
+        try:
+            metadata = DocumentMetadata.model_validate(entry["metadata"])
+        except ValidationError:
+            raise Problem(
+                422,
+                "invalid_document_metadata",
+                "Os metadados temporais ou documentais são inválidos.",
+            ) from None
         for page_number, content in enumerate(parsed["pages"], 1):
             # Byte limits are an offline admission policy, not a tokenizer measurement.
             # The pinned model tokenizer still checks every input (Unicode may normalize).
@@ -135,14 +145,12 @@ def evidence_records(tenant_id: str, collection_id: str, entry: dict, parsed: di
                     | {
                         "id": identity(f"{page_number}:{start}:{end}"),
                         "kind": "document_span",
-                        "title": str(metadata.get("title") or entry["filename"]),
-                        "version": str(metadata.get("version") or "1"),
-                        "source_system": str(metadata.get("source_system") or "knowledge"),
-                        "temporal_role": str(
-                            metadata.get("temporal_role") or "historical_artifact"
-                        ),
-                        "valid_from": metadata.get("valid_from"),
-                        "valid_until": metadata.get("valid_until"),
+                        "title": metadata.title or entry["filename"],
+                        "version": metadata.version or "1",
+                        "source_system": metadata.source_system or "knowledge",
+                        "temporal_role": metadata.temporal_role or "historical_artifact",
+                        "valid_from": metadata.valid_from,
+                        "valid_until": metadata.valid_until,
                         "canonical_text": canonical,
                         "record": json.dumps(
                             {
@@ -150,7 +158,7 @@ def evidence_records(tenant_id: str, collection_id: str, entry: dict, parsed: di
                                 "chunk_policy": DOCUMENT_CHUNK_REVISION,
                                 "canonical_bytes": len(canonical.encode("utf-8")),
                                 "token_count": None,
-                                "document_lineage": metadata.get("document_lineage"),
+                                "document_lineage": metadata.document_lineage,
                             }
                         ),
                         "locator": json.dumps(
@@ -165,6 +173,48 @@ def evidence_records(tenant_id: str, collection_id: str, entry: dict, parsed: di
                     }
                 )
     return records
+
+
+def reject_document_metadata_conflicts(
+    connection: Connection, tenant_id: str, records: list[dict]
+) -> None:
+    """Same document identity may repeat, but its interpreted metadata is immutable."""
+    fields = ("title", "version", "source_system", "temporal_role", "valid_from", "valid_until")
+    expected: dict[str, tuple] = {}
+
+    def conflict() -> Problem:
+        return Problem(
+            422,
+            "document_metadata_conflict",
+            "Os mesmos bytes documentais têm metadados incompatíveis. O snapshot anterior foi preservado.",
+        )
+
+    for row in records:
+        if row["kind"] != "document_span":
+            continue
+        signature = tuple(row[field] for field in fields) + (
+            json.loads(row["record"]).get("document_lineage"),
+        )
+        if row["id"] in expected and expected[row["id"]] != signature:
+            raise conflict()
+        expected[row["id"]] = signature
+
+    identities = list(expected)
+    for start in range(0, len(identities), 400):
+        existing = connection.execute(
+            text("""
+                SELECT id,title,version,source_system,temporal_role,valid_from,valid_until,
+                       record->>'document_lineage' AS document_lineage
+                FROM evidence WHERE tenant_id=:tenant AND id=ANY(:ids)
+            """),
+            {"tenant": tenant_id, "ids": identities[start : start + 400]},
+        ).mappings()
+        for persisted in existing:
+            signature = tuple(persisted[field] for field in fields) + (
+                persisted["document_lineage"],
+            )
+            if expected[persisted["id"]] != signature:
+                raise conflict()
 
 
 def process_import(lease: Lease) -> None:
@@ -247,6 +297,9 @@ def process_import(lease: Lease) -> None:
         assert_publishable(connection, lease)
         actor = actor_for_worker(connection, lease.tenant_id, lease.actor_id)
         collection = authorize_collection(connection, actor, batch["collection_id"])
+        # Policy locking serializes this check with all publication in the tenant.
+        # Check both incoming duplicates and existing identities before any snapshot.
+        reject_document_metadata_conflicts(connection, lease.tenant_id, records)
         coverage = batch["manifest"]["coverage"]
         previous = collection["active_snapshot_id"]
         if previous:

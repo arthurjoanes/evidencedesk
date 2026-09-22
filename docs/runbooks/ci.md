@@ -1,11 +1,12 @@
 # Integração contínua
 
-O workflow `.github/workflows/ci.yaml` prepara cinco grupos independentes em runners Ubuntu 24.04. A configuração foi revisada e os helpers foram testados localmente em 21/09/2026. **O workflow ainda não foi executado no GitHub**. Testes locais e análise do YAML não provam que o runner remoto passou.
+O workflow `.github/workflows/ci.yaml` prepara cinco grupos em Ubuntu 24.04 e um grupo de desenvolvimento Windows. O [CI do baseline `a3bbb77`](https://github.com/arthurjoanes/evidencedesk/actions/runs/35744912275) aprovou backend, frontend, navegador, histórico e as duas imagens. O grupo Windows e o checker de âncoras foram acrescentados depois: seus resultados locais estão em [verificação](../publication.md). Confira o SHA e a conclusão correspondente nas [execuções do workflow](https://github.com/arthurjoanes/evidencedesk/actions/workflows/ci.yaml).
 
 ## Verificações e falhas
 
 | Job | Verificação e condição de falha |
 | --- | --- |
+| `windows-development` | Instalação nova com hashes em Python 3.11, consistência das dependências, testes de scripts, unitários backend e documentação. Protege o percurso Windows; não substitui PostgreSQL real no job Linux. |
 | `secret-history` | Gitleaks 8.30.1 baixado da distribuição oficial e conferido por SHA-256; histórico completo com saída redigida. Achados de segredo reprovam. Exceções são limitadas a hashes de relatório e uma URL interna comprovados como falsos positivos. |
 | `backend-and-operation` | Dependências Python com hashes, Ruff com configuração explícita, Mypy, links/arquivos da documentação, helpers e pytest sem provedor pago. Banco principal do runner em 5546 e banco de integração/manutenção separado em 5547, ambos migrados. Configurações de observabilidade validadas pelas ferramentas e build da API. |
 | `frontend` | Instalação npm pelo lock sem scripts de terceiros, assets locais, tipos, lint, formato, unitários e build. `npm audit --omit=dev --audit-level=high` falha diante de HIGH/CRITICAL ou erro da consulta. |
@@ -22,11 +23,11 @@ Os artefatos de navegador contêm dados sintéticos e podem incluir traces de fa
 
 ## Validação local e limites
 
-Os testes do scanner cobrem alvo limpo, HIGH sem versão corrigida, formato incompleto, identidade incompatível e remoção de metadados sensíveis. Os helpers passam Ruff com a configuração do workflow. Actionlint aprovou os cinco jobs; isso não substitui sua execução no GitHub. A [verificação para publicação](../publication.md) reúne os resultados atuais de backend, scripts e navegador.
+Os testes do scanner cobrem alvo limpo, HIGH sem versão corrigida, formato incompleto, identidade incompatível e remoção de metadados sensíveis. Os helpers passam Ruff com a configuração do workflow. Actionlint 1.7.12 aprovou a configuração com o grupo Windows em 22/09; isso não substitui sua execução no GitHub. A [verificação para publicação](../publication.md) reúne os resultados atuais de backend, scripts e navegador.
 
 Uma execução completa deve respeitar o limite real de login das contas demo. Repeti-la várias vezes na mesma instância em quinze minutos pode produzir 429. O CI cria seu próprio projeto e não altera essa política; testes locais dirigidos usam o arquivo pertinente. Seeds e uploads de QA nunca devem ser apontados para dados de produção.
 
-Os scans iniciais de 21/09/2026 reprovaram as imagens Debian. A revisão para publicação atualizou as bases e corrigiu os pacotes de runtime; os resultados históricos foram preservados. Consulte [a revisão atual com identidades das imagens](../publication-security.md). O GitHub Actions permanece não executado. Não há waiver automática para findings sem correção. Alterações no provedor, carga real, Azure hospedado e avaliação humana de conclusões continuam fora deste CI. As jornadas com respostas controladas são identificadas no código e não substituem os testes de autorização e concorrência do backend.
+Os scans iniciais de 21/09/2026 reprovaram as imagens Debian. A revisão para publicação atualizou as bases e corrigiu os pacotes de runtime; os resultados históricos foram preservados. Consulte [a revisão com identidades das imagens](../publication-security.md). O CI remoto citado na abertura passou no baseline; sua aprovação não se transfere a commits posteriores. Não há waiver automática para findings sem correção. Alterações no provedor, carga real, Azure hospedado e avaliação humana de conclusões continuam fora deste CI. As jornadas com respostas controladas são identificadas no código e não substituem os testes de autorização e concorrência do backend.
 
 Para repetir o ensaio offline com Trivy e base já disponíveis, a partir da raiz: `python scripts/scan_runtime_images.py --cache-db CAMINHO_PARA_DB --services api frontend --evidence-name NOME_NOVO`. A pasta precisa conter `metadata.json` e `trivy.db`, com base de até 72h. O comando não baixa imagem/base, não reinicia serviços, congela os IDs antes do scan e recusa sobrescrever uma pasta de evidências. Usa até 1 GiB de memória e uma CPU por scanner, uma imagem por vez. A escolha explícita do cache permite usar uma base existente sem alterar seu conteúdo; o comando verifica o hash antes/depois.
 

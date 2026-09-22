@@ -14,6 +14,8 @@ Separei cálculo e redação nas [regras puras](../backend/src/evidencedesk/reco
 
 ## Reentrega não comprova cobrança duplicada
 
+A [documentação de webhooks da Stripe](https://docs.stripe.com/webhooks#event-delivery-behaviors) descreve reentregas e ausência de garantia de ordem. Este projeto reproduz essas condições com arquivos sintéticos e separa identidade lógica de observação; não recebe webhooks Stripe nem implementa cobrança. A fonte documenta um comportamento de plataforma, não mede a frequência do problema ou o benefício deste laboratório.
+
 Receber novamente o mesmo ID lógico, com o mesmo conteúdo, gera outra observação. Na mesma fixture, duas observações resultam em **um evento lógico e um pedido**, com `delivery_count=2`. A UI apresenta a reentrega como observação. Se o mesmo ID traz conteúdo conflitante, a regra marca o conflito como não avaliável e não escolhe arbitrariamente uma das versões para comparar o pagamento.
 
 O motivo é operacional: entrega de mensagem e operação financeira têm identidades diferentes. Investigar duas cobranças requer suas evidências; contar linhas de log não basta. Os testes `test_redelivery_does_not_duplicate_logical_event_or_orders` e `test_same_identity_with_changed_domain_content_is_not_consolidated` fixam essa distinção.
