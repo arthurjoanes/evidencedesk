@@ -14,5 +14,7 @@
   "environment-check-previous.json": "d81fd6fda980142e514494aa7977737b32e763d89466ed024d9a13309fa6f26b",
   "environment-check-locked.json": "d81fd6fda980142e514494aa7977737b32e763d89466ed024d9a13309fa6f26b",
   "model-service-smoke-locked.json": "d29e2cbaf31b83b67d91686aff118a2f4259c405c92eab8302a003070b505915",
-  "ml-final-build.json": "2587b1958976717a4b680397f770b1c36973df9fb3223c25fdaa8366b8181090"
+  "ml-final-build.json": "0d1eeb20051774182b27e5b6c7f8566fed2c9b75c52ed5f4f3f28e7abc1cb1bb",
+  "checkpoint-security.json": "fb3f86c65adfd1f0e9c0c8911373b082f8bb01c0fb696824a76e37c047af9471",
+  "checkpoint-security-tests.log": "6848cf6a39dc774e7f7ed56f9aa442a2009d467adb50de23efe32c30626cf68d"
 }

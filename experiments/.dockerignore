@@ -1,3 +1,5 @@
 *
 !Dockerfile
 !requirements-ml.lock
+!patch_accelerate.py
+!test_checkpoint_security.py

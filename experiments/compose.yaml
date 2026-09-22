@@ -27,7 +27,7 @@ services:
       interval: 2s
       retries: 20
   models:
-    image: ${ED_ML_IMAGE:-pf-evidencedesk-ml:torch2.14-cu130-locked-20260921}
+    image: ${ED_ML_IMAGE:-pf-evidencedesk-ml:torch2.14-cu130-shards-v1}
     profiles: [serving]
     init: true
     user: "10001:10001"
@@ -61,7 +61,7 @@ services:
       retries: 20
       start_period: 30s
   lab:
-    image: ${ED_ML_IMAGE:-pf-evidencedesk-ml:torch2.14-cu130-locked-20260921}
+    image: ${ED_ML_IMAGE:-pf-evidencedesk-ml:torch2.14-cu130-shards-v1}
     build:
       context: .
       dockerfile: Dockerfile

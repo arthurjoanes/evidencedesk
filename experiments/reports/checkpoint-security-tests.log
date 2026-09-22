@@ -1,0 +1,20 @@
+test_absolute_path_is_rejected (__main__.CheckpointTests.test_absolute_path_is_rejected) ... ok
+test_directory_shard_is_rejected (__main__.CheckpointTests.test_directory_shard_is_rejected) ... ok
+test_empty_weight_map_is_rejected (__main__.CheckpointTests.test_empty_weight_map_is_rejected) ... ok
+test_external_symlink_is_rejected (__main__.CheckpointTests.test_external_symlink_is_rejected) ... ok
+test_fifo_index_is_rejected_without_opening (__main__.CheckpointTests.test_fifo_index_is_rejected_without_opening) ... ok
+test_fifo_shard_is_rejected_without_opening (__main__.CheckpointTests.test_fifo_shard_is_rejected_without_opening) ... ok
+test_full_unsharded_checkpoint_is_unchanged (__main__.CheckpointTests.test_full_unsharded_checkpoint_is_unchanged) ... ok
+test_internal_symlink_remains_supported (__main__.CheckpointTests.test_internal_symlink_remains_supported) ... ok
+test_missing_shard_is_a_controlled_error (__main__.CheckpointTests.test_missing_shard_is_a_controlled_error) ... ok
+test_nested_regular_shard_is_supported (__main__.CheckpointTests.test_nested_regular_shard_is_supported) ... ok
+test_non_object_index_is_rejected (__main__.CheckpointTests.test_non_object_index_is_rejected) ... ok
+test_non_string_shard_name_is_rejected (__main__.CheckpointTests.test_non_string_shard_name_is_rejected) ... ok
+test_oversized_index_is_rejected_before_parsing (__main__.CheckpointTests.test_oversized_index_is_rejected_before_parsing) ... ok
+test_parent_path_is_rejected_before_loading (__main__.CheckpointTests.test_parent_path_is_rejected_before_loading) ... ok
+test_regular_shard_loads_expected_tensor (__main__.CheckpointTests.test_regular_shard_loads_expected_tensor) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 1.773s
+
+OK

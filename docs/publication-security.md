@@ -1,5 +1,7 @@
 # Segurança das imagens para publicação
 
+A revisão do perfil opcional de ML em 21/09/2026 identificou CVE-2026-69112 no Accelerate. A [correção local do loader](ml-checkpoint-security.md) inclui hashes e 15 regressões; é um ensaio separado do gate de API/frontend abaixo. O pacote mantém sua versão original nos metadados, portanto scanners por versão continuam identificando o advisory.
+
 Em **21/09/2026**, o gate das imagens finais locais Linux/amd64 de API e frontend passou com **zero vulnerabilidades reportadas em todas as severidades**. O [resumo verificável](evidence/publication-security-release/summary.json) registra as identidades das imagens, a versão do scanner e o hash da base. Este ensaio inclui as últimas validações de formulário, a configuração Azure portátil e a mensagem final de disponibilidade do gerador; substitui, para a revisão atual, o [scan intermediário](evidence/publication-security/summary.json). O resultado se aplica às imagens inspecionadas e à cobertura dessa base; não é uma certificação de ausência de vulnerabilidades.
 
 | Imagem | Pacotes de sistema inspecionados | Pacotes de aplicação inspecionados | HIGH / CRITICAL |

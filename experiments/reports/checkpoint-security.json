@@ -1,0 +1,51 @@
+{
+  "checked_at_utc": "2026-09-22",
+  "status": "passed",
+  "image": {
+    "tag": "pf-evidencedesk-ml:torch2.14-cu130-shards-v1",
+    "id": "sha256:5628267957db9993f0d99e0d827966c0882605fd90e9229a842ac727ef7c2a69",
+    "created": "2026-09-22T01:33:53.186185134Z"
+  },
+  "patch": {
+    "patch_id": "evidencedesk-accelerate-shards-v1",
+    "cve": "CVE-2026-69112",
+    "upstream_version": "1.13.0",
+    "upstream_sha256": "d6052abc0625740115176a4d2dfc0861a189a2dba94443c09cc8500254b57e2e",
+    "patched_sha256": "2afdd79cb385fc49d3946f5bd80a78601fd6a006de7115e7bfbab216d04618bd",
+    "package_metadata_preserved": true
+  },
+  "tests": {
+    "passed": 15,
+    "failed": 0,
+    "log": "checkpoint-security-tests.log",
+    "offline": true,
+    "user": "10001",
+    "read_only_root": true,
+    "cpus": 1,
+    "memory_bytes": 1073741824,
+    "tensor_shape": [
+      2,
+      2
+    ]
+  },
+  "environment": {
+    "packages_checked": 116,
+    "mismatches": [],
+    "lock_sha256": "2d994242fbab69e83dcc980dc6f4ae5f54ce91ed5ba890452886b7c5140fe766",
+    "pip_check": "No broken requirements found."
+  },
+  "files_sha256": {
+    "experiments/Dockerfile": "e74302adf432454835c8bd2e483859a133f8ee4417bc8009b2c2d39a3e01a0bf",
+    "experiments/requirements-ml.lock": "2d994242fbab69e83dcc980dc6f4ae5f54ce91ed5ba890452886b7c5140fe766",
+    "experiments/patch_accelerate.py": "4c160ef19ce4126e49c0444830ab2a2ea882ed07d0eb5daa7850ccc74d206a92",
+    "experiments/test_checkpoint_security.py": "bd484e676b54c355d8fc45a66e55c1c3ae32553fdceca59bb9b301105b2f8ad8",
+    "experiments/verify_environment.py": "21bf1c7bf937e608dde27b2ab48c3cfc6df16885a7407d2d6ad782924f399cf0",
+    "experiments/reports/checkpoint-security-tests.log": "6848cf6a39dc774e7f7ed56f9aa442a2009d467adb50de23efe32c30626cf68d"
+  },
+  "weights_downloaded": false,
+  "training_performed": false,
+  "paid_provider_calls": 0,
+  "new_quality_benchmark": false,
+  "full_image_vulnerability_scan": "not repeated; validates the local backport only",
+  "upstream_advisory": "https://github.com/advisories/GHSA-4j2p-28q2-5m79"
+}
