@@ -4,14 +4,14 @@ O perfil local possui uma rotina executável de retenção, com fila durável de
 
 ## Política do laboratório
 
-| Recurso | Regra padrão |
-| --- | --- |
-| Importação abandonada, rejeitada ou encerrada sem publicação | 24 horas desde a última atividade registrada; sem upload vivo e sem job de ingestão ativo |
-| Objetos sem referência no namespace privado conhecido | Pelo menos 24 horas de idade; sem produtor ativo nem referência viva |
-| Exportação HTML | `expires_at` definido pelo publicador, atualmente 24 horas; a revisão continua no banco |
-| Eventos de progresso | 7 dias; apenas quando o job também terminou há pelo menos 7 dias |
-| Auditoria | Mínimo de 90 dias, com função SQL restrita ao tenant e remoção em lotes |
-| Fontes, snapshots, dossiês, ledger de chamadas e ledger de exclusões | Não expiram por esta rotina |
+| Recurso                                                              | Regra padrão                                                                              |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Importação abandonada, rejeitada ou encerrada sem publicação         | 24 horas desde a última atividade registrada; sem upload vivo e sem job de ingestão ativo |
+| Objetos sem referência no namespace privado conhecido                | Pelo menos 24 horas de idade; sem produtor ativo nem referência viva                      |
+| Exportação HTML                                                      | `expires_at` definido pelo publicador, atualmente 24 horas; a revisão continua no banco   |
+| Eventos de progresso                                                 | 7 dias; apenas quando o job também terminou há pelo menos 7 dias                          |
+| Auditoria                                                            | Mínimo de 90 dias, com função SQL restrita ao tenant e remoção em lotes                   |
+| Fontes, snapshots, dossiês, ledger de chamadas e ledger de exclusões | Não expiram por esta rotina                                                               |
 
 `--temporary-hours`, `--progress-days` e `--audit-days` permitem retenção maior, respeitando pisos de 24h/7d/90d. `--batch-limit` vale 100 por padrão, entre 1 e 1000; limita cada classe de candidatos, a limpeza física e as remoções de histórico. `--scan-limit` vale 1000, entre 1 e 10000; limita arquivos inspecionados por varredura. O cursor de diretório fica no banco e avança entre execuções, voltando ao início ao terminar. Novos arquivos anteriores ao cursor entram no próximo ciclo.
 
@@ -21,7 +21,7 @@ Logs e traces têm configuração própria no [runbook de observabilidade](obser
 
 Com a imagem atualizada e migrações aplicadas, execute no ambiente que já possui a configuração da API e o mesmo volume privado:
 
-```console
+```sh
 python -m evidencedesk.retention --tenant ID_DO_TENANT --batch-limit 100 --scan-limit 1000
 ```
 

@@ -28,26 +28,30 @@ Depois da última alteração, restrita ao texto de IA indisponível na API, a m
 
 ## Imagens versionadas
 
-As capturas usam dados sintéticos da execução real. O leitor móvel mantém o nome do incidente, a navegação e o texto original; a tabela da bancada usa rolagem própria em telas estreitas.
+As capturas desta seção são recortes nativos de 22/09/2026, com a conta sintética Ana, para manter o texto legível sem embutir uma página longa. A tabela foi capturada por `visual.spec.ts`; o JSON colorido foi capturado posteriormente por `json-syntax.spec.ts`, após a mudança de realce sintático. Os resultados de 21/09 descritos acima continuam pertencendo ao seu registro original. O [inventário das imagens](screenshots.md) separa essas capturas das provas históricas preservadas.
 
-![Bancada de investigação com evidência aberta a 1440 px](images/workspace-desktop.png)
+O leitor móvel mantém o nome do incidente, a navegação e o texto original; a tabela da bancada usa rolagem própria em telas estreitas.
 
-![Leitor de fonte a 320 px](images/source-mobile.png)
+![Recorte da tabela: duas divergências do mesmo pedido](images/workspace-desktop.png)
+
+![JSON atual com chaves, valores e literais diferenciados por cor](images/source-json-mobile.png)
+
+O [registro do realce sintático](evidence/syntax-highlight-20260922.json) identifica o código, a imagem e os testes desta alteração. Original e modo formatado recebem cores por token; selecionar o código conserva o texto exibido. Novas exportações HTML usam o mesmo destaque nas fontes JSON, nos localizadores e no recorte de revisão. Os arquivos exportados anteriormente e a captura monocromática permanecem vinculados às suas revisões originais.
 
 Os relatórios brutos e traces temporários permanecem ignorados pelo Git. O resumo acima contém somente campos de teste selecionados, sem caminhos pessoais, cookies ou credenciais.
 
 ## Revisão documental e de coerência em 22/09/2026
 
-Esta revisão leu os componentes, jornadas e o resumo acima e inspecionou as duas imagens versionadas. O desenho foi preservado; não houve alteração de UI, nova captura ou execução de navegador. As imagens mostram o estado registrado em 21/09, não uma nova medição.
+Esta revisão documental anterior leu os componentes, jornadas e o resumo acima e inspecionou as duas imagens então disponíveis, registradas em 21/09. O desenho foi preservado; naquela etapa não houve alteração de UI, nova captura ou execução de navegador. A recaptura posterior de 22/09, identificada na seção de imagens, não altera os resultados desta revisão histórica.
 
-| Tarefa do usuário | Coerência observada e prova existente |
-| --- | --- |
-| Conferir divergência sem perder o recorte | A bancada mostra período, snapshot e cobertura antes das abas; a fonte abre ao lado da divergência em desktop. O [workspace](../frontend/src/features/incidents/incident-workspace.tsx) distingue contagens/cobertura do snapshot ativo dos registros de um snapshot anterior, com aviso explícito. |
-| Ler uma fonte no celular e voltar | A captura a 320 px mantém incidente, título e botão de retorno. A [jornada visual](../frontend/e2e/visual.spec.ts) verifica ausência de overflow global em 320/768/1440 e retorno do foco ao acionador. A imagem sozinha não comprova o foco. |
-| Esperar uma leitura ou lidar com acesso negado | O [leitor](../frontend/src/features/evidence/evidence-reader.tsx) oculta dados durante revalidação e erro. A [jornada de fonte protegida](../frontend/e2e/protected-source.spec.ts) identifica a recusa controlada de transporte; a ACL real tem testes backend separados. |
-| Editar, discordar e aprovar | A [jornada manual](../frontend/e2e/investigation.spec.ts) cobre conflito real 409, texto preservado, segundo revisor e exportação. Aprovar abstenção não muda a conclusão para causa comprovada. |
+| Tarefa do usuário                                            | Coerência observada e prova existente                                                                                                                                                                                                                                                                      |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Conferir divergência sem perder o recorte                    | A bancada mostra período, snapshot e cobertura antes das abas; a fonte abre ao lado da divergência em desktop. O [workspace](../frontend/src/features/incidents/incident-workspace.tsx) distingue contagens/cobertura do snapshot ativo dos registros de um snapshot anterior, com aviso explícito.        |
+| Ler uma fonte no celular e voltar                            | A captura a 320 px mantém incidente, título e botão de retorno. A [jornada visual](../frontend/e2e/visual.spec.ts) verifica ausência de overflow global em 320/768/1440 e retorno do foco ao acionador. A imagem sozinha não comprova o foco.                                                              |
+| Esperar uma leitura ou lidar com acesso negado               | O [leitor](../frontend/src/features/evidence/evidence-reader.tsx) oculta dados durante revalidação e erro. A [jornada de fonte protegida](../frontend/e2e/protected-source.spec.ts) identifica a recusa controlada de transporte; a ACL real tem testes backend separados.                                 |
+| Editar, discordar e aprovar                                  | A [jornada manual](../frontend/e2e/investigation.spec.ts) cobre conflito real 409, texto preservado, segundo revisor e exportação. Aprovar abstenção não muda a conclusão para causa comprovada.                                                                                                           |
 | Acompanhar uma tentativa sem confundir um resultado anterior | O [painel de investigação](../frontend/src/features/incidents/run-panel.tsx) mostra identidade, horários, etapa, uso conhecido/desconhecido e aviso de que aprovação anterior não prova sucesso atual. Os [estados controlados](../frontend/e2e/controlled-states.spec.ts) não são uma nova chamada Azure. |
-| Usar teclado e formulários | [Acessibilidade](../frontend/e2e/accessibility.spec.ts) cobre axe e ajuste de largura pelo teclado; [regressões de publicação](../frontend/e2e/publication-regressions.spec.ts) cobrem erros associados e formulários bloqueados durante gravação. Não é certificação WCAG nem ensaio com leitor de tela. |
+| Usar teclado e formulários                                   | [Acessibilidade](../frontend/e2e/accessibility.spec.ts) cobre axe e ajuste de largura pelo teclado; [regressões de publicação](../frontend/e2e/publication-regressions.spec.ts) cobrem erros associados e formulários bloqueados durante gravação. Não é certificação WCAG nem ensaio com leitor de tela.  |
 
 Não se encontrou inconsistência que justificasse mudar o desenho nesta leitura. Isso é uma revisão estática limitada aos estados presentes nas fontes e às duas capturas, sem novo teste de zoom nativo, leitor de tela ou uso por analistas. O [guia de problemas e decisões](problem-solution.md) explica os casos e limites operacionais associados. A única verificação executada nesta rodada é o verificador offline de links publicáveis `scripts/check_repository_docs.py`, além da conferência de whitespace do diff.
 

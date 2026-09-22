@@ -6,11 +6,11 @@ Um backup antigo pode conter uma fonte apagada depois. Recuperar os bytes sem re
 
 ## Três situações, com provas distintas
 
-| Situação | O que foi observado | Consequência para quem investiga |
-| --- | --- | --- |
-| Dossiê aprovado com fonte | Revisão aprovada, fonte real aberta e texto canônico igual ao retornado pela API | A conclusão pode ser rastreada até o material usado |
-| Edição concorrente | Uma segunda revisão foi gravada; salvar a base antiga retornou `409 revision_conflict`, mantendo o rascunho no editor | O trabalho de outra pessoa não é sobrescrito silenciosamente |
-| Restauração após exclusão | Incidente sobrevivente legível, fonte/original/dossiê excluídos inacessíveis; objeto ausente e referências removidas | Recuperar a aplicação não ressuscita esse material excluído |
+| Situação                  | O que foi observado                                                                                                   | Consequência para quem investiga                             |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Dossiê aprovado com fonte | Revisão aprovada, fonte real aberta e texto canônico igual ao retornado pela API                                      | A conclusão pode ser rastreada até o material usado          |
+| Edição concorrente        | Uma segunda revisão foi gravada; salvar a base antiga retornou `409 revision_conflict`, mantendo o rascunho no editor | O trabalho de outra pessoa não é sobrescrito silenciosamente |
+| Restauração após exclusão | Incidente sobrevivente legível, fonte/original/dossiê excluídos inacessíveis; objeto ausente e referências removidas  | Recuperar a aplicação não ressuscita esse material excluído  |
 
 Os dois primeiros casos ocorreram na origem, **antes do backup**, com run de revisão `319b9f2fe2f4`. O terceiro pertence ao run de exclusão/restauração `a468f70ee9bb`, em outro projeto. O conflito de edição não é apresentado como causa da restauração.
 
@@ -18,23 +18,25 @@ O dossiê foi criado pela API com trecho literal de fonte sintética e aprovado 
 
 ## Capturas autênticas
 
+Estas seis imagens são provas históricas da execução identificada no manifesto. Seus hashes foram preservados; a [conferência de capturas](screenshots.md) verificou que as fontes do layout permanecem iguais às da versão atual. Esta revisão visual não executa novamente a restauração.
+
 Navegador Microsoft Edge 153.0.4234.48, Playwright 1.63.0, páginas reais e dados sintéticos. Os IDs de dossiê, revisão, fonte e snapshot estão nas provas do manifesto. As capturas não receberam substituição de texto no DOM para simular um resultado.
 
-![Revisão aprovada com sua fonte aberta](evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/ed03-approved-source-desktop.png)
+[Abrir prova completa: revisão aprovada com sua fonte](evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/ed03-approved-source-desktop.png).
 
-*Revisão aprovada por conta distinta, com fonte e texto canônico abertos. A aprovação automatizada não equivale ao julgamento humano preparado no pacote de avaliação.*
+_Revisão aprovada por conta distinta, com fonte e texto canônico abertos. A aprovação automatizada não equivale ao julgamento humano preparado no pacote de avaliação._
 
-![Conflito de edição informa revisão mais recente e preservação do rascunho](evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/ed03-conflict-preserved-draft-desktop.png)
+[Abrir prova completa: conflito de edição e preservação do rascunho](evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/ed03-conflict-preserved-draft-desktop.png).
 
-*O servidor recusou a base desatualizada com 409. A jornada também conferiu o texto mantido no campo; a imagem mostra a mensagem e o editor aberto.*
+_O servidor recusou a base desatualizada com 409. A jornada também conferiu o texto mantido no campo; a imagem mostra a mensagem e o editor aberto._
 
-![Incidente sobrevivente aberto no destino restaurado](evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/restore-survivor-desktop.png)
+[Abrir prova completa: incidente sobrevivente no destino restaurado](evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/restore-survivor-desktop.png).
 
-*O incidente `demo-aurora-01` preserva o recorte e explica que duas observações do evento não comprovam pagamento duplicado. Geração por IA está desativada.*
+_O incidente `demo-aurora-01` preserva o recorte e explica que duas observações do evento não comprovam pagamento duplicado. Geração por IA está desativada._
 
-![Dossiê dependente de fonte excluída continua inacessível após restore](evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/restore-erased-dossier-desktop.png)
+[Abrir prova completa: dossiê dependente de fonte excluída inacessível após restore](evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/restore-erased-dossier-desktop.png).
 
-*O acesso direto ao dossiê excluído falhou no destino reaberto. O mesmo ensaio conferiu HTTP 404 da fonte e do arquivo original, além de sua ausência no armazenamento.*
+_O acesso direto ao dossiê excluído falhou no destino reaberto. O mesmo ensaio conferiu HTTP 404 da fonte e do arquivo original, além de sua ausência no armazenamento._
 
 O manifesto inclui mais duas capturas: revisão aprovada sem leitor e erro da fonte excluída. A captura longa da lista de fontes precisa ser aberta no tamanho original para conferir seus detalhes.
 
@@ -68,13 +70,13 @@ Foram comparados hashes por linha de **17 tabelas de domínio**, além de linhas
 
 A origem foi `pf-evidencedesk-capacity-edread-492911fe`; o destino, `pf-evidencedesk-restore-edread-492911fe-r2`. A exclusão posterior ao backup avançou o ledger e concluiu o purge. O restore reaplicou um registro de exclusão, esvaziou o conteúdo de uma evidência e verificou 108 referências restantes. A inspeção posterior confirmou tombstone, texto canônico e alegações apagados, objeto original ausente e nenhuma referência à chave excluída.
 
-| Fase desta tentativa | Tempo observado |
-| --- | ---: |
-| Preparar os dois casos de revisão | 2,696 s |
-| Duas jornadas de aprovação/fonte e conflito | 9,340 s |
-| Helper completo de exclusão, backup, restore e verificações | 86,072 s |
-| Operação de restore, incluindo reabertura/leitura e fechamento | 63,305 s |
-| Janela opcional de reabertura/leitura/fechamento | 37,099 s |
+| Fase desta tentativa                                           | Tempo observado |
+| -------------------------------------------------------------- | --------------: |
+| Preparar os dois casos de revisão                              |         2,696 s |
+| Duas jornadas de aprovação/fonte e conflito                    |         9,340 s |
+| Helper completo de exclusão, backup, restore e verificações    |        86,072 s |
+| Operação de restore, incluindo reabertura/leitura e fechamento |        63,305 s |
+| Janela opcional de reabertura/leitura/fechamento               |        37,099 s |
 
 As duas últimas linhas estão contidas nas anteriores; não devem ser somadas como fases independentes. Esta tentativa reutilizou a origem sintética preparada anteriormente. Build e seed não estão incluídos nesses tempos. É uma execução local, não estimativa de RTO comercial, recuperação entre hosts ou teste de capacidade. Os objetivos de RPO/RTO do runbook continuam separados destas observações.
 

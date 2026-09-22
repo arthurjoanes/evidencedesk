@@ -57,7 +57,8 @@ test("real workspace visual evidence and mobile source return", async ({
   await expect(
     page.getByRole("region", { name: "Texto canônico da fonte" }),
   ).not.toBeEmpty();
-  await page.screenshot({
+  await page.evaluate(() => document.fonts.ready);
+  await page.getByRole("region", { name: "Divergências por pedido" }).screenshot({
     path:
       (process.env.ED_E2E_ARTIFACT_DIR ?? "artifacts") +
       "/screenshots/workspace-desktop.png",
@@ -67,6 +68,9 @@ test("real workspace visual evidence and mobile source return", async ({
     ["mobile", 320, 800],
   ] as const) {
     await page.setViewportSize({ width, height });
+    const source = page.getByRole("region", { name: "Texto canônico da fonte" });
+    await expect(source).toContainText("payment.confirmed");
+    await page.evaluate(() => document.fonts.ready);
     expect(
       await page.evaluate(
         () =>
@@ -74,7 +78,8 @@ test("real workspace visual evidence and mobile source return", async ({
           document.documentElement.clientWidth,
       ),
     ).toBe(true);
-    await page.screenshot({
+    const target = name === "mobile" ? source : page;
+    await target.screenshot({
       path:
         (process.env.ED_E2E_ARTIFACT_DIR ?? "artifacts") +
         "/screenshots/source-" +

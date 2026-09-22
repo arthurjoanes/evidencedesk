@@ -14,7 +14,7 @@ O build mantém os metadados de Accelerate 1.13.0 e registra o hash da fonte mod
 
 Na raiz do repositório, com Docker Linux:
 
-```console
+```sh
 docker build -f experiments/Dockerfile -t pf-evidencedesk-ml:torch2.14-cu130-shards-v1 experiments
 docker run --rm --network none --memory 1g --cpus 1 --user 10001 --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges pf-evidencedesk-ml:torch2.14-cu130-shards-v1 python /opt/evidencedesk/test_checkpoint_security.py
 docker run --rm --network none pf-evidencedesk-ml:torch2.14-cu130-shards-v1 python /opt/evidencedesk/patch_accelerate.py --check
