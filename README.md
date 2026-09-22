@@ -16,6 +16,8 @@ O pagamento foi confirmado, mas o pedido continua pendente. O EvidenceDesk reún
 
 O fluxo manual funciona sem conta Azure. A geração é opcional e produz rascunhos sujeitos à revisão.
 
+Dois exemplos distinguem o trabalho feito: um pagamento anterior a um snapshot ainda pendente pode gerar uma divergência; duas entregas do mesmo evento lógico contam como duas observações, não como dois pagamentos. A conclusão conserva o recorte, a cobertura e as fontes usadas. O [guia de problemas, exemplos e decisões](docs/problem-solution.md) liga esses casos às regras e aos testes, incluindo permissões revogadas, edição concorrente, custo incerto de IA e retenção.
+
 ## Arquitetura e escolhas
 
 ```mermaid

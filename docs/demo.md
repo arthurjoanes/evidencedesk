@@ -2,6 +2,8 @@
 
 Pré-condição: seed carregado, API/worker/Next healthy. Use apenas contas fictícias. O roteiro não exige nova chamada paga: o fluxo manual funciona sem gerador; na máquina em que o smoke foi executado, o resultado Azure existente pode ser reaberto.
 
+O caso de pagamento pendente é `demo-aurora-09`, também usado nas [capturas versionadas](publication-frontend.md). Na bancada, **Pedidos/Divergências no snapshot ativo** e a cobertura geral continuam descrevendo o snapshot ativo. Se escolher um snapshot anterior, o aviso explica que os registros abaixo seguem o recorte selecionado. Confira essa diferença antes de comparar contagens. O [guia de casos](problem-solution.md) explica os resultados esperados e aponta os testes, sem exigir que a apresentação provoque revogação, falha de worker ou exclusão de dados.
+
 | Tempo | Ação | O que observar |
 | --- | --- | --- |
 | 0:00–0:40 | Entrar como Ana, abrir “Pagamento confirmado e pedido pendente” | Tenant, janela, snapshot, cobertura e divergências; não confundir data de ingestão com ocorrência. |

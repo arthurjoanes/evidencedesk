@@ -35,3 +35,18 @@ As capturas usam dados sintéticos da execução real. O leitor móvel mantém o
 ![Leitor de fonte a 320 px](images/source-mobile.png)
 
 Os relatórios brutos e traces temporários permanecem ignorados pelo Git. O resumo acima contém somente campos de teste selecionados, sem caminhos pessoais, cookies ou credenciais.
+
+## Revisão documental e de coerência em 22/09/2026
+
+Esta revisão leu os componentes, jornadas e o resumo acima e inspecionou as duas imagens versionadas. O desenho foi preservado; não houve alteração de UI, nova captura ou execução de navegador. As imagens mostram o estado registrado em 21/09, não uma nova medição.
+
+| Tarefa do usuário | Coerência observada e prova existente |
+| --- | --- |
+| Conferir divergência sem perder o recorte | A bancada mostra período, snapshot e cobertura antes das abas; a fonte abre ao lado da divergência em desktop. O [workspace](../frontend/src/features/incidents/incident-workspace.tsx) distingue contagens/cobertura do snapshot ativo dos registros de um snapshot anterior, com aviso explícito. |
+| Ler uma fonte no celular e voltar | A captura a 320 px mantém incidente, título e botão de retorno. A [jornada visual](../frontend/e2e/visual.spec.ts) verifica ausência de overflow global em 320/768/1440 e retorno do foco ao acionador. A imagem sozinha não comprova o foco. |
+| Esperar uma leitura ou lidar com acesso negado | O [leitor](../frontend/src/features/evidence/evidence-reader.tsx) oculta dados durante revalidação e erro. A [jornada de fonte protegida](../frontend/e2e/protected-source.spec.ts) identifica a recusa controlada de transporte; a ACL real tem testes backend separados. |
+| Editar, discordar e aprovar | A [jornada manual](../frontend/e2e/investigation.spec.ts) cobre conflito real 409, texto preservado, segundo revisor e exportação. Aprovar abstenção não muda a conclusão para causa comprovada. |
+| Acompanhar uma tentativa sem confundir um resultado anterior | O [painel de investigação](../frontend/src/features/incidents/run-panel.tsx) mostra identidade, horários, etapa, uso conhecido/desconhecido e aviso de que aprovação anterior não prova sucesso atual. Os [estados controlados](../frontend/e2e/controlled-states.spec.ts) não são uma nova chamada Azure. |
+| Usar teclado e formulários | [Acessibilidade](../frontend/e2e/accessibility.spec.ts) cobre axe e ajuste de largura pelo teclado; [regressões de publicação](../frontend/e2e/publication-regressions.spec.ts) cobrem erros associados e formulários bloqueados durante gravação. Não é certificação WCAG nem ensaio com leitor de tela. |
+
+Não se encontrou inconsistência que justificasse mudar o desenho nesta leitura. Isso é uma revisão estática limitada aos estados presentes nas fontes e às duas capturas, sem novo teste de zoom nativo, leitor de tela ou uso por analistas. O [guia de problemas e decisões](problem-solution.md) explica os casos e limites operacionais associados. A única verificação executada nesta rodada é o verificador offline de links publicáveis `scripts/check_repository_docs.py`, além da conferência de whitespace do diff.
