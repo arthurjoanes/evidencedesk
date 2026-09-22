@@ -11,7 +11,7 @@ import csv
 import hashlib
 import io
 import json
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 FAMILIES = (
@@ -45,15 +45,12 @@ def iso(value: datetime | None) -> str | None:
 
 
 def json_bytes(value: object) -> bytes:
-    return (
-        json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
-    ).encode("utf-8")
+    return (json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
 
 
 def jsonl_bytes(rows: list[dict]) -> bytes:
     return (
-        "\n".join(json.dumps(row, ensure_ascii=False, sort_keys=True) for row in rows)
-        + "\n"
+        "\n".join(json.dumps(row, ensure_ascii=False, sort_keys=True) for row in rows) + "\n"
     ).encode("utf-8")
 
 
@@ -68,7 +65,7 @@ def incident_records(
     family = family_override or FAMILIES[index % len(FAMILIES)]
     if family not in FAMILIES:
         raise ValueError("Família sintética desconhecida.")
-    start = datetime(2026, 7, 1, 12, tzinfo=timezone.utc) + timedelta(days=index)
+    start = datetime(2026, 7, 1, 12, tzinfo=UTC) + timedelta(days=index)
     end = start + timedelta(minutes=30)
     case_id = f"{namespace}-{tenant}-{index + 1:02d}"
     case = {
@@ -104,12 +101,8 @@ def incident_records(
             "delivery_id": f"delivery-{case_id}-{order}-{event_type}{suffix}",
             "order_reference": source_reference,
             "event_type": event_type,
-            "occurred_at": iso(start + timedelta(seconds=at))
-            if at is not None
-            else None,
-            "observed_at": iso(
-                start + timedelta(seconds=observed if observed is not None else at)
-            )
+            "occurred_at": iso(start + timedelta(seconds=at)) if at is not None else None,
+            "observed_at": iso(start + timedelta(seconds=observed if observed is not None else at))
             if at is not None or observed is not None
             else None,
             "source_timezone": "UTC",
@@ -183,9 +176,7 @@ def incident_records(
             elif family in {"partial_failure", "missing_coverage"}:
                 domain_time, status = None, "pending_payment"
         if domain_time is not None:
-            event(
-                order, "orders", "order.payment_confirmed", domain_time, domain_time + 1
-            )
+            event(order, "orders", "order.payment_confirmed", domain_time, domain_time + 1)
         event(order, "inventory", "inventory.reserved", 15, 16, suffix="-normal")
         snapshots.append(
             {
@@ -221,6 +212,7 @@ def documents(case: dict) -> list[tuple[str, str, dict]]:
     lineage = case["id"] + "-procedure"
     current = (
         f"# Procedimento de conciliação — {case['tenant'].title()}\n\n"
+        f"Procedimento sintético do caso {case['id']}: {case['title']}.\n\n"
         "Revisão 2. A confirmação de pagamento deve ser observada no domínio de pedidos em até 300 segundos.\n\n"
         "Esse prazo pertence a este laboratório fictício. Mensagens repetidas representam reentrega; "
         "não demonstram cobrança duplicada. Compare identidades de operação antes de discutir efeito financeiro.\n\n"
@@ -230,6 +222,7 @@ def documents(case: dict) -> list[tuple[str, str, dict]]:
     )
     historical = (
         "# Procedimento arquivado\n\nRevisão 1. Este procedimento foi substituído antes deste incidente.\n\n"
+        f"Procedimento sintético arquivado do caso {case['id']}: {case['title']}.\n\n"
         "A orientação antiga usava prazo de 900 segundos. Ela não deve ser aplicada retroativamente "
         "como norma válida. Se um registro mostrar que foi consultada, documente o uso como artefato histórico.\n"
     )
@@ -407,9 +400,7 @@ def generate(output: Path, normal_orders: int = 221) -> dict:
                     "manifest": f"{packet_name}/manifest.json",
                 }
             )
-            index["incidents"].extend(
-                {**case, "package": packet_name} for case in cases
-            )
+            index["incidents"].extend({**case, "package": packet_name} for case in cases)
             index["counts"]["events"] += len(all_events)
             index["counts"]["snapshots"] += len(all_snapshots)
             index["counts"]["documents"] += 15

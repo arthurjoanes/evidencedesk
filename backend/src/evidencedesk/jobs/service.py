@@ -360,6 +360,18 @@ def fail(lease: Lease, code: str, message: str) -> None:
                 "error": json.dumps({"code": code, "message": message}),
             },
         ).rowcount
+        if changed and lease.kind == "ingestion" and code == "document_metadata_conflict":
+            connection.execute(
+                text("""
+                    UPDATE import_batches SET state='rejected',error=CAST(:error AS jsonb)
+                    WHERE tenant_id=:tenant AND id=:id
+                """),
+                {
+                    "tenant": lease.tenant_id,
+                    "id": lease.resource_id,
+                    "error": json.dumps({"code": code, "message": message}),
+                },
+            )
         if changed and lease.kind == "investigation":
             from evidencedesk.investigations.service import append_event
 

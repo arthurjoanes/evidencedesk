@@ -1,9 +1,39 @@
 from pathlib import PurePath
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, JsonValue, model_validator
+from pydantic import (
+    AwareDatetime,
+    BaseModel,
+    ConfigDict,
+    Field,
+    JsonValue,
+    ValidationInfo,
+    field_validator,
+    model_validator,
+)
 
 from evidencedesk.reconciliation.contracts import SourceCoverage
+
+
+class DocumentMetadata(BaseModel):
+    """Validate interpreted fields without discarding the manifest's extra metadata."""
+
+    model_config = ConfigDict(extra="ignore")
+    title: str | None = Field(default=None, min_length=1, max_length=300)
+    version: str | None = Field(default=None, min_length=1)
+    source_system: str | None = Field(default=None, min_length=1)
+    document_lineage: str | None = Field(default=None, min_length=1)
+    temporal_role: (
+        Literal["applicable_procedure", "historical_artifact", "retrospective_context"] | None
+    ) = None
+    valid_from: AwareDatetime | None = None
+    valid_until: AwareDatetime | None = None
+
+    @model_validator(mode="after")
+    def ordered_validity(self) -> "DocumentMetadata":
+        if self.valid_from and self.valid_until and self.valid_until <= self.valid_from:
+            raise ValueError("O fim da validade deve ser posterior ao início.")
+        return self
 
 
 class ManifestEntry(BaseModel):
@@ -15,6 +45,15 @@ class ManifestEntry(BaseModel):
     byte_size: int = Field(ge=1, le=10 * 1024 * 1024)
     sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
     metadata: dict[str, JsonValue] = Field(default_factory=dict)
+
+    @field_validator("metadata")
+    @classmethod
+    def document_metadata(
+        cls, value: dict[str, JsonValue], info: ValidationInfo
+    ) -> dict[str, JsonValue]:
+        if info.data.get("kind") == "document":
+            DocumentMetadata.model_validate(value)
+        return value
 
     @model_validator(mode="after")
     def allowed_file(self) -> "ManifestEntry":

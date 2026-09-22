@@ -10,6 +10,8 @@ python datasets/generate.py --output datasets/generated
 
 O padrão gera 30 incidentes, 90 documentos e aproximadamente 20 mil observações. Há seis pacotes independentes, três por tenant, com 18 arquivos importáveis cada. O limite por pacote permanece 40 entradas/40 MiB; nenhum arquivo excede 10 MiB. `index.json` e `incidents.json` ajudam o seed administrativo; não são evidências nem entradas do manifesto.
 
+Os procedimentos vigente e arquivado incluem o ID e o contexto sintético do próprio caso. Até a correção de 22/09/2026, casos diferentes podiam gerar os mesmos bytes com linhagens e validades distintas, e a importação conservava silenciosamente os primeiros metadados. Agora esse conflito é rejeitado. O seed não migra pacotes já publicados nem substitui um diretório gerado existente: para repetir a demonstração corrigida, gere os dados em um destino novo. Arquivos, snapshots e comprovantes anteriores não foram reescritos e não passam a provar retroativamente a nova semântica.
+
 Cada linha de events.jsonl segue `EventInput` em reconciliation/contracts.py. A API atribui tenant, evidence_id, ingested_at, hash do arquivo e número da linha. `occurred_at` e `observed_at` permanecem nulos quando desconhecidos. Mapeamentos explícitos em mappings.jsonl relacionam source_system + source_order_reference ao order_reference canônico.
 
 Snapshots CSV usam exatamente: source_system,snapshot_id,order_reference,status,as_of,source_timezone. A API acrescenta provenance; as_of nunca é substituído pela data do upload. JSONL não aceita campos desconhecidos. Payload limitado a 16 KiB.

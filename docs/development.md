@@ -9,11 +9,14 @@ Na raiz, em PowerShell:
 ```powershell
 python -m venv .venv
 .venv/Scripts/python.exe -m pip install --require-hashes -r backend/requirements-test.lock
+.venv/Scripts/python.exe -m pip install --require-hashes -r scripts/requirements-docs.lock
 $env:PYTHONPATH = (Join-Path (Get-Location).Path 'backend/src')
 $env:ED_AI_PROVIDER = 'disabled'
 ```
 
 Em Linux, use `.venv/bin/python` e `export PYTHONPATH="$PWD/backend/src"`. O [workflow](../.github/workflows/ci.yaml) contém a sequência Linux. `PYTHONPATH` evita depender de uma instalação editável vinculada a outra pasta.
+
+Os locks preservam as condições de plataforma: `uvloop` somente onde o fornecedor o suporta; `tzdata` e `colorama` também estão fixados para Windows. Ao regenerar os locks no Linux, conserve essas entradas e confira a instalação com hashes em um ambiente Windows novo. O job `windows-development` verifica esse percurso sem banco; as integrações reais permanecem no job Linux.
 
 ## Backend e operação
 
@@ -22,7 +25,7 @@ Em Linux, use `.venv/bin/python` e `export PYTHONPATH="$PWD/backend/src"`. O [wo
 .venv/Scripts/python.exe -m ruff format --check backend/src backend/tests scripts --config backend/pyproject.toml
 .venv/Scripts/python.exe -m mypy backend/src --config-file backend/pyproject.toml
 .venv/Scripts/python.exe -m unittest discover -s scripts -p 'test_*.py'
-python scripts/check_repository_docs.py
+.venv/Scripts/python.exe scripts/check_repository_docs.py
 ```
 
 A suíte completa exige PostgreSQL real. Prepare o namespace de teste:
@@ -84,6 +87,6 @@ Use uma instância nova para cada rodada completa; os limites de login continuam
 
 O [CI](runbooks/ci.md) também examina histórico Git e imagens runtime. Os relatórios conservam imagem, versão do scanner e data da base. Uma alteração de fonte exige novo build; a aprovação de uma imagem anterior não aprova outra.
 
-`check_repository_docs.py` verifica links locais contra arquivos que entram no Git. Capturas ignoradas, caminhos privados ou arquivos ausentes reprovam o check, mesmo que funcionem na máquina do autor. O comando não consulta links externos.
+`check_repository_docs.py` usa um parser CommonMark com tabelas, autolinks e tachado GFM para verificar links inline, por referência e HTML, imagens e âncoras de títulos/IDs. Capturas ignoradas, caminhos privados, arquivos ausentes ou âncoras inexistentes reprovam o check, mesmo que funcionem na máquina do autor. A comparação dos caminhos distingue maiúsculas de minúsculas também no Windows. O comando não consulta URLs externas; `--list-external` lista essas referências para revisão separada. Não substitui a inspeção visual do GitHub nem valida fragmentos específicos de PDF e código.
 
 Resultados: [verificação para publicação](publication.md) e [revisão de segurança](publication-security.md).

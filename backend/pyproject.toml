@@ -14,7 +14,11 @@ dependencies = [
   "openai==3.16.2", "pgvector>=0.4,<1", "pypdf>=6,<7",
   "prometheus-client>=0.22,<1", "opentelemetry-api>=1.35,<2",
   "opentelemetry-sdk>=1.35,<2", "opentelemetry-exporter-otlp-proto-http>=1.35,<2",
-  "azure-storage-blob>=12.25,<13", "azure-identity>=1.23,<2"
+  "azure-storage-blob>=12.25,<13", "azure-identity>=1.23,<2",
+  # Preserve upstream platform conditions when compiling locks on Linux.
+  "uvloop==0.22.1; sys_platform != 'win32' and sys_platform != 'cygwin' and platform_python_implementation != 'PyPy'",
+  "tzdata==2026.4; sys_platform == 'win32'",
+  "colorama==0.4.6; sys_platform == 'win32'"
 ]
 
 [project.optional-dependencies]
