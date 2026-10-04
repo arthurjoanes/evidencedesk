@@ -1,0 +1,6 @@
+python -m ruff check backend/src backend/tests scripts infra/observability/receiver.py --config backend/pyproject.toml
+All checks passed!
+python -m ruff format --check backend/src backend/tests scripts infra/observability/receiver.py --config backend/pyproject.toml
+152 files already formatted
+python -m mypy backend/src --config-file backend/pyproject.toml
+Success: no issues found in 75 source files

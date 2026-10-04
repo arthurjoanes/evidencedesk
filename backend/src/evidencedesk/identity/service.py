@@ -63,8 +63,9 @@ def authenticate(request: Request) -> Actor:
             SELECT u.id,u.tenant_id,u.name,u.role,t.name AS tenant_name,s.csrf_token,s.expires_at
             FROM sessions s JOIN users u ON u.id=s.user_id JOIN tenants t ON t.id=u.tenant_id
             WHERE s.token_hash=:token AND s.expires_at>now() AND u.enabled AND t.enabled
+              AND (:local OR lower(u.email) NOT LIKE '%.demo')
         """),
-                {"token": session_digest(token)},
+                {"token": session_digest(token), "local": get_settings().local_origins_only},
             )
             .mappings()
             .first()
@@ -89,8 +90,9 @@ def login(email: str, password: str, request: Request) -> tuple[str, Actor]:
                 text("""
             SELECT u.*,t.name AS tenant_name FROM users u JOIN tenants t ON t.id=u.tenant_id
             WHERE lower(u.email)=:email AND u.enabled AND t.enabled
+              AND (:local OR lower(u.email) NOT LIKE '%.demo')
         """),
-                {"email": email.casefold()},
+                {"email": email.casefold(), "local": get_settings().local_origins_only},
             )
             .mappings()
             .first()

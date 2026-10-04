@@ -22,7 +22,7 @@ Desenvolvi o EvidenceDesk para investigar casos em que o pagamento foi confirmad
 
 ![Página principal do EvidenceDesk](docs/readme/home.png)
 
-_Página principal do EvidenceDesk. Os registros abaixo identificam os cenários e resultados demonstrados._
+_Página principal do EvidenceDesk._
 
 ![Recorte da tabela: duas divergências do pedido PED-009-000](docs/images/workspace-desktop.png)
 
@@ -36,14 +36,14 @@ No caso `PED-009-000`, as [regras](backend/src/evidencedesk/reconciliation/rules
 4. Submeta a revisão para outra conta.
 5. Exporte a versão aprovada com as fontes da decisão.
 
-Na jornada registrada acima, a [consulta independente ao banco](docs/evidence/editorial-payment-20260922/provider-check.json) mostrou **zero chamadas ao provedor** antes e depois da execução. O [teste da jornada](frontend/e2e/payment-story.spec.ts) cobre esse percurso. A operação de contas distintas verifica o fluxo, sem constituir avaliação por participantes humanos.
+Na jornada registrada acima, a [consulta independente ao banco](docs/evidence/editorial-payment-20260922/provider-check.json) mostrou zero chamadas ao provedor antes e depois da execução. O [teste da jornada](frontend/e2e/payment-story.spec.ts) cobre esse percurso. Contas distintas testaram o fluxo; a execução não avaliou a qualidade da revisão humana.
 
 <a id="implementação"></a>
 <a id="arquitetura-e-escolhas"></a>
 
 ## Arquitetura
 
-O EvidenceDesk é um **monólito modular com dois processos de backend**: a API atende consultas e admite operações; o worker executa os trabalhos demorados. O desenho mostra o perfil local do [Compose](infra/compose/compose.yaml). O banco concentra domínio, fila e orçamento; os módulos internos e as transações estão detalhados no guia.
+O EvidenceDesk é um monólito modular com dois processos de backend: a API atende consultas e admite operações; o worker executa os trabalhos demorados. No perfil local do [Compose](infra/compose/compose.yaml), o banco concentra domínio, fila e orçamento.
 
 ```mermaid
 flowchart TB
@@ -77,7 +77,7 @@ Setas contínuas representam o caminho local; pontilhadas, integrações opciona
 | Fontes → decisão | O snapshot fixa o corpus; regras calculam divergências, e uma revisão imutável exige decisão de outra conta. | [Conciliação](backend/src/evidencedesk/reconciliation/rules.py), [revisões](backend/src/evidencedesk/reviews/service.py) |
 | Aplicação → IA | Busca lexical funciona sem ML; geração recebe fontes delimitadas e não aprova nem altera pedidos. | [Ferramentas de leitura](backend/src/evidencedesk/investigations/tools.py), [admissão de tokens](backend/src/evidencedesk/investigations/budget.py) |
 
-**Percurso principal:** manifesto e upload → extração → snapshot → incidente e conciliação → dossiê manual ou rascunho opcional → revisão por outra conta → exportação HTML autorizada. A interface acompanha geração por eventos SSE persistidos, retomáveis com `Last-Event-ID`.
+O percurso começa no manifesto e upload, passa por extração, snapshot, incidente e conciliação, e termina no dossiê revisado e na exportação HTML autorizada. O dossiê pode ser manual ou partir de um rascunho opcional. A interface acompanha geração por eventos SSE persistidos, retomáveis com `Last-Event-ID`.
 
 No perfil local, `db_data`, `evidence_data` e `deletion_ledger` são volumes distintos no mesmo host. O adaptador Blob e a infraestrutura Azure têm bloqueadores de implantação próprios. A [arquitetura detalhada](docs/architecture.md) descreve contratos entre módulos, sequência de importação, modelo de dados, falhas e observabilidade.
 
@@ -155,7 +155,7 @@ O [checker](scripts/check_repository_docs.py) verifica caminhos e âncoras locai
 
 ## Limites e segurança
 
-[Política de segurança e relato de vulnerabilidades](SECURITY.md) · [Modelo de ameaças](docs/threat-model.md) · [Scans das imagens](docs/publication-security.md).
+[Política de segurança e relato de vulnerabilidades](SECURITY.md) · [Modelo de ameaças](docs/threat-model.md) · [Scans das imagens](docs/publication-security.md) · [Revisão dos controles em 3 de outubro de 2026](docs/SECURITY-REVIEW-2026-10-03.md).
 
 A aplicação não corrige pedidos nem executa [ferramentas de escrita](backend/src/evidencedesk/investigations/tools.py) nos sistemas de origem. As permissões são verificadas fora do modelo. Uma chamada com resultado desconhecido conserva sua [reserva de tokens](backend/src/evidencedesk/investigations/budget.py); a contabilidade é de tokens, não uma tabela monetária.
 

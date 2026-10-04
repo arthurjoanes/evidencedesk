@@ -39,6 +39,10 @@ USERS = {
 
 def seed_identity() -> None:
     settings = get_settings()
+    if not settings.local_origins_only:
+        raise RuntimeError(
+            "As contas de demonstração só podem ser criadas com origens de loopback."
+        )
     if settings.migration_database_url is None:
         raise RuntimeError("O seed explícito exige ED_MIGRATION_DATABASE_URL.")
     owner_engine = create_engine(settings.migration_database_url.get_secret_value())

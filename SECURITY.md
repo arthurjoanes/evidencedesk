@@ -31,7 +31,8 @@ Não publique credenciais, dados pessoais, arquivos privados ou detalhes de expl
 | [Backup e restauração](docs/runbooks/backup-restore.md)          | Procedimento operacional e limites de recuperação                               |
 | [Workflow de CI](.github/workflows/ci.yaml)                      | Verificações automatizadas e seus escopos                                       |
 | [Configuração do Gitleaks](.gitleaks.toml)                       | Regras padrão e exceções delimitadas para valores comprovados                   |
+| [Revisão de outubro de 2026](docs/SECURITY-REVIEW-2026-10-03.md) | Checklist de controles, correções e verificações da fonte desta revisão |
 
-Um scan sem achados cobre a imagem e a base identificadas naquele relatório; não demonstra ausência universal de vulnerabilidades. O gate de API/frontend não cobre automaticamente ML, PostgreSQL ou observabilidade. Os testes e o backport de ML têm registros próprios. Esta política não constitui auditoria profissional ou certificação de produção.
+Um scan sem achados vale para a imagem e a base identificadas naquele relatório; vulnerabilidades fora desse recorte podem permanecer. O gate de API/frontend não cobre automaticamente ML, PostgreSQL ou observabilidade. Os testes e o backport de ML têm registros próprios. Esta política não constitui auditoria profissional ou certificação de produção.
 
 A localização deste arquivo segue a [documentação oficial de políticas de segurança do GitHub](https://docs.github.com/en/code-security/how-tos/report-and-fix-vulnerabilities/configure-vulnerability-reporting/add-security-policy).

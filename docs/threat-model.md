@@ -20,7 +20,7 @@ flowchart LR
   Worker --> OTel
 ```
 
-O proxy Next não é autoridade de negócio. Cookie, cursor, snapshot, ID de evidência e pedido do modelo nunca concedem permissão por si. O tenant deriva da sessão/ExecutionContext, não do corpo enviado pelo navegador ou da instrução recuperada.
+O backend decide as permissões. Cookie, cursor, snapshot, ID de evidência e pedido do modelo nunca concedem permissão por si. O tenant deriva da sessão/ExecutionContext; o corpo enviado pelo navegador e a instrução recuperada não podem escolhê-lo.
 
 ## Ameaças e controles verificáveis
 
@@ -44,10 +44,12 @@ O proxy Next não é autoridade de negócio. Cookie, cursor, snapshot, ID de evi
 
 ## Segredos e egress
 
-A chave Azure reside no runtime do backend; no host Windows há cópia DPAPI fora do Git/OneDrive. Administradores do host/daemon conseguem inspecionar o ambiente de containers: isso não é isolamento contra o dono da máquina. Não transportar `docker inspect` completo para evidências.
+A chave Azure reside no runtime do backend; no host Windows há cópia DPAPI fora do Git/OneDrive. Administradores do host/daemon conseguem inspecionar o ambiente de containers; o controle dos segredos depende da confiança nesses administradores. Não transportar `docker inspect` completo para evidências.
 
 O endpoint de geração é allowlist HTTPS explícita. O serviço ML usa host interno fixo, token próprio, `trust_env=False` e não baixa pesos implicitamente. O armazenamento Blob preparado aceita nome de conta validado e Managed Identity, sem SAS público; não está conectado ao ciclo local de GC/ledger.
 
 ## Pendências antes de exposição pública
+
+Origens fora de loopback exigem HTTPS, cookie Secure, segredos próprios de métricas e cursor com ao menos 32 caracteres e senha do banco diferente da demonstração. A configuração inválida interrompe a inicialização. O seed recusa criar as contas públicas de demonstração quando há uma origem externa; contas `.demo` e suas sessões existentes também deixam de autorizar o acesso nesse perfil. Esses controles têm regressões em `backend/tests/unit/test_runtime_security.py` e `backend/tests/integration/test_remote_identity.py`, com resultados na [revisão datada](SECURITY-REVIEW-2026-10-03.md).
 
 Não expor os defaults de demonstração. O perfil hospedado requer identidade corporativa/TLS, revisão da rede/egress, rotação e RBAC, validação do armazenamento compartilhado e recuperação de desastre fora do host. Upload/limpeza remoto precisam de quarentena durável de I/O para preservar quota e fencing sem segurar conexão de banco durante rede. Não substituir isso por um mount no disco efêmero do container.

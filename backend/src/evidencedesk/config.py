@@ -1,10 +1,13 @@
 import re
 from functools import lru_cache
+from ipaddress import ip_address
 from pathlib import Path
 from typing import Literal
+from urllib.parse import urlsplit
 
-from pydantic import Field, SecretStr
+from pydantic import Field, SecretStr, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from sqlalchemy.engine import make_url
 
 AZURE_HOST_PATTERN = (
     r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.(?:openai\.azure\.com|services\.ai\.azure\.com)"
@@ -35,7 +38,7 @@ def authorize_azure_base_url(value: str, allowed_hosts: str) -> str:
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_prefix="ED_", extra="ignore")
+    model_config = SettingsConfigDict(env_prefix="ED_", extra="ignore", hide_input_in_errors=True)
 
     database_url: SecretStr = SecretStr(
         "postgresql+psycopg://ed_app:ed_app_local_demo@127.0.0.1:5546/evidencedesk"
@@ -76,6 +79,57 @@ class Settings(BaseSettings):
     cursor_secret: SecretStr = SecretStr("local-only-change-before-non-loopback")
     retrieval_mode: Literal["lexical", "hybrid", "hybrid_reranked"] = "lexical"
     model_service_token: SecretStr = SecretStr("")
+
+    @model_validator(mode="after")
+    def secure_remote_runtime(self) -> "Settings":
+        if not self.origins:
+            raise ValueError("Configure ao menos uma origem explícita.")
+        remote = False
+        for origin in self.origins:
+            parsed = urlsplit(origin)
+            # An Origin contains only scheme, host and optional port.
+            if (
+                parsed.scheme not in {"http", "https"}
+                or not parsed.hostname
+                or parsed.username is not None
+                or parsed.password is not None
+                or parsed.path
+                or parsed.query
+                or parsed.fragment
+            ):
+                raise ValueError("Configure origens HTTP ou HTTPS sem caminho ou credenciais.")
+            _ = parsed.port  # Reject malformed ports before any service starts.
+            if not self.loopback_host(parsed.hostname):
+                remote = True
+                if parsed.scheme != "https":
+                    raise ValueError("Origens fora de loopback exigem HTTPS.")
+            if parsed.scheme == "https" and not self.cookie_secure:
+                raise ValueError("Origens HTTPS exigem ED_COOKIE_SECURE=true.")
+        if remote:
+            for value, default in (
+                (self.metrics_token.get_secret_value(), "ed_metrics_local_demo"),
+                (self.cursor_secret.get_secret_value(), "local-only-change-before-non-loopback"),
+            ):
+                if value == default or len(value.strip()) < 32:
+                    raise ValueError(
+                        "Fora de loopback, configure segredos próprios de 32 caracteres ou mais."
+                    )
+            if make_url(self.database_url.get_secret_value()).password == "ed_app_local_demo":
+                raise ValueError("Fora de loopback, substitua a senha de demonstração do banco.")
+        return self
+
+    @staticmethod
+    def loopback_host(host: str) -> bool:
+        if host == "localhost":
+            return True
+        try:
+            return ip_address(host).is_loopback
+        except ValueError:
+            return False
+
+    @property
+    def local_origins_only(self) -> bool:
+        return all(self.loopback_host(urlsplit(origin).hostname or "") for origin in self.origins)
 
     @property
     def origins(self) -> set[str]:

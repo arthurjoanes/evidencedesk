@@ -1,0 +1,41 @@
+{
+  "stats": {
+    "startTime": "2026-10-03T23:54:14.638Z",
+    "duration": 12443.48,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "checks": {
+    "browser_version": "154.0.4258.53",
+    "scenario": "Synthetic seeded pending-payment incident; live UI/API, no provider generation",
+    "human_evaluation": false,
+    "seed_incident_id": "demo-aurora-09",
+    "source_snapshot_unchanged_from_seed": true,
+    "order_reference": "PED-009-000",
+    "self_review_status": 403,
+    "reconciliation_unchanged_after_review": true,
+    "original_downloads_match_declared_hash_and_size": true,
+    "generation_posts": 0,
+    "page_errors": [],
+    "limitations": [
+      "Automated use of distinct accounts is not human semantic review.",
+      "Approval closes the investigation, not the operational payment mismatch.",
+      "No source revocation, restore, paid generation or performance measurement in this journey."
+    ]
+  },
+  "export": {
+    "status": 200,
+    "sha256": "c01ba0f6fd3a3641d41c900844c69121f50fc77a1778ecb49e011601e1ae3290",
+    "bytes": 10946
+  },
+  "raw_results_sha256": "257165455482a25a5ed4f3cdd521f9cb060f7f80e388a59a33fce4d417cb55a3",
+  "raw_story_sha256": "b3d5cf5b6bee5f0fe480eb6d7949bf17700e7e5165b4dbc0cfb47432f8a6bd9a",
+  "previous_attempt": {
+    "unexpected": 1,
+    "reason": "Same account had reached its ten-admission limit during the immediately preceding CI suite.",
+    "fixture_preparation": "Reset login counters only in verified disposable project, without changing runtime limits.",
+    "private_results_sha256": "6e468b5190e78dc1fef124d8eec6989ed258a6a9f3d87f5293c9b8ce71fedb29"
+  }
+}

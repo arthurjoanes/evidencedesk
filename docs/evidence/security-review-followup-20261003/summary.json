@@ -1,0 +1,128 @@
+{
+  "date": "2026-10-03",
+  "reason": "Continuation checks against repository CI; required compatibility fixes and omitted Linux conditions.",
+  "ci_fix": {
+    "file": ".github/workflows/ci.yaml",
+    "database_password": "explicit fixture credential shared by Compose and three connection URLs",
+    "remote_identity_tests": 3,
+    "failures": 0,
+    "skipped": 0,
+    "database_port": 5547,
+    "database_container_removed": true
+  },
+  "scripts_linux": {
+    "total": 88,
+    "passed": 81,
+    "skipped": 7,
+    "skip_reason": "Windows PowerShell/DPAPI-specific cases",
+    "symlink_cases_passed": 2,
+    "container_removed": true
+  },
+  "previous_scripts_windows": {
+    "total": 88,
+    "passed": 86,
+    "skipped": 2,
+    "combined_platform_specific_cases_covered": true
+  },
+  "quality": {
+    "ruff_lint": "passed",
+    "ruff_format": "152 files",
+    "mypy": "75 source files with CI configuration"
+  },
+  "runtime_source_or_images_changed": false,
+  "source_sha256": {
+    ".github/workflows/ci.yaml": "6c2186bbc67ce19ed2160eb98f4f36005cdd709bfc436856dd0e2b51a214a700",
+    "datasets/generate.py": "24714770fb021f4943aa16ee67b7508e38fad724cd8605541ca871b5983a35d6",
+    "frontend/playwright.config.ts": "f9969b092ed7a0797335c6bc313762ea6e9453ecf65af87f228b11232bddab75",
+    "frontend/e2e/accessibility.spec.ts": "9c2ec514d3f5c59e913c0889733c0f8340ff25cfb1303cc2e2e94565830bd8fe",
+    "frontend/e2e/controlled-states.spec.ts": "6f036dc40a32d5338a1ae364384636cb263a7d33fb1a17f72623f64bd8db8c43",
+    "frontend/e2e/existing-run.spec.ts": "d3dbd50bac310910b2ad0c84157cb630babf7471ea1d1605ab0b8b8be8bb81f6",
+    "frontend/e2e/import-pdf.spec.ts": "6d16390635b78ba62a32e62fe1a41482a5db513a58a3480336dd57545520df76",
+    "frontend/e2e/index-capability.spec.ts": "5ee5260fd08c2d0b7686386a7059cbdd16b67b5eaa4d4290447cb21fc1e5a99d",
+    "frontend/e2e/investigation.spec.ts": "542290ab257d405c877a8a9c657888aa73d5b2331cad007198e641705d483f08",
+    "frontend/e2e/json-syntax.spec.ts": "f42ed90dd91a5aca2126a68e1cb291f21fc1d70d28990299511dea2e88f27414",
+    "frontend/e2e/logout.spec.ts": "3bbfa3ceb5815ee4fb71ee8c7a209551c61836f6367ed847a216e2118f692c5c",
+    "frontend/e2e/payment-story.spec.ts": "4a5559071d62ff181235aa17ee413d984ed32db4c51720114817d92b2ba6e358",
+    "frontend/e2e/pdf-fixture.ts": "27de4bd7de98d9b46e82dbd1c3563956ffabfff2928a20059cf298776ff3f652",
+    "frontend/e2e/protected-source.spec.ts": "ca2a15d41a6d9282089c31b2685ff48c5995db95ed8a41fd6f59ad3eb5d43487",
+    "frontend/e2e/publication-regressions.spec.ts": "3b453c81ade5f8e751281f31907d635997a2b720af59aea79082cd78f4f44625",
+    "frontend/e2e/restore-read.spec.ts": "1da8e8b971799196b1709949a7cd605de96f9f023c151f6c2d1c9b353df558c4",
+    "frontend/e2e/review-regressions.spec.ts": "90f782f60067afb9e3e7ec3dc4313458121daa1de5e874e1fb01e3bcf4f4bbf3",
+    "frontend/e2e/session-revalidation.spec.ts": "bb12ba557da6d42979269ded34dd7de6ff05b8f04ff283a599e7bbe8b606c91b",
+    "frontend/e2e/session.ts": "bb4753db91719b921e495b6279b677c873f97555d6f700fe838ea554976de0e1",
+    "frontend/e2e/visual.spec.ts": "4c5a08d69697f3d2b29bb0e302c9550e459363800524ffdb86b1ca7e03467a1e"
+  },
+  "artifacts_sha256": {
+    "ci-identity.xml": "04fe912605abd7530b7f18e9dc8453215d214c844ae6f833f3555542b0466af7",
+    "quality.log": "619fd3079794925e93f6a5f9ca9275f74d806b8cbb380c779cf284712aff01ba",
+    "script-tests-linux.log": "3e117443758c25cec22bb1506c1a50e24cced9fdf0fd2e62421be5dcfd32efad",
+    "browser.json": "22c922422ebf141b7fff17c2b20f1092dfaf3700d04b08021e740ef4ab67651a",
+    "payment-story.json": "e2afb549b7df6ae86a2e46c047fd8946a5241583bec1f2e919c0113f96fc629a",
+    "gitleaks-publicable.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+  },
+  "browser": {
+    "ci_passed": 13,
+    "ci_skipped": 5,
+    "ci_unexpected": 0,
+    "ci_flaky": 0,
+    "independent_payment_passed": 1,
+    "remaining_conditional_cases_not_run": 4,
+    "browser": "Edge 154.0.4258.53 headless",
+    "playwright": "1.63.0",
+    "workers": 1,
+    "retries": 0,
+    "images": {
+      "api": "sha256:487e3c996ef9aaf04831388585700d3bf23cbb432acb6de01ff1abc69ed8e444",
+      "frontend": "sha256:46aeb8d5d63ef2e49c300c3ebfd9dbe585e0b772681f5ee2190956e3114df0fe"
+    },
+    "namespace": "pf-evidencedesk-e2e-security-cont-20261003",
+    "containers_networks_volumes_remaining": 0,
+    "volumes_removed": 4,
+    "ai_provider": "disabled",
+    "model_calls": 0,
+    "old_generated_dataset_preserved": true,
+    "old_dataset_rejected_code": "document_metadata_conflict",
+    "current_dataset_generated_outside_repository": true,
+    "initial_local_index_sha256": "fd71ac60e3d2126917278afdea1e5f95b24d7a414e2ee8ff437c0eff82923365",
+    "current_generated_index_sha256": "fd71ac60e3d2126917278afdea1e5f95b24d7a414e2ee8ff437c0eff82923365",
+    "image_identity_note": "Recorded Docker image IDs identify OCI indexes, with matching Trivy configuration digests documented in the first-round summary."
+  },
+  "gitleaks_final_publicable": {
+    "findings": 0,
+    "files": 715,
+    "selection": "git ls-files --cached --others --exclude-standard",
+    "relative_path_snapshot": true,
+    "scanner": "8.30.1"
+  },
+  "source_hash_representation": "Original reviewed worktree bytes; published Git may normalize line endings according to .gitattributes.",
+  "publication_source_git_blob_sha256": {
+    ".github/workflows/ci.yaml": "6c2186bbc67ce19ed2160eb98f4f36005cdd709bfc436856dd0e2b51a214a700",
+    "datasets/generate.py": "24714770fb021f4943aa16ee67b7508e38fad724cd8605541ca871b5983a35d6",
+    "frontend/playwright.config.ts": "f9969b092ed7a0797335c6bc313762ea6e9453ecf65af87f228b11232bddab75",
+    "frontend/e2e/accessibility.spec.ts": "9c2ec514d3f5c59e913c0889733c0f8340ff25cfb1303cc2e2e94565830bd8fe",
+    "frontend/e2e/controlled-states.spec.ts": "6f036dc40a32d5338a1ae364384636cb263a7d33fb1a17f72623f64bd8db8c43",
+    "frontend/e2e/existing-run.spec.ts": "d3dbd50bac310910b2ad0c84157cb630babf7471ea1d1605ab0b8b8be8bb81f6",
+    "frontend/e2e/import-pdf.spec.ts": "6d16390635b78ba62a32e62fe1a41482a5db513a58a3480336dd57545520df76",
+    "frontend/e2e/index-capability.spec.ts": "5ee5260fd08c2d0b7686386a7059cbdd16b67b5eaa4d4290447cb21fc1e5a99d",
+    "frontend/e2e/investigation.spec.ts": "542290ab257d405c877a8a9c657888aa73d5b2331cad007198e641705d483f08",
+    "frontend/e2e/json-syntax.spec.ts": "f42ed90dd91a5aca2126a68e1cb291f21fc1d70d28990299511dea2e88f27414",
+    "frontend/e2e/logout.spec.ts": "3bbfa3ceb5815ee4fb71ee8c7a209551c61836f6367ed847a216e2118f692c5c",
+    "frontend/e2e/payment-story.spec.ts": "4a5559071d62ff181235aa17ee413d984ed32db4c51720114817d92b2ba6e358",
+    "frontend/e2e/pdf-fixture.ts": "27de4bd7de98d9b46e82dbd1c3563956ffabfff2928a20059cf298776ff3f652",
+    "frontend/e2e/protected-source.spec.ts": "ca2a15d41a6d9282089c31b2685ff48c5995db95ed8a41fd6f59ad3eb5d43487",
+    "frontend/e2e/publication-regressions.spec.ts": "3b453c81ade5f8e751281f31907d635997a2b720af59aea79082cd78f4f44625",
+    "frontend/e2e/restore-read.spec.ts": "1da8e8b971799196b1709949a7cd605de96f9f023c151f6c2d1c9b353df558c4",
+    "frontend/e2e/review-regressions.spec.ts": "90f782f60067afb9e3e7ec3dc4313458121daa1de5e874e1fb01e3bcf4f4bbf3",
+    "frontend/e2e/session-revalidation.spec.ts": "bb12ba557da6d42979269ded34dd7de6ff05b8f04ff283a599e7bbe8b606c91b",
+    "frontend/e2e/session.ts": "bb4753db91719b921e495b6279b677c873f97555d6f700fe838ea554976de0e1",
+    "frontend/e2e/visual.spec.ts": "4c5a08d69697f3d2b29bb0e302c9550e459363800524ffdb86b1ca7e03467a1e"
+  },
+  "publication_artifact_git_blob_sha256": {
+    "docs/evidence/security-review-followup-20261003/browser.json": "0778e6e17731cb2e863d827fc414714e6738a3c9586c04a98d9e00406e6669a0",
+    "docs/evidence/security-review-followup-20261003/ci-identity.xml": "04fe912605abd7530b7f18e9dc8453215d214c844ae6f833f3555542b0466af7",
+    "docs/evidence/security-review-followup-20261003/gitleaks-publicable.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "docs/evidence/security-review-followup-20261003/payment-story.json": "afeb7ce34e5468eb33cbdd013296bd8c95370d14a305303b1bd8d0e14aed0eaf",
+    "docs/evidence/security-review-followup-20261003/quality.log": "759ebc8b4682fb09509da4b42c95d08b0142305a899d5183ed5695e12da02a34",
+    "docs/evidence/security-review-followup-20261003/script-tests-linux.log": "8c569f930b920c87f1df40bc5343c3e4f9d316956595b726d4f0ba61a25e8edf"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "api_live": {
+    "status": 200,
+    "expected": 200,
+    "passed": true,
+    "nosniff": "nosniff",
+    "cache_control": "no-store"
+  },
+  "api_ready": {
+    "status": 200,
+    "expected": 200,
+    "passed": true,
+    "nosniff": "nosniff",
+    "cache_control": "no-store"
+  },
+  "frontend": {
+    "status": 200,
+    "expected": 200,
+    "passed": true,
+    "nosniff": "nosniff",
+    "cache_control": "private, no-store",
+    "csp_present": true
+  },
+  "proxy_live": {
+    "status": 200,
+    "expected": 200,
+    "passed": true,
+    "nosniff": "nosniff",
+    "cache_control": "no-store"
+  },
+  "anonymous_session": {
+    "status": 401,
+    "expected": 401,
+    "passed": true,
+    "nosniff": "nosniff",
+    "cache_control": "no-store"
+  }
+}
