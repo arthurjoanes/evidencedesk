@@ -57,6 +57,8 @@ def problem_response(
 
 
 def create_app() -> FastAPI:
+    get_settings()  # Reject unsafe runtime configuration before accepting requests.
+
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         setup_telemetry("evidencedesk-api")

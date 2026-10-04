@@ -57,14 +57,15 @@ jobs:
     timeout-minutes: 20
     env:
       PYTHONPATH: backend/src
-      ED_DATABASE_URL: postgresql+psycopg://ed_app:ed_app_local_demo@127.0.0.1:5546/evidencedesk
+      ED_DB_APP_PASSWORD: fixture-app
+      ED_DATABASE_URL: postgresql+psycopg://ed_app:fixture-app@127.0.0.1:5546/evidencedesk
       ED_MIGRATION_DATABASE_URL: postgresql+psycopg://ed_owner:ed_owner_local_demo@127.0.0.1:5546/evidencedesk
-      ED_TEST_DATABASE_URL: postgresql+psycopg://ed_app:ed_app_local_demo@127.0.0.1:5547/evidencedesk
+      ED_TEST_DATABASE_URL: postgresql+psycopg://ed_app:fixture-app@127.0.0.1:5547/evidencedesk
       ED_TEST_ADMIN_DATABASE_URL: postgresql+psycopg://postgres:ed_admin_local_demo@127.0.0.1:5547/evidencedesk
       ED_AI_PROVIDER: disabled
       ED_STORAGE_ROOT: /tmp/evidencedesk-ci/objects
       ED_DELETION_LEDGER_ROOT: /tmp/evidencedesk-ci/ledger
-      ED_MAINTENANCE_TEST_DATABASE_URL: postgresql+psycopg://ed_app:ed_app_local_demo@127.0.0.1:5547/evidencedesk
+      ED_MAINTENANCE_TEST_DATABASE_URL: postgresql+psycopg://ed_app:fixture-app@127.0.0.1:5547/evidencedesk
       ED_MAINTENANCE_TEST_OWNER_URL: postgresql+psycopg://ed_owner:ed_owner_local_demo@127.0.0.1:5547/evidencedesk
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

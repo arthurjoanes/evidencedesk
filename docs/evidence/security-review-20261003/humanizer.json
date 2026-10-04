@@ -1,0 +1,48 @@
+{
+  "skill": "humanizer 3.1.0",
+  "mode": "file",
+  "date": "2026-10-03",
+  "workflow": [
+    "leitura integral",
+    "identificacao de padroes e reescrita",
+    "conferencia de fatos e elementos protegidos",
+    "releitura final"
+  ],
+  "files": [
+    {
+      "file": "README.md",
+      "fenced_blocks_identical": true,
+      "existing_link_targets_preserved": true,
+      "sha256": "6a206ae50c7da184c0c52a683a4292e3ae542ec1096b5b7c776e33be9eef236d",
+      "existing_inline_code_preserved": true,
+      "reviewed_worktree_sha256": "6a206ae50c7da184c0c52a683a4292e3ae542ec1096b5b7c776e33be9eef236d",
+      "sha256_representation": "Published Git blob after configured text normalization"
+    },
+    {
+      "file": "SECURITY.md",
+      "fenced_blocks_identical": true,
+      "existing_link_targets_preserved": true,
+      "sha256": "83cf6803274f59eba9c2ef4e9df51b3010ad3280c81ee17fdba48358d96cc011",
+      "existing_inline_code_preserved": true,
+      "reviewed_worktree_sha256": "83cf6803274f59eba9c2ef4e9df51b3010ad3280c81ee17fdba48358d96cc011",
+      "sha256_representation": "Published Git blob after configured text normalization"
+    },
+    {
+      "file": "docs/threat-model.md",
+      "fenced_blocks_identical": true,
+      "existing_link_targets_preserved": true,
+      "sha256": "39aaf25b4d6c4bef3e49583bf5b97bab8a6358b18ae3ffbe83fbd8911321b664",
+      "existing_inline_code_preserved": true,
+      "reviewed_worktree_sha256": "39aaf25b4d6c4bef3e49583bf5b97bab8a6358b18ae3ffbe83fbd8911321b664",
+      "sha256_representation": "Published Git blob after configured text normalization"
+    },
+    {
+      "file": "docs/SECURITY-REVIEW-2026-10-03.md",
+      "new_report": true,
+      "sha256": "da27f4bd1de98c25bb8ced89ada90914c0e1b17a107903dbaf897cb0e42c6c0a",
+      "reviewed_worktree_sha256": "da27f4bd1de98c25bb8ced89ada90914c0e1b17a107903dbaf897cb0e42c6c0a",
+      "sha256_representation": "Published Git blob after configured text normalization"
+    }
+  ],
+  "continuation_review": "New CI and browser evidence read, checked against receipts, rewritten and reread; previous facts and link targets preserved."
+}

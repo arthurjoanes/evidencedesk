@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-03",
+  "baseline_git_sha": "89add40d0dd8341e7135d2cff32f957f82f15beb",
+  "scope": "Initial pre-publication validation: working tree security corrections; synthetic local tests; no Azure provider requests.",
+  "backend": {
+    "passed": 298,
+    "skipped": 0
+  },
+  "frontend": {
+    "passed": 66,
+    "typecheck": "passed",
+    "lint": "passed",
+    "build_host": "passed",
+    "build_docker": "passed"
+  },
+  "scripts": {
+    "total": 88,
+    "passed": 86,
+    "skipped": 2,
+    "platform": "Windows Python 3.11"
+  },
+  "runtime_vulnerability_scans": {
+    "api": 0,
+    "frontend": 0,
+    "scanner": "Trivy 0.74.0",
+    "database": {
+      "Version": 2,
+      "NextUpdate": "2026-10-04T19:02:38.737369504Z",
+      "UpdatedAt": "2026-10-03T19:02:38.737369755Z",
+      "DownloadedAt": "2026-10-03T22:33:41.370315008Z"
+    },
+    "api_image_id": "sha256:487e3c996ef9aaf04831388585700d3bf23cbb432acb6de01ff1abc69ed8e444",
+    "frontend_image_id": "sha256:46aeb8d5d63ef2e49c300c3ebfd9dbe585e0b772681f5ee2190956e3114df0fe",
+    "image_identity_note": "Docker image IDs identify OCI indexes in this image store; Trivy Metadata.ImageID identifies the platform image configuration inside the saved archive.",
+    "trivy_configuration_digests": {
+      "api": "sha256:915be37b2469e41db580a38ad076a79fb2d51882c159340a268f35a60cb86494",
+      "frontend": "sha256:09dc4daa668582e49228bd2b2ff218aef65a50c37ec05c4a84f3c3811e737806"
+    },
+    "archive_config_correspondence_verified": true
+  },
+  "dependency_audits": {
+    "backend_runtime": "No known vulnerabilities",
+    "backend_test": "No known vulnerabilities",
+    "npm_production": 0,
+    "npm_full": {
+      "high": 5,
+      "root_advisory": "GHSA-vfj7-8cjw-p6xm",
+      "root_package": "braces@3.0.3",
+      "patched_version_available": false
+    }
+  },
+  "gitleaks_history": {
+    "commits": 23,
+    "findings": 0
+  },
+  "source_sha256": {
+    "backend/src/evidencedesk/config.py": "ef55f4d07da032bdb86ed9d0a6e28e5557f76e31e32f278b4c2d20e719b7d797",
+    "backend/src/evidencedesk/app.py": "0d357bed35e3b267f3c240954ba85a178dd5bb8a609f4afcfe7313a6e414367f",
+    "backend/src/evidencedesk/seed.py": "cd18018527392972a2954d604fc7641f6d3afb37c2315a487f72c4b9e5f8f5d0",
+    "backend/tests/unit/test_runtime_security.py": "a772ac39a17740625a04e299cf90aa1ce6b858ea5b6d53a37bf950c2a9ebde22",
+    "backend/requirements.lock": "69a6c27aab722b7292681275d773b3a0af7b4ba21888c3f250a46c5f93452ec3",
+    "backend/requirements-test.lock": "616dcbb39a07c15e53445feae7f6e674a7ca8bc84b68cedb9d9c3fb6e01eeed3",
+    "frontend/package.json": "4b5c351d9d90fcaaadc021ebe2b2757c3da1faaa1d2c088398ad49437bd624c0",
+    "frontend/package-lock.json": "320c636d72b8375ec454335e0e220c2d256e756c7772aeb426a3312280a0bd9d",
+    "frontend/Dockerfile": "a828f638471e02cbe25234b01e2209be55d58b54e89bf83c9ca378dedc6a60ab",
+    "backend/src/evidencedesk/identity/service.py": "881d0f66259b68b4c94d79ba438766dc7d89c2382b58a8eae6bdb4642beb2a5a",
+    "backend/tests/integration/test_remote_identity.py": "9d037662cf4a75a75ce6213ce659952f3a721225aa8f8233dbaf829322d3a8e1"
+  },
+  "gitleaks_publicable": {
+    "findings": 0,
+    "selection": "git ls-files --cached --others --exclude-standard"
+  },
+  "runtime_smoke": {
+    "passed": 5,
+    "api_health": "200 live and ready",
+    "frontend": "200",
+    "proxy_health": "200",
+    "anonymous_session": "401"
+  },
+  "humanizer": {
+    "version": "3.1.0",
+    "files": [
+      "README.md",
+      "SECURITY.md",
+      "docs/threat-model.md",
+      "docs/SECURITY-REVIEW-2026-10-03.md"
+    ]
+  },
+  "cleanup": {
+    "test_containers_removed": [
+      "security-ed-ui-20261003",
+      "security-ed-api-20261003",
+      "security-ed-db-20261003"
+    ],
+    "demo_resources_modified": false
+  },
+  "identity_transition_regressions": {
+    "passed": 3,
+    "scope": "Existing demo login and session blocked for external origins; non-demo identity and Secure cookie accepted."
+  },
+  "source_hash_representation": "Original reviewed worktree bytes; published Git may normalize line endings according to .gitattributes.",
+  "publication_source_git_blob_sha256": {
+    "backend/src/evidencedesk/config.py": "ef55f4d07da032bdb86ed9d0a6e28e5557f76e31e32f278b4c2d20e719b7d797",
+    "backend/src/evidencedesk/app.py": "0d357bed35e3b267f3c240954ba85a178dd5bb8a609f4afcfe7313a6e414367f",
+    "backend/src/evidencedesk/seed.py": "cd18018527392972a2954d604fc7641f6d3afb37c2315a487f72c4b9e5f8f5d0",
+    "backend/tests/unit/test_runtime_security.py": "a772ac39a17740625a04e299cf90aa1ce6b858ea5b6d53a37bf950c2a9ebde22",
+    "backend/requirements.lock": "69a6c27aab722b7292681275d773b3a0af7b4ba21888c3f250a46c5f93452ec3",
+    "backend/requirements-test.lock": "616dcbb39a07c15e53445feae7f6e674a7ca8bc84b68cedb9d9c3fb6e01eeed3",
+    "frontend/package.json": "4b5c351d9d90fcaaadc021ebe2b2757c3da1faaa1d2c088398ad49437bd624c0",
+    "frontend/package-lock.json": "320c636d72b8375ec454335e0e220c2d256e756c7772aeb426a3312280a0bd9d",
+    "frontend/Dockerfile": "fe0c119ad0ced9c11c65fc23fc26eb591ca1af7c2b9c913498d022ef68a32550",
+    "backend/src/evidencedesk/identity/service.py": "881d0f66259b68b4c94d79ba438766dc7d89c2382b58a8eae6bdb4642beb2a5a",
+    "backend/tests/integration/test_remote_identity.py": "9d037662cf4a75a75ce6213ce659952f3a721225aa8f8233dbaf829322d3a8e1"
+  },
+  "publication_artifact_git_blob_sha256": {
+    "docs/evidence/security-review-20261003/api-vulnerabilities.json": "d8fbc073e47d098928aee467e4a5572c687d2b082000ecd9f2be1d14fd2f090e",
+    "docs/evidence/security-review-20261003/backend.xml": "a852ff02fbdfef71c65d86628cec0e850d5e088294bf3e15bce17e3faeba9cc9",
+    "docs/evidence/security-review-20261003/frontend-vulnerabilities.json": "de13893c409f2fb29b0623e93de74e0ddeb202e0221404cf6259149b89af1a83",
+    "docs/evidence/security-review-20261003/gitleaks-publicable.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "docs/evidence/security-review-20261003/npm-full.json": "b09df05288c7a05a1d87b4e698ebbe7e8fe7774e4d6ff964e288767e6a1f10e5",
+    "docs/evidence/security-review-20261003/runtime-smoke.json": "fdd585b643ea548946b95da54440400dcc7356744dc20262eb445bbc937ae838"
+  }
+}

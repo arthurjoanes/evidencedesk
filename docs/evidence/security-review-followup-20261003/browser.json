@@ -1,0 +1,280 @@
+{
+  "browser": "Microsoft Edge 154.0.4258.53 headless",
+  "playwright": "1.63.0",
+  "workers": 1,
+  "retries": 0,
+  "stats": {
+    "startTime": "2026-10-03T23:51:54.024Z",
+    "duration": 48705.583,
+    "expected": 13,
+    "skipped": 5,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "file": "accessibility.spec.ts",
+      "name": "WCAG automated checks, keyboard resizing and unique script nonces",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 10270,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    },
+    {
+      "file": "controlled-states.spec.ts",
+      "name": "controlled transport failures never become empty or successful results",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 1347,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    },
+    {
+      "file": "existing-run.spec.ts",
+      "name": "read an existing real generation without admitting a new job",
+      "status": "skipped",
+      "expected_status": "skipped",
+      "runs": [
+        {
+          "status": "skipped",
+          "duration_ms": 190,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": [
+        "Requires an explicitly provided, already completed laboratory run."
+      ]
+    },
+    {
+      "file": "import-pdf.spec.ts",
+      "name": "isolated real PDF import, canonical text and original rendering",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 5606,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    },
+    {
+      "file": "index-capability.spec.ts",
+      "name": "controlled indexing capability: disabled, bounded admission, failure and invalid coverage",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 2552,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    },
+    {
+      "file": "investigation.spec.ts",
+      "name": "real session, bounded evidence reader, keyboard return and responsive queue",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 1881,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    },
+    {
+      "file": "investigation.spec.ts",
+      "name": "manual abstention, independent review and authorized export",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 8665,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    },
+    {
+      "file": "json-syntax.spec.ts",
+      "name": "JSON colors preserve the canonical source and readable view",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 2455,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    },
+    {
+      "file": "logout.spec.ts",
+      "name": "account switch waits for a pending real logout before navigation",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 1089,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    },
+    {
+      "file": "payment-story.spec.ts",
+      "name": "payment story: two real sources, manual dossier and independent review",
+      "status": "skipped",
+      "expected_status": "skipped",
+      "runs": [
+        {
+          "status": "skipped",
+          "duration_ms": 181,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": [
+        "Requires an explicitly prepared, disposable EvidenceDesk E2E project."
+      ]
+    },
+    {
+      "file": "protected-source.spec.ts",
+      "name": "reopened source waits for current authorization and hides cached text after denial",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 2206,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    },
+    {
+      "file": "publication-regressions.spec.ts",
+      "name": "paginated collection selection, accessible validation and frozen in-flight forms",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 4868,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    },
+    {
+      "file": "restore-read.spec.ts",
+      "name": "ED03 approved: capture an existing approved revision and its real source",
+      "status": "skipped",
+      "expected_status": "skipped",
+      "runs": [
+        {
+          "status": "skipped",
+          "duration_ms": 1,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": [
+        "Requires existing approved and conflict dossier cases."
+      ]
+    },
+    {
+      "file": "restore-read.spec.ts",
+      "name": "ED03 conflict: real concurrent revision returns 409 and preserves the editor draft",
+      "status": "skipped",
+      "expected_status": "skipped",
+      "runs": [
+        {
+          "status": "skipped",
+          "duration_ms": 1,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": [
+        "Requires an existing dedicated edit-conflict case."
+      ]
+    },
+    {
+      "file": "restore-read.spec.ts",
+      "name": "restore read: surviving incident and reconciled erasures through real UI and API",
+      "status": "skipped",
+      "expected_status": "skipped",
+      "runs": [
+        {
+          "status": "skipped",
+          "duration_ms": 0,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": [
+        "Requires the runner's verified restore case."
+      ]
+    },
+    {
+      "file": "review-regressions.spec.ts",
+      "name": "review regressions: queue context, successive navigation, form errors and revoked editor",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 1483,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    },
+    {
+      "file": "session-revalidation.spec.ts",
+      "name": "session revalidation hides portals, preserves draft on 503/network, resets on replacement and removes on 401",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 1512,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    },
+    {
+      "file": "visual.spec.ts",
+      "name": "real workspace visual evidence and mobile source return",
+      "status": "expected",
+      "expected_status": "passed",
+      "runs": [
+        {
+          "status": "passed",
+          "duration_ms": 2179,
+          "retry": 0
+        }
+      ],
+      "skip_reasons": []
+    }
+  ],
+  "raw_sha256": "4497e87278340dff7c79d0a491d4e0b07a988c177521e6047b9bdca28d2df62c",
+  "raw_report_kept_private": true
+}
