@@ -1,0 +1,710 @@
+{
+  "inventoried_before_creation": true,
+  "projects": [
+    {
+      "date": "2026-10-12T13:31:02.478872+00:00",
+      "project": "pf-evidencedesk-e2e-uiux-a12e4b",
+      "source": "baseline-01",
+      "runtime": [
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-a12e4b-api-1",
+          "image_id": "sha256:20571bf9e751ad4eb0c2fec1e5c1b7c9cb8ebe6bf97b3f2cd05bb27f8bec4eb9",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-baseline01",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {
+            "8106/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "8217"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-a12e4b-db-1",
+          "image_id": "sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+          "image": "pgvector/pgvector:0.8.6-pg17-bookworm@sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_db_data",
+              "destination": "/var/lib/postgresql/data",
+              "writable": true
+            },
+            {
+              "type": "bind",
+              "name": null,
+              "destination": "/docker-entrypoint-initdb.d/10-evidencedesk.sql",
+              "writable": false
+            }
+          ],
+          "ports": {
+            "5432/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "5647"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-a12e4b-frontend-1",
+          "image_id": "sha256:f3df8c3d269cfa27ec2029e6bdb000cf36fc1b6d76632a8e7a8e95abaaa620fa",
+          "image": "pf-evidencedesk-frontend:uiux-a12e4b-baseline01",
+          "state": "running",
+          "mounts": [],
+          "ports": {
+            "3106/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "3217"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-a12e4b-migrate-1",
+          "image_id": "sha256:20571bf9e751ad4eb0c2fec1e5c1b7c9cb8ebe6bf97b3f2cd05bb27f8bec4eb9",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-baseline01",
+          "state": "exited",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {}
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-a12e4b-worker-1",
+          "image_id": "sha256:20571bf9e751ad4eb0c2fec1e5c1b7c9cb8ebe6bf97b3f2cd05bb27f8bec4eb9",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-baseline01",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {
+            "8106/tcp": null
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-10-12T14:10:20.421544+00:00",
+      "project": "pf-evidencedesk-e2e-uiux-a12e4b",
+      "source": "candidate-01",
+      "runtime": [
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-a12e4b-api-1",
+          "image_id": "sha256:ed9b2ec6d1a219bcc3436f12f8098cb87458809e830b8648a7d727af64f07d3e",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-candidate01",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {
+            "8106/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "8217"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-a12e4b-db-1",
+          "image_id": "sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+          "image": "pgvector/pgvector:0.8.6-pg17-bookworm@sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_db_data",
+              "destination": "/var/lib/postgresql/data",
+              "writable": true
+            },
+            {
+              "type": "bind",
+              "name": null,
+              "destination": "/docker-entrypoint-initdb.d/10-evidencedesk.sql",
+              "writable": false
+            }
+          ],
+          "ports": {
+            "5432/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "5647"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-a12e4b-frontend-1",
+          "image_id": "sha256:8ad4e8d778473d91c9ae0785aeb8cd028a87be8f3092f35ddb115df66e3bed62",
+          "image": "pf-evidencedesk-frontend:uiux-a12e4b-candidate01",
+          "state": "running",
+          "mounts": [],
+          "ports": {
+            "3106/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "3217"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-a12e4b-migrate-1",
+          "image_id": "sha256:ed9b2ec6d1a219bcc3436f12f8098cb87458809e830b8648a7d727af64f07d3e",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-candidate01",
+          "state": "exited",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {}
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-a12e4b-worker-1",
+          "image_id": "sha256:ed9b2ec6d1a219bcc3436f12f8098cb87458809e830b8648a7d727af64f07d3e",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-candidate01",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {
+            "8106/tcp": null
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-10-12T14:24:11.230214+00:00",
+      "project": "pf-evidencedesk-e2e-uiux-qa-a12e4b",
+      "source": "candidate-01",
+      "runtime": [
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-qa-a12e4b-api-1",
+          "image_id": "sha256:ed9b2ec6d1a219bcc3436f12f8098cb87458809e830b8648a7d727af64f07d3e",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-candidate01",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-qa-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-qa-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-qa-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {
+            "8106/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "8218"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-qa-a12e4b-db-1",
+          "image_id": "sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+          "image": "pgvector/pgvector:0.8.6-pg17-bookworm@sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-qa-a12e4b_db_data",
+              "destination": "/var/lib/postgresql/data",
+              "writable": true
+            },
+            {
+              "type": "bind",
+              "name": null,
+              "destination": "/docker-entrypoint-initdb.d/10-evidencedesk.sql",
+              "writable": false
+            }
+          ],
+          "ports": {
+            "5432/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "5648"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-qa-a12e4b-frontend-1",
+          "image_id": "sha256:8ad4e8d778473d91c9ae0785aeb8cd028a87be8f3092f35ddb115df66e3bed62",
+          "image": "pf-evidencedesk-frontend:uiux-a12e4b-candidate01",
+          "state": "running",
+          "mounts": [],
+          "ports": {
+            "3106/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "3218"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-qa-a12e4b-migrate-1",
+          "image_id": "sha256:ed9b2ec6d1a219bcc3436f12f8098cb87458809e830b8648a7d727af64f07d3e",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-candidate01",
+          "state": "exited",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-qa-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-qa-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-qa-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {}
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-qa-a12e4b-worker-1",
+          "image_id": "sha256:ed9b2ec6d1a219bcc3436f12f8098cb87458809e830b8648a7d727af64f07d3e",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-candidate01",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-qa-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-qa-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-qa-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {
+            "8106/tcp": null
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-10-12T14:44:28.821830+00:00",
+      "project": "pf-evidencedesk-e2e-uiux-core-a12e4b",
+      "source": "candidate-01",
+      "runtime": [
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-core-a12e4b-api-1",
+          "image_id": "sha256:ed9b2ec6d1a219bcc3436f12f8098cb87458809e830b8648a7d727af64f07d3e",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-candidate01",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-core-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-core-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-core-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {
+            "8106/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "8219"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-core-a12e4b-db-1",
+          "image_id": "sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+          "image": "pgvector/pgvector:0.8.6-pg17-bookworm@sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-core-a12e4b_db_data",
+              "destination": "/var/lib/postgresql/data",
+              "writable": true
+            },
+            {
+              "type": "bind",
+              "name": null,
+              "destination": "/docker-entrypoint-initdb.d/10-evidencedesk.sql",
+              "writable": false
+            }
+          ],
+          "ports": {
+            "5432/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "5649"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-core-a12e4b-frontend-1",
+          "image_id": "sha256:8ad4e8d778473d91c9ae0785aeb8cd028a87be8f3092f35ddb115df66e3bed62",
+          "image": "pf-evidencedesk-frontend:uiux-a12e4b-candidate01",
+          "state": "running",
+          "mounts": [],
+          "ports": {
+            "3106/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "3219"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-core-a12e4b-migrate-1",
+          "image_id": "sha256:ed9b2ec6d1a219bcc3436f12f8098cb87458809e830b8648a7d727af64f07d3e",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-candidate01",
+          "state": "exited",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-core-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-core-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-core-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {}
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-core-a12e4b-worker-1",
+          "image_id": "sha256:ed9b2ec6d1a219bcc3436f12f8098cb87458809e830b8648a7d727af64f07d3e",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-candidate01",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-core-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-core-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-core-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {
+            "8106/tcp": null
+          }
+        }
+      ]
+    },
+    {
+      "date": "2026-10-12T14:44:29.881414+00:00",
+      "project": "pf-evidencedesk-e2e-uiux-stories-a12e4b",
+      "source": "candidate-01",
+      "runtime": [
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-stories-a12e4b-api-1",
+          "image_id": "sha256:ed9b2ec6d1a219bcc3436f12f8098cb87458809e830b8648a7d727af64f07d3e",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-candidate01",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-stories-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-stories-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-stories-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            }
+          ],
+          "ports": {
+            "8106/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "8220"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-stories-a12e4b-db-1",
+          "image_id": "sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+          "image": "pgvector/pgvector:0.8.6-pg17-bookworm@sha256:cf134a767f474095eeba57e0117be8e568e011a63f33fbf252f14c9b760f8e6f",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-stories-a12e4b_db_data",
+              "destination": "/var/lib/postgresql/data",
+              "writable": true
+            },
+            {
+              "type": "bind",
+              "name": null,
+              "destination": "/docker-entrypoint-initdb.d/10-evidencedesk.sql",
+              "writable": false
+            }
+          ],
+          "ports": {
+            "5432/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "5650"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-stories-a12e4b-frontend-1",
+          "image_id": "sha256:8ad4e8d778473d91c9ae0785aeb8cd028a87be8f3092f35ddb115df66e3bed62",
+          "image": "pf-evidencedesk-frontend:uiux-a12e4b-candidate01",
+          "state": "running",
+          "mounts": [],
+          "ports": {
+            "3106/tcp": [
+              {
+                "HostIp": "127.0.0.1",
+                "HostPort": "3220"
+              }
+            ]
+          }
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-stories-a12e4b-migrate-1",
+          "image_id": "sha256:ed9b2ec6d1a219bcc3436f12f8098cb87458809e830b8648a7d727af64f07d3e",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-candidate01",
+          "state": "exited",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-stories-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-stories-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-stories-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {}
+        },
+        {
+          "name": "/pf-evidencedesk-e2e-uiux-stories-a12e4b-worker-1",
+          "image_id": "sha256:ed9b2ec6d1a219bcc3436f12f8098cb87458809e830b8648a7d727af64f07d3e",
+          "image": "pf-evidencedesk-backend:uiux-a12e4b-candidate01",
+          "state": "running",
+          "mounts": [
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-stories-a12e4b_evidence_data",
+              "destination": "/data",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-stories-a12e4b_deletion_ledger",
+              "destination": "/ledger",
+              "writable": true
+            },
+            {
+              "type": "volume",
+              "name": "pf-evidencedesk-e2e-uiux-stories-a12e4b_model_cache",
+              "destination": "/models",
+              "writable": true
+            }
+          ],
+          "ports": {
+            "8106/tcp": null
+          }
+        }
+      ]
+    }
+  ],
+  "provider": "disabled",
+  "azure_key_present": false,
+  "retrieval": "lexical",
+  "existing_demo_untouched": true,
+  "environment_values_and_cookies_published": false
+}

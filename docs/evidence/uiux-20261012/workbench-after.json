@@ -1,0 +1,406 @@
+{
+  "kind": "synthetic_visual_ui_baseline",
+  "executed_at": "2026-10-12T14:09:16.118Z",
+  "snapshot_head": "a5dff4eff965ac31c6410ebe461228dd7596a3ec",
+  "workbench_sha256": "f678a6d3c912b2594d21e5c301e53c9bfbab0ad77378edbbaadacdc1fb53e7e4",
+  "fixture_sha256": "a88a816c0c27dd58864fc99294857e53ca40dc050eaaff337977c1b9fe2da985",
+  "fixture_id": "synthetic-ui-ux-v1",
+  "browser": "153.0.8010.12",
+  "human_reviews_executed": 0,
+  "model_behavior": "not_run",
+  "source_verified_before_after": true,
+  "screenshots": [
+    {
+      "file": "workbench-320.png",
+      "sha256": "8eb0f75fbfd1b7a75549181e4d4d2a0f9941a71a17ef46ed3a2d63f35dd1c34f",
+      "width": 320,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      }
+    },
+    {
+      "file": "workbench-320-viewport.png",
+      "sha256": "3dfeb5e6f414ec0aaccd90b630a247fabdc7fbfb7bb8ab49e0fab0ec2c5c6a73",
+      "width": 320,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      }
+    },
+    {
+      "file": "workbench-390.png",
+      "sha256": "27fa8db490ed68838718eccf74a893cadfc8b6bf65671292bb978984a165fa76",
+      "width": 390,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      }
+    },
+    {
+      "file": "workbench-390-viewport.png",
+      "sha256": "3862afc2f61dc42243ab319b9519e3f8da99f26c52c0ac0ee6109174d98c5ccb",
+      "width": 390,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      }
+    },
+    {
+      "file": "workbench-768.png",
+      "sha256": "389cf22da1550dd801b4e1b2d29ee0eda72d327a278dc54eb50f98119cf5148a",
+      "width": 768,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      }
+    },
+    {
+      "file": "workbench-768-viewport.png",
+      "sha256": "da089e2db303702a60a87948fa1647bba855429274d5cd46203bf5001cb64fa0",
+      "width": 768,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      }
+    },
+    {
+      "file": "workbench-1024.png",
+      "sha256": "1f825ebea110a3d3426c1eae59e0be6caaf57beeb9ead556d55213d4953aacc0",
+      "width": 1024,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      }
+    },
+    {
+      "file": "workbench-1024-viewport.png",
+      "sha256": "002019369f82caaec5855fb25774162230747f9d53f3325343c0130a90e842ff",
+      "width": 1024,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      }
+    },
+    {
+      "file": "workbench-1440.png",
+      "sha256": "725acfb2a9609ecb4642f5373190111485d49ca629b47a78cb209abe50d3963e",
+      "width": 1440,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      }
+    },
+    {
+      "file": "workbench-1440-viewport.png",
+      "sha256": "f7bb04334c1863ffdac1ddd19748f578b3791c52d464ebf87561b8ce9425d0e7",
+      "width": 1440,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      }
+    }
+  ],
+  "reports": [
+    {
+      "width": 320,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      },
+      "geometry": {
+        "page_width": 320,
+        "viewport_width": 320,
+        "claim": {
+          "x": 16,
+          "y": 1008.28125,
+          "width": 288,
+          "height": 111.671875,
+          "top": 1008.28125,
+          "right": 304,
+          "bottom": 1119.953125,
+          "left": 16
+        },
+        "source": {
+          "x": 16,
+          "y": 1589.546875,
+          "width": 288,
+          "height": 474.140625,
+          "top": 1589.546875,
+          "right": 304,
+          "bottom": 2063.6875,
+          "left": 16
+        },
+        "rationale": {
+          "x": 16,
+          "y": 2677.6875,
+          "width": 288,
+          "height": 100,
+          "top": 2677.6875,
+          "right": 304,
+          "bottom": 2777.6875,
+          "left": 16
+        }
+      },
+      "violations": [],
+      "incomplete": [],
+      "page_errors": [],
+      "network_requests": []
+    },
+    {
+      "width": 390,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      },
+      "geometry": {
+        "page_width": 390,
+        "viewport_width": 390,
+        "claim": {
+          "x": 16,
+          "y": 880.78125,
+          "width": 358,
+          "height": 83.78125,
+          "top": 880.78125,
+          "right": 374,
+          "bottom": 964.5625,
+          "left": 16
+        },
+        "source": {
+          "x": 16,
+          "y": 1413.15625,
+          "width": 358,
+          "height": 390.46875,
+          "top": 1413.15625,
+          "right": 374,
+          "bottom": 1803.625,
+          "left": 16
+        },
+        "rationale": {
+          "x": 16,
+          "y": 2396.625,
+          "width": 358,
+          "height": 100,
+          "top": 2396.625,
+          "right": 374,
+          "bottom": 2496.625,
+          "left": 16
+        }
+      },
+      "violations": [],
+      "incomplete": [],
+      "page_errors": [],
+      "network_requests": []
+    },
+    {
+      "width": 768,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      },
+      "geometry": {
+        "page_width": 768,
+        "viewport_width": 768,
+        "claim": {
+          "x": 24,
+          "y": 730.09375,
+          "width": 336,
+          "height": 111.671875,
+          "top": 730.09375,
+          "right": 360,
+          "bottom": 841.765625,
+          "left": 24
+        },
+        "source": {
+          "x": 409,
+          "y": 982.1875,
+          "width": 335,
+          "height": 390.46875,
+          "top": 982.1875,
+          "right": 744,
+          "bottom": 1372.65625,
+          "left": 409
+        },
+        "rationale": {
+          "x": 24,
+          "y": 1080.765625,
+          "width": 336,
+          "height": 100,
+          "top": 1080.765625,
+          "right": 360,
+          "bottom": 1180.765625,
+          "left": 24
+        }
+      },
+      "violations": [],
+      "incomplete": [],
+      "page_errors": [],
+      "network_requests": []
+    },
+    {
+      "width": 1024,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      },
+      "geometry": {
+        "page_width": 1024,
+        "viewport_width": 1024,
+        "claim": {
+          "x": 24,
+          "y": 730.09375,
+          "width": 464,
+          "height": 83.78125,
+          "top": 730.09375,
+          "right": 488,
+          "bottom": 813.875,
+          "left": 24
+        },
+        "source": {
+          "x": 537,
+          "y": 982.1875,
+          "width": 463,
+          "height": 334.6875,
+          "top": 982.1875,
+          "right": 1000,
+          "bottom": 1316.875,
+          "left": 537
+        },
+        "rationale": {
+          "x": 24,
+          "y": 1048.375,
+          "width": 464,
+          "height": 100,
+          "top": 1048.375,
+          "right": 488,
+          "bottom": 1148.375,
+          "left": 24
+        }
+      },
+      "violations": [],
+      "incomplete": [],
+      "page_errors": [],
+      "network_requests": []
+    },
+    {
+      "width": 1440,
+      "state": {
+        "response_id": "synthetic-ui-case-020--A",
+        "claim_id": "claim-payment",
+        "source_id": "synthetic-payment-confirmation",
+        "locator": "/corpus/0",
+        "label": null,
+        "rationale": null,
+        "assistance": null
+      },
+      "geometry": {
+        "page_width": 1440,
+        "viewport_width": 1440,
+        "claim": {
+          "x": 265,
+          "y": 673.09375,
+          "width": 551.5,
+          "height": 83.78125,
+          "top": 673.09375,
+          "right": 816.5,
+          "bottom": 756.875,
+          "left": 265
+        },
+        "source": {
+          "x": 865.5,
+          "y": 899.6875,
+          "width": 550.5,
+          "height": 306.796875,
+          "top": 899.6875,
+          "right": 1416,
+          "bottom": 1206.484375,
+          "left": 865.5
+        },
+        "rationale": {
+          "x": 265,
+          "y": 974.875,
+          "width": 551.5,
+          "height": 100,
+          "top": 974.875,
+          "right": 816.5,
+          "bottom": 1074.875,
+          "left": 265
+        }
+      },
+      "violations": [],
+      "incomplete": [],
+      "page_errors": [],
+      "network_requests": []
+    }
+  ]
+}

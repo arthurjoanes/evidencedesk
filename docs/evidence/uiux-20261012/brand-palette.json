@@ -1,0 +1,13 @@
+{
+  "mode": "native_browser_screenshot_of_local_svg",
+  "recorded_at": "2026-10-12T13:55:09.963Z",
+  "source": "docs/readme/palette.svg",
+  "source_sha256": "0928d82c1801b0ccc4d5d50081ea3bcffb4bb5052dd40b050bf42cd2f4aa25c8",
+  "source_unchanged": true,
+  "browser": "153.0.8010.12",
+  "viewport": {
+    "width": 720,
+    "height": 144
+  },
+  "png_sha256": "2eb3fb696a40cd311296a96385406af3bc6901fae3def1c782e186e03305a98b"
+}
