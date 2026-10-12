@@ -1,0 +1,471 @@
+{
+  "schema_version": "evidencedesk-evolution-verification-v1",
+  "recorded_at": "2026-10-12T04:45:17.678297+00:00",
+  "branch": "feat/evolucao-evidencedesk-20261012",
+  "baseline_head": "701717ed8b9993e4ec84a2f7b01cd585a819df1d",
+  "baseline_remote": "https://github.com/arthurjoanes/evidencedesk.git",
+  "historical_baseline_ci": {
+    "url": "https://github.com/arthurjoanes/evidencedesk/actions/runs/37164947569",
+    "status": "success_reverified_on_2026-10-12",
+    "not_attributed_to_new_code": true
+  },
+  "environment": {
+    "platform": "Windows",
+    "python": "3.11.9",
+    "node": "24.19.0",
+    "ai_provider": "disabled",
+    "azure_key_empty": true,
+    "dependencies": "backend/requirements-test.lock + scripts/requirements-docs.lock + frontend/package-lock.json"
+  },
+  "source_freezes": [
+    {
+      "name": "candidate-01",
+      "base_head": "701717ed8b9993e4ec84a2f7b01cd585a819df1d",
+      "manifest_sha256": "5010a1ab3b9a65c075e186a8f64f3ece0eb28ce57f60687720a12f7fd65b5672",
+      "tracked_diff_sha256": "81ee5efae39f18b5563aff6ec83d08309cb02729a75413ca1998bfabcb968ceb",
+      "new_files_diff_sha256": "7c4625a81a5956073ee415f8ac60ef80dc19abe183800f26bfbb46a84cd34e99",
+      "files_hashed_including_generated_assets": 930
+    },
+    {
+      "name": "candidate-02",
+      "base_head": "701717ed8b9993e4ec84a2f7b01cd585a819df1d",
+      "manifest_sha256": "7b513f6d96993f2c5189f6b0329b134fdc0685c246ef199519a503cdf7e9dc35",
+      "tracked_diff_sha256": "81ee5efae39f18b5563aff6ec83d08309cb02729a75413ca1998bfabcb968ceb",
+      "new_files_diff_sha256": "50bc513dae513d1517c273693200f94785d0c522d18e7b43ac5f6e6e89cd7e03",
+      "files_hashed_including_generated_assets": 930
+    }
+  ],
+  "candidate_01_to_02_changes": [
+    "evals/adversarial.py"
+  ],
+  "source_files_new_or_modified": [
+    {
+      "path": ".github/workflows/ci.yaml",
+      "sha256": "ed2cb8316ca631cb46a4b3ca5ae4e18a0a6825d1f9ce5f73391c6880322aec03"
+    },
+    {
+      "path": "README.md",
+      "sha256": "f827dfd6535f5a12e9a9f6bd5466840cb59570a746cc99d1d6bc4b21c76eb19a"
+    },
+    {
+      "path": "docs/ai-review.md",
+      "sha256": "f09b4e6aab8e9b9cf65a635b8ab16fce987cc032acafe9d395c20dd7f7e5a311"
+    },
+    {
+      "path": "docs/architecture.md",
+      "sha256": "4c6625b587af04e6ee6ff30baea4308a77f20b0f127974898e8659bf0d831ec4"
+    },
+    {
+      "path": "docs/runbooks/evaluation-workbench.md",
+      "sha256": "12312f2466d49af6af031023893de95eb8b6f444e49247a9487207eb5b5d4a79"
+    },
+    {
+      "path": "evals/README.md",
+      "sha256": "fe8bda43640d449aeb872f7d6bce8e6efc314244192a88e6915bc03799db15c6"
+    },
+    {
+      "path": "evals/adversarial.py",
+      "sha256": "a22b9c410b247306fc686df80f3ee1c7f881922b76d68dde4327706f359ae8f1"
+    },
+    {
+      "path": "evals/adversarial_cases.json",
+      "sha256": "7630a577db912d6eb21eae61c0bfceb0f43efa39b0af9407c8338d5def6dae34"
+    },
+    {
+      "path": "evals/human-review/README.md",
+      "sha256": "6627f08d1883868f41679c445d53e0dcf60fc7ead42a727823a4e7aed8b341d3"
+    },
+    {
+      "path": "evals/test_adversarial.py",
+      "sha256": "33a3c912b5078c4e7820ae5711ad663a873d6422a823c8e8f546022778bb4576"
+    },
+    {
+      "path": "evals/test_workbench.py",
+      "sha256": "8b9de9db9adf5cd7f4e92a282f6a314b2a23717480235d8fdbfc8bf1b3603277"
+    },
+    {
+      "path": "evals/workbench.browser.mjs",
+      "sha256": "6a9ee5b42f6a1019489afea93c2ac3f950fd037a16265309bad606952b792b8e"
+    },
+    {
+      "path": "evals/workbench.html",
+      "sha256": "95a3e21646577d2ff2601e140c8104e729210f43bc138f61efc7f0d519fc095c"
+    },
+    {
+      "path": "evals/workbench.py",
+      "sha256": "2f1a24e8f8ede18c62845f614c149c5cc170f6d0382935a23880837a9c7dc65c"
+    },
+    {
+      "path": "frontend/package-lock.json",
+      "sha256": "e7ec9566670fe45b8c4938f397688020eebca5671c27922fdeaa32610b91660a"
+    }
+  ],
+  "checks": [
+    {
+      "name": "scripts-tests",
+      "source_snapshot": "candidate-01",
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 25.187,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "5cdacaacbeddcf3336ad9f1cf9e42f85f3bfcccc948a462c489a9f36c4641a8d"
+    },
+    {
+      "name": "backend-unit",
+      "source_snapshot": "candidate-01",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "backend/tests/unit",
+        "-q",
+        "--junitxml=<private>/candidate-01/backend-unit.xml"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 11.719,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "70f5f2c531c5133ba9089c39d14c3252cd1a12eb93c7a38fcc43660b41f2de2c"
+    },
+    {
+      "name": "workbench-browser",
+      "source_snapshot": "candidate-01",
+      "command": [
+        "node",
+        "evals/workbench.browser.mjs"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 16.5,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "5ab99635a3afee70efa999016ee59bb6d21c886da05ba3c84d05870af1c1b942"
+    },
+    {
+      "name": "frontend-typecheck",
+      "source_snapshot": "candidate-01",
+      "command": [
+        "node",
+        "C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "typecheck"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 12.516,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "b4aa83085740b16ee14867bee7b1037a203ad669089926abca4d3288eeb7346a"
+    },
+    {
+      "name": "frontend-lint",
+      "source_snapshot": "candidate-01",
+      "command": [
+        "node",
+        "C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "lint"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 55.891,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "e75b597a319a55329ea63fce49c228eac32d5bab017c7b10ed8bb310e3edba3f"
+    },
+    {
+      "name": "frontend-format",
+      "source_snapshot": "candidate-01",
+      "command": [
+        "node",
+        "C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "format:check"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.907,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "7b02df168134720d83beac113a1ae99887718d3e112a1fc170a404251d6c128c"
+    },
+    {
+      "name": "frontend-tests",
+      "source_snapshot": "candidate-01",
+      "command": [
+        "node",
+        "C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js",
+        "test"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 14.297,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "71b244acff1d551d73bbc8394dc21e4c6b4fe4f44248beffebd036eb25b3e2ca"
+    },
+    {
+      "name": "frontend-build",
+      "source_snapshot": "candidate-01",
+      "command": [
+        "node",
+        "C:/Program Files/nodejs/node_modules/npm/bin/npm-cli.js",
+        "run",
+        "build"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 31.781,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "b7ece116469173faa2baab5864653522c4cd04ff9cb7036b23008ec00ba3cfa6"
+    },
+    {
+      "name": "gitleaks-history",
+      "source_snapshot": "candidate-01",
+      "command": [
+        "gitleaks",
+        "git",
+        "--config",
+        ".gitleaks.toml",
+        "--redact",
+        "--log-opts=--all",
+        ".",
+        "--report-format",
+        "json",
+        "--report-path",
+        "<private>/gitleaks-history-redacted.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 3.282,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "ed8145b23ae727376198f39d06adbb6abf14bb76c3df1015eee8516b6b2abb45"
+    },
+    {
+      "name": "adversarial-tests",
+      "source_snapshot": "candidate-02",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "evals/test_adversarial.py",
+        "-q",
+        "--junitxml=<private>/candidate-02/adversarial-tests.xml"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 6.109,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "ebd8f46d6628e807af1407f7072ac1e664e73d4810446a4eb0dd9f1ae7a0b58a"
+    },
+    {
+      "name": "mypy",
+      "source_snapshot": "candidate-02",
+      "command": [
+        "python",
+        "-m",
+        "mypy",
+        "backend/src",
+        "evals/workbench.py",
+        "evals/adversarial.py",
+        "--config-file",
+        "backend/pyproject.toml"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.531,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "f32ec280e0b59a948c6e8fc34b7cd86cf60aabdf50fd48bf337d65c6629750c1"
+    },
+    {
+      "name": "ruff-check",
+      "source_snapshot": "candidate-02",
+      "command": [
+        "python",
+        "-m",
+        "ruff",
+        "check",
+        "backend/src",
+        "backend/tests",
+        "scripts",
+        "infra/observability/receiver.py",
+        "evals/workbench.py",
+        "evals/test_workbench.py",
+        "evals/adversarial.py",
+        "evals/test_adversarial.py",
+        "--config",
+        "backend/pyproject.toml"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.203,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "name": "ruff-format",
+      "source_snapshot": "candidate-02",
+      "command": [
+        "python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "backend/src",
+        "backend/tests",
+        "scripts",
+        "infra/observability/receiver.py",
+        "evals/workbench.py",
+        "evals/test_workbench.py",
+        "evals/adversarial.py",
+        "evals/test_adversarial.py",
+        "--config",
+        "backend/pyproject.toml"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 0.187,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "2db62cbf405a23e5ee25cc14249179fe9c17f40a1b3b99d839d497ad879c7384"
+    },
+    {
+      "name": "docs",
+      "source_snapshot": "candidate-02",
+      "command": [
+        "python",
+        "scripts/check_repository_docs.py"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.109,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "69832340f9fe00cf74fdebe376a30c822909dcce8f660dacb5e91dce2bee48d8"
+    },
+    {
+      "name": "adversarial-prepare",
+      "source_snapshot": "candidate-02",
+      "command": [
+        "python",
+        "-m",
+        "evals.adversarial",
+        "prepare",
+        "--output",
+        "<private>/adversarial-prepared-final.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.641,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "0066c65b6a16377453746aafb463f92fc65eea0f363ece458908d7c8e1103145"
+    },
+    {
+      "name": "adversarial-run",
+      "source_snapshot": "candidate-02",
+      "command": [
+        "python",
+        "-m",
+        "evals.adversarial",
+        "run",
+        "--output",
+        "<private>/adversarial-contracts-final.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 3.281,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "11c95bf227927f30a7c3d69d1dffbc13dbf41f8896731eb44377c9eeec99b3fe"
+    },
+    {
+      "name": "gitleaks-snapshot",
+      "source_snapshot": "candidate-02",
+      "command": [
+        "gitleaks",
+        "dir",
+        ".",
+        "--config",
+        ".gitleaks.toml",
+        "--redact",
+        "--report-format",
+        "json",
+        "--report-path",
+        "<private>/gitleaks-candidate02-redacted.json"
+      ],
+      "exit_code": 0,
+      "duration_seconds": 2.328,
+      "source_hashes_matched_before_and_after": true,
+      "private_log_sha256": "ca712d121851165f0de3ac93ef29de2f496812072b90d9f2577033797c7cb6ba"
+    },
+    {
+      "name": "workbench-and-metrics",
+      "source_snapshot": "candidate-01",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "evals/test_metrics.py",
+        "evals/test_workbench.py",
+        "evals/test_adversarial.py",
+        "-q",
+        "--junitxml=<private>/candidate-01/new-evals.xml"
+      ],
+      "scope": "Only the unchanged workbench and metrics test cases are carried forward; adversarial tests were rerun on candidate-02.",
+      "passed": 76,
+      "skipped": 1,
+      "private_log_sha256": "840b6da27bc3f799c6a22b8d890b2ec66ca58b8156a769f976b210d5bebf3216",
+      "source_hashes_matched_before_and_after": true
+    }
+  ],
+  "local_counts": {
+    "backend_unit_passed": 199,
+    "scripts_run": 88,
+    "scripts_skipped": 2,
+    "workbench_and_metrics_passed": 76,
+    "workbench_symlink_privilege_skip": 1,
+    "adversarial_final_passed": 72,
+    "frontend_passed": 66,
+    "browser_check_groups": 14,
+    "adversarial_planned": 10,
+    "adversarial_executed": 10,
+    "mock_dispatches": 20
+  },
+  "earlier_attempts": [
+    {
+      "source_snapshot": "candidate-01",
+      "check": "combined_mypy",
+      "status": "failed_two_new_adversarial_typing_errors_then_corrected_and_rerun",
+      "changed_file": "evals/adversarial.py"
+    },
+    {
+      "source_snapshot": "candidate-01",
+      "check": "absolute_path_snapshot_secret_scan",
+      "status": "relative_allowlists_did_not_match_absolute_paths; rerun_from_snapshot_root_passed_without_config_changes",
+      "matches": 7,
+      "all_matches": "preexisting_exact_historical_allowlisted_fingerprints_or_internal_probe_address"
+    }
+  ],
+  "local_postgresql_integration": {
+    "status": "not_run",
+    "reason": "Docker Desktop Linux engine unavailable; startup failed on preexisting stale socket; no test DB URLs created. Production regression is delegated to the isolated repository CI.",
+    "not_proven_by_local_skips": [
+      "RLS",
+      "review_revision",
+      "session",
+      "import",
+      "durable_budget"
+    ]
+  },
+  "human_reviews_executed": 0,
+  "human_gate": "inconclusive",
+  "real_model_behavior": "not_run",
+  "paid_calls": 0,
+  "reserved_content_inspected_for_development": false,
+  "reranker_candidate": "unpromoted",
+  "production_source_and_migrations": "unchanged from baseline",
+  "cleanup": {
+    "local_docker_resources_created": [],
+    "other_projects_stopped_or_deleted": false,
+    "global_docker_configuration_changed": false,
+    "private_snapshots_and_test_artifacts": "retained outside Git for verification; no filled human annotations published"
+  },
+  "limits": [
+    "Browser tests and contract fixtures are synthetic, not human semantic review.",
+    "Mock accounting hooks do not prove the PostgreSQL ledger.",
+    "Windows could not create a symlink in one safety fixture; the Linux CI must execute that test.",
+    "Hashes bind content and versions; declared reviewer IDs are not institutional authentication."
+  ],
+  "source_files_new_or_modified_snapshot": "candidate-02",
+  "publication_only_changes_after_execution": [
+    "README.md",
+    "docs/runbooks/evaluation-workbench.md",
+    "docs/evidence/evolution-20261012/*"
+  ]
+}

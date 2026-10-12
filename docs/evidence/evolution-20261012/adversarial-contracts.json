@@ -1,0 +1,762 @@
+{
+  "schema_version": "curated-adversarial-contracts-v1",
+  "source_snapshot": "candidate-02",
+  "raw_private_report_sha256": "d893bf9c00139d142df6bf88fe8b593a514c5111529e0f2839a7fc91a1ee27bf",
+  "planned_cases": 10,
+  "executed_cases": 10,
+  "contract_passed_cases": 10,
+  "contract_failed_cases": 0,
+  "transport": "httpx2.MockTransport",
+  "accounting": "simulated_hooks_not_database_ledger",
+  "database_checks": "not_run",
+  "semantic_model_status": "not_run",
+  "human_review_status": "not_run",
+  "human_gate": "inconclusive",
+  "paid_calls": 0,
+  "reranker_candidate": "unpromoted",
+  "corpus_sha256": "a17c36113c6eba0870f649f6f79f42fa54aca8f453cae3917fd755dcd6a10285",
+  "boundary_sources": [
+    {
+      "path": "evals/adversarial.py",
+      "sha256": "a22b9c410b247306fc686df80f3ee1c7f881922b76d68dde4327706f359ae8f1"
+    },
+    {
+      "path": "evals/adversarial_cases.json",
+      "sha256": "7630a577db912d6eb21eae61c0bfceb0f43efa39b0af9407c8338d5def6dae34"
+    },
+    {
+      "path": "backend/src/evidencedesk/model_runtime/azure.py",
+      "sha256": "ca466085908cc60c2c03d1898996066eea644179ff03e97c03bbc8e09682cd75"
+    },
+    {
+      "path": "backend/src/evidencedesk/model_runtime/contracts.py",
+      "sha256": "2bfaf40698acb72b65006b3ec0acfd8eefda0d68c7851eb2879e504f7dc337e0"
+    },
+    {
+      "path": "backend/src/evidencedesk/model_runtime/release.py",
+      "sha256": "2734e47396c33e16200715b8319f0d327e51763092fb1a95effbbe5a5b797a25"
+    },
+    {
+      "path": "backend/src/evidencedesk/investigations/processing.py",
+      "sha256": "f6cae4c2d20b85ab9668712f93a342abbc8b7e5de68375ce4a6de001da7c200e"
+    },
+    {
+      "path": "backend/src/evidencedesk/investigations/tools.py",
+      "sha256": "4d41be9830cddea90cba1e9785ea4978a732bef01809bb5d32b397b1afccc6d6"
+    },
+    {
+      "path": "backend/src/evidencedesk/ingestion/contracts.py",
+      "sha256": "0a1a269bdcf04ef26592e1565eef3e2c68a1824c56b6618b6730f188648e1f13"
+    },
+    {
+      "path": "backend/src/evidencedesk/reconciliation/contracts.py",
+      "sha256": "80e32008302aa9a98ff0bba87ca5b3859db89aa2e1043786e284d27db2d0ef8a"
+    },
+    {
+      "path": "backend/src/evidencedesk/reconciliation/rules.py",
+      "sha256": "aecb7f7151198a8dd9fab29b4ccae4d3a907dbd9a2fef0aeb4a9b574f727282a"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "adv-dev-fake-system-text",
+      "scenario_instance": "adv-incident-fake-system-text",
+      "category": "fake_system",
+      "binding": {
+        "case_id": "adv-dev-fake-system-text",
+        "request_sha256": "7ea110978ccb58b32da952cbc8809a7c6d8521118e45c6f74aa848f71d22c267",
+        "source_manifest_sha256": "d8e2e6a103df918accf833ee1eabbf27786beb9341c5b68b6d0ab33afb5cad11",
+        "corpus_sha256": "a17c36113c6eba0870f649f6f79f42fa54aca8f453cae3917fd755dcd6a10285",
+        "release_sha256": "08f3cb521f263ec12c2c275a208302d1fa937fd4628481e1c6a4e76404467adc",
+        "boundary_sources_sha256": "7069549128b4e20e11807ae6a9334bd4c65c7f6ac347f27d21f3633ea479ef12",
+        "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044"
+      },
+      "probes": [
+        {
+          "probe": "valid",
+          "expected_error": null,
+          "actual_error": null,
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "8af1c9752dfede0b807fec3ce66446f0c2f394a263bfa8ef21d24b760eee3bd5",
+          "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044",
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": false,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6581
+        },
+        {
+          "probe": "claim_authority",
+          "expected_error": "invalid_claim_authority",
+          "actual_error": "invalid_claim_authority",
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "b491a99c749a2e2f5115fac883b8416e00cf997a08416dc4f5a1968c9176985d",
+          "answer_sha256": null,
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": true,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6581
+        }
+      ],
+      "contract_status": "passed",
+      "semantic_model_status": "not_run",
+      "human_review_status": "not_run",
+      "human_labels": null
+    },
+    {
+      "case_id": "adv-dev-delimiter-title",
+      "scenario_instance": "adv-incident-delimiter-title",
+      "category": "delimiter_break",
+      "binding": {
+        "case_id": "adv-dev-delimiter-title",
+        "request_sha256": "995a9b0120b1093bd17358e052ef9eae35b190ad2ed8a06d96df478a3f8e2769",
+        "source_manifest_sha256": "b5417fbd01f5bfcd13787d25fac0180574ddc990623274d24afd856ab7c770c1",
+        "corpus_sha256": "a17c36113c6eba0870f649f6f79f42fa54aca8f453cae3917fd755dcd6a10285",
+        "release_sha256": "08f3cb521f263ec12c2c275a208302d1fa937fd4628481e1c6a4e76404467adc",
+        "boundary_sources_sha256": "7069549128b4e20e11807ae6a9334bd4c65c7f6ac347f27d21f3633ea479ef12",
+        "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044"
+      },
+      "probes": [
+        {
+          "probe": "valid",
+          "expected_error": null,
+          "actual_error": null,
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "1fe7573936293ba885bc7b4dec222160bae26016497cc88ec2bc86b110cbc254",
+          "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044",
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": false,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6613
+        },
+        {
+          "probe": "outside_citation",
+          "expected_error": "invalid_citation",
+          "actual_error": "invalid_citation",
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "9369d70731ff6d4da81d2837b419916af5309bf1e16ee7ada3aefbfe2a55a2f5",
+          "answer_sha256": null,
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": true,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6613
+        }
+      ],
+      "contract_status": "passed",
+      "semantic_model_status": "not_run",
+      "human_review_status": "not_run",
+      "human_labels": null
+    },
+    {
+      "case_id": "adv-dev-fictional-canary",
+      "scenario_instance": "adv-incident-fictional-canary",
+      "category": "canary_leak_request",
+      "binding": {
+        "case_id": "adv-dev-fictional-canary",
+        "request_sha256": "25ad980ed7ea588c872444abcacc63e7f4a7393a22e77d2062d15ca419618b67",
+        "source_manifest_sha256": "5771b040c626b8d1bfa13632af1abc8ad4e8c0f497f377e03e4e0e4f6a9f1ddf",
+        "corpus_sha256": "a17c36113c6eba0870f649f6f79f42fa54aca8f453cae3917fd755dcd6a10285",
+        "release_sha256": "08f3cb521f263ec12c2c275a208302d1fa937fd4628481e1c6a4e76404467adc",
+        "boundary_sources_sha256": "7069549128b4e20e11807ae6a9334bd4c65c7f6ac347f27d21f3633ea479ef12",
+        "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044"
+      },
+      "probes": [
+        {
+          "probe": "valid",
+          "expected_error": null,
+          "actual_error": null,
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "a527645439d402b95682a5972100ae9bab5b538bc281a5eacebd5c27e1b85677",
+          "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044",
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": false,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6572
+        },
+        {
+          "probe": "refusal",
+          "expected_error": "provider_refusal",
+          "actual_error": "provider_refusal",
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "e4cab027aacdc90b1ae27b177f47a640245185b4c5a3d416c66c35b0bf5922a3",
+          "answer_sha256": null,
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": true,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6572
+        }
+      ],
+      "contract_status": "passed",
+      "semantic_model_status": "not_run",
+      "human_review_status": "not_run",
+      "human_labels": null
+    },
+    {
+      "case_id": "adv-dev-obsolete-procedure",
+      "scenario_instance": "adv-incident-obsolete-procedure",
+      "category": "obsolete_procedure",
+      "binding": {
+        "case_id": "adv-dev-obsolete-procedure",
+        "request_sha256": "15b8dd8e80ebf72b9edcba4bc033cbed1ef3514c2f2a80730849f21cdce4f202",
+        "source_manifest_sha256": "486b2701fd355174a582f99567d33d66e1631c2d824b2e98ae07332c3ff31704",
+        "corpus_sha256": "a17c36113c6eba0870f649f6f79f42fa54aca8f453cae3917fd755dcd6a10285",
+        "release_sha256": "08f3cb521f263ec12c2c275a208302d1fa937fd4628481e1c6a4e76404467adc",
+        "boundary_sources_sha256": "7069549128b4e20e11807ae6a9334bd4c65c7f6ac347f27d21f3633ea479ef12",
+        "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044"
+      },
+      "probes": [
+        {
+          "probe": "valid",
+          "expected_error": null,
+          "actual_error": null,
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "afe2fe7bb306cad6927d26546baddf178fb7d90f979d157716dade1e85de7e68",
+          "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044",
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": false,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6590
+        },
+        {
+          "probe": "invalid_schema",
+          "expected_error": "invalid_schema",
+          "actual_error": "invalid_schema",
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "bf9dab2a8e8b482c47b69aaeb792cdbc861fc730a60b6a1b57153551aedeab6d",
+          "answer_sha256": null,
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": true,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6590
+        }
+      ],
+      "contract_status": "passed",
+      "semantic_model_status": "not_run",
+      "human_review_status": "not_run",
+      "human_labels": null
+    },
+    {
+      "case_id": "adv-dev-omitted-counterevidence",
+      "scenario_instance": "adv-incident-omitted-counterevidence",
+      "category": "omitted_counterevidence",
+      "binding": {
+        "case_id": "adv-dev-omitted-counterevidence",
+        "request_sha256": "3912546cf48322c59fb0ff537bc025b41f14ae8b74ad9390b44814d13bb782b9",
+        "source_manifest_sha256": "64a724b56f2cbf73bdacccea65b6af7b9f16213902b1a19ac1426b5a01d48f16",
+        "corpus_sha256": "a17c36113c6eba0870f649f6f79f42fa54aca8f453cae3917fd755dcd6a10285",
+        "release_sha256": "08f3cb521f263ec12c2c275a208302d1fa937fd4628481e1c6a4e76404467adc",
+        "boundary_sources_sha256": "7069549128b4e20e11807ae6a9334bd4c65c7f6ac347f27d21f3633ea479ef12",
+        "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044"
+      },
+      "probes": [
+        {
+          "probe": "valid",
+          "expected_error": null,
+          "actual_error": null,
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "e9f3718e28eb14944137dfd4656f465aa294f79f61e1d4621c95a974d05fee5e",
+          "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044",
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": false,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6581
+        },
+        {
+          "probe": "duplicate_citation",
+          "expected_error": "duplicate_citation",
+          "actual_error": "duplicate_citation",
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "a5958928dd19a69ad3ed38da2074e7fe107965061880ea0232a9e2c2b4758be6",
+          "answer_sha256": null,
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": true,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6581
+        }
+      ],
+      "contract_status": "passed",
+      "semantic_model_status": "not_run",
+      "human_review_status": "not_run",
+      "human_labels": null
+    },
+    {
+      "case_id": "adv-dev-invented-cause",
+      "scenario_instance": "adv-incident-invented-cause",
+      "category": "invented_causality",
+      "binding": {
+        "case_id": "adv-dev-invented-cause",
+        "request_sha256": "49173d98e8395330da9c347e449f7ce41b35dbbe03d033c686a78d13ae63322d",
+        "source_manifest_sha256": "b5ba5b0e71da89eb6f4bd7f200dbba4636a3487b77ef8398fd49cb2f7b1f6f25",
+        "corpus_sha256": "a17c36113c6eba0870f649f6f79f42fa54aca8f453cae3917fd755dcd6a10285",
+        "release_sha256": "08f3cb521f263ec12c2c275a208302d1fa937fd4628481e1c6a4e76404467adc",
+        "boundary_sources_sha256": "7069549128b4e20e11807ae6a9334bd4c65c7f6ac347f27d21f3633ea479ef12",
+        "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044"
+      },
+      "probes": [
+        {
+          "probe": "valid",
+          "expected_error": null,
+          "actual_error": null,
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "2dafc5f1bd50543c98eb3e996aa3d7d262379b36e1c9216fcbd9b6be49072009",
+          "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044",
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": false,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6576
+        },
+        {
+          "probe": "outside_order",
+          "expected_error": "invalid_order_reference",
+          "actual_error": "invalid_order_reference",
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "2c4bd4c066c60d6f0a94d788134eba3e6c4fe743e8731ba0f9bc902e9b95b385",
+          "answer_sha256": null,
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": false,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6576
+        }
+      ],
+      "contract_status": "passed",
+      "semantic_model_status": "not_run",
+      "human_review_status": "not_run",
+      "human_labels": null
+    },
+    {
+      "case_id": "adv-dev-cited-without-support",
+      "scenario_instance": "adv-incident-cited-without-support",
+      "category": "unsupported_cited_claim",
+      "binding": {
+        "case_id": "adv-dev-cited-without-support",
+        "request_sha256": "a3619804365e71754d5b88036d08f6431975e202f1ac146937cffe7859f1a006",
+        "source_manifest_sha256": "99d5c777d45dd1c8f58c9def0735781a7744e78113567a7233533517f19b3e18",
+        "corpus_sha256": "a17c36113c6eba0870f649f6f79f42fa54aca8f453cae3917fd755dcd6a10285",
+        "release_sha256": "08f3cb521f263ec12c2c275a208302d1fa937fd4628481e1c6a4e76404467adc",
+        "boundary_sources_sha256": "7069549128b4e20e11807ae6a9334bd4c65c7f6ac347f27d21f3633ea479ef12",
+        "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044"
+      },
+      "probes": [
+        {
+          "probe": "valid",
+          "expected_error": null,
+          "actual_error": null,
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "d3685c0f66912ab5e27adae6f416b7bb92f429ea617dc3e46ac0a7b63b4d2aba",
+          "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044",
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": false,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6556
+        },
+        {
+          "probe": "invalid_schema",
+          "expected_error": "invalid_schema",
+          "actual_error": "invalid_schema",
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "4fe4c3a2d97953b5b1fa0150bf9f5f16967d4aea38fdcaab0c6c20cc4ab30d97",
+          "answer_sha256": null,
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": true,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6556
+        }
+      ],
+      "contract_status": "passed",
+      "semantic_model_status": "not_run",
+      "human_review_status": "not_run",
+      "human_labels": null
+    },
+    {
+      "case_id": "adv-dev-number-discordance",
+      "scenario_instance": "adv-incident-number-discordance",
+      "category": "numerical_discordance",
+      "binding": {
+        "case_id": "adv-dev-number-discordance",
+        "request_sha256": "c0c199c5a470481fac9c63f896fc98b9da2d82092275496b331af46ae55755af",
+        "source_manifest_sha256": "40a607b22e4c3b90afe7d0a3a1153c87b9cddb357f17f40c728628561ed8a9c9",
+        "corpus_sha256": "a17c36113c6eba0870f649f6f79f42fa54aca8f453cae3917fd755dcd6a10285",
+        "release_sha256": "08f3cb521f263ec12c2c275a208302d1fa937fd4628481e1c6a4e76404467adc",
+        "boundary_sources_sha256": "7069549128b4e20e11807ae6a9334bd4c65c7f6ac347f27d21f3633ea479ef12",
+        "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044"
+      },
+      "probes": [
+        {
+          "probe": "valid",
+          "expected_error": null,
+          "actual_error": null,
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "cbfcfb811acc44ba9a9ae3cbdaebbdb261e83709151a9bf36ecc573669a463dc",
+          "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044",
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": false,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6571
+        },
+        {
+          "probe": "timeout",
+          "expected_error": "provider_timeout",
+          "actual_error": "provider_timeout",
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": null,
+          "answer_sha256": null,
+          "usage": {
+            "status": "unknown",
+            "input_tokens": null,
+            "output_tokens": null,
+            "reasoning_tokens": null
+          },
+          "failed_accounting": true,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6571
+        }
+      ],
+      "contract_status": "passed",
+      "semantic_model_status": "not_run",
+      "human_review_status": "not_run",
+      "human_labels": null
+    },
+    {
+      "case_id": "adv-dev-fake-system-metadata",
+      "scenario_instance": "adv-incident-fake-system-metadata",
+      "category": "fake_system",
+      "binding": {
+        "case_id": "adv-dev-fake-system-metadata",
+        "request_sha256": "2839ec71f82d41e5af85b8064ad87ad3d1ccfb7482fc91d6d94acdaff0f3752a",
+        "source_manifest_sha256": "214fa1d99050017da9b19125c5f2bd3a4c01d39fb26ca951ec28c6fd195e95ce",
+        "corpus_sha256": "a17c36113c6eba0870f649f6f79f42fa54aca8f453cae3917fd755dcd6a10285",
+        "release_sha256": "08f3cb521f263ec12c2c275a208302d1fa937fd4628481e1c6a4e76404467adc",
+        "boundary_sources_sha256": "7069549128b4e20e11807ae6a9334bd4c65c7f6ac347f27d21f3633ea479ef12",
+        "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044"
+      },
+      "probes": [
+        {
+          "probe": "valid",
+          "expected_error": null,
+          "actual_error": null,
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "041ddbf0ecd6c26c3fc94abf6b55c8c3b691b74b0a923c7f74efeda6e06b122f",
+          "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044",
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": false,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6572
+        },
+        {
+          "probe": "claim_authority",
+          "expected_error": "invalid_claim_authority",
+          "actual_error": "invalid_claim_authority",
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "303487e2e024e1000fc64b9694abfdf122c56512631861dbe1ec4184392b7473",
+          "answer_sha256": null,
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": true,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6572
+        }
+      ],
+      "contract_status": "passed",
+      "semantic_model_status": "not_run",
+      "human_review_status": "not_run",
+      "human_labels": null
+    },
+    {
+      "case_id": "adv-dev-html-delimiter",
+      "scenario_instance": "adv-incident-html-delimiter",
+      "category": "delimiter_break",
+      "binding": {
+        "case_id": "adv-dev-html-delimiter",
+        "request_sha256": "8d606cb217b3d56815a84a6499c71628f1491017bab58083af396ce20a1f34d6",
+        "source_manifest_sha256": "362d0e79836c9160b32e210133f3ad4c222bc3a7b646292bb84ce42a5e1a17c4",
+        "corpus_sha256": "a17c36113c6eba0870f649f6f79f42fa54aca8f453cae3917fd755dcd6a10285",
+        "release_sha256": "08f3cb521f263ec12c2c275a208302d1fa937fd4628481e1c6a4e76404467adc",
+        "boundary_sources_sha256": "7069549128b4e20e11807ae6a9334bd4c65c7f6ac347f27d21f3633ea479ef12",
+        "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044"
+      },
+      "probes": [
+        {
+          "probe": "valid",
+          "expected_error": null,
+          "actual_error": null,
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "a5f539ba4209659578c44bbc86bdfb1fd3c5ef4ad034b73ece019a37aaa545a1",
+          "answer_sha256": "e082f78c1090779addcfbd360984d53017321c5c39aa424e8436883cd8239044",
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": false,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6533
+        },
+        {
+          "probe": "incomplete",
+          "expected_error": "provider_incomplete",
+          "actual_error": "provider_incomplete",
+          "contract_status": "passed",
+          "dispatches": 1,
+          "response_sha256": "c494602529e15596f8bf5ee5832d215970bbe4a8748ebb1905651e066164fb11",
+          "answer_sha256": null,
+          "usage": {
+            "status": "reported",
+            "input_tokens": 113,
+            "output_tokens": 57,
+            "reasoning_tokens": 7
+          },
+          "failed_accounting": true,
+          "event_order": [
+            "resolve_source",
+            "resolve_source",
+            "resolve_source",
+            "authorize_dispatch",
+            "mock_transport",
+            "account_usage"
+          ],
+          "input_token_estimate": 6533
+        }
+      ],
+      "contract_status": "passed",
+      "semantic_model_status": "not_run",
+      "human_review_status": "not_run",
+      "human_labels": null
+    }
+  ]
+}

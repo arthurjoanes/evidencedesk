@@ -1,0 +1,72 @@
+{
+  "kind": "synthetic_browser_automation",
+  "executed_at": "2026-10-12T04:36:13.864Z",
+  "workbench_sha256": "95a3e21646577d2ff2601e140c8104e729210f43bc138f61efc7f0d519fc095c",
+  "browser_version": "153.0.8010.12",
+  "human_reviews_executed": 0,
+  "human_gate": "inconclusive",
+  "model_behavior": "not_run",
+  "screenshot_capture_enabled": true,
+  "checks": [
+    {
+      "name": "empty state and disabled exports",
+      "status": "passed"
+    },
+    {
+      "name": "blinded import and untouched values remain null",
+      "status": "passed"
+    },
+    {
+      "name": "hostile source/answer text is inert, no network or storage",
+      "status": "passed"
+    },
+    {
+      "name": "supported cannot submit without locator/rationale",
+      "status": "passed"
+    },
+    {
+      "name": "draft survives filtering, case/claim navigation and keyboard",
+      "status": "passed"
+    },
+    {
+      "name": "submitted JSON preserves provenance and absence without fake source",
+      "status": "passed"
+    },
+    {
+      "name": "reload and resume own annotation",
+      "status": "passed"
+    },
+    {
+      "name": "local draft conflict and cancel discard preserve current work",
+      "status": "passed"
+    },
+    {
+      "name": "incompatible version, invalid JSON, hash error do not replace draft",
+      "status": "passed"
+    },
+    {
+      "name": "unexecuted response is visible but cannot receive judgment",
+      "status": "passed"
+    },
+    {
+      "name": "desktop, 360px, 200% reflow, focus and automated WCAG checks",
+      "status": "passed"
+    },
+    {
+      "name": "empty bundle keeps human gate inconclusive",
+      "status": "passed"
+    },
+    {
+      "name": "unavailable parser, chunks and retrieval versions remain null",
+      "status": "passed"
+    },
+    {
+      "name": "actual prepare/bundle -> browser exports -> authoritative CLI validation",
+      "status": "passed"
+    }
+  ],
+  "page_errors": [],
+  "network_requests": [],
+  "status": "passed",
+  "failure": null
+}
