@@ -1,0 +1,45 @@
+{
+  "findings_verified_as_exact_source_sha256": 120,
+  "rule": "generic-api-key",
+  "scanner_rules_or_allowlists_changed": false,
+  "private_raw_manifests_preserved": true,
+  "public_serialization": "Separate fields avoid presenting source file names as credential keys.",
+  "sources": [
+    {
+      "candidate": "baseline-01",
+      "original_manifest_sha256": "148062856572d42cab200d7821655f86f496c20577a70e513603716161c8c69c",
+      "files": 938,
+      "all_path_digest_pairs_preserved": true
+    },
+    {
+      "candidate": "candidate-01",
+      "original_manifest_sha256": "c865a20a1d8d44f1189bf1b304b6adb338bc1c9ba2448e06f3430f81f22563c6",
+      "files": 947,
+      "all_path_digest_pairs_preserved": true
+    },
+    {
+      "candidate": "candidate-02",
+      "original_manifest_sha256": "c5d197caceeb90fa7d06ece3c1a388ba268687e416274014c0ac4c159730cf91",
+      "files": 947,
+      "all_path_digest_pairs_preserved": true
+    },
+    {
+      "candidate": "candidate-03",
+      "original_manifest_sha256": "ade7f1e5c2a91a14111c545de54669d0f171029359185af596784b54f131baa7",
+      "files": 947,
+      "all_path_digest_pairs_preserved": true
+    },
+    {
+      "candidate": "candidate-04",
+      "original_manifest_sha256": "0b14a2a3a371cb9c5656e903c5f99c0ecef1accac1781bca21691f3af5f5e0ae",
+      "files": 947,
+      "all_path_digest_pairs_preserved": true
+    },
+    {
+      "candidate": "candidate-05",
+      "original_manifest_sha256": "c1736f729bdf53f40700143cb3a682be356a5d85df0b9d04a73700e295baa416",
+      "files": 947,
+      "all_path_digest_pairs_preserved": true
+    }
+  ]
+}
