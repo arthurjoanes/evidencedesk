@@ -19,12 +19,12 @@
       "bytes": 194466
     },
     "application-after.json": {
-      "sha256": "e5d8cd13741386fd6f5b0405571e2f25d9c008ccaba59f8286863dd7af03cd97",
-      "bytes": 67371
+      "sha256": "a872b0c8d506bcc9a647fdac18c1a2ae4d22bc816c0ebdeb91573ad936768857",
+      "bytes": 67791
     },
     "application-before.json": {
-      "sha256": "5796ac4e0aa0fc355b75428d90452d980b0d2318590f608f7a215bed1410f85f",
-      "bytes": 59354
+      "sha256": "52f0cdb4efda4507edd73be11a2c79d3b01dd2fc23c8095f981e46c1ee47b3a4",
+      "bytes": 59774
     },
     "application-fixture.json": {
       "sha256": "012403b338daf48dc10fac20ce90ec668309dfb0c27320dfd90719444723ae79",
