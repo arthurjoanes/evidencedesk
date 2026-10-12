@@ -1,7 +1,0 @@
-{
-  "changed_files": [
-    "frontend/e2e/uiux-regressions.spec.ts"
-  ],
-  "production_frontend_backend_assets_and_workbench_unchanged": true,
-  "reason": "The only change corrects an E2E expectation for the filtered empty state; runtime and capture source bytes are identical."
-}

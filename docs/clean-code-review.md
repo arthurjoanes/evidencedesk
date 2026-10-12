@@ -29,7 +29,7 @@ Arquivos alterados para o exercício: somente esse teste. O contrato já permite
 
 O agregado antes aparecia como texto JSON. Foram acrescentados [reconciliation-content.ts](../frontend/src/features/evidence/reconciliation-content.ts), [reconciliation-summary.tsx](../frontend/src/features/evidence/reconciliation-summary.tsx) e a escolha de modo no [EvidenceReader](../frontend/src/features/evidence/evidence-reader.tsx). O formato original, números, escapes e hash continuam preservados. Ausência de campo não é zero.
 
-A regra de conciliação e o conteúdo persistido foram preservados. Testes unitários cobrem contradições e preservação lexical; a rodada histórica de navegador abriu o resultado Azure existente e verificou leitura móvel/axe. A mudança demonstrou separação de apresentação e domínio. As capturas atuais estão na [revisão do frontend](frontend-review.md).
+A regra de conciliação e o conteúdo persistido foram preservados. Testes unitários cobrem contradições e preservação lexical; a rodada histórica de navegador abriu o resultado Azure existente e verificou leitura móvel/axe. A mudança demonstrou separação de apresentação e domínio. A arquitetura e os comandos de verificação estão no [guia do frontend](frontend.md).
 
 ## Achados corrigidos na revisão
 

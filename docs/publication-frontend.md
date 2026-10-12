@@ -1,6 +1,6 @@
 # Auditoria do frontend para publicação
 
-Data: 21/09/2026. Escopo: bancada, importação, revisão, acessibilidade dos formulários e documentação do frontend. Consulte a [revisão da arquitetura](frontend-review.md) e o [guia de execução](../frontend/README.md).
+Data: 21/09/2026. Escopo: bancada, importação, revisão, acessibilidade dos formulários e documentação do frontend. Consulte a [arquitetura do frontend](frontend.md) e o [guia de execução](../frontend/README.md).
 
 ## Problemas corrigidos
 
