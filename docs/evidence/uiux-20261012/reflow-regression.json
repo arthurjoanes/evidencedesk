@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "check": "index-reflow-repeat",
+      "exit_code": 0,
+      "source_unchanged": true,
+      "duration_seconds": 13.282,
+      "log_sha256": "3850aef7eead835657b4e1e6370d7779875a7522c577ee846f721b3d26e10238",
+      "observed_at": "2026-10-12T15:17:29.480385+00:00"
+    },
+    {
+      "check": "reflow-typecheck",
+      "exit_code": 0,
+      "source_unchanged": true,
+      "duration_seconds": 2.593,
+      "log_sha256": "b4aa83085740b16ee14867bee7b1037a203ad669089926abca4d3288eeb7346a",
+      "observed_at": "2026-10-12T15:17:58.673462+00:00"
+    },
+    {
+      "check": "reflow-format",
+      "exit_code": 0,
+      "source_unchanged": true,
+      "duration_seconds": 0.234,
+      "log_sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "observed_at": "2026-10-12T15:17:59.633554+00:00"
+    }
+  ],
+  "product_source_unchanged": true,
+  "test_source": "frontend/e2e/index-capability.spec.ts",
+  "test_sha256": "347c0b2322980ce9d6fe4017d61f0c84bbf23a278a213385e2b22d0ea3e00a84",
+  "private_source_manifest_sha256": "f1da0132f5d0e199e1f9bfa6a3f572750e73d079f9d38670c34f8bfaa61ce4e0",
+  "browser_stats": {
+    "startTime": "2026-10-12T15:17:16.646Z",
+    "duration": 12469.73,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "original_ci_attempt": {
+    "head": "97e5ddcfcefc76ad4f496047e4b396ae96a1f8d1",
+    "run_id": 38267687843,
+    "job_id": 114874250135,
+    "result": "failed",
+    "location": "index-capability.spec.ts:112 after viewport resize",
+    "core_passed": 12,
+    "core_skipped": 4,
+    "core_failed": 1
+  },
+  "diagnosis": "The desktop failure/assertions, one admission, UUID and CSRF passed. The workspace remounts SourceList/SnapshotIndex at the desktop/mobile breakpoint. Reading open on the old desktop node before the remount can skip reopening the new closed details. This is inferred from code and failure location; no trace was available.",
+  "correction": "Wait for the captured desktop node to disconnect using the existing expect.poll timeout before inspecting and opening the mobile details. No timeout increase, retry, skip, assertion removal or product change.",
+  "runtime": {
+    "project": "pf-evidencedesk-e2e-uiux-core-a12e4b",
+    "reused_own_volumes_without_counter_reset": true,
+    "additional_logins": 3,
+    "provider_calls_after": 0,
+    "stopped_after_followup": true,
+    "volumes_and_images_preserved": true
+  },
+  "scope": "Complementary test-harness check after the original paired captures; those fixtures, PNGs and reports are preserved."
+}
