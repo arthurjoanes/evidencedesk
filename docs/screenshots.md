@@ -1,5 +1,13 @@
 # Capturas da interface
 
+## Comparação de UI/UX de 12/10/2026
+
+O [novo inventário](evidence/uiux-20261012/manifest.json) registra a comparação antes/depois da [revisão de interface](uiux-review-20261012.md). A aplicação usa a mesma investigação, revisão pendente e revisão aprovada, com as mesmas fontes e snapshot em 320, 390, 768, 1024 e 1440 CSS px. O workbench usa uma fixture visual sintética identificada, sem julgamentos humanos ou execução de modelo. Os PNGs vêm do navegador, sem edição de pixels ou troca de dados no DOM.
+
+As capturas anteriores abaixo continuam históricas. Uma nova imagem não atualiza a data de aprovação, restauração ou conciliação de outro registro. Capturas longas ficam como links na comparação; o README usa o leitor móvel para manter o texto legível.
+
+## Inventário de setembro
+
 A conferência inicial de 22/09/2026 identificou **16 imagens PNG** reais da aplicação. Depois dela, o leitor recebeu realce sintático de JSON e uma nova captura focada, totalizando **17 imagens** neste inventário. As provas anteriores conservam o leitor monocromático daquela versão. Os ícones da stack e separadores SVG do README são recursos gráficos, não screenshots.
 
 | Conjunto                                                                                           | Quantidade | Tratamento                                                                                                                                                              |
