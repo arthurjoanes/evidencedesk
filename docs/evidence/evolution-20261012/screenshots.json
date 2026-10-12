@@ -1,0 +1,30 @@
+{
+  "captured_at": "2026-10-12T04:36:13.864Z",
+  "workbench_sha256": "95a3e21646577d2ff2601e140c8104e729210f43bc138f61efc7f0d519fc095c",
+  "browser_version": "153.0.8010.12",
+  "human_reviews_executed": 0,
+  "network_requests": 0,
+  "files": [
+    {
+      "file": "workbench-desktop.png",
+      "sha256": "840255d78a51bbe45cd530b16c6567d517f30e59853d0c40786ae3583106cb38",
+      "width": 1440,
+      "height": 1531,
+      "origin": "real_chromium_screenshot_of_identified_synthetic_ui_fixture"
+    },
+    {
+      "file": "workbench-mobile.png",
+      "sha256": "0677f1759b52306c4cbbfb6c42d621eb43b309688196eeacc09ba0e3c2457524",
+      "width": 360,
+      "height": 3762,
+      "origin": "real_chromium_screenshot_of_identified_synthetic_ui_fixture"
+    },
+    {
+      "file": "workbench-zoom-200.png",
+      "sha256": "b20a1d0e02d51d388b3b1b08e72882e2b2e268afb04e019ed3df075f5249e553",
+      "width": 720,
+      "height": 7527,
+      "origin": "real_chromium_screenshot_of_identified_synthetic_ui_fixture"
+    }
+  ]
+}

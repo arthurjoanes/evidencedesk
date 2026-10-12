@@ -1,0 +1,35 @@
+{
+  "scope": "production_dependencies",
+  "command": "npm audit --omit=dev --audit-level=high --json",
+  "lock_sha256": "e7ec9566670fe45b8c4938f397688020eebca5671c27922fdeaa32610b91660a",
+  "advisories": [
+    {
+      "package": "sharp",
+      "before": "0.35.4",
+      "after": "0.35.5",
+      "license": "Apache-2.0",
+      "source": "https://github.com/advisories/GHSA-wq5f-xc86-pv6w"
+    },
+    {
+      "package": "source-map-js",
+      "before": "1.2.1",
+      "after": "1.2.2",
+      "license": "BSD-3-Clause",
+      "source": "https://github.com/advisories/GHSA-68fv-2mgg-jv7q"
+    }
+  ],
+  "new_direct_dependencies": 0,
+  "dependency_graph_names_unchanged": true,
+  "known_vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "development_dependency_audit": {
+    "high": 5,
+    "scope": "not changed by this delivery; production audit is reported separately"
+  }
+}
