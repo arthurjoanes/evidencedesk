@@ -29,6 +29,7 @@ import {
 import { useDossierDialogs } from "./dossier-dialogs";
 import { RevisionComparison } from "./revision-comparison";
 import { DossierHistory } from "./dossier-history";
+import type { CitationSelection } from "./citation-context";
 
 export function DossierView({
   incident,
@@ -37,13 +38,21 @@ export function DossierView({
   selectedRevisionId,
   onSelect,
   onEvidence,
+  selectedEvidenceId,
+  selectedClaimId,
 }: {
   incident: Incident;
   snapshotId: string;
   selectedDossierId: string | null;
   selectedRevisionId: string | null;
   onSelect: (dossierId: string, revisionId?: string) => void;
-  onEvidence: (id: string, snapshotId?: string) => void;
+  onEvidence: (
+    id: string,
+    snapshotId?: string,
+    citation?: CitationSelection,
+  ) => void;
+  selectedEvidenceId: string | null;
+  selectedClaimId: string | null;
 }) {
   const session = useSession();
   const client = useQueryClient();
@@ -123,6 +132,8 @@ export function DossierView({
               selectedRevisionId={selectedRevisionId}
               onSelect={onSelect}
               onEvidence={onEvidence}
+              selectedEvidenceId={selectedEvidenceId}
+              selectedClaimId={selectedClaimId}
               onSaved={refresh}
             />
           </div>
@@ -139,12 +150,20 @@ function RevisionView({
   onSaved,
   selectedRevisionId,
   onSelect,
+  selectedEvidenceId,
+  selectedClaimId,
 }: {
   selectedRevisionId: string | null;
   onSelect: (dossierId: string, revisionId?: string) => void;
   dossier: Dossier;
   incident: Incident;
-  onEvidence: (id: string, snapshotId?: string) => void;
+  onEvidence: (
+    id: string,
+    snapshotId?: string,
+    citation?: CitationSelection,
+  ) => void;
+  selectedEvidenceId: string | null;
+  selectedClaimId: string | null;
   onSaved: (dossierId?: string, revisionId?: string) => void;
 }) {
   const session = useSession();
@@ -373,6 +392,7 @@ function RevisionView({
                     incidentId: incident.id,
                     dossierId: dossier.id,
                     revision: current,
+                    snapshotId: dossier.evidence_snapshot_id,
                   })
                 }
               >
@@ -439,9 +459,9 @@ function RevisionView({
           {current.claims.map((claim, index) => (
             <article key={claim.claim_id} className="claim">
               <div className="claim-topline">
-                <span className="claim-kind">
-                  {String(index + 1).padStart(2, "0")} · {label(claim.kind)}
-                </span>
+                <h4 className="claim-kind">
+                  Alegação {index + 1} · {label(claim.kind)}
+                </h4>
                 <Status value={claim.support_status} />
               </div>
               <p className="claim-text">{claim.text}</p>
@@ -455,12 +475,30 @@ function RevisionView({
                   <button
                     key={link.evidence_id + link.relation}
                     className="source-button"
+                    data-evidence-id={link.evidence_id}
+                    data-claim-id={claim.claim_id}
+                    aria-label={`Conferir fonte ${sourceIndex + 1} da alegação ${index + 1}`}
+                    aria-pressed={
+                      selectedEvidenceId === link.evidence_id &&
+                      selectedClaimId === claim.claim_id
+                    }
                     onClick={() =>
-                      onEvidence(link.evidence_id, dossier.evidence_snapshot_id)
+                      onEvidence(
+                        link.evidence_id,
+                        dossier.evidence_snapshot_id,
+                        {
+                          dossierId: dossier.id,
+                          revisionId: current.id,
+                          claimId: claim.claim_id,
+                        },
+                      )
                     }
                   >
-                    {label(link.relation)} · fonte {sourceIndex + 1}
-                    <ArrowUpRight size={12} />
+                    Conferir fonte {sourceIndex + 1}
+                    <span className="citation-link-relation">
+                      {label(link.relation)}
+                    </span>
+                    <ArrowUpRight size={14} aria-hidden="true" />
                   </button>
                 ))}
               </div>

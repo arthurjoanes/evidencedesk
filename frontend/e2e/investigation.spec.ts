@@ -212,6 +212,22 @@ test("manual abstention, independent review and authorized export", async ({
     .fill(
       "Conferi a abstenção e os limites. A aprovação registra a revisão humana e não uma causa confirmada.",
     );
+  const reviewDialog = page.getByRole("dialog");
+  const reviewSubmit = reviewDialog.getByRole("button", {
+    name: "Registrar decisão",
+    exact: true,
+  });
+  await expect(reviewDialog.getByLabel("Decisão")).toHaveValue("");
+  await expect(reviewSubmit).toBeDisabled();
+  await reviewDialog.getByLabel("Decisão").selectOption("approved");
+  await expect(reviewSubmit).toBeDisabled();
+  await reviewDialog
+    .getByRole("checkbox", {
+      name: "Conferi a abstenção e as lacunas desta revisão",
+      exact: true,
+    })
+    .check();
+  await expect(reviewSubmit).toBeEnabled();
   page.once("dialog", (dialog) => dialog.dismiss());
   await page
     .getByRole("dialog")

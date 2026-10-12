@@ -1,5 +1,12 @@
 "use client";
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { dossierSchema, incidentSchema, type Revision } from "@/lib/contracts";
 import { ApiError, request } from "@/lib/http";
@@ -22,6 +29,7 @@ type Intent =
       incidentId: string;
       dossierId: string;
       revision: Revision;
+      snapshotId: string;
     };
 const DialogContext = createContext<{ open: (intent: Intent) => void } | null>(
   null,
@@ -43,15 +51,73 @@ export function DossierDialogs({
   onSaved: (dossierId: string, revisionId?: string) => void;
 }) {
   const [intent, setIntent] = useState<Intent | null>(null);
+  const session = useSession();
+  const scope = scopeKey(session).join("\u0000");
+  const currentScope = useRef(scope);
+  const hostMounted = useRef(false);
+  const intentOpen = useRef(false);
+  const intentSaved = useRef(false);
+  const trigger = useRef<{ element: HTMLElement | null; scope: string } | null>(
+    null,
+  );
+  useEffect(() => {
+    currentScope.current = scope;
+  }, [scope]);
+  useEffect(() => {
+    hostMounted.current = true;
+    return () => {
+      hostMounted.current = false;
+    };
+  }, []);
   const client = useQueryClient();
+  function close() {
+    intentOpen.current = false;
+    setIntent(null);
+  }
+  function restoreFocus(event: Event) {
+    event.preventDefault();
+    // Authorization loading and session suspension replace/close a portal,
+    // but they do not close the user's intent. Never focus hidden content.
+    if (
+      !hostMounted.current ||
+      intentOpen.current ||
+      trigger.current?.scope !== currentScope.current
+    )
+      return;
+    const original = trigger.current?.element;
+    const target =
+      !intentSaved.current &&
+      original?.isConnected &&
+      original.getClientRects().length
+        ? original
+        : document.getElementById("main-content");
+    if (target?.isConnected && target.getClientRects().length) target.focus();
+  }
   return (
-    <DialogContext.Provider value={{ open: setIntent }}>
+    <DialogContext.Provider
+      value={{
+        open: (next) => {
+          trigger.current = {
+            element:
+              document.activeElement instanceof HTMLElement
+                ? document.activeElement
+                : null,
+            scope,
+          };
+          intentOpen.current = true;
+          intentSaved.current = false;
+          setIntent(next);
+        },
+      }}
+    >
       {children}
       {intent && (
         <AuthorizedDialog
           intent={intent}
-          onClose={() => setIntent(null)}
+          onClose={close}
+          onCloseAutoFocus={restoreFocus}
           onSaved={(id, revisionId) => {
+            intentSaved.current = true;
             void client.invalidateQueries({
               predicate: (query) =>
                 query.queryKey.includes(intent.incidentId) ||
@@ -69,10 +135,12 @@ function AuthorizedDialog({
   intent,
   onClose,
   onSaved,
+  onCloseAutoFocus,
 }: {
   intent: Intent;
   onClose: () => void;
   onSaved: (dossierId?: string, revisionId?: string) => void;
+  onCloseAutoFocus: (event: Event) => void;
 }) {
   const session = useSession();
   const access = useQuery({
@@ -103,7 +171,10 @@ function AuthorizedDialog({
       if (
         !resource.permissions.includes(permission) ||
         ("incident_id" in resource &&
-          resource.incident_id !== intent.incidentId)
+          resource.incident_id !== intent.incidentId) ||
+        (intent.kind === "review" &&
+          "evidence_snapshot_id" in resource &&
+          resource.evidence_snapshot_id !== intent.snapshotId)
       )
         throw new ApiError(
           403,
@@ -120,6 +191,7 @@ function AuthorizedDialog({
     return (
       <Dialog
         open
+        onCloseAutoFocus={onCloseAutoFocus}
         onOpenChange={(open) => {
           if (!open) onClose();
         }}
@@ -143,6 +215,7 @@ function AuthorizedDialog({
       accessError={access.error ?? undefined}
       retryAccess={() => void access.refetch()}
       onClose={onClose}
+      onCloseAutoFocus={onCloseAutoFocus}
       onSaved={onSaved}
     />
   ) : (
@@ -152,6 +225,7 @@ function AuthorizedDialog({
       accessError={access.error ?? undefined}
       retryAccess={() => void access.refetch()}
       onClose={onClose}
+      onCloseAutoFocus={onCloseAutoFocus}
       onSaved={(revision) => onSaved(intent.dossierId, revision.id)}
     />
   );

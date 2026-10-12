@@ -1,6 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, FileText, X } from "lucide-react";
 import { evidenceSchema } from "@/lib/contracts";
@@ -22,11 +22,17 @@ export function EvidenceReader({
   snapshotId,
   onClose,
   onResize,
+  renderCitation,
+  citationAllowed = true,
+  authorizationNotice,
 }: {
   id: string;
   snapshotId: string;
   onClose: () => void;
-  onResize: (size: number) => void;
+  onResize?: (size: number) => void;
+  renderCitation?: (sourceAvailable: boolean) => ReactNode;
+  citationAllowed?: boolean;
+  authorizationNotice?: ReactNode;
 }) {
   const session = useSession();
   const heading = useRef<HTMLHeadingElement>(null);
@@ -44,7 +50,10 @@ export function EvidenceReader({
         { signal },
       ),
   });
-  const evidence = query.isError || query.isFetching ? undefined : query.data;
+  const evidence =
+    !citationAllowed || query.isError || query.isFetching
+      ? undefined
+      : query.data;
   const reconciliation = useMemo(
     () =>
       evidence?.kind === "reconciliation_result"
@@ -60,14 +69,14 @@ export function EvidenceReader({
     <section className="evidence-panel" aria-label="Leitor de evidência">
       <div className="evidence-heading">
         <div className="evidence-heading-top">
-          <span className="section-kicker">FONTE SELECIONADA</span>
+          <span className="source-heading-label">Fonte selecionada</span>
           <Button
             size="icon"
             variant="ghost"
             aria-label="Fechar fonte e voltar à seleção"
             onClick={onClose}
           >
-            <X size={17} />
+            <X size={17} aria-hidden="true" />
           </Button>
         </div>
         <h2 ref={heading} tabIndex={-1}>
@@ -76,6 +85,7 @@ export function EvidenceReader({
         {evidence && (
           <div className="evidence-metadata">
             <span>{label(evidence.kind)}</span>
+            <span>{evidence.source_system}</span>
             <span>Versão {evidence.version}</span>
             {evidence.locator.page && (
               <span>Página {evidence.locator.page}</span>
@@ -92,23 +102,27 @@ export function EvidenceReader({
           </div>
         )}
       </div>
+      {authorizationNotice}
+      {renderCitation?.(!!evidence)}
       <div className="evidence-tools">
         <Button size="small" variant="ghost" onClick={onClose}>
           <ArrowLeft size={14} />
           Voltar à seleção
         </Button>
-        <Button
-          className="desktop-resize"
-          size="small"
-          onClick={() => onResize(50)}
-        >
-          Dividir ao meio
-        </Button>
+        {onResize && (
+          <Button
+            className="desktop-resize"
+            size="small"
+            onClick={() => onResize(50)}
+          >
+            Dividir ao meio
+          </Button>
+        )}
       </div>
-      {(query.isPending || query.isFetching) && (
+      {citationAllowed && (query.isPending || query.isFetching) && (
         <Loading>Consultando a fonte autorizada…</Loading>
       )}
-      {query.isError && (
+      {citationAllowed && query.isError && (
         <ErrorNotice error={query.error} retry={() => void query.refetch()} />
       )}
       {evidence && (
