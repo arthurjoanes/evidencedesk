@@ -1,5 +1,7 @@
 # Do pagamento pendente à revisão do dossiê
 
+Na interface da [rodada de UI/UX](uiux-review-20261012.md), abrir uma citação conserva sua alegação no leitor. A busca aplicada de fontes permanece ao trocar de aba, voltar ou recarregar. Para aprovar, o revisor escolhe a decisão, confirma as alegações daquela versão e escreve a justificativa. Para uma abstenção sem alegações, confirma a abstenção e as lacunas. Solicitar ajustes continua disponível. A comparação usa uma revisão pendente fixa e não registra uma nova aprovação ao capturar a tela; a jornada funcional completa é verificada separadamente.
+
 Preparei este roteiro para demonstrar uma investigação completa do **mesmo pedido**, sem geração por modelo. Pré-condição: seed carregado, API, worker e frontend prontos. Use apenas contas fictícias em um projeto local descartável. A aprovação por contas operadas pelo teste verifica o mecanismo, não equivale a julgamento semântico por uma pessoa.
 
 ## O que precisa ser conferido
@@ -45,24 +47,34 @@ O caso de pagamento pendente é `demo-aurora-09`, também usado nas [capturas ve
 
 A [jornada de pagamento](../frontend/e2e/payment-story.spec.ts) usa a interface e a API reais, sem substituir respostas ou texto no DOM. É opt-in porque cria uma investigação e um dossiê sobre as fontes do seed. Confere os horários contra valores esperados independentes, os IDs das duas fontes, a negativa à autora, a identidade do revisor, o HTML exportado e a preservação da conciliação após aprovar. As duas contas precisam estar disponíveis no seed.
 
-Instale as dependências do [guia de desenvolvimento](development.md). Use um projeto novo; o perfil E2E desativa o provedor e esvazia a chave de Azure. Não reutilize o ambiente de uma apresentação com dados a preservar.
+Instale as dependências do [guia de desenvolvimento](development.md). Use um projeto novo; o perfil E2E desativa o provedor e esvazia a chave de Azure. Não reutilize o ambiente de uma apresentação com dados a preservar. O comando abaixo executa o grupo `stories`: a jornada de pagamento e as três regressões de UI/UX, com relatórios privados da rodada.
 
 ```powershell
-$env:ED_BACKEND_IMAGE = 'pf-evidencedesk-backend:payment-story'
-$env:ED_FRONTEND_IMAGE = 'pf-evidencedesk-frontend:payment-story'
-python scripts/ops.py --project pf-evidencedesk-e2e-payment-story --e2e config
-python scripts/ops.py --project pf-evidencedesk-e2e-payment-story --e2e build
-python scripts/ops.py --project pf-evidencedesk-e2e-payment-story --e2e start
-python scripts/ops.py --project pf-evidencedesk-e2e-payment-story --e2e seed
+$storyRun = Get-Date -Format yyyyMMddHHmmss
+$storyProject = 'pf-evidencedesk-e2e-stories-' + $storyRun
+$env:ED_BACKEND_IMAGE = 'pf-evidencedesk-backend:stories-' + $storyRun
+$env:ED_FRONTEND_IMAGE = 'pf-evidencedesk-frontend:stories-' + $storyRun
+python scripts/ops.py --project $storyProject --e2e config
+python scripts/ops.py --project $storyProject --e2e build
+python scripts/ops.py --project $storyProject --e2e db
+docker compose -p $storyProject -f infra/compose/compose.yaml -f infra/compose/e2e.yaml run --rm --no-deps migrate
+python scripts/ops.py --project $storyProject --e2e seed
+docker compose -p $storyProject -f infra/compose/compose.yaml -f infra/compose/e2e.yaml run --rm --no-deps -v "${PWD}/scripts:/ops:ro" seed python /ops/prepare_e2e.py
+python scripts/ops.py --project $storyProject --e2e start
 $env:ED_E2E_BASE_URL = 'http://127.0.0.1:3107'
+$env:ED_E2E_ARTIFACT_DIR = Join-Path $env:TEMP ('evidencedesk-e2e-stories-' + $storyRun)
 $env:ED_PAYMENT_STORY = '1'
 Push-Location frontend
-npm run test:e2e -- payment-story.spec.ts
+npm run test:e2e:stories
 Pop-Location
-python scripts/ops.py --project pf-evidencedesk-e2e-payment-story --e2e stop
+python scripts/ops.py --project $storyProject --e2e stop
 ```
 
 Esse perfil publica exclusivamente em loopback, portas 3107/8107. Ele não inicia modelos nem observabilidade. A saída padrão fica em `frontend/artifacts/payment-story.json` e `frontend/artifacts/screenshots`; configure `ED_E2E_ARTIFACT_DIR` para uma pasta separada em cada rodada. O resumo não inclui cookies ou token de sessão. O relatório bruto e traces permanecem ignorados; revise a projeção pública antes de copiar artefatos para a documentação. `stop` preserva os volumes do projeto para inspeção.
+
+A suíte completa usa dois bancos frescos e namespaces separados: `npm run test:e2e:core` seleciona 17 testes; `npm run test:e2e:stories` seleciona os quatro restantes. Prepare o grupo `core` pelo [runbook de CI](runbooks/ci.md), incluindo a coleção `qa-imports`, com outro nome de projeto e outro diretório de relatório. Se usar as mesmas portas, encerre o runtime anterior antes de iniciar o próximo. Reutilizar o nome de um projeto parado conserva seu banco, portanto não equivale a preparar um laboratório novo.
+
+O limite real é de **10 tentativas de login por e-mail em 15 minutos**, inclusive logins bem-sucedidos. Nos defaults, `stories` faz 3 logins de Ana, 3 de Bruno e 1 de Carla; `core` faz 10 de Ana, 2 de Bruno e 4 de Carla, incluindo a substituição de sessão. Não resetamos contadores nem alteramos a autenticação para passar a suíte. Logins extras e repetições no mesmo banco podem atingir o limite. `existing-run` e as três jornadas de restauração têm configuração própria e ficam explicitamente pulados sem ela; habilitar `existing-run` exige um grupo adicional para não exceder os 10 logins de Ana. `npm run test:e2e` conserva o comando bruto; use os dois grupos para verificar esta suíte sem misturar seus históricos de autenticação.
 
 Os testes que sustentam as decisões são separados da captura:
 

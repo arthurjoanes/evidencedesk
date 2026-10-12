@@ -1,5 +1,13 @@
 # Revisão do frontend
 
+## Atualização de UI/UX de 12/10/2026
+
+A [rodada atual](uiux-review-20261012.md) aproxima alegação e fonte no leitor, conserva a busca aplicada de fontes na URL e retira a aprovação preselecionada. O diálogo mostra as alegações da revisão e exige conferência individual antes da aprovação; uma abstenção sem alegações tem sua própria confirmação, sem fabricar citações. IDs, snapshot, revisão e autorização atual são conferidos antes de apresentar o contexto da citação. Revalidação e recusa escondem esse conteúdo.
+
+O [manifesto](evidence/uiux-20261012/manifest.json) e os [resultados](evidence/uiux-20261012/verification.json) distinguem esta execução das provas de setembro abaixo. Capturas antes/depois usam a mesma fixture em cinco larguras. O workbench permanece HTML offline, com fonte antes do julgamento no móvel, erros locais, foco e achados em checkboxes. CSS zoom, zoom nativo e leitor de tela têm limites separados no registro.
+
+## Revisão anterior
+
 Revisão de 21/09/2026. O frontend apresenta incidentes, fontes e revisões confirmados pela API. A conciliação, a autorização, a publicação de snapshots e a aprovação permanecem no backend. Uma investigação bem-sucedida produz um rascunho; a interface distingue esse resultado da revisão humana aprovada.
 
 ## Arquitetura e escolhas
@@ -34,17 +42,29 @@ npm run build
 
 O [registro de 21/09/2026, 22:11 UTC](evidence/publication-frontend.json) contém **61 testes unitários** e os checks de tipos, lint e formatação. O artefato preserva o escopo dessa execução. Eles cobrem a fronteira HTTP, isolamento de sessão, navegação, validação de importações, leitura da conciliação, revisão de alegações e limites dos formulários. A atualização dos contratos de formulário inclui vinte fontes e trinta pedidos por alegação, vinte notas por lista, limites de texto e rejeição local de um resultado com evidências sem alegações citadas.
 
-As jornadas Playwright estão em `frontend/e2e`. O [runbook de CI](runbooks/ci.md) descreve como preparar API, worker, seed e coleção `qa-imports` em um projeto isolado. A conta demo possui limite real de login: prefira a regressão afetada ao repetir testes no mesmo laboratório. Nunca aponte os testes de escrita a dados de produção.
+As jornadas Playwright estão em `frontend/e2e`. O [runbook de CI](runbooks/ci.md) descreve como preparar API, worker, seed e coleção `qa-imports` em um projeto isolado. Nunca aponte os testes de escrita a dados de produção.
 
-| Jornada                                                          | O que verifica                                                                                                                                  |
-| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `investigation.spec.ts`                                          | Login e troca de organização; navegação; retorno de foco; dossiê manual; conflito real entre revisões; segundo revisor; exportação autorizada.  |
-| `import-pdf.spec.ts`                                             | Upload PDF real, publicação pelo worker, texto extraído, pixels no canvas e hash do original.                                                   |
-| `accessibility.spec.ts` e `visual.spec.ts`                       | Regras axe, nonce distinto por resposta, divisor por teclado, apresentação a 320/768/1440 px e retorno do leitor móvel.                         |
-| `protected-source.spec.ts` e `session-revalidation.spec.ts`      | Ocultação de conteúdo durante consulta e depois de recusa; preservação do trabalho após revalidação da sessão.                                  |
-| `review-regressions.spec.ts` e `publication-regressions.spec.ts` | Contexto da fila; formulários e erros acessíveis; revogação; coleção depois da primeira página; bloqueio de controles durante gravações lentas. |
-| `controlled-states.spec.ts` e `index-capability.spec.ts`         | Falha de transporte, capacidade do índice, cobertura parcial e recusa de apresentar uma falsa conclusão.                                        |
-| `existing-run.spec.ts`                                           | Leitura opcional de uma geração já concluída; não admite uma nova execução de IA. Sem os IDs explícitos, é ignorado.                            |
+Execute a suíte em dois grupos, cada um com um namespace Compose novo e seu próprio banco recém-preparado. O controle real admite até **10 tentativas de login por e-mail em 15 minutos**, incluindo acessos bem-sucedidos e a substituição de sessão. Não há reset do contador nem afrouxamento desse limite para testes. `stop` preserva os volumes; reutilizar o nome do projeto também reutiliza o banco e seu histórico de tentativas. Para outra rodada, prepare outro nome de projeto. As portas do perfil E2E podem ser usadas em sequência, encerrando o grupo anterior antes de iniciar o próximo.
+
+Na pasta `frontend`, com `ED_E2E_BASE_URL` apontando para o runtime daquele grupo e `ED_E2E_ARTIFACT_DIR` indicando uma pasta privada fora do Git, use:
+
+| Comando                    | Grupo e tentativas por conta demo                                                                                |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `npm run test:e2e:core`    | 17 testes selecionados; com os casos opcionais desativados, Ana faz 10 logins, Bruno 2 e Carla 4.                |
+| `npm run test:e2e:stories` | Quatro testes: pagamento e regressões de UI/UX; Ana faz 3 logins, Bruno 3 e Carla 1. Exige `ED_PAYMENT_STORY=1`. |
+
+Os comandos preservam os 21 testes, sem sobreposição. O grupo `core` chega ao limite de Ana: não faça logins manuais adicionais nem repita falhas na mesma janela e banco. A configuração padrão não repete testes automaticamente. A jornada `existing-run` e as três jornadas de restauração continuam opcionais, com seus requisitos próprios; ativar `existing-run` acrescenta um login de Ana e exige outro grupo isolado. Registre esses skips, sem apresentá-los como cobertura executada. `npm run test:e2e` permanece disponível como comando bruto de toda a suíte, mas uma execução rápida em um único banco excede o limite de login.
+
+| Jornada                                                          | O que verifica                                                                                                                                                          |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `investigation.spec.ts`                                          | Login e troca de organização; navegação; retorno de foco; dossiê manual; conflito real entre revisões; segundo revisor; exportação autorizada.                          |
+| `import-pdf.spec.ts`                                             | Upload PDF real, publicação pelo worker, texto extraído, pixels no canvas e hash do original.                                                                           |
+| `accessibility.spec.ts` e `visual.spec.ts`                       | Regras axe, nonce distinto por resposta, divisor por teclado, apresentação a 320/768/1440 px e retorno do leitor móvel.                                                 |
+| `protected-source.spec.ts` e `session-revalidation.spec.ts`      | Ocultação de conteúdo durante consulta e depois de recusa; preservação do trabalho após revalidação da sessão.                                                          |
+| `review-regressions.spec.ts` e `publication-regressions.spec.ts` | Contexto da fila; formulários e erros acessíveis; revogação; coleção depois da primeira página; bloqueio de controles durante gravações lentas.                         |
+| `controlled-states.spec.ts` e `index-capability.spec.ts`         | Falha de transporte, capacidade do índice, cobertura parcial e recusa de apresentar uma falsa conclusão.                                                                |
+| `existing-run.spec.ts`                                           | Leitura opcional de uma geração já concluída; não admite uma nova execução de IA. Sem os IDs explícitos, é ignorado.                                                    |
+| `payment-story.spec.ts` e `uiux-regressions.spec.ts`             | Pagamento e snapshot reais; revisão independente; decisão explícita por alegação ou abstenção; busca persistente; citação autorizada e foco após histórico/revalidação. |
 
 Paginação com mais de cem coleções, falhas, revogações e estados do índice incluem respostas controladas identificadas no código. Elas comprovam comportamento da interface, não falhas reais de provedor. Incidentes, dossiês, revisão, exportação e PDF usam a API local. A validação de paginação/ACL da API pertence aos testes de integração do backend.
 

@@ -15,6 +15,10 @@ Investigação de pedidos com fontes verificáveis e revisão por outra pessoa.
 
 Desenvolvi o EvidenceDesk para investigar casos em que o pagamento foi confirmado, mas o pedido continua pendente. A aplicação reúne eventos, snapshots e documentos; separa [regras determinísticas](backend/src/evidencedesk/reconciliation/rules.py) de rascunhos opcionais de IA e exige outra conta para aprovar uma revisão. É uma demonstração sintética, sem adoção comercial ou ganho de produtividade medido.
 
+![Paleta de marca do EvidenceDesk: azul petróleo, azul profundo, névoa, papel, grafite e ardósia](docs/readme/palette.svg)
+
+A [paleta de marca](docs/brand.md) usa azul petróleo nas ações e citações, azul profundo na identidade e superfícies claras para ler as fontes. As cores de erro, sucesso e aviso têm papéis próprios.
+
 <a id="na-prática"></a>
 <a id="uma-investigação-do-início-ao-fim"></a>
 
@@ -22,7 +26,11 @@ Desenvolvi o EvidenceDesk para investigar casos em que o pagamento foi confirmad
 
 ![Página principal do EvidenceDesk](docs/readme/home.png)
 
-_Página principal do EvidenceDesk._
+_Página principal em captura anterior preservada._
+
+![Citação no leitor móvel, com a alegação e a fonte do mesmo snapshot](docs/evidence/uiux-20261012/after/citation-390.png)
+
+Na [revisão de interface de 12/10/2026](docs/uiux-review-20261012.md), o leitor conserva a alegação que levou à fonte, a busca de fontes acompanha a URL e a aprovação exige uma decisão explícita e a conferência das alegações. O workbench local organiza a leitura antes do julgamento e indica os campos incompletos. [Antes/depois](docs/uiux-review-20261012.md#capturas-e-reprodução) usa o mesmo material sintético; a captura de um fluxo não demonstra qualidade de revisão humana.
 
 ![Recorte da tabela: duas divergências do pedido PED-009-000](docs/images/workspace-desktop.png)
 
@@ -69,13 +77,13 @@ flowchart TB
 
 Setas contínuas representam o caminho local; pontilhadas, integrações opcionais. O progresso passa pela API e pelo proxy, sem conexão direta do navegador ao banco. O worker compartilha código, banco e volumes com a API; os módulos de domínio não são microsserviços independentes.
 
-| Fronteira | O que acontece nela | Implementação |
-| --- | --- | --- |
-| Navegador → API | O proxy preserva sessão e streaming; o backend confere CSRF e acesso ao recorte. | [Proxy](frontend/src/app/api/v1/%5B...path%5D/route.ts), [identidade](backend/src/evidencedesk/identity/service.py) |
-| HTTP → fila | Finalizar importação, pedir geração ou exportar grava a intenção e o job antes de responder. | [Ingestão](backend/src/evidencedesk/ingestion/routes.py), [jobs](backend/src/evidencedesk/jobs/service.py) |
-| Worker → publicação | Parsing e rede ocorrem fora da transação; o commit revalida lease, token de execução e política. | [Dispatcher](backend/src/evidencedesk/worker.py), [processamento](backend/src/evidencedesk/ingestion/processing.py) |
-| Fontes → decisão | O snapshot fixa o corpus; regras calculam divergências, e uma revisão imutável exige decisão de outra conta. | [Conciliação](backend/src/evidencedesk/reconciliation/rules.py), [revisões](backend/src/evidencedesk/reviews/service.py) |
-| Aplicação → IA | Busca lexical funciona sem ML; geração recebe fontes delimitadas e não aprova nem altera pedidos. | [Ferramentas de leitura](backend/src/evidencedesk/investigations/tools.py), [admissão de tokens](backend/src/evidencedesk/investigations/budget.py) |
+| Fronteira           | O que acontece nela                                                                                          | Implementação                                                                                                                                       |
+| ------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Navegador → API     | O proxy preserva sessão e streaming; o backend confere CSRF e acesso ao recorte.                             | [Proxy](frontend/src/app/api/v1/%5B...path%5D/route.ts), [identidade](backend/src/evidencedesk/identity/service.py)                                 |
+| HTTP → fila         | Finalizar importação, pedir geração ou exportar grava a intenção e o job antes de responder.                 | [Ingestão](backend/src/evidencedesk/ingestion/routes.py), [jobs](backend/src/evidencedesk/jobs/service.py)                                          |
+| Worker → publicação | Parsing e rede ocorrem fora da transação; o commit revalida lease, token de execução e política.             | [Dispatcher](backend/src/evidencedesk/worker.py), [processamento](backend/src/evidencedesk/ingestion/processing.py)                                 |
+| Fontes → decisão    | O snapshot fixa o corpus; regras calculam divergências, e uma revisão imutável exige decisão de outra conta. | [Conciliação](backend/src/evidencedesk/reconciliation/rules.py), [revisões](backend/src/evidencedesk/reviews/service.py)                            |
+| Aplicação → IA      | Busca lexical funciona sem ML; geração recebe fontes delimitadas e não aprova nem altera pedidos.            | [Ferramentas de leitura](backend/src/evidencedesk/investigations/tools.py), [admissão de tokens](backend/src/evidencedesk/investigations/budget.py) |
 
 O percurso começa no manifesto e upload, passa por extração, snapshot, incidente e conciliação, e termina no dossiê revisado e na exportação HTML autorizada. O dossiê pode ser manual ou partir de um rascunho opcional. A interface acompanha geração por eventos SSE persistidos, retomáveis com `Last-Event-ID`.
 
@@ -134,6 +142,8 @@ python scripts/ops.py stop
 
 ## Verificação e evidências
 
+Os [checks da rodada de UI/UX](docs/evidence/uiux-20261012/verification.json) e seu [manifesto](docs/evidence/uiux-20261012/manifest.json) identificam fontes congeladas, imagens do runtime, fixtures e verificações em 320, 390, 768, 1024 e 1440 CSS px. A [revisão](docs/uiux-review-20261012.md) registra diagnóstico, escolhas, comparações e limites. Zoom nativo e leitor de tela não foram verificados; CSS zoom não conta como zoom do navegador.
+
 O [recibo de 12/10/2026](docs/evidence/evolution-20261012/verification.json) registra os snapshots, comandos e limites desta evolução. A [interface local capturada em Chromium](docs/evidence/evolution-20261012/workbench-desktop.png) tem [versão móvel](docs/evidence/evolution-20261012/workbench-mobile.png) e [prova automatizada](docs/evidence/evolution-20261012/browser.json). As capturas usam fixtures sintéticas; o gate humano permanece inconclusivo. O [executor adversarial](docs/evidence/evolution-20261012/adversarial-contracts.json) registra contratos simulados, sem execução de modelo real.
 
 | Evidência                                                                                                        | Data e alcance                                                        |
@@ -179,6 +189,7 @@ A infraestrutura Azure permanece **não implantada por este projeto** nos regist
 | Entender IA e orçamento      | [Model card](docs/model-card.md) · [modelos locais](docs/model-service.md) · [tokens](docs/token-budget.md)                                                          |
 | Conferir riscos e resultados | [Política de segurança](SECURITY.md) · [threat model](docs/threat-model.md) · [publicação](docs/publication.md) · [fontes e afirmações](docs/fontes-e-afirmacoes.md) |
 | Conferir imagens             | [Origem e reprodução](docs/screenshots.md)                                                                                                                           |
+| Conferir a interface atual   | [Revisão de UI/UX](docs/uiux-review-20261012.md) · [frontend](docs/frontend-review.md)                                                                               |
 
 ## Autor e licença
 

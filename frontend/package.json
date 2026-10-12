@@ -10,6 +10,8 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:e2e:core": "playwright test --grep-invert \"payment story|source search survives|two claims and abstention|a citation deep link\"",
+    "test:e2e:stories": "playwright test payment-story.spec.ts uiux-regressions.spec.ts",
     "prepare:assets": "node scripts/copy-assets.mjs",
     "postinstall": "npm run prepare:assets",
     "format:check": "prettier --check src scripts *.ts *.mjs *.json"

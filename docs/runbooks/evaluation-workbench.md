@@ -71,7 +71,7 @@ O exemplo descreve o formato, sem simular um resultado humano. Não transforme t
 
 Gere um bundle separado para cada revisor. Entregue somente esse arquivo e o HTML. `round.json` e o relatório pertencem à coordenação/adjudicação e contêm referências de avaliação; não são material cego para o revisor nem contexto do gerador.
 
-O navegador mostra alegação e fonte lado a lado. Nenhum rótulo vem pré-selecionado. Para `supported`, escolha fonte e localizador válidos e registre o motivo. Os demais rótulos são `contradicted`, `insufficient` e `irrelevant`. Campos não avaliados continuam `null`. Informe assistência recebida, tempo e identidade declarada ao submeter. Essa identidade em arquivo não oferece autenticação institucional.
+O navegador mostra alegação e fonte lado a lado em telas amplas; no móvel, a fonte precede o julgamento. A fila pode ser recolhida para concentrar a leitura no caso. Nenhum rótulo vem pré-selecionado. Para `supported`, escolha fonte e localizador válidos e registre o motivo. Os demais rótulos são `contradicted`, `insufficient` e `irrelevant`. Campos não avaliados continuam `null`. Informe assistência recebida, tempo e identidade declarada ao submeter. Essa identidade em arquivo não oferece autenticação institucional.
 
 Filtrar ou trocar de caso preserva o rascunho em memória. Exporte-o para continuar depois; fechar ou substituir material com alterações pendentes exige aviso de descarte. O HTML não envia conteúdo pela rede e não usa `localStorage`. Um JSON baixado só entra na rodada depois da validação autoritativa:
 
@@ -141,9 +141,11 @@ Em Docker, inventarie containers, redes, rotas e portas sem imprimir Env. Use pr
 
 Arquivos preenchidos, bundles e logs privados ficam fora do Git. Publique somente fixtures sintéticas e recibos curados com comandos, ambiente, hashes, denominadores, limites e cleanup. O scan redigido usa `.gitleaks.toml` no snapshot completo e histórico, sem ampliar exceções.
 
-O [recibo desta implementação](../evidence/evolution-20261012/verification.json) separa as execuções sobre os dois candidatos congelados. A única mudança entre eles foi uma correção de tipagem no executor adversarial, que teve seus testes e recibo repetidos. Os arquivos do workbench, backend e frontend permaneceram idênticos. As [capturas](../evidence/evolution-20261012/screenshots.json) e o [relatório de contratos](../evidence/evolution-20261012/adversarial-contracts.json) identificam seus inputs e limites. O Docker local falhou antes de criar recursos; os gates PostgreSQL e da aplicação completa são executados no CI isolado da branch.
+O [recibo da primeira evolução](../evidence/evolution-20261012/verification.json) separa as execuções sobre seus dois candidatos congelados. A única mudança entre eles foi uma correção de tipagem no executor adversarial, que teve seus testes e recibo repetidos. Os arquivos do workbench, backend e frontend permaneceram idênticos entre aqueles dois candidatos. As [capturas](../evidence/evolution-20261012/screenshots.json) e o [relatório de contratos](../evidence/evolution-20261012/adversarial-contracts.json) identificam seus inputs e limites. Naquela execução, o Docker local falhou antes de criar recursos; os gates PostgreSQL e da aplicação completa passaram no CI isolado da branch. A [rodada seguinte de UI/UX](../uiux-review-20261012.md) usa uma stack local própria e novas evidências.
 
 ## Decisões técnicas
+
+A [revisão de UI/UX](../uiux-review-20261012.md) registra a comparação de 12/10/2026. Erros apontam o campo e direcionam o foco; achados críticos usam checkboxes. “Exportar submissão” produz um arquivo, e a importação autoritativa continua na CLI. A interface precisa de JavaScript; sem ele, a orientação apresenta o caminho pela CLI. O ensaio de CSS zoom verifica layout e não constitui zoom nativo do navegador.
 
 O modelo de [respostas do Argilla](https://github.com/argilla-io/argilla/blob/develop/argilla/src/argilla/records/_resource.py#L328) separa respostas por pergunta/usuário de sugestões automáticas e permite exportação. Adotamos esse mecanismo de dados em arquivos próprios. O [projeto](https://github.com/argilla-io/argilla) declara manutenção com correções, sem novas funcionalidades. Não instalamos a plataforma nem copiamos seu código.
 
