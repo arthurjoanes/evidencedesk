@@ -159,6 +159,12 @@ O frontend se organiza por funcionalidades em [frontend/src/features](../fronten
 
 ## Invariantes de segurança e consistência
 
+### Laboratório local de avaliação
+
+`evals/workbench.py` coordena arquivos privados externos ao Git, sem conexão ao banco da aplicação. A preparação admite somente casos dev do pacote humano e verifica suas fontes. O bundle congela release, resposta, manifesto e ordem, enquanto o bundle do revisor omite referências de avaliação e julgamentos de outros participantes. O HTML lê e exporta arquivos locais; a CLI aplica a validação final e mantém o histórico de versões.
+
+Dois revisores e um adjudicador distinto registram avaliações vinculadas à mesma resposta e corpus. Somente a adjudicação completa permite mapear suporte para as métricas existentes, separadas por sistema. Este processo não altera a revisão de dossiês, as migrações de produção ou os controles de autorização. `evals/adversarial.py` exercita as fronteiras existentes com transporte simulado e conserva a execução de modelo real como `not_run`.
+
 **Identidade e isolamento.** A aplicação usa uma role sem owner, superuser ou `BYPASSRLS`; migrações usam credencial separada. O contexto de organização é definido por transação. Identificadores iguais em organizações diferentes não concedem acesso. Sessões usam cookie HttpOnly; mutações exigem origem autorizada e token CSRF. O login reserva admissão no banco antes de verificar a senha e limita hashes concorrentes por processo.
 
 **Fontes e derivados.** O snapshot fixa o corpus, mas a autorização continua atual. Originais pertencem à coleção; uma conciliação derivada também exige acesso ao incidente de origem. Uma citação ou leitura de ferramenta em contexto de incidente deve respeitar sua coleção, snapshot e janela operacional. A conciliação de outro incidente não pode substituir a do recorte atual. A exclusão de uma fonte bloqueia seus derivados e downloads.

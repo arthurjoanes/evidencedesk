@@ -20,6 +20,10 @@ Gate humano requer pelo menos 30 respostas de 15 incidentes independentes, cobri
 
 O [pacote de revisão semântica](human-review/README.md) reúne índice dos 60 casos dev, fontes com hashes conferidos, rubrica e formulários vazios. Está preparado, sem respostas de modelos atuais ou julgamento humano. O conjunto reservado não foi aberto na preparação.
 
+O [guia do workbench](../docs/runbooks/evaluation-workbench.md) descreve a CLI, o HTML local e os arquivos privados da rodada. Bundles de revisor contêm pergunta, resposta e fontes verificadas, sem gold ou avaliação de outro participante. Somente duas submissões independentes e uma adjudicação explícita, vinculadas aos mesmos hashes, podem produzir `CaseResult` com rótulos humanos. Cada sistema recebe relatório próprio; falhas e casos não executados continuam no denominador.
+
+A [suíte adversarial](adversarial.py) mantém fixtures públicas sintéticas e executa contratos offline com saída tipada. Seus resultados distinguem contrato simulado, comportamento real `not_run` e revisão humana inconclusiva. Um canário fictício ou uma saída programada não demonstra que um modelo resistiu a uma instrução maliciosa. Os hashes vinculam inputs, resposta, corpus e fronteiras executadas; mudanças exigem nova execução e revisão.
+
 Os denominadores são explícitos em `metrics.py`:
 
 | Medida | Denominador e tratamento de ausência |

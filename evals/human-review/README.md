@@ -18,9 +18,13 @@ O pacote não contém saídas geradas de um modelo atual. Reutilizar números do
 2. Comparar a baseline manual/lexical e o candidato nos mesmos casos autorizados. Identificar os sistemas por códigos durante a revisão quando possível; registrar a ordem e qualquer ajuda recebida.
 3. Guardar a resposta exata e as fontes efetivamente acessadas. Registrar IDs, spans, hashes, validade temporal e contexto do snapshot; não substituir uma fonte por outra mais conveniente depois de ler a resposta.
 4. O revisor humano confere cada alegação pela [rubrica](rubric.json) e preenche um [formulário por resposta](response.template.json). Divergências e incertezas ficam explícitas.
-5. Outro revisor resolve os desacordos, quando disponível. Se houver apenas um, declarar essa limitação; não inventar concordância entre avaliadores. Guardar julgamentos iniciais e decisão final.
+5. Exigir duas submissões independentes por caso/resposta. Antes de submeter a própria avaliação, cada participante recebe somente seu bundle cego. Um adjudicador distinto dos dois revisores registra a decisão final e sua razão, mesmo quando há concordância. Preservar os julgamentos iniciais; nenhum voto ou LLM decide automaticamente.
 
 O formulário usa um identificador de participante, sem exigir nome pessoal no repositório público. Arquivos preenchidos e respostas potencialmente sensíveis devem ficar no diretório privado da rodada. Publicar somente o resumo sanitizado autorizado.
+
+O [guia de execução](../../docs/runbooks/evaluation-workbench.md) usa os contratos estritos de `evals/workbench.py` e o HTML autocontido. A CLI é a validação autoritativa. Ela verifica hashes, localizadores, IDs, versões, independência declarada e a proveniência da adjudicação; a identidade informada não equivale a autenticação de uma instituição. Campos não avaliados permanecem `null`, e uma alegação sem fonte não ganha uma referência inventada.
+
+O estado da rodada distingue preparação, revisão, divergências, adjudicação e conclusão. Rascunho exportado não é submissão nem aprovação. Duas importações idênticas são idempotentes; uma versão concorrente é recusada. O navegador preserva o rascunho durante filtros e navegação, avisa antes do descarte e não guarda conteúdo em `localStorage`.
 
 ## 3. Aplicar a rubrica
 

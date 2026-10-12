@@ -134,6 +134,8 @@ python scripts/ops.py stop
 
 ## Verificação e evidências
 
+O [recibo de 12/10/2026](docs/evidence/evolution-20261012/verification.json) registra os snapshots, comandos e limites desta evolução. A [interface local capturada em Chromium](docs/evidence/evolution-20261012/workbench-desktop.png) tem [versão móvel](docs/evidence/evolution-20261012/workbench-mobile.png) e [prova automatizada](docs/evidence/evolution-20261012/browser.json). As capturas usam fixtures sintéticas; o gate humano permanece inconclusivo. O [executor adversarial](docs/evidence/evolution-20261012/adversarial-contracts.json) registra contratos simulados, sem execução de modelo real.
+
 | Evidência                                                                                                        | Data e alcance                                                        |
 | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | [Jornada de pagamento](docs/evidence/editorial-payment-20260922/payment-story.json)                              | 22/09/2026; UI/API reais, dados sintéticos e nenhuma avaliação humana |
@@ -160,6 +162,8 @@ O [checker](scripts/check_repository_docs.py) verifica caminhos e âncoras locai
 A aplicação não corrige pedidos nem executa [ferramentas de escrita](backend/src/evidencedesk/investigations/tools.py) nos sistemas de origem. As permissões são verificadas fora do modelo. Uma chamada com resultado desconhecido conserva sua [reserva de tokens](backend/src/evidencedesk/investigations/budget.py); a contabilidade é de tokens, não uma tabela monetária.
 
 O pacote humano reúne **60 casos de desenvolvimento em oito famílias**, marcado `prepared_not_executed`. Não há resultado de adjudicação nesse pacote; referências sintéticas não demonstram qualidade em incidentes reais. [Manifesto do pacote](evals/human-review/package.json), preparado em **22/09/2026**. O conjunto reservado não foi usado nesta revisão.
+
+O [workbench local](docs/runbooks/evaluation-workbench.md) prepara rodadas dev, abre um HTML sem servidor e importa anotações com validação de versões e hashes. Cada resposta exige dois julgamentos independentes e uma decisão explícita de outro adjudicador. O relatório conserva falhas e respostas não executadas nos denominadores e mantém o gate humano inconclusivo até reunir a amostra exigida. A [suíte adversarial](evals/adversarial.py) exercita contratos com transporte simulado; comportamento de modelo real permanece `not_run`.
 
 A infraestrutura Azure permanece **não implantada por este projeto** nos registros disponíveis: a [validação local](docs/evidence/azure-iac-validation.json) de `fmt`, `init` e `validate` não comprova quota, SKU, rede ou capacidade regional. O [runbook hospedado](docs/runbooks/azure-hosted.md) detalha os bloqueadores. Scans e testes têm imagem e data próprias; não constituem garantia de ausência de falhas.
 

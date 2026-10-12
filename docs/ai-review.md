@@ -26,6 +26,12 @@ Gates de qualidade permanecem separados:
 
 O [pacote local de revisão semântica](../evals/human-review/README.md) torna o próximo passo executável: casos dev e fontes identificados, rubrica por alegação e formulários para rodada/resposta. Seus campos humanos permanecem vazios. Preparar esse material não promove o candidato nem altera as métricas históricas.
 
+O [workbench de avaliação](runbooks/evaluation-workbench.md) acrescenta preparação, revisão local, comparação e adjudicação sobre esse pacote. Seus arquivos privados preservam sistema codificado, resposta, corpus, release, localizadores e julgamentos iniciais. A CLI valida o JSON exportado pelo navegador e recusa versões obsoletas e importações concorrentes. Identidades são declaradas nos arquivos; o laboratório não oferece autenticação institucional.
+
+O trabalho do laboratório não grava em `dossiers` ou `revision_decisions`. A aprovação de produção continua exigindo papel autorizado, independência do autor e submissor, todas as alegações e `If-Match` atual. Um relatório de avaliação não aprova um dossiê. Duas anotações da mesma resposta continuam sendo uma observação nas métricas.
+
+Os [casos adversariais](../evals/adversarial_cases.json) incluem instruções em texto, título e metadados, omissões, causalidade e números divergentes. O executor usa `MockTransport` e as fronteiras existentes de geração e ferramentas. Isso verifica despacho e rejeição estrutural, com contabilização simulada identificada; resistência de um modelo e suporte semântico exigem execução própria e revisão humana. Não há nova ferramenta, chamada paga, acesso ao reservado ou promoção do reranker.
+
 - **Executado:** PostgreSQL FTS, E5, RRF, reranker base/candidato, treino GPU, smoke HTTP privada e testes determinísticos. Resultados e hashes estão em [experiments/reports](../experiments/reports/index.json).
 - **Não aprovado:** promoção do candidato. A primeira rodada falhou latência; a segunda passou a medida observada, com candidatos diferentes. Ambas permanecem no relatório.
 - **Pendente:** adjudicação humana de rótulos/respostas, regressões semânticas, validade temporal de interpretações, abstenção e robustez contra instruções em fontes. Testes conhecidos de isolamento/contratos não certificam segurança universal de modelos.
