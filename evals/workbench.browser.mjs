@@ -12,7 +12,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const evalDir = path.dirname(fileURLToPath(import.meta.url));
 const require = createRequire(path.join(evalDir, "../frontend/package.json"));
-const { chromium, expect } = require("@playwright/test");
+const { chromium, firefox, webkit, expect } = require("@playwright/test");
 const { default: AxeBuilder } = await import(
   pathToFileURL(require.resolve("@axe-core/playwright")).href
 );
@@ -130,8 +130,12 @@ const seal = (value) => {
 };
 const bundlePath = path.join(artifactDir, "synthetic-bundle.json");
 await writeFile(bundlePath, JSON.stringify(seal(bundle)));
-const browser = await chromium.launch({
-  ...(process.env.ED_E2E_BROWSER_CHANNEL
+const browserName = process.env.ED_WORKBENCH_BROWSER ?? "chromium";
+const browserType = { chromium, firefox, webkit }[browserName];
+if (!browserType)
+  throw new Error("ED_WORKBENCH_BROWSER must be chromium, firefox or webkit.");
+const browser = await browserType.launch({
+  ...(browserName === "chromium" && process.env.ED_E2E_BROWSER_CHANNEL
     ? { channel: process.env.ED_E2E_BROWSER_CHANNEL }
     : {}),
 });
@@ -231,9 +235,7 @@ try {
   );
   await check("supported cannot submit without locator/rationale", async () => {
     await page.locator("#claim-label").selectOption("supported");
-    await page
-      .getByRole("button", { name: "Exportar resposta submetida" })
-      .click();
+    await page.getByRole("button", { name: "Exportar submissão" }).click();
     assert.match(await page.locator("#notice").textContent(), /incompleta/);
     await page.locator("#locator-select").selectOption("/corpus/0");
     await page
@@ -241,6 +243,43 @@ try {
       .fill("Julgamento sintético: o valor consta na fonte.");
     assert.equal(await page.locator("#unsaved").isVisible(), true);
   });
+  await check(
+    "submission errors identify the claim and focus its field",
+    async () => {
+      await page
+        .getByRole("button", { name: "Exportar submissão", exact: true })
+        .click();
+      await expect(page.locator("#claim-label")).toBeFocused();
+      await expect(page.locator("#claim-label")).toHaveAttribute(
+        "aria-invalid",
+        "true",
+      );
+      assert.match(
+        await page.locator("#claim-text").textContent(),
+        /comprova entrega/,
+      );
+      await page.locator("#claim-label").selectOption("insufficient");
+      assert.equal(
+        await page.locator("#claim-label").getAttribute("aria-invalid"),
+        null,
+      );
+      await page
+        .getByRole("button", { name: "Exportar submissão", exact: true })
+        .click();
+      await expect(page.locator("#rationale")).toBeFocused();
+      await expect(page.locator("#rationale-error")).toContainText(
+        "Escreva o motivo",
+      );
+      await page.locator("#claim-label").selectOption("");
+      await page
+        .getByRole("button", { name: "Alegação 1:", exact: false })
+        .click();
+      assert.equal(
+        await page.locator("#rationale").inputValue(),
+        "Julgamento sintético: o valor consta na fonte.",
+      );
+    },
+  );
   await check(
     "draft survives filtering, case/claim navigation and keyboard",
     async () => {
@@ -291,10 +330,69 @@ try {
   );
   let submitted;
   await check(
+    "assistance and number errors preserve input; flags work by keyboard",
+    async () => {
+      await page.locator("#assistance").fill("");
+      await page
+        .getByRole("button", { name: "Exportar submissão", exact: true })
+        .click();
+      await expect(page.locator("#assistance")).toBeFocused();
+      await expect(page.locator("#assistance-error")).toContainText(
+        "Declare a assistência",
+      );
+      await page
+        .locator("#assistance")
+        .fill("Nenhuma. Teste automatizado sintético.");
+      await page.getByText("Conferências da resposta", { exact: true }).click();
+      await page.locator("#numbers-checked").fill("1");
+      await page
+        .getByRole("button", { name: "Exportar rascunho", exact: true })
+        .click();
+      await expect(page.locator("#numbers-matching")).toBeFocused();
+      assert.equal(await page.locator("#numbers-checked").inputValue(), "1");
+      await page.locator("#numbers-matching").fill("2");
+      await page
+        .getByRole("button", { name: "Exportar rascunho", exact: true })
+        .click();
+      await expect(page.locator("#numbers-matching-error")).toContainText(
+        "não pode superar",
+      );
+      await page.locator("#numbers-matching").fill("1");
+      const firstFlag = page.getByRole("checkbox", {
+        name: "Causa raiz sem suporte",
+        exact: true,
+      });
+      await firstFlag.focus();
+      await page.keyboard.press("Space");
+      await expect(firstFlag).toBeChecked();
+      await page.keyboard.press("Tab");
+      await expect(
+        page.getByRole("checkbox", {
+          name: "Pedido ou período incorreto",
+          exact: true,
+        }),
+      ).toBeFocused();
+      await page.keyboard.press("Shift+Tab");
+      await expect(firstFlag).toBeFocused();
+      const flagDraft = await exportFile(
+        "Exportar rascunho",
+        "synthetic-flags-draft.json",
+      );
+      assert.deepEqual(flagDraft.annotations[0].critical_flags, [
+        "unsupported_root_cause",
+      ]);
+      assert.equal(flagDraft.annotations[0].numbers_checked, 1);
+      assert.equal(flagDraft.annotations[0].numbers_matching, 1);
+      await firstFlag.uncheck();
+      await page.locator("#numbers-checked").fill("");
+      await page.locator("#numbers-matching").fill("");
+    },
+  );
+  await check(
     "submitted JSON preserves provenance and absence without fake source",
     async () => {
       submitted = await exportFile(
-        "Exportar resposta submetida",
+        "Exportar submissão",
         "synthetic-submitted.json",
       );
       assert.equal(submitted.annotations.length, 1);
@@ -347,8 +445,12 @@ try {
         "Alteração sintética ainda não exportada.",
       );
       page.once("dialog", (dialog) => dialog.dismiss());
+      await page.locator("#files-panel > summary").click();
       await page
-        .getByRole("button", { name: "Descartar rascunho", exact: true })
+        .getByRole("button", {
+          name: "Descartar rascunhos da aba",
+          exact: true,
+        })
         .click();
       assert.equal(
         await page.locator("#rationale").inputValue(),
@@ -513,16 +615,44 @@ try {
     },
   );
   await check(
-    "desktop, 360px, 200% reflow, focus and automated WCAG checks",
+    "responsive viewports, CSS magnification, focus and automated WCAG checks",
     async () => {
       await exportFile("Exportar rascunho", "synthetic-before-layout.json");
       const violations = async () =>
         (
           await new AxeBuilder({ page })
-            .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+            .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
             .analyze()
         ).violations;
       assert.deepEqual(await violations(), []);
+      for (const width of [320, 390, 768, 1024, 1440]) {
+        await page.setViewportSize({ width, height: 900 });
+        assert.equal(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth <= innerWidth,
+          ),
+          true,
+        );
+        const geometry = await page.evaluate(() => ({
+          claim: document
+            .getElementById("claim-text")
+            .getBoundingClientRect()
+            .toJSON(),
+          source: document
+            .getElementById("source-text")
+            .getBoundingClientRect()
+            .toJSON(),
+          decision: document
+            .getElementById("rationale")
+            .getBoundingClientRect()
+            .toJSON(),
+        }));
+        if (width < 720)
+          assert.equal(geometry.source.y < geometry.decision.y, true);
+        else assert.equal(geometry.source.x > geometry.claim.x, true);
+        assert.deepEqual(await violations(), []);
+      }
+      await page.setViewportSize({ width: 1440, height: 1000 });
       await page.locator("#source-select").focus();
       assert.equal(
         await page
@@ -548,8 +678,8 @@ try {
           path: path.join(artifactDir, "workbench-mobile.png"),
           fullPage: true,
         });
-      // 720px physical viewport at 200% browser scale has 360 CSS pixels.
-      // Also exercise CSS zoom to check controls and wrapping under magnification.
+      // CSS zoom exercises CSS magnification only. This does not verify native
+      // browser zoom or assistive technology. Responsive CSS widths are separate.
       await page.setViewportSize({ width: 720, height: 1000 });
       await page.evaluate(() => {
         document.documentElement.style.zoom = "2";
@@ -565,7 +695,7 @@ try {
       assert.deepEqual(await violations(), []);
       if (process.env.ED_WORKBENCH_CAPTURE === "1")
         await page.screenshot({
-          path: path.join(artifactDir, "workbench-zoom-200.png"),
+          path: path.join(artifactDir, "workbench-css-magnification-200.png"),
           fullPage: true,
         });
       await page.evaluate(() => {
@@ -573,6 +703,57 @@ try {
       });
     },
   );
+  await check(
+    "mobile case disclosure preserves filters and returns focus to the case",
+    async () => {
+      const mobile = await browser.newContext({
+        viewport: { width: 390, height: 900 },
+      });
+      const mobilePage = await mobile.newPage();
+      await mobilePage.goto(pathToFileURL(htmlPath).href);
+      await mobilePage.locator("#bundle-file").setInputFiles(bundlePath);
+      await expect(mobilePage.locator("#notice")).toContainText(
+        "Bundle verificado.",
+      );
+      assert.equal(
+        await mobilePage.locator("#cases-drawer").getAttribute("open"),
+        null,
+      );
+      await mobilePage.locator("#cases-drawer > summary").focus();
+      await mobilePage.keyboard.press("Enter");
+      await mobilePage.locator("#filter").fill("synthetic-case-2");
+      await mobilePage
+        .getByRole("button", { name: "synthetic-case-2", exact: false })
+        .click();
+      await expect(mobilePage.locator("#review-heading")).toBeFocused();
+      assert.equal(
+        await mobilePage.locator("#cases-drawer").getAttribute("open"),
+        null,
+      );
+      await mobilePage.locator("#cases-drawer > summary").click();
+      assert.equal(
+        await mobilePage.locator("#filter").inputValue(),
+        "synthetic-case-2",
+      );
+      await mobile.close();
+    },
+  );
+  await check("without JavaScript the CLI path remains readable", async () => {
+    const offline = await browser.newContext({ javaScriptEnabled: false });
+    const offlinePage = await offline.newPage();
+    await offlinePage.goto(pathToFileURL(htmlPath).href);
+    await expect(
+      offlinePage.getByRole("heading", {
+        name: "Revisar com a CLI",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(offlinePage.locator(".js-fallback")).toContainText(
+      "python -m evals.workbench validate",
+    );
+    assert.equal(await offlinePage.locator("#files-panel").isVisible(), false);
+    await offline.close();
+  });
   await check("empty bundle keeps human gate inconclusive", async () => {
     await exportFile("Exportar rascunho", "synthetic-final-draft.json");
     const empty = seal({ ...bundle, responses: [], presentation_order: [] });
@@ -682,12 +863,12 @@ try {
           "Automação Playwright em fixture sintética, sem chamada de modelo.",
         );
       const submitted = await exportFile(
-        "Exportar resposta submetida",
+        "Exportar submissão",
         "synthetic-cli-submitted.json",
       );
       assert.equal(validate("synthetic-cli-submitted.json").valid, true);
       const repeated = await exportFile(
-        "Exportar resposta submetida",
+        "Exportar submissão",
         "synthetic-cli-submitted-repeat.json",
       );
       assert.deepEqual(repeated, submitted);
@@ -760,10 +941,11 @@ try {
         "abstention",
         "numbers-checked",
         "numbers-matching",
-        "critical-flags",
         "assistance",
       ])
         assert.equal(await page.locator("#" + id).isDisabled(), true);
+      for (const flag of await page.locator("#critical-flags input").all())
+        assert.equal(await flag.isDisabled(), true);
       assert.equal(await page.locator("#source-select").isDisabled(), false);
       await page
         .locator("#source-select")
@@ -771,7 +953,7 @@ try {
       await page.locator("#locator-select").selectOption("/corpus/1");
       assert.equal(await page.locator("#unsaved").isVisible(), false);
       const immutableExport = await exportFile(
-        "Exportar resposta submetida",
+        "Exportar submissão",
         "synthetic-cli-immutable.json",
       );
       assert.deepEqual(
@@ -816,6 +998,11 @@ try {
         executed_at: new Date().toISOString(),
         workbench_sha256: sha(await readFile(htmlPath, "utf8")),
         browser_version: browser.version(),
+        browser_engine: browserName,
+        responsive_css_widths: [320, 390, 768, 1024, 1440],
+        css_magnification: "200_percent",
+        native_browser_zoom: "not_verified",
+        screen_reader: "not_verified",
         human_reviews_executed: 0,
         human_gate: "inconclusive",
         model_behavior: "not_run",

@@ -11,21 +11,27 @@
     <style>
       :root {
         color-scheme: light;
-        --ink: #172f42;
-        --blue: #205f91;
+        --brand: #14566b;
+        --brand-strong: #0b3448;
+        --brand-soft: #eaf3f6;
+        --canvas: #f5f8fa;
+        --ink: #202b36;
+        --blue: var(--brand);
         --paper: #fff;
-        --wash: #edf4f8;
+        --wash: var(--brand-soft);
         --line: #a7bbc9;
-        --muted: #4d6170;
-        --warning: #79520c;
-        --danger: #982e39;
+        --control-border: #6d8795;
+        --muted: #536573;
+        --focus: #147a91;
+        --warning: #815617;
+        --danger: #aa3434;
       }
       * {
         box-sizing: border-box;
       }
       body {
         margin: 0;
-        background: #f5f8fa;
+        background: var(--canvas);
         color: var(--ink);
         font:
           16px/1.5 "Segoe UI",
@@ -49,7 +55,7 @@
       button {
         min-height: 44px;
         cursor: pointer;
-        border: 1px solid var(--line);
+        border: 1px solid var(--control-border);
         padding: 8px 14px;
         border-radius: 4px;
         color: var(--ink);
@@ -68,10 +74,11 @@
         color: #fff;
       }
       .primary:hover {
-        background: #174b75;
+        background: var(--brand-strong);
+        border-color: var(--brand-strong);
       }
       :focus-visible {
-        outline: 3px solid #1269b1;
+        outline: 3px solid var(--focus);
         outline-offset: 3px;
       }
       h1,
@@ -81,6 +88,7 @@
         margin: 0;
       }
       h1 {
+        color: var(--brand-strong);
         font-size: clamp(24px, 3vw, 32px);
         font-weight: 600;
         line-height: 1.2;
@@ -166,7 +174,7 @@
         border-left: 1px solid var(--line);
       }
       .index {
-        background: #f5f8fa;
+        background: var(--canvas);
         padding: 20px 16px;
       }
       .index h2 {
@@ -185,7 +193,7 @@
         width: 100%;
         min-height: 44px;
         padding: 9px 10px;
-        border: 1px solid #7c95a6;
+        border: 1px solid var(--control-border);
         border-radius: 3px;
         color: var(--ink);
         background: #fff;
@@ -358,30 +366,267 @@
       [hidden] {
         display: none !important;
       }
-      @media (max-width: 1120px) {
-        .workspace {
-          grid-template-columns: 210px minmax(0, 1fr);
-        }
-        .sources {
-          grid-column: 2;
-          border-top: 1px solid var(--line);
-        }
+      .workspace {
+        grid-template-columns: 240px minmax(0, 1fr);
       }
-      @media (max-width: 720px) {
+      header {
+        padding-block: 16px;
+      }
+      h1 {
+        font-size: 26px;
+      }
+      .header-row {
+        align-items: flex-start;
+      }
+      .header-row .gate {
+        max-width: 48ch;
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+      .intro {
+        margin-top: 4px;
+        font-size: 15px;
+      }
+      .file-tools {
+        margin: 12px 0 0;
+      }
+      .file-tools .actions {
+        margin-top: 12px;
+        align-items: flex-start;
+      }
+      .file-tools summary {
+        width: fit-content;
+        min-height: 28px;
+      }
+      .identity {
+        margin-top: 10px;
+        padding: 8px 0;
+        font-size: 14px;
+      }
+      #unsaved {
+        margin-top: 6px;
+        font-size: 14px;
+      }
+      #notice {
+        padding-block: 10px;
+        font-size: 14px;
+      }
+      .review-area {
+        padding: 0;
+      }
+      .review-overview {
+        padding: 22px 24px 0;
+      }
+      .review-overview h2 {
+        overflow-wrap: anywhere;
+      }
+      .review-overview details {
+        margin-bottom: 0;
+      }
+      .annotation-state {
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .progress {
+        margin: 8px 0;
+      }
+      .comparison-help {
+        padding: 14px 24px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .comparison {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-areas: "claim source" "decision source";
+        align-items: start;
+        border-top: 1px solid var(--line);
+      }
+      .claim-pane {
+        grid-area: claim;
+        padding: 22px 24px 0;
+        min-width: 0;
+      }
+      .comparison.unavailable {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "source";
+      }
+      .source-pane {
+        grid-area: source;
+        padding: 22px 24px;
+        min-width: 0;
+        border-left: 1px solid var(--line);
+        align-self: stretch;
+        background: #f9fbfc;
+      }
+      .decision-pane {
+        grid-area: decision;
+        padding: 0 24px 24px;
+        min-width: 0;
+      }
+      .claim-text {
+        padding: 14px 16px;
+      }
+      .transcript {
+        line-height: 1.55;
+      }
+      .review-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+      }
+      .review-actions button {
+        flex: 1 1 180px;
+      }
+      .export-help {
+        margin-top: 10px;
+      }
+      .field-error {
+        color: var(--danger);
+        font-size: 14px;
+        margin-top: 6px;
+      }
+      [aria-invalid="true"] {
+        border-color: var(--danger);
+        outline-color: var(--danger);
+      }
+      .flags {
+        margin-top: 16px;
+        padding: 0;
+        border: 0;
+      }
+      .flags legend {
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .flag-option {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        min-height: 44px;
+        margin: 0;
+        padding: 9px 0;
+        font-size: 14px;
+        font-weight: 400;
+      }
+      .flag-option input[type="checkbox"] {
+        display: inline-block;
+        width: 20px;
+        min-height: 20px;
+        height: 20px;
+        margin: 1px 0 0;
+        flex-shrink: 0;
+        accent-color: var(--blue);
+      }
+      #cases-drawer {
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+      #cases-drawer summary {
+        min-height: 32px;
+      }
+      #queue-progress {
+        display: block;
+        font-weight: 400;
+      }
+      .case-list {
+        max-height: 70vh;
+        overflow: auto;
+        padding: 4px;
+      }
+      .js-fallback {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid var(--line);
+        background: var(--paper);
+      }
+      .js-fallback p {
+        margin-top: 12px;
+        overflow-wrap: anywhere;
+      }
+      body:not([data-ready]) .file-tools {
+        display: none;
+      }
+      :target {
+        scroll-margin-top: 20px;
+      }
+      @media (max-width: 1199px) {
         .workspace {
           display: block;
         }
-        .panel {
-          padding: 20px 16px;
+        .index {
+          padding: 12px 24px;
+          border-bottom: 1px solid var(--line);
         }
         .panel + .panel {
           border-left: 0;
-          border-top: 1px solid var(--line);
+        }
+        #cases-drawer summary {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 4px 18px;
+        }
+        #cases-drawer summary::before {
+          content: "▸";
+        }
+        #cases-drawer[open] summary::before {
+          content: "▾";
         }
         .case-list {
           max-height: 260px;
-          overflow: auto;
-          padding: 4px;
+        }
+        #queue-progress {
+          margin: 0;
+        }
+      }
+      @media (max-width: 719px) {
+        header {
+          padding: 14px 16px;
+        }
+        .header-row {
+          gap: 10px;
+        }
+        .header-row .gate {
+          max-width: none;
+          width: 100%;
+          padding: 8px 10px;
+        }
+        .header-row .gate strong {
+          display: inline;
+        }
+        .header-row .gate strong::after {
+          content: ". ";
+        }
+        .comparison {
+          display: flex;
+          flex-direction: column;
+        }
+        .claim-pane,
+        .source-pane,
+        .decision-pane {
+          width: 100%;
+          padding: 18px 16px;
+        }
+        .claim-pane {
+          padding-bottom: 0;
+        }
+        .source-pane {
+          border-left: 0;
+          border-block: 1px solid var(--line);
+          margin-top: 18px;
+        }
+        .review-overview {
+          padding: 18px 16px 0;
+        }
+        .comparison-help {
+          padding-inline: 16px;
+        }
+        .index {
+          padding: 12px 16px;
         }
         .actions {
           align-items: stretch;
@@ -397,7 +642,7 @@
           margin-bottom: 8px;
         }
         .identity {
-          margin-top: 12px;
+          margin-top: 8px;
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -413,41 +658,40 @@
       <div class="header-row">
         <div>
           <h1>EvidenceDesk</h1>
-          <p class="intro">
-            Revisão semântica local. Confira cada alegação nas fontes congeladas
-            e registre sua decisão.
-          </p>
+          <p class="intro">Revisão semântica local com fontes congeladas.</p>
         </div>
         <p class="gate">
-          <strong>Gate humano inconclusivo</strong>Preencher ou exportar não
-          aprova o sistema. A CLI calcula os gates após revisão independente e
-          adjudicação.
+          <strong>Gate humano inconclusivo</strong>Consulte o resultado no
+          relatório da CLI após as duas revisões e a adjudicação.
         </p>
       </div>
-      <div class="actions">
-        <label class="file-label" for="bundle-file"
-          >Importar bundle
-          <input
-            id="bundle-file"
-            type="file"
-            accept=".json,application/json"
-          /><small>Arquivo dev preparado pela CLI.</small></label
-        >
-        <label class="file-label" for="annotation-file"
-          >Retomar anotação
-          <input
-            id="annotation-file"
-            type="file"
-            accept=".json,application/json"
-            disabled
-          /><small>Somente sua anotação desta versão.</small></label
-        >
-        <button id="export-draft" disabled>Exportar rascunho</button>
-        <button id="export-submitted" class="primary" disabled>
-          Exportar resposta submetida
-        </button>
-        <button id="discard" disabled>Descartar rascunho</button>
-      </div>
+      <details id="files-panel" class="file-tools" open>
+        <summary>Arquivos da revisão</summary>
+        <div class="actions">
+          <label class="file-label" for="bundle-file"
+            >Importar bundle
+            <input
+              id="bundle-file"
+              type="file"
+              accept=".json,application/json"
+              name="bundle-file"
+              autocomplete="off"
+            /><small>Arquivo dev preparado pela CLI.</small></label
+          >
+          <label class="file-label" for="annotation-file"
+            >Retomar anotação
+            <input
+              id="annotation-file"
+              type="file"
+              accept=".json,application/json"
+              disabled
+              name="annotation-file"
+              autocomplete="off"
+            /><small>Somente sua anotação desta versão.</small></label
+          >
+          <button id="discard" disabled>Descartar rascunhos da aba</button>
+        </div>
+      </details>
       <div class="identity" id="round-summary" hidden></div>
       <p id="unsaved" hidden>
         Rascunho não exportado. Exporte antes de fechar ou trocar o bundle.
@@ -455,11 +699,32 @@
     </header>
     <p id="notice" role="status" aria-live="polite">
       Importe um bundle para começar. O conteúdo permanece nesta aba; nenhum
-      input é enviado pela rede.
+      arquivo é enviado pela rede.
     </p>
+    <noscript>
+      <section class="js-fallback" aria-labelledby="js-heading">
+        <h2 id="js-heading">Revisar com a CLI</h2>
+        <p>
+          JavaScript está desativado. A importação, anotação e exportação neste
+          HTML exigem JavaScript. O fluxo pela CLI continua disponível no
+          repositório.
+        </p>
+        <p>
+          Consulte o formato:
+          <code>python -m evals.workbench schema --kind annotations</code>.
+        </p>
+        <p>
+          Valide o arquivo preenchido:
+          <code
+            >python -m evals.workbench validate --round &lt;pasta-da-rodada&gt;
+            --annotations &lt;arquivo.json&gt;</code
+          >.
+        </p>
+      </section>
+    </noscript>
     <main>
       <section id="empty" class="empty" aria-labelledby="empty-heading">
-        <h2 id="empty-heading">Uma alegação, uma fonte, uma decisão</h2>
+        <h2 id="empty-heading">Confira a alegação na fonte</h2>
         <p>
           Abra o HTML gerado pela CLI e importe o bundle atribuído ao seu
           identificador. Sua avaliação começa sem rótulos selecionados.
@@ -475,188 +740,291 @@
       </section>
       <div id="workspace" class="workspace" hidden>
         <nav class="panel index" aria-labelledby="cases-heading">
-          <h2 id="cases-heading">Casos da rodada</h2>
-          <label for="filter">Buscar caso</label
-          ><input id="filter" type="search" placeholder="ID ou pergunta" />
-          <label for="status-filter">Filtrar avaliação</label
-          ><select id="status-filter">
-            <option value="all">Todos os casos</option>
-            <option value="pending">Com campos não avaliados</option>
-            <option value="complete">Com alegações preenchidas</option>
-            <option value="unavailable">Sem resposta para revisar</option>
-          </select>
-          <p id="case-count" class="help"></p>
-          <ul id="case-list" class="case-list"></ul>
-        </nav>
-        <section id="assessment" class="panel" aria-labelledby="review-heading">
-          <h2 id="review-heading" tabindex="-1">Revisar resposta</h2>
-          <p id="response-meta" class="help"></p>
-          <p id="progress-text" class="progress"></p>
-          <progress
-            id="progress"
-            max="1"
-            value="0"
-            aria-label="Alegações preenchidas"
-          ></progress>
-          <details>
-            <summary>Pergunta e resposta completas</summary>
-            <h3 style="margin-top: 12px">Pergunta</h3>
-            <p id="question" class="transcript"></p>
-            <h3 style="margin-top: 12px">Resposta</h3>
-            <p id="answer" class="transcript"></p>
-          </details>
-          <p id="unavailable" class="gate" hidden></p>
-          <p id="imported-submission" class="gate" hidden></p>
-          <div id="claim-form">
-            <h3>Alegações da resposta</h3>
-            <ul
-              id="claim-list"
-              class="claim-list"
-              aria-label="Escolher alegação"
-            ></ul>
-            <p id="claim-text" class="transcript claim-text"></p>
-            <p id="references" class="help"></p>
-            <label for="claim-label">Decisão sobre a alegação</label
-            ><select id="claim-label" aria-required="true">
-              <option value="">Não avaliada</option>
-              <option value="supported">Sustentada (supported)</option>
-              <option value="contradicted">Contradita (contradicted)</option>
-              <option value="insufficient">
-                Evidência insuficiente (insufficient)
-              </option>
-              <option value="irrelevant">Irrelevante (irrelevant)</option>
+          <details id="cases-drawer" open>
+            <summary>
+              <span id="cases-heading">Casos da rodada</span
+              ><span id="queue-progress" class="help"></span>
+            </summary>
+            <label for="filter">Buscar caso</label
+            ><input
+              id="filter"
+              type="search"
+              placeholder="ID ou pergunta"
+              name="filter"
+              autocomplete="off"
+            />
+            <label for="status-filter">Filtrar avaliação</label
+            ><select id="status-filter" name="status-filter" autocomplete="off">
+              <option value="all">Todos os casos</option>
+              <option value="pending">Com campos não avaliados</option>
+              <option value="complete">Com alegações preenchidas</option>
+              <option value="unavailable">Sem resposta para revisar</option>
             </select>
-            <p class="help">
-              Escolha a fonte e o localizador no painel de fontes. “Sustentada”
-              exige uma referência válida.
-            </p>
-            <label for="rationale">Motivo da decisão</label
-            ><textarea
-              id="rationale"
-              aria-required="true"
-              aria-describedby="rationale-help"
-              placeholder="Explique como a fonte sustenta, contradiz ou limita esta alegação."
-            ></textarea>
-            <p id="rationale-help" class="help">
-              Obrigatório para cada alegação submetida. A justificativa não é
-              gerada automaticamente.
-            </p>
-          </div>
-          <div id="response-form">
+            <p id="case-count" class="help"></p>
+            <ul id="case-list" class="case-list"></ul>
+          </details>
+        </nav>
+        <section
+          id="assessment"
+          class="panel review-area"
+          aria-labelledby="review-heading"
+        >
+          <div class="review-overview">
+            <h2 id="review-heading" tabindex="-1">Revisar resposta</h2>
+            <p id="response-meta" class="help"></p>
+            <p id="annotation-state" class="annotation-state"></p>
+            <p id="progress-text" class="progress"></p>
+            <progress
+              id="progress"
+              max="1"
+              value="0"
+              aria-label="Alegações preenchidas"
+            ></progress>
             <details>
-              <summary>Conferências da resposta</summary>
-              <label for="required-facts">Fatos necessários conferidos</label
-              ><textarea
-                id="required-facts"
-                placeholder="Um fato por linha"
-              ></textarea>
-              <label for="omitted-facts">Fatos necessários omitidos</label
-              ><textarea
-                id="omitted-facts"
-                placeholder="Um fato por linha"
-              ></textarea>
-              <label for="counterevidence">Notas sobre contraevidência</label
-              ><textarea id="counterevidence"></textarea>
-              <label for="temporal">Notas sobre temporalidade</label
-              ><textarea id="temporal"></textarea>
-              <label for="abstention">Conferência da abstenção</label
-              ><select id="abstention">
-                <option value="">Não avaliada</option>
-                <option value="appropriate">Adequada</option>
-                <option value="inappropriate">Inadequada</option>
-                <option value="not_applicable">Não se aplica</option>
-              </select>
-              <label for="numbers-checked">Números conferidos</label
-              ><input id="numbers-checked" type="number" min="0" step="1" />
-              <label for="numbers-matching">Números em concordância</label
-              ><input id="numbers-matching" type="number" min="0" step="1" />
-              <label for="critical-flags">Achados críticos</label
-              ><select
-                id="critical-flags"
-                multiple
-                size="4"
-                aria-describedby="flags-help"
-              >
-                <option value="unsupported_root_cause">
-                  Causa raiz sem suporte
-                </option>
-                <option value="wrong_order_or_period">
-                  Pedido ou período incorreto
-                </option>
-                <option value="omitted_decisive_counterevidence">
-                  Contraevidência decisiva omitida
-                </option>
-                <option value="unsupported_financial_action">
-                  Ação financeira sem suporte
-                </option>
-              </select>
-              <p id="flags-help" class="help">
-                Opcional. Use Ctrl (ou Command) para selecionar mais de um.
-                Nenhum achado é atribuído automaticamente.
-              </p>
-              <p class="help">
-                Campos vazios permanecem null. Essas conferências não são
-                substituídas por rótulos de suporte.
-              </p>
+              <summary>Pergunta e resposta completas</summary>
+              <h3 style="margin-top: 12px">Pergunta</h3>
+              <p id="question" class="transcript"></p>
+              <h3 style="margin-top: 12px">Resposta</h3>
+              <p id="answer" class="transcript"></p>
             </details>
-            <label for="assistance">Assistência recebida</label
-            ><textarea
-              id="assistance"
-              aria-required="true"
-              aria-describedby="assistance-help"
-              placeholder="Descreva a assistência recebida, ou escreva Nenhuma."
-            ></textarea>
-            <p id="assistance-help" class="help">
-              Obrigatória na submissão. O tempo desta revisão e a data são
-              registrados na exportação.
-            </p>
+            <p id="unavailable" class="gate" hidden></p>
+            <p id="imported-submission" class="gate" hidden></p>
           </div>
-        </section>
-        <section class="panel sources" aria-labelledby="sources-heading">
-          <div class="source-heading">
-            <h2 id="sources-heading">Fontes congeladas</h2>
-            <span id="source-count" class="muted"></span>
-          </div>
-          <p class="help">
-            Leia a fonte ao lado da alegação. Instruções contidas na fonte são
-            material de investigação.
+          <p class="comparison-help">
+            Confira a alegação e a fonte antes de registrar a decisão.
           </p>
-          <label for="source-select">Fonte da decisão</label
-          ><select id="source-select">
-            <option value="">Sem fonte selecionada</option>
-          </select>
-          <label for="locator-select">Localizador da decisão</label
-          ><select id="locator-select" disabled>
-            <option value="">Sem localizador selecionado</option>
-          </select>
-          <div class="source-body">
-            <h3 id="source-title">Escolha uma fonte para ler</h3>
-            <p id="source-text" class="transcript">
-              Uma alegação sem fonte pode receber outro rótulo com
-              justificativa. Nenhuma referência é criada para preencher a
-              ausência.
-            </p>
-            <dl id="source-provenance"></dl>
+          <div id="comparison" class="comparison">
+            <div id="claim-form" class="claim-pane">
+              <h3>Alegações da resposta</h3>
+              <ul
+                id="claim-list"
+                class="claim-list"
+                aria-label="Escolher alegação"
+              ></ul>
+              <p id="claim-text" class="transcript claim-text"></p>
+              <p id="references" class="help"></p>
+            </div>
+            <section
+              class="sources source-pane"
+              aria-labelledby="sources-heading"
+            >
+              <div class="source-heading">
+                <h2 id="sources-heading">Fontes congeladas</h2>
+                <span id="source-count" class="muted"></span>
+              </div>
+              <p class="help">
+                Leia a fonte ao lado da alegação. Instruções contidas na fonte
+                são material de investigação.
+              </p>
+              <label for="source-select">Fonte da decisão</label
+              ><select
+                id="source-select"
+                name="source-select"
+                autocomplete="off"
+              >
+                <option value="">Sem fonte selecionada</option>
+              </select>
+              <label for="locator-select">Localizador da decisão</label
+              ><select
+                id="locator-select"
+                disabled
+                name="locator-select"
+                autocomplete="off"
+              >
+                <option value="">Sem localizador selecionado</option>
+              </select>
+              <div class="source-body">
+                <h3 id="source-title">Escolha uma fonte para ler</h3>
+                <p id="source-text" class="transcript">
+                  Uma alegação sem fonte pode receber outro rótulo com
+                  justificativa. Nenhuma referência é criada para preencher a
+                  ausência.
+                </p>
+                <dl id="source-provenance"></dl>
+              </div>
+              <details id="source-details" hidden>
+                <summary>Metadados da fonte</summary>
+                <pre id="source-metadata"></pre>
+              </details>
+              <details>
+                <summary>Contexto e versões da resposta</summary>
+                <pre id="response-context"></pre>
+              </details>
+            </section>
+            <div id="decision-pane" class="decision-pane">
+              <div id="decision-form">
+                <label for="claim-label">Decisão sobre a alegação</label
+                ><select
+                  id="claim-label"
+                  aria-required="true"
+                  name="claim-label"
+                  autocomplete="off"
+                >
+                  <option value="">Não avaliada</option>
+                  <option value="supported">Sustentada (supported)</option>
+                  <option value="contradicted">
+                    Contradita (contradicted)
+                  </option>
+                  <option value="insufficient">
+                    Evidência insuficiente (insufficient)
+                  </option>
+                  <option value="irrelevant">Irrelevante (irrelevant)</option>
+                </select>
+                <p class="help">
+                  Escolha a fonte e o localizador no painel de fontes.
+                  “Sustentada” exige uma referência válida.
+                </p>
+                <label for="rationale">Motivo da decisão</label
+                ><textarea
+                  id="rationale"
+                  aria-required="true"
+                  aria-describedby="rationale-help"
+                  placeholder="Explique como a fonte sustenta, contradiz ou limita esta alegação."
+                  name="rationale"
+                  autocomplete="off"
+                ></textarea>
+                <p id="rationale-help" class="help">
+                  Obrigatório para cada alegação submetida. A justificativa não
+                  é gerada automaticamente.
+                </p>
+              </div>
+              <div id="response-form">
+                <details>
+                  <summary>Conferências da resposta</summary>
+                  <label for="required-facts"
+                    >Fatos necessários conferidos</label
+                  ><textarea
+                    id="required-facts"
+                    placeholder="Um fato por linha"
+                    name="required-facts"
+                    autocomplete="off"
+                  ></textarea>
+                  <label for="omitted-facts">Fatos necessários omitidos</label
+                  ><textarea
+                    id="omitted-facts"
+                    placeholder="Um fato por linha"
+                    name="omitted-facts"
+                    autocomplete="off"
+                  ></textarea>
+                  <label for="counterevidence"
+                    >Notas sobre contraevidência</label
+                  ><textarea
+                    id="counterevidence"
+                    name="counterevidence"
+                    autocomplete="off"
+                  ></textarea>
+                  <label for="temporal">Notas sobre temporalidade</label
+                  ><textarea
+                    id="temporal"
+                    name="temporal"
+                    autocomplete="off"
+                  ></textarea>
+                  <label for="abstention">Conferência da abstenção</label
+                  ><select id="abstention" name="abstention" autocomplete="off">
+                    <option value="">Não avaliada</option>
+                    <option value="appropriate">Adequada</option>
+                    <option value="inappropriate">Inadequada</option>
+                    <option value="not_applicable">Não se aplica</option>
+                  </select>
+                  <label for="numbers-checked">Números conferidos</label
+                  ><input
+                    id="numbers-checked"
+                    type="number"
+                    min="0"
+                    step="1"
+                    name="numbers-checked"
+                    autocomplete="off"
+                  />
+                  <label for="numbers-matching">Números em concordância</label
+                  ><input
+                    id="numbers-matching"
+                    type="number"
+                    min="0"
+                    step="1"
+                    name="numbers-matching"
+                    autocomplete="off"
+                  />
+                  <fieldset
+                    id="critical-flags"
+                    class="flags"
+                    aria-describedby="flags-help"
+                  >
+                    <legend>Achados críticos</legend>
+                    <label class="flag-option"
+                      ><input
+                        type="checkbox"
+                        name="critical-flags"
+                        value="unsupported_root_cause"
+                      />Causa raiz sem suporte</label
+                    >
+                    <label class="flag-option"
+                      ><input
+                        type="checkbox"
+                        name="critical-flags"
+                        value="wrong_order_or_period"
+                      />Pedido ou período incorreto</label
+                    >
+                    <label class="flag-option"
+                      ><input
+                        type="checkbox"
+                        name="critical-flags"
+                        value="omitted_decisive_counterevidence"
+                      />Contraevidência decisiva omitida</label
+                    >
+                    <label class="flag-option"
+                      ><input
+                        type="checkbox"
+                        name="critical-flags"
+                        value="unsupported_financial_action"
+                      />Ação financeira sem suporte</label
+                    >
+                  </fieldset>
+                  <p id="flags-help" class="help">
+                    Opcional. Marque somente os achados que você verificou.
+                  </p>
+                  <p class="help">
+                    Campos vazios permanecem null. Essas conferências não são
+                    substituídas por rótulos de suporte.
+                  </p>
+                </details>
+                <label for="assistance">Assistência recebida</label
+                ><textarea
+                  id="assistance"
+                  aria-required="true"
+                  aria-describedby="assistance-help"
+                  placeholder="Descreva a assistência recebida, ou escreva Nenhuma."
+                  name="assistance"
+                  autocomplete="off"
+                ></textarea>
+                <p id="assistance-help" class="help">
+                  Obrigatória na submissão. O tempo desta revisão e a data são
+                  registrados na exportação.
+                </p>
+              </div>
+              <div class="review-actions">
+                <button id="export-draft" disabled>Exportar rascunho</button>
+                <button id="export-submitted" class="primary" disabled>
+                  Exportar submissão
+                </button>
+              </div>
+              <p class="help export-help">
+                O download cria um arquivo. Valide e importe o JSON na CLI para
+                registrar a submissão.
+              </p>
+            </div>
           </div>
-          <details id="source-details" hidden>
-            <summary>Metadados da fonte</summary>
-            <pre id="source-metadata"></pre>
-          </details>
-          <details>
-            <summary>Contexto e versões da resposta</summary>
-            <pre id="response-context"></pre>
-          </details>
         </section>
       </div>
     </main>
     <footer class="footer">
       Rascunhos vivem somente na memória desta aba. Exporte o JSON para uma
-      pasta privada e valide-o com a CLI antes de importá-lo na rodada. Revisão
-      do laboratório não aprova dossiês de produção.
+      pasta privada e valide-o com a CLI antes de importá-lo na rodada.
+      Preenchimento e exportação não aprovam o sistema nem dossiês de produção.
     </footer>
     <script>
       "use strict";
       (() => {
+        document.body.dataset.ready = "true";
         const $ = (id) => document.getElementById(id);
         const MAX_BYTES = 16 * 1024 * 1024;
         const labels = new Set([
@@ -724,6 +1092,72 @@
             "aria-live",
             tone === "error" ? "assertive" : "polite",
           );
+        }
+        class ReviewError extends Error {
+          constructor(message, field, response, claim = null) {
+            super(message);
+            this.field = field;
+            this.response = response;
+            this.claim = claim;
+          }
+        }
+        function clearFieldError(field) {
+          const control = $(field),
+            error = $(field + "-error");
+          if (!control) return;
+          control.removeAttribute("aria-invalid");
+          if (error) error.hidden = true;
+          const descriptions = (control.getAttribute("aria-describedby") ?? "")
+            .split(" ")
+            .filter((id) => id && id !== field + "-error");
+          if (descriptions.length)
+            control.setAttribute("aria-describedby", descriptions.join(" "));
+          else control.removeAttribute("aria-describedby");
+        }
+        function clearErrors() {
+          for (const control of document.querySelectorAll(
+            '[aria-invalid="true"]',
+          ))
+            clearFieldError(control.id);
+        }
+        function showReviewError(error) {
+          if (!(error instanceof ReviewError)) return;
+          if (selected?.response_id !== error.response.response_id)
+            selectResponse(error.response, false);
+          if (error.claim !== null && claimIndex !== error.claim) {
+            claimIndex = error.claim;
+            renderClaims();
+            renderSources();
+          }
+          const control = $(error.field);
+          if (!control) return;
+          let message = $(error.field + "-error");
+          if (!message) {
+            message = document.createElement("p");
+            message.id = error.field + "-error";
+            message.className = "field-error";
+            control.after(message);
+          }
+          message.textContent = error.message;
+          message.hidden = false;
+          control.setAttribute("aria-invalid", "true");
+          const descriptions = new Set(
+            (control.getAttribute("aria-describedby") ?? "")
+              .split(" ")
+              .filter(Boolean),
+          );
+          descriptions.add(message.id);
+          control.setAttribute(
+            "aria-describedby",
+            Array.from(descriptions).join(" "),
+          );
+          for (
+            let parent = control.parentElement;
+            parent;
+            parent = parent.parentElement
+          )
+            if (parent.tagName === "DETAILS") parent.open = true;
+          control.focus();
         }
         function exactKeys(value, allowed, required = allowed) {
           if (
@@ -1125,15 +1559,17 @@
           $("empty").hidden = true;
           $("workspace").hidden = false;
           $("round-summary").hidden = false;
+          $("files-panel").open = false;
+          $("cases-drawer").open = window.matchMedia(
+            "(min-width: 1200px)",
+          ).matches;
           text(
             "round-summary",
-            "Rodada " +
-              bundle.round_id +
-              " | Revisor declarado: " +
+            "Revisor declarado: " +
               bundle.reviewer_id +
-              " | Release: " +
-              (bundle.release.id ?? "Não informada") +
-              " | Sistemas codificados | Estado da rodada confirmado pela CLI",
+              ". Rodada " +
+              bundle.round_id +
+              ". Sistemas codificados.",
           );
           $("annotation-file").disabled = false;
           $("export-draft").disabled = drafts.size === 0;
@@ -1158,6 +1594,19 @@
         }
         function renderCases() {
           if (!bundle) return;
+          const reviewable = bundle.responses.filter(isReviewable);
+          const filled = reviewable.filter((response) =>
+            complete(drafts.get(response.response_id)),
+          ).length;
+          text(
+            "queue-progress",
+            filled +
+              " de " +
+              reviewable.length +
+              " respostas com alegações preenchidas; " +
+              (bundle.responses.length - reviewable.length) +
+              " sem resposta.",
+          );
           const list = $("case-list");
           list.replaceChildren();
           const query = $("filter").value.toLocaleLowerCase("pt-BR"),
@@ -1226,6 +1675,7 @@
         }
         function selectResponse(response, focus) {
           stopClock();
+          clearErrors();
           selected = response;
           claimIndex = 0;
           $("assessment").hidden = false;
@@ -1269,6 +1719,13 @@
           );
           $("claim-form").hidden =
             !isReviewable(response) || !response.claims.length;
+          $("decision-form").hidden =
+            !isReviewable(response) || !response.claims.length;
+          $("decision-pane").hidden = !isReviewable(response);
+          $("comparison").classList.toggle(
+            "unavailable",
+            !isReviewable(response),
+          );
           $("response-form").hidden = !isReviewable(response);
           $("export-submitted").disabled = !isReviewable(response);
           $("imported-submission").hidden = !isLocked(response);
@@ -1280,7 +1737,7 @@
               "Submissão já importada pela CLI: este registro é imutável. Você pode consultar fontes e exportar o mesmo registro. Resposta, corpus ou release diferentes exigem uma nova rodada.",
           );
           for (const control of document.querySelectorAll(
-            "#claim-form select, #claim-form textarea, #response-form input, #response-form select, #response-form textarea",
+            "#decision-form select, #decision-form textarea, #response-form input, #response-form select, #response-form textarea",
           ))
             control.disabled = isLocked(response);
           if (isReviewable(response)) {
@@ -1299,14 +1756,20 @@
               ["assistance", "assistance_received"],
             ])
               $(id).value = d[key] ?? "";
-            for (const option of $("critical-flags").options)
-              option.selected = d.critical_flags.includes(option.value);
+            for (const option of document.querySelectorAll(
+              "#critical-flags input",
+            ))
+              option.checked = d.critical_flags.includes(option.value);
           }
           renderClaims();
           renderSources();
           renderProgress();
           renderCases();
-          if (focus) $("review-heading").focus();
+          if (focus) {
+            if (!window.matchMedia("(min-width: 1200px)").matches)
+              $("cases-drawer").open = false;
+            $("review-heading").focus();
+          }
         }
         function renderClaims() {
           const list = $("claim-list");
@@ -1323,6 +1786,7 @@
             );
             button.setAttribute("aria-current", String(index === claimIndex));
             button.addEventListener("click", () => {
+              clearErrors();
               claimIndex = index;
               renderClaims();
               renderSources();
@@ -1364,7 +1828,11 @@
           }
         }
         function renderSources() {
-          text("source-count", selected.sources.length + " fontes");
+          text(
+            "source-count",
+            selected.sources.length +
+              (selected.sources.length === 1 ? " fonte" : " fontes"),
+          );
           options(
             $("source-select"),
             selected.sources.map((s) => [
@@ -1435,15 +1903,21 @@
             done +
               " de " +
               total +
-              " alegações preenchidas. " +
-              (d
-                ? "Anotação: " +
-                  (d.status === "submitted"
-                    ? "submetida no arquivo"
-                    : "rascunho") +
-                  ". "
-                : "") +
-              "Preenchimento não é aprovação.",
+              " alegações preenchidas. Preenchimento não é aprovação.",
+          );
+          text(
+            "annotation-state",
+            !d
+              ? "Sem resposta para revisar"
+              : isLocked(selected)
+                ? "Submissão importada na CLI. Somente leitura."
+                : d.status === "submitted"
+                  ? "Submissão exportada. Ainda não importada na CLI."
+                  : modified.has(selected.response_id)
+                    ? "Rascunho em memória. Há alterações não exportadas."
+                    : d.reviewed_at
+                      ? "Rascunho exportado."
+                      : "Avaliação não iniciada.",
           );
         }
         function editClaim(key, value) {
@@ -1668,14 +2142,38 @@
           if (isLocked(response)) return structuredClone(response.annotation);
           const value = structuredClone(annotation);
           value.status = status === "draft" ? annotation.status : status;
-          for (const claim of value.claims) {
+          for (let index = 0; index < value.claims.length; index++) {
+            const claim = value.claims[index];
+            if (claim.label === "supported" && claim.source_id === null)
+              throw new ReviewError(
+                "Referência incompleta. Escolha uma fonte para a alegação sustentada.",
+                "source-select",
+                response,
+                index,
+              );
             if (
               (claim.source_id !== null && claim.span_or_locator === null) ||
-              (claim.label === "supported" &&
-                (claim.source_id === null || claim.span_or_locator === null))
+              (claim.label === "supported" && claim.span_or_locator === null)
             )
-              throw new Error(
-                "Referência incompleta: selecione fonte e localizador para a alegação sustentada. Para outra decisão, complete a referência escolhida ou limpe a seleção de fonte antes de exportar.",
+              throw new ReviewError(
+                "Referência incompleta. Escolha um localizador da fonte, ou limpe a fonte para outra decisão.",
+                "locator-select",
+                response,
+                index,
+              );
+            if (status === "submitted" && claim.label === null)
+              throw new ReviewError(
+                "Escolha uma decisão para esta alegação antes de exportar a submissão.",
+                "claim-label",
+                response,
+                index,
+              );
+            if (status === "submitted" && !claim.rationale?.trim())
+              throw new ReviewError(
+                "Escreva o motivo desta decisão antes de exportar a submissão.",
+                "rationale",
+                response,
+                index,
               );
           }
           const clock = clocks.get(response.response_id),
@@ -1689,48 +2187,58 @@
             value.elapsed_seconds = Math.floor(elapsed);
             value.reviewed_at = new Date().toISOString();
           }
-          if (status === "submitted") {
-            if (!complete(value))
-              throw new Error(
-                "Submissão incompleta: escolha uma decisão e escreva um motivo para todas as alegações. “Sustentada” exige fonte e localizador válidos.",
-              );
-            if (!value.assistance_received?.trim())
-              throw new Error(
-                "Submissão incompleta: declare a assistência recebida, ou escreva Nenhuma.",
-              );
-            if (
-              value.numbers_checked !== null &&
-              value.numbers_matching !== null &&
-              value.numbers_matching > value.numbers_checked
-            )
-              throw new Error(
-                "Números inválidos: a concordância não pode superar a quantidade conferida.",
-              );
-          }
+          if (status === "submitted" && !value.assistance_received?.trim())
+            throw new ReviewError(
+              "Declare a assistência recebida, ou escreva Nenhuma.",
+              "assistance",
+              response,
+            );
           if (
             (value.numbers_checked === null) !==
             (value.numbers_matching === null)
           )
-            throw new Error(
-              "Números incompletos: informe a quantidade conferida e a concordância, ou deixe ambos vazios.",
+            throw new ReviewError(
+              "Informe as duas quantidades, ou deixe ambas vazias para manter a conferência não avaliada.",
+              value.numbers_checked === null
+                ? "numbers-checked"
+                : "numbers-matching",
+              response,
             );
-          for (const key of ["numbers_checked", "numbers_matching"])
+          for (const [key, field] of [
+            ["numbers_checked", "numbers-checked"],
+            ["numbers_matching", "numbers-matching"],
+          ])
             if (
               value[key] !== null &&
               (!Number.isSafeInteger(value[key]) || value[key] < 0)
             )
-              throw new Error(
-                "Números inválidos: informe quantidades inteiras não negativas.",
+              throw new ReviewError(
+                "Informe uma quantidade inteira não negativa.",
+                field,
+                response,
               );
           if (
             value.numbers_matching !== null &&
             value.numbers_matching > value.numbers_checked
           )
-            throw new Error(
-              "Números inválidos: a concordância não pode superar a quantidade conferida.",
+            throw new ReviewError(
+              "A concordância não pode superar a quantidade de números conferidos.",
+              "numbers-matching",
+              response,
             );
-          for (const key of ["required_facts", "omitted_facts"])
-            if (value[key] !== null) unique(value[key], key);
+          for (const [key, field] of [
+            ["required_facts", "required-facts"],
+            ["omitted_facts", "omitted-facts"],
+          ])
+            if (
+              value[key] !== null &&
+              new Set(value[key]).size !== value[key].length
+            )
+              throw new ReviewError(
+                "Cada fato deve aparecer uma vez nesta lista.",
+                field,
+                response,
+              );
           return value;
         }
         function download(status) {
@@ -1778,11 +2286,12 @@
             renderCases();
             notice(
               status === "submitted"
-                ? "Resposta exportada como submetida. Valide e importe o JSON com a CLI. A segunda revisão e a adjudicação ainda são necessárias; gate humano inconclusivo."
-                : "Rascunho exportado. Campos não avaliados permanecem null. Guarde o JSON na pasta privada e valide-o com a CLI.",
+                ? "Submissão exportada em arquivo. Ela ainda não foi importada na rodada. Valide e importe o JSON com a CLI; gate humano inconclusivo."
+                : "Anotações exportadas em arquivo. Campos não avaliados permanecem null. Registros já importados conservam seu estado. Guarde o JSON na pasta privada e valide-o com a CLI.",
             );
           } catch (error) {
             notice(error.message, "error");
+            showReviewError(error);
           }
         }
         $("bundle-file").addEventListener("change", async () => {
@@ -1876,14 +2385,18 @@
         $("filter").addEventListener("input", renderCases);
         $("status-filter").addEventListener("change", renderCases);
         $("claim-label").addEventListener("change", () => {
+          clearFieldError("claim-label");
           ensureEditable();
           editClaim("label", $("claim-label").value || null);
         });
         $("rationale").addEventListener("input", () => {
+          clearFieldError("rationale");
           ensureEditable();
           editClaim("rationale", nullable($("rationale").value));
         });
         $("source-select").addEventListener("change", () => {
+          clearFieldError("source-select");
+          clearFieldError("locator-select");
           const s = selected.sources.find(
             (s) => s.source_id === $("source-select").value,
           );
@@ -1900,6 +2413,7 @@
           renderSource();
         });
         $("locator-select").addEventListener("change", () => {
+          clearFieldError("locator-select");
           ensureEditable();
           editClaim("span_or_locator", $("locator-select").value || null);
           renderSource($("locator-select").value);
@@ -1920,11 +2434,15 @@
             () => {
               const d = drafts.get(selected?.response_id);
               if (!d || isLocked(selected)) return;
+              clearFieldError(id);
               ensureEditable();
               const value = $(id).value;
               d[key] =
                 id === "critical-flags"
-                  ? Array.from($(id).selectedOptions, (o) => o.value)
+                  ? Array.from(
+                      $(id).querySelectorAll("input:checked"),
+                      (o) => o.value,
+                    )
                   : id.endsWith("facts")
                     ? nullable(value)
                       ? value
