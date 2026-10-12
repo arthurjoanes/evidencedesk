@@ -1,8 +1,8 @@
 # Do pagamento pendente à revisão do dossiê
 
-Na interface da [rodada de UI/UX](uiux-review-20261012.md), abrir uma citação conserva sua alegação no leitor. A busca aplicada de fontes permanece ao trocar de aba, voltar ou recarregar. Para aprovar, o revisor escolhe a decisão, confirma as alegações daquela versão e escreve a justificativa. Para uma abstenção sem alegações, confirma a abstenção e as lacunas. Solicitar ajustes continua disponível. A comparação usa uma revisão pendente fixa e não registra uma nova aprovação ao capturar a tela; a jornada funcional completa é verificada separadamente.
+Abrir uma citação conserva sua alegação no leitor. A busca aplicada de fontes permanece ao trocar de aba, voltar ou recarregar. Para aprovar, o revisor escolhe a decisão, confirma as alegações daquela versão e escreve a justificativa. Para uma abstenção sem alegações, confirma a abstenção e as lacunas. Solicitar ajustes continua disponível.
 
-Preparei este roteiro para demonstrar uma investigação completa do **mesmo pedido**, sem geração por modelo. Pré-condição: seed carregado, API, worker e frontend prontos. Use apenas contas fictícias em um projeto local descartável. A aprovação por contas operadas pelo teste verifica o mecanismo, não equivale a julgamento semântico por uma pessoa.
+Este roteiro demonstra uma investigação completa do **mesmo pedido**, sem geração por modelo. Pré-condição: seed carregado, API, worker e frontend prontos. Use apenas contas fictícias em um projeto local descartável. A aprovação por contas operadas pelo teste verifica o mecanismo, não equivale a julgamento semântico por uma pessoa.
 
 ## O que precisa ser conferido
 
@@ -32,7 +32,7 @@ Ana recebeu 403 ao tentar aprovar; Bruno aprovou a versão indicada e preparou o
 
 Essas imagens mostram o produto real com dados sintéticos, sem troca de textos no DOM ou respostas simuladas. O [registro de navegador](evidence/editorial-payment-20260922/browser-review.json) identifica comando, versão do teste e hashes. Aprovar por automação com duas contas verifica permissões e rastreabilidade, não qualidade semântica humana. O [build](evidence/editorial-payment-20260922/runtime-build.json) e a [identidade do runtime](evidence/editorial-payment-20260922/runtime-identity.json) pertencem a esta execução; as capturas antigas continuam preservadas.
 
-O caso de pagamento pendente é `demo-aurora-09`, também usado nas [capturas versionadas](publication-frontend.md). Na bancada, **Pedidos/Divergências no snapshot ativo** e a cobertura geral continuam descrevendo o snapshot ativo. Se escolher um snapshot anterior, o aviso explica que os registros abaixo seguem o recorte selecionado. Confira essa diferença antes de comparar contagens. O [guia de casos](problem-solution.md) explica os resultados esperados e aponta os testes, sem exigir que a apresentação provoque revogação, falha de worker ou exclusão de dados.
+O caso de pagamento pendente é `demo-aurora-09`. Na bancada descrita no [guia do frontend](frontend.md), **Pedidos/Divergências no snapshot ativo** e a cobertura geral continuam descrevendo o snapshot ativo. Se escolher um snapshot anterior, o aviso explica que os registros abaixo seguem o recorte selecionado. Confira essa diferença antes de comparar contagens. O [guia de casos](problem-solution.md) explica os resultados esperados e aponta os testes, sem exigir que a apresentação provoque revogação, falha de worker ou exclusão de dados.
 
 | Tempo     | Ação                                                            | O que observar                                                                                                                         |
 | --------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
@@ -47,7 +47,7 @@ O caso de pagamento pendente é `demo-aurora-09`, também usado nas [capturas ve
 
 A [jornada de pagamento](../frontend/e2e/payment-story.spec.ts) usa a interface e a API reais, sem substituir respostas ou texto no DOM. É opt-in porque cria uma investigação e um dossiê sobre as fontes do seed. Confere os horários contra valores esperados independentes, os IDs das duas fontes, a negativa à autora, a identidade do revisor, o HTML exportado e a preservação da conciliação após aprovar. As duas contas precisam estar disponíveis no seed.
 
-Instale as dependências do [guia de desenvolvimento](development.md). Use um projeto novo; o perfil E2E desativa o provedor e esvazia a chave de Azure. Não reutilize o ambiente de uma apresentação com dados a preservar. O comando abaixo executa o grupo `stories`: a jornada de pagamento e as três regressões de UI/UX, com relatórios privados da rodada.
+Instale as dependências do [guia de desenvolvimento](development.md). Use um projeto novo; o perfil E2E desativa o provedor e esvazia a chave de Azure. Não reutilize o ambiente de uma apresentação com dados a preservar. O comando abaixo executa o grupo `stories`: a jornada de pagamento e as três regressões de busca, citação e revisão, com relatórios privados.
 
 ```powershell
 $storyRun = Get-Date -Format yyyyMMddHHmmss

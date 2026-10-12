@@ -32,4 +32,4 @@ Razões calculadas pela luminância relativa sRGB do WCAG. Elas descrevem estas 
 | Foco sobre branco              |    4,97:1 |
 | Limite de controle sobre papel |    3,55:1 |
 
-A [revisão de interface](uiux-review-20261012.md) e os [checks executados](evidence/uiux-20261012/verification.json) registram o contraste automatizado nos estados reais, teclado e tamanhos de tela. [WCAG 2.2](https://www.w3.org/WAI/WCAG22/quickref/) orienta contraste de texto e componentes, além de foco e reflow.
+Use os testes de navegador descritos no [guia do frontend](frontend.md) ao alterar cores, foco ou layout. [WCAG 2.2](https://www.w3.org/WAI/WCAG22/quickref/) orienta contraste de texto e componentes, além de foco e reflow.

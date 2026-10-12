@@ -73,7 +73,9 @@ Gere um bundle separado para cada revisor. Entregue somente esse arquivo e o HTM
 
 O navegador mostra alegação e fonte lado a lado em telas amplas; no móvel, a fonte precede o julgamento. A fila pode ser recolhida para concentrar a leitura no caso. Nenhum rótulo vem pré-selecionado. Para `supported`, escolha fonte e localizador válidos e registre o motivo. Os demais rótulos são `contradicted`, `insufficient` e `irrelevant`. Campos não avaliados continuam `null`. Informe assistência recebida, tempo e identidade declarada ao submeter. Essa identidade em arquivo não oferece autenticação institucional.
 
-Filtrar ou trocar de caso preserva o rascunho em memória. Exporte-o para continuar depois; fechar ou substituir material com alterações pendentes exige aviso de descarte. O HTML não envia conteúdo pela rede e não usa `localStorage`. Um JSON baixado só entra na rodada depois da validação autoritativa:
+Erros identificam o campo a corrigir e direcionam o foco; achados críticos são registrados em checkboxes. A interface precisa de JavaScript. Sem ele, use os comandos da CLI para validar e importar arquivos.
+
+Filtrar ou trocar de caso preserva o rascunho em memória. Exporte-o para continuar depois; fechar ou substituir material com alterações pendentes exige aviso de descarte. O HTML não envia conteúdo pela rede e não usa `localStorage`. “Exportar submissão” baixa um JSON; o download não importa nem aprova esse arquivo. Ele só entra na rodada depois da validação autoritativa e importação pela CLI:
 
 ```powershell
 python -m evals.workbench validate --round "$private/round" --annotations "$private/anotacoes-revisor-01.json"
@@ -103,7 +105,7 @@ Após as duas submissões, a coordenação pode fornecer ao adjudicador as refer
 
 O relatório apresenta casos, categorias e sistemas separados. Somente adjudicação completa de origem humana declarada produz suporte booleano: `supported` vira verdadeiro; outros rótulos completos viram falso; ausência permanece não avaliada. Dois revisores da mesma resposta não duplicam o caso. Falhas e não executados permanecem nos denominadores.
 
-Os [limiares existentes](../../evals/README.md) continuam válidos: mínimo de 30 respostas adjudicadas de 15 incidentes independentes, cobertura das categorias exigidas e demais gates. Poucos casos, campos não avaliados e julgamentos `simulated_test` deixam o gate humano inconclusivo. Não há julgamentos humanos produzidos por esta entrega.
+Os [limiares existentes](../../evals/README.md) continuam válidos: mínimo de 30 respostas adjudicadas de 15 incidentes independentes, cobertura das categorias exigidas e demais gates. Poucos casos, campos não avaliados e julgamentos `simulated_test` deixam o gate humano inconclusivo. Os testes automatizados não produzem julgamentos humanos.
 
 ## Executar contratos adversariais
 
@@ -141,11 +143,9 @@ Em Docker, inventarie containers, redes, rotas e portas sem imprimir Env. Use pr
 
 Arquivos preenchidos, bundles e logs privados ficam fora do Git. Publique somente fixtures sintéticas e recibos curados com comandos, ambiente, hashes, denominadores, limites e cleanup. O scan redigido usa `.gitleaks.toml` no snapshot completo e histórico, sem ampliar exceções.
 
-O [recibo da primeira evolução](../evidence/evolution-20261012/verification.json) separa as execuções sobre seus dois candidatos congelados. A única mudança entre eles foi uma correção de tipagem no executor adversarial, que teve seus testes e recibo repetidos. Os arquivos do workbench, backend e frontend permaneceram idênticos entre aqueles dois candidatos. As [capturas](../evidence/evolution-20261012/screenshots.json) e o [relatório de contratos](../evidence/evolution-20261012/adversarial-contracts.json) identificam seus inputs e limites. Naquela execução, o Docker local falhou antes de criar recursos; os gates PostgreSQL e da aplicação completa passaram no CI isolado da branch. A [rodada seguinte de UI/UX](../uiux-review-20261012.md) usa uma stack local própria e novas evidências.
+O [recibo de verificação](../evidence/evolution-20261012/verification.json), as [capturas](../evidence/evolution-20261012/screenshots.json) e o [relatório de contratos](../evidence/evolution-20261012/adversarial-contracts.json) identificam os inputs e limites da execução registrada. Os contratos adversariais usam transporte simulado e não comprovam resistência semântica de um modelo real. Naquela execução, o Docker local falhou antes de criar recursos; os gates PostgreSQL e da aplicação completa passaram no CI isolado.
 
-## Decisões técnicas
-
-A [revisão de UI/UX](../uiux-review-20261012.md) registra a comparação de 12/10/2026. Erros apontam o campo e direcionam o foco; achados críticos usam checkboxes. “Exportar submissão” produz um arquivo, e a importação autoritativa continua na CLI. A interface precisa de JavaScript; sem ele, a orientação apresenta o caminho pela CLI. O ensaio de CSS zoom verifica layout e não constitui zoom nativo do navegador.
+## Referências técnicas
 
 O modelo de [respostas do Argilla](https://github.com/argilla-io/argilla/blob/develop/argilla/src/argilla/records/_resource.py#L328) separa respostas por pergunta/usuário de sugestões automáticas e permite exportação. Adotamos esse mecanismo de dados em arquivos próprios. O [projeto](https://github.com/argilla-io/argilla) declara manutenção com correções, sem novas funcionalidades. Não instalamos a plataforma nem copiamos seu código.
 

@@ -56,14 +56,16 @@ npm run build
 
 Os E2E exigem API, worker, seed e frontend reais. Eles criam recursos identificados como QA no tenant demonstrativo. O teste de PDF exige uma coleção isolada `qa-imports` no tenant Aurora, autorizada para Ana e Bruno, para preservar a coleção principal.
 
-O workflow prepara essa coleção pelo script `scripts/prepare_e2e.py` e roda as jornadas uma vez em um projeto Compose isolado, sem provedor pago. Os testes de revogação e estados do índice usam respostas controladas identificadas no código; eles verificam comportamento da interface, não demonstram uma falha real do serviço. Consulte o [runbook de CI](../docs/runbooks/ci.md) para gates e limites.
+O workflow prepara essa coleção pelo script `scripts/prepare_e2e.py` e executa os grupos `core` e `stories` em projetos Compose separados, com bancos novos e sem provedor pago. Os testes de revogação e estados do índice usam respostas controladas identificadas no código. Consulte o [runbook de CI](../docs/runbooks/ci.md) para preparar cada grupo.
 
 ```powershell
 npx playwright install chromium
-npm run test:e2e
+npm run test:e2e:core
 ```
 
-É possível usar um navegador instalado: `$env:ED_E2E_BROWSER_CHANNEL='msedge'`. A base é `http://127.0.0.1:3106`; `ED_E2E_BASE_URL` permite outro laboratório. Capturas ficam em `artifacts/screenshots`; traces de falha e relatórios temporários ficam fora do Git. Não execute os testes de escrita sobre dados reais.
+Use `npm run test:e2e:core` ou `npm run test:e2e:stories` conforme o banco preparado. O grupo `stories` exige `ED_PAYMENT_STORY=1`. Para selecionar um arquivo, use `npm run test:e2e -- nome.spec.ts`; toda a suíte em um único banco ultrapassa o limite de login.
+
+É possível usar um navegador instalado: `$env:ED_E2E_BROWSER_CHANNEL='msedge'`. A base é `http://127.0.0.1:3106`; `ED_E2E_BASE_URL` permite outro laboratório. Configure `ED_E2E_ARTIFACT_DIR` para uma pasta privada fora do Git. Não execute os testes de escrita sobre dados reais.
 
 `existing-run.spec.ts` é opcional: informe `ED_E2E_EXISTING_RUN_ID` e `ED_E2E_EXISTING_INCIDENT_ID` de uma geração já concluída para testar leitura e citações. O ensaio não admite uma nova geração. Sem esses valores ele é explicitamente ignorado. A conta demonstrativa está sujeita ao limite real de login; execuções completas repetidas dentro de 15 minutos podem receber 429. Use `npm run test:e2e -- nome.spec.ts` para a regressão afetada e respeite a janela, sem reduzir a política do servidor.
 
@@ -79,4 +81,4 @@ IBM Plex Sans/Mono são distribuídas sob SIL Open Font License; PDF.js sob Apac
 
 A CSP usa nonce por resposta para scripts, o que exige renderização dinâmica das páginas. Estilos inline permanecem permitidos para medidas dos painéis e do canvas; JavaScript inline sem nonce não é permitido. CSP, escaping e cookies não substituem autorização no servidor.
 
-Consulte [a revisão do frontend](../docs/frontend-review.md) para arquitetura, cobertura de testes e imagens versionadas, e [a auditoria de publicação](../docs/publication-frontend.md) para as correções desta entrega. Resultados locais não representam SLO de produção, validação humana de conclusões ou certificação completa de acessibilidade.
+Consulte o [guia do frontend](../docs/frontend.md) para arquitetura, autorização, navegação e testes. Os testes de interface não medem SLO de produção nem a qualidade semântica das conclusões.

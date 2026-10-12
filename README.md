@@ -13,7 +13,7 @@ Investigação de pedidos com fontes verificáveis e revisão por outra pessoa.
 
 ## Visão geral
 
-Desenvolvi o EvidenceDesk para investigar casos em que o pagamento foi confirmado, mas o pedido continua pendente. A aplicação reúne eventos, snapshots e documentos; separa [regras determinísticas](backend/src/evidencedesk/reconciliation/rules.py) de rascunhos opcionais de IA e exige outra conta para aprovar uma revisão. É uma demonstração sintética, sem adoção comercial ou ganho de produtividade medido.
+O EvidenceDesk investiga casos em que o pagamento foi confirmado, mas o pedido continua pendente. A aplicação reúne eventos, snapshots e documentos; usa [regras determinísticas](backend/src/evidencedesk/reconciliation/rules.py), oferece rascunhos opcionais de IA e exige outra conta para aprovar uma revisão. Os dados da demonstração são sintéticos.
 
 ![Paleta de marca do EvidenceDesk: azul petróleo, azul profundo, névoa, papel, grafite e ardósia](docs/readme/palette.svg)
 
@@ -28,9 +28,9 @@ A [paleta de marca](docs/brand.md) usa azul petróleo nas ações e citações, 
 
 _Página principal em captura anterior preservada._
 
-![Citação no leitor móvel, com a alegação e a fonte do mesmo snapshot](docs/evidence/uiux-20261012/after/citation-390.png)
+![Citação no leitor móvel, com a alegação e a fonte do mesmo snapshot](docs/readme/citation-mobile.png)
 
-Na [revisão de interface de 12/10/2026](docs/uiux-review-20261012.md), o leitor conserva a alegação que levou à fonte, a busca de fontes acompanha a URL e a aprovação exige uma decisão explícita e a conferência das alegações. O workbench local organiza a leitura antes do julgamento e indica os campos incompletos. [Antes/depois](docs/uiux-review-20261012.md#capturas-e-reprodução) usa o mesmo material sintético; a captura de um fluxo não demonstra qualidade de revisão humana.
+O leitor apresenta a alegação junto à fonte citada. A busca de fontes permanece ao navegar ou recarregar, e a aprovação exige uma decisão explícita e a conferência das alegações. O [workbench local](docs/runbooks/evaluation-workbench.md) permite ler a fonte antes do julgamento e aponta campos incompletos.
 
 ![Recorte da tabela: duas divergências do pedido PED-009-000](docs/images/workspace-desktop.png)
 
@@ -142,7 +142,7 @@ python scripts/ops.py stop
 
 ## Verificação e evidências
 
-Os [checks da rodada de UI/UX](docs/evidence/uiux-20261012/verification.json) e seu [manifesto](docs/evidence/uiux-20261012/manifest.json) identificam fontes congeladas, imagens do runtime, fixtures e verificações em 320, 390, 768, 1024 e 1440 CSS px. A [revisão](docs/uiux-review-20261012.md) registra diagnóstico, escolhas, comparações e limites. Zoom nativo e leitor de tela não foram verificados; CSS zoom não conta como zoom do navegador.
+Os comandos de testes, lint, tipos e build estão no [guia de desenvolvimento](docs/development.md). O [guia do frontend](docs/frontend.md) descreve os contratos de navegação e autorização; o [runbook de CI](docs/runbooks/ci.md) prepara bancos isolados para as jornadas de navegador.
 
 O [recibo de 12/10/2026](docs/evidence/evolution-20261012/verification.json) registra os snapshots, comandos e limites desta evolução. A [interface local capturada em Chromium](docs/evidence/evolution-20261012/workbench-desktop.png) tem [versão móvel](docs/evidence/evolution-20261012/workbench-mobile.png) e [prova automatizada](docs/evidence/evolution-20261012/browser.json). As capturas usam fixtures sintéticas; o gate humano permanece inconclusivo. O [executor adversarial](docs/evidence/evolution-20261012/adversarial-contracts.json) registra contratos simulados, sem execução de modelo real.
 
@@ -189,7 +189,7 @@ A infraestrutura Azure permanece **não implantada por este projeto** nos regist
 | Entender IA e orçamento      | [Model card](docs/model-card.md) · [modelos locais](docs/model-service.md) · [tokens](docs/token-budget.md)                                                          |
 | Conferir riscos e resultados | [Política de segurança](SECURITY.md) · [threat model](docs/threat-model.md) · [publicação](docs/publication.md) · [fontes e afirmações](docs/fontes-e-afirmacoes.md) |
 | Conferir imagens             | [Origem e reprodução](docs/screenshots.md)                                                                                                                           |
-| Conferir a interface atual   | [Revisão de UI/UX](docs/uiux-review-20261012.md) · [frontend](docs/frontend-review.md)                                                                               |
+| Desenvolver a interface      | [Frontend](docs/frontend.md) · [paleta e tokens](docs/brand.md)                                                                                                      |
 
 ## Autor e licença
 
