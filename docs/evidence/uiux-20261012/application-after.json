@@ -2478,5 +2478,7 @@
     "CSS viewport changes do not verify native browser zoom.",
     "Automated scans do not certify WCAG conformance.",
     "The automated payment review is not human semantic adjudication."
-  ]
+  ],
+  "original_capture_report_sha256": "2af381286786b3d744723ad96bf19833b8853b7b394269e2b6eefccc93e0103a",
+  "projection": "The original report is reconstructed by removing original_capture_report_sha256 and projection, removing published_png from every capture, and serializing UTF-8 JSON with ensure_ascii=False, indent=2 and one final LF. Accessibility follow-up source_capture_sha256 identifies that original report."
 }
