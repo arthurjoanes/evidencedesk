@@ -100,7 +100,15 @@ test("controlled indexing capability: disabled, bounded admission, failure and i
   expect(admissions).toHaveLength(1);
   expect(admissions[0].key).toMatch(/^[a-f0-9-]{36}$/);
   expect(admissions[0].csrf).toBeTruthy();
+  const desktopIndex = await page.locator(".snapshot-index").elementHandle();
+  if (!desktopIndex) throw new Error("The desktop index must be mounted.");
   await page.setViewportSize({ width: 320, height: 800 });
+  // The responsive branch remounts the details. Its old desktop node can
+  // still report open until that transition commits.
+  await expect
+    .poll(() => desktopIndex.evaluate((element) => element.isConnected))
+    .toBe(false);
+  await desktopIndex.dispose();
   if (
     !(await page
       .locator(".snapshot-index")

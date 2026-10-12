@@ -82,6 +82,10 @@
       "sha256": "e87b3b705e68499e14feb3eef47a61336640873bd0409c012b1dcb5228642199",
       "bytes": 2269
     },
+    "reflow-regression.json": {
+      "sha256": "60fc3faad3cebca3016072a7cb5f8e240c8dffde48a29e4714f79ab0cc187275",
+      "bytes": 2603
+    },
     "runtime.json": {
       "sha256": "b1e5fd53056a14991f3058037e40ca593a1b7a5c671dfad66bf063dd5859f8e4",
       "bytes": 23738
@@ -373,5 +377,6 @@
   },
   "source_inventory_projection": "source-inventory-projection.json",
   "publication_checks": "publication-checks.json",
-  "public_json_line_endings": "LF, matching Git eol=lf; raw private manifest hashes remain explicitly separate."
+  "public_json_line_endings": "LF, matching Git eol=lf; raw private manifest hashes remain explicitly separate.",
+  "complementary_reflow_check": "reflow-regression.json"
 }
