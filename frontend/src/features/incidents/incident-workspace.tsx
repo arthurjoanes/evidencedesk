@@ -15,6 +15,8 @@ import { EvidenceReader } from "@/features/evidence/evidence-reader";
 import { SourceList } from "@/features/evidence/source-list";
 import { DossierDialogs } from "@/features/dossiers/dossier-dialogs";
 import { DossierView } from "@/features/dossiers/dossier-view";
+import { AuthoritativeCitation } from "@/features/dossiers/citation-preview";
+import type { CitationSelection } from "@/features/dossiers/citation-context";
 import {
   DivergenceList,
   EventTimeline,
@@ -60,7 +62,12 @@ function Workspace({ incident }: { incident: Incident }) {
   const [initialDossier] = useState(incident.dossier_id);
   const [starting, setStarting] = useState(false);
   const selectedSourceTrigger = useRef<HTMLElement | null>(null);
+  const triggerSelection = useRef<{
+    sourceId: string;
+    claimId: string | null;
+  } | null>(null);
   const selectedSourceId = useRef<string | null>(null);
+  const selectedClaimId = useRef<string | null>(null);
   const content = useRef<HTMLDivElement>(null);
   const reader = usePanelRef();
   const desktop = useSyncExternalStore(
@@ -71,6 +78,14 @@ function Workspace({ incident }: { incident: Incident }) {
   const snapshot = params.get("snapshot") ?? initialSnapshot;
   const evidenceId = params.get("evidence");
   const evidenceSnapshot = params.get("evidence_snapshot") ?? snapshot;
+  const citationDossier = params.get("citation_dossier");
+  const citationRevision = params.get("citation_revision");
+  const citationClaim = params.get("citation_claim");
+  const citationPresent =
+    params.has("citation_dossier") ||
+    params.has("citation_revision") ||
+    params.has("citation_claim");
+  const previousEvidence = useRef(evidenceId);
   const tab = tabs.some((entry) => entry.id === params.get("tab"))
     ? params.get("tab")!
     : "divergences";
@@ -88,30 +103,67 @@ function Workspace({ incident }: { incident: Incident }) {
       workspaceDestination(pathname, window.location.search, snapshot, changes),
     );
   }
-  function openEvidence(id: string, sourceSnapshot = snapshot) {
+  function openEvidence(
+    id: string,
+    sourceSnapshot = snapshot,
+    citation?: CitationSelection,
+  ) {
     selectedSourceId.current = id;
+    selectedClaimId.current = citation?.claimId ?? null;
+    triggerSelection.current = {
+      sourceId: id,
+      claimId: citation?.claimId ?? null,
+    };
     selectedSourceTrigger.current =
       document.activeElement instanceof HTMLElement
         ? document.activeElement
         : null;
-    navigate({ evidence: id, evidence_snapshot: sourceSnapshot });
+    navigate({
+      evidence: id,
+      evidence_snapshot: sourceSnapshot,
+      citation_dossier: citation?.dossierId ?? null,
+      citation_revision: citation?.revisionId ?? null,
+      citation_claim: citation?.claimId ?? null,
+    });
   }
   function closeEvidence() {
-    navigate({ evidence: null, evidence_snapshot: null });
+    navigate({
+      evidence: null,
+      evidence_snapshot: null,
+      citation_dossier: null,
+      citation_revision: null,
+      citation_claim: null,
+    });
   }
   useEffect(() => {
-    if (evidenceId || !selectedSourceTrigger.current) return;
+    const wasOpen = !!previousEvidence.current;
+    previousEvidence.current = evidenceId;
+    if (evidenceId) {
+      selectedSourceId.current = evidenceId;
+      selectedClaimId.current = citationClaim;
+      return;
+    }
+    if (!wasOpen) return;
     const target = selectedSourceTrigger.current;
-    if (target.isConnected) target.focus();
+    if (
+      target?.isConnected &&
+      target.getClientRects().length &&
+      triggerSelection.current?.sourceId === selectedSourceId.current &&
+      triggerSelection.current?.claimId === selectedClaimId.current
+    )
+      target.focus();
     else {
       const replacement = selectedSourceId.current
         ? document.querySelector<HTMLElement>(
-            `[data-evidence-id="${CSS.escape(selectedSourceId.current)}"]`,
+            `[data-evidence-id="${CSS.escape(selectedSourceId.current)}"]${selectedClaimId.current ? `[data-claim-id="${CSS.escape(selectedClaimId.current)}"]` : ""}`,
           )
         : null;
-      (replacement ?? content.current)?.focus();
+      (replacement?.getClientRects().length
+        ? replacement
+        : content.current
+      )?.focus();
     }
-  }, [evidenceId]);
+  }, [evidenceId, citationClaim]);
   const workspace = (
     <div
       ref={content}
@@ -203,6 +255,8 @@ function Workspace({ incident }: { incident: Incident }) {
           incident={incident}
           snapshotId={snapshot}
           onEvidence={openEvidence}
+          selectedEvidenceId={evidenceId}
+          selectedClaimId={citationClaim}
         />
       )}
       {tab === "sources" && (
@@ -211,19 +265,64 @@ function Workspace({ incident }: { incident: Incident }) {
           incidentId={incident.id}
           snapshotId={snapshot}
           onEvidence={openEvidence}
+          search={params.get("source_q") ?? ""}
+          onSearch={(search) => navigate({ source_q: search || null })}
         />
       )}
     </div>
   );
-  const evidence = evidenceId && (
-    <EvidenceReader
-      key={evidenceId + evidenceSnapshot}
-      id={evidenceId}
-      snapshotId={evidenceSnapshot}
-      onClose={closeEvidence}
-      onResize={(size) => reader.current?.resize(size + "%")}
-    />
-  );
+  const evidence =
+    evidenceId &&
+    (citationDossier && citationRevision && citationClaim ? (
+      <AuthoritativeCitation
+        key={evidenceId + evidenceSnapshot}
+        selection={{
+          dossierId: citationDossier,
+          revisionId: citationRevision,
+          claimId: citationClaim,
+        }}
+        incidentId={incident.id}
+        snapshotId={evidenceSnapshot}
+        evidenceId={evidenceId}
+      >
+        {({ allowed, notice, preview }) => (
+          <EvidenceReader
+            id={evidenceId}
+            snapshotId={evidenceSnapshot}
+            onClose={closeEvidence}
+            onResize={(size) => reader.current?.resize(size + "%")}
+            citationAllowed={allowed}
+            authorizationNotice={notice}
+            renderCitation={(sourceAvailable) =>
+              sourceAvailable ? preview : null
+            }
+          />
+        )}
+      </AuthoritativeCitation>
+    ) : citationPresent ? (
+      <EvidenceReader
+        key={evidenceId + evidenceSnapshot}
+        id={evidenceId}
+        snapshotId={evidenceSnapshot}
+        onClose={closeEvidence}
+        onResize={(size) => reader.current?.resize(size + "%")}
+        citationAllowed={false}
+        authorizationNotice={
+          <p className="notice notice-warning" role="alert">
+            A citação está incompleta. Volte ao dossiê e abra uma de suas
+            fontes.
+          </p>
+        }
+      />
+    ) : (
+      <EvidenceReader
+        key={evidenceId + evidenceSnapshot}
+        id={evidenceId}
+        snapshotId={evidenceSnapshot}
+        onClose={closeEvidence}
+        onResize={(size) => reader.current?.resize(size + "%")}
+      />
+    ));
   return (
     <DossierDialogs
       onSaved={(dossierId, revisionId) =>
@@ -300,6 +399,9 @@ function Workspace({ incident }: { incident: Incident }) {
                     snapshot: event.target.value,
                     evidence: null,
                     evidence_snapshot: null,
+                    citation_dossier: null,
+                    citation_revision: null,
+                    citation_claim: null,
                   })
                 }
               >

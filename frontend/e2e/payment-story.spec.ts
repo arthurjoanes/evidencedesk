@@ -300,7 +300,20 @@ test("payment story: two real sources, manual dossier and independent review", a
     .click();
   const reason =
     "Ensaio automatizado com contas distintas. Foram conferidos o evento de pagamento, o snapshot posterior e os vínculos desta alegação. A causa e a correção do pedido permanecem não demonstradas. Esta aprovação verifica o fluxo, não substitui avaliação humana.";
+  const reviewDialog = page.getByRole("dialog");
+  const reviewSubmit = reviewDialog.getByRole("button", {
+    name: "Registrar decisão",
+    exact: true,
+  });
+  await expect(reviewDialog.getByLabel("Decisão")).toHaveValue("");
   await page.getByLabel("Justificativa").fill(reason);
+  await expect(reviewSubmit).toBeDisabled();
+  await reviewDialog.getByLabel("Decisão").selectOption("approved");
+  await expect(reviewSubmit).toBeDisabled();
+  await reviewDialog
+    .getByRole("checkbox", { name: "Conferi a alegação 1", exact: true })
+    .check();
+  await expect(reviewSubmit).toBeEnabled();
   await capture("03-decisao-da-revisao");
   await page
     .getByRole("dialog")

@@ -37,6 +37,7 @@ export function DossierEditor({
   base,
   onClose,
   onSaved,
+  onCloseAutoFocus,
 }: {
   accessError?: unknown;
   retryAccess: () => void;
@@ -47,6 +48,7 @@ export function DossierEditor({
   base?: Revision;
   onClose: () => void;
   onSaved: (dossierId?: string, revisionId?: string) => void;
+  onCloseAutoFocus?: (event: Event) => void;
 }) {
   const session = useSession();
   const [error, setError] = useState<unknown>();
@@ -176,6 +178,7 @@ export function DossierEditor({
   return (
     <Dialog
       open
+      onCloseAutoFocus={onCloseAutoFocus}
       onOpenChange={(next) => {
         if (!next && !form.formState.isSubmitting) requestClose();
       }}

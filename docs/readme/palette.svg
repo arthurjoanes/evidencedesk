@@ -1,0 +1,47 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="720"
+  height="144"
+  viewBox="0 0 720 144"
+  role="img"
+  aria-labelledby="title desc"
+>
+  <title id="title">Paleta de marca do EvidenceDesk</title>
+  <desc id="desc">
+    Azul petróleo #14566B, azul profundo #0B3448, névoa #EAF3F6, papel #F5F8FA,
+    grafite #202B36 e ardósia #536573.
+  </desc>
+  <rect width="720" height="144" rx="6" fill="#ffffff" />
+  <g>
+    <path fill="#14566b" d="M0 0h120v78H0z" />
+    <path fill="#0b3448" d="M120 0h120v78H120z" />
+    <path fill="#eaf3f6" d="M240 0h120v78H240z" />
+    <path fill="#f5f8fa" d="M360 0h120v78H360z" />
+    <path fill="#202b36" d="M480 0h120v78H480z" />
+    <path fill="#536573" d="M600 0h120v78H600z" />
+  </g>
+  <g
+    fill="#202b36"
+    font-family="IBM Plex Sans, Segoe UI, sans-serif"
+    font-size="14"
+  >
+    <text x="12" y="103">Azul petróleo</text>
+    <text x="132" y="103">Azul profundo</text>
+    <text x="252" y="103">Névoa</text>
+    <text x="372" y="103">Papel</text>
+    <text x="492" y="103">Grafite</text>
+    <text x="612" y="103">Ardósia</text>
+  </g>
+  <g
+    fill="#536573"
+    font-family="IBM Plex Mono, Consolas, monospace"
+    font-size="13"
+  >
+    <text x="12" y="127">#14566B</text>
+    <text x="132" y="127">#0B3448</text>
+    <text x="252" y="127">#EAF3F6</text>
+    <text x="372" y="127">#F5F8FA</text>
+    <text x="492" y="127">#202B36</text>
+    <text x="612" y="127">#536573</text>
+  </g>
+</svg>

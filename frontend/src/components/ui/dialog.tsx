@@ -12,6 +12,7 @@ export function Dialog({
   description,
   children,
   wide = false,
+  onCloseAutoFocus,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -19,6 +20,7 @@ export function Dialog({
   description: string;
   children: ReactNode;
   wide?: boolean;
+  onCloseAutoFocus?: (event: Event) => void;
 }) {
   const suspended = useSessionSuspended();
   return (
@@ -27,6 +29,7 @@ export function Dialog({
         <Primitive.Overlay className="dialog-overlay" />
         <Primitive.Content
           className={"dialog-content" + (wide ? " dialog-wide" : "")}
+          onCloseAutoFocus={onCloseAutoFocus}
         >
           <div className="dialog-heading">
             <div>
