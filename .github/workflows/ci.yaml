@@ -31,6 +31,8 @@ jobs:
       - run: python -m pip check
       - run: python -m unittest discover -s scripts -p 'test_*.py'
       - run: python -m pytest backend/tests/unit -q
+      - name: Offline evaluation contracts (development only)
+        run: python -m pytest evals/test_metrics.py evals/test_workbench.py evals/test_adversarial.py -q
       - run: python scripts/check_repository_docs.py
 
   secret-history:
@@ -84,8 +86,11 @@ jobs:
         run: |
           python -m ruff check backend/src backend/tests scripts infra/observability/receiver.py --config backend/pyproject.toml
           python -m ruff format --check backend/src backend/tests scripts infra/observability/receiver.py --config backend/pyproject.toml
+          python -m ruff check evals/workbench.py evals/test_workbench.py evals/adversarial.py evals/test_adversarial.py --config backend/pyproject.toml
+          python -m ruff format --check evals/workbench.py evals/test_workbench.py evals/adversarial.py evals/test_adversarial.py --config backend/pyproject.toml
           python -m unittest discover -s scripts -p 'test_*.py'
           python -m mypy backend/src --config-file backend/pyproject.toml
+          python -m mypy evals/workbench.py evals/adversarial.py --config-file backend/pyproject.toml
           python scripts/check_repository_docs.py
       - name: Start isolated database
         run: |
@@ -103,6 +108,8 @@ jobs:
         env:
           PYTHONPATH: src
         run: python -m pytest -m 'not azure' --junitxml=../test-results/backend.xml
+      - name: Offline review and adversarial contracts
+        run: python -m pytest evals/test_metrics.py evals/test_workbench.py evals/test_adversarial.py --junitxml=test-results/evals.xml
       - name: Validate pinned observability configuration
         run: python scripts/check_infra.py
       - name: Build backend
@@ -114,6 +121,7 @@ jobs:
           name: checks-backend
           path: |
             test-results/backend.xml
+            test-results/evals.xml
             docs/evidence/infra-config-check.json
           retention-days: 7
       - name: Stop runner project
@@ -163,6 +171,9 @@ jobs:
       ED_AI_PROVIDER: disabled
       AZURE_OPENAI_API_KEY: ''
       ED_E2E_BASE_URL: http://127.0.0.1:3107
+      ED_COMPOSE_PROJECT: pf-evidencedesk-e2e-evolucao-20261012-${{ github.run_id }}
+      ED_BACKEND_IMAGE: pf-evidencedesk-backend:evolucao-20261012-${{ github.run_id }}
+      ED_FRONTEND_IMAGE: pf-evidencedesk-frontend:evolucao-20261012-${{ github.run_id }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -172,14 +183,25 @@ jobs:
           node-version: '24.19.0'
           cache: npm
           cache-dependency-path: frontend/package-lock.json
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12.14'
+      - name: Install authoritative review validator from the project lock
+        run: python -m pip install --require-hashes -r backend/requirements-test.lock
       - name: Build and start isolated application
         run: |
-          python scripts/ops.py --project pf-evidencedesk-e2e-ci --e2e build
-          python scripts/ops.py --project pf-evidencedesk-e2e-ci --e2e db
-          docker compose -p pf-evidencedesk-e2e-ci -f infra/compose/compose.yaml -f infra/compose/e2e.yaml run --rm --no-deps migrate
-          python scripts/ops.py --project pf-evidencedesk-e2e-ci --e2e seed
-          docker compose -p pf-evidencedesk-e2e-ci -f infra/compose/compose.yaml -f infra/compose/e2e.yaml run --rm --no-deps -v "$PWD/scripts:/ops:ro" seed python /ops/prepare_e2e.py
-          python scripts/ops.py --project pf-evidencedesk-e2e-ci --e2e start
+          docker ps -a --format '{{.ID}} {{.Names}} {{.Ports}}'
+          docker network ls --format '{{.ID}} {{.Name}} {{.Driver}}'
+          ip -4 route show
+          ss -ltn
+          git rev-parse HEAD
+          git ls-files -z | xargs -0 sha256sum > "$RUNNER_TEMP/workbench-source.sha256"
+          python scripts/ops.py --project "$ED_COMPOSE_PROJECT" --e2e build
+          python scripts/ops.py --project "$ED_COMPOSE_PROJECT" --e2e db
+          docker compose -p "$ED_COMPOSE_PROJECT" -f infra/compose/compose.yaml -f infra/compose/e2e.yaml run --rm --no-deps migrate
+          python scripts/ops.py --project "$ED_COMPOSE_PROJECT" --e2e seed
+          docker compose -p "$ED_COMPOSE_PROJECT" -f infra/compose/compose.yaml -f infra/compose/e2e.yaml run --rm --no-deps -v "$PWD/scripts:/ops:ro" seed python /ops/prepare_e2e.py
+          python scripts/ops.py --project "$ED_COMPOSE_PROJECT" --e2e start
       - name: Install browser harness
         working-directory: frontend
         run: |
@@ -189,6 +211,14 @@ jobs:
       - name: Run API-backed browser journeys once
         working-directory: frontend
         run: npm run test:e2e
+      - name: Standalone review workbench in Chromium
+        working-directory: frontend
+        env:
+          ED_WORKBENCH_ARTIFACT_DIR: artifacts/workbench
+          ED_WORKBENCH_CAPTURE: '1'
+        run: node ../evals/workbench.browser.mjs
+      - name: Confirm the executed source is unchanged
+        run: sha256sum --check --quiet "$RUNNER_TEMP/workbench-source.sha256"
       - name: Browser evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -197,12 +227,13 @@ jobs:
           path: |
             frontend/artifacts/e2e-results.json
             frontend/artifacts/screenshots
+            frontend/artifacts/workbench
             frontend/test-results
             frontend/playwright-report
           retention-days: 7
       - name: Stop isolated application
         if: always()
-        run: python scripts/ops.py --project pf-evidencedesk-e2e-ci --e2e stop
+        run: python scripts/ops.py --project "$ED_COMPOSE_PROJECT" --e2e stop
 
   image-vulnerabilities:
     runs-on: ubuntu-24.04

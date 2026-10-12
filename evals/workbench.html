@@ -1,0 +1,1973 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <title>EvidenceDesk | Revisão semântica local</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #172f42;
+        --blue: #205f91;
+        --paper: #fff;
+        --wash: #edf4f8;
+        --line: #a7bbc9;
+        --muted: #4d6170;
+        --warning: #79520c;
+        --danger: #982e39;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #f5f8fa;
+        color: var(--ink);
+        font:
+          16px/1.5 "Segoe UI",
+          Tahoma,
+          sans-serif;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+      button,
+      input,
+      select,
+      textarea,
+      summary,
+      a {
+        touch-action: manipulation;
+      }
+      button {
+        min-height: 44px;
+        cursor: pointer;
+        border: 1px solid var(--line);
+        padding: 8px 14px;
+        border-radius: 4px;
+        color: var(--ink);
+        background: var(--paper);
+      }
+      button:hover {
+        background: var(--wash);
+      }
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+      }
+      .primary {
+        background: var(--blue);
+        border-color: var(--blue);
+        color: #fff;
+      }
+      .primary:hover {
+        background: #174b75;
+      }
+      :focus-visible {
+        outline: 3px solid #1269b1;
+        outline-offset: 3px;
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+      h1 {
+        font-size: clamp(24px, 3vw, 32px);
+        font-weight: 600;
+        line-height: 1.2;
+      }
+      h2 {
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+      h3 {
+        font-size: 17px;
+        font-weight: 600;
+      }
+      a {
+        color: var(--blue);
+      }
+      header {
+        background: var(--paper);
+        border-top: 5px solid var(--blue);
+        border-bottom: 1px solid var(--line);
+        padding: 22px clamp(16px, 3vw, 40px);
+      }
+      .header-row,
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 16px;
+      }
+      .header-row {
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .intro {
+        max-width: 74ch;
+        color: var(--muted);
+        margin-top: 8px;
+      }
+      .actions {
+        margin-top: 18px;
+      }
+      .file-label {
+        display: block;
+        font-weight: 600;
+      }
+      .file-label input {
+        display: block;
+        margin-top: 6px;
+        max-width: 100%;
+        font-size: 14px;
+      }
+      .file-label small {
+        display: block;
+        font-weight: 400;
+        color: var(--muted);
+      }
+      #notice {
+        margin: 0;
+        padding: 13px clamp(16px, 3vw, 40px);
+        border-bottom: 1px solid var(--line);
+        background: var(--wash);
+        overflow-wrap: anywhere;
+      }
+      #notice[data-tone="error"] {
+        color: var(--danger);
+        background: #fff1f2;
+      }
+      #notice[data-tone="warning"] {
+        color: var(--warning);
+        background: #fff6e6;
+      }
+      .workspace {
+        display: grid;
+        grid-template-columns: 245px minmax(0, 1fr) minmax(0, 1fr);
+        min-height: 65vh;
+      }
+      .panel {
+        min-width: 0;
+        padding: 24px;
+        background: var(--paper);
+      }
+      .panel + .panel {
+        border-left: 1px solid var(--line);
+      }
+      .index {
+        background: #f5f8fa;
+        padding: 20px 16px;
+      }
+      .index h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        font-weight: 600;
+        margin: 16px 0 5px;
+      }
+      input:not([type="file"]),
+      select,
+      textarea {
+        display: block;
+        width: 100%;
+        min-height: 44px;
+        padding: 9px 10px;
+        border: 1px solid #7c95a6;
+        border-radius: 3px;
+        color: var(--ink);
+        background: #fff;
+      }
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+      .help,
+      .muted {
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .help {
+        margin-top: 5px;
+        max-width: 72ch;
+      }
+      .case-list,
+      .claim-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 16px 0;
+        padding: 0;
+        list-style: none;
+      }
+      .case-list button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        overflow-wrap: anywhere;
+      }
+      .case-list small {
+        display: block;
+        color: var(--muted);
+      }
+      .case-list button[aria-current="true"],
+      .claim-list button[aria-current="true"] {
+        border-color: var(--blue);
+        border-left: 4px solid var(--blue);
+        background: var(--wash);
+      }
+      .claim-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .claim-list button {
+        min-width: 44px;
+      }
+      .empty {
+        max-width: 75ch;
+        padding: 40px clamp(16px, 4vw, 60px);
+      }
+      .empty p {
+        margin-top: 12px;
+      }
+      .empty h2 {
+        font-size: 25px;
+      }
+      .identity {
+        margin-top: 18px;
+        padding: 12px 0;
+        border-block: 1px solid var(--line);
+        overflow-wrap: anywhere;
+      }
+      .gate {
+        background: var(--wash);
+        padding: 14px 16px;
+        border-left: 4px solid var(--blue);
+        max-width: 74ch;
+      }
+      .gate strong {
+        display: block;
+      }
+      .progress {
+        margin: 14px 0;
+        font-size: 14px;
+      }
+      progress {
+        display: block;
+        width: 100%;
+        height: 10px;
+        accent-color: var(--blue);
+      }
+      .transcript {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        font:
+          18px/1.65 Cambria,
+          Georgia,
+          serif;
+        max-width: 78ch;
+      }
+      .claim-text {
+        margin: 16px 0;
+        padding: 16px 18px;
+        border-left: 4px solid var(--blue);
+        background: var(--wash);
+      }
+      details {
+        margin: 16px 0;
+        border-top: 1px solid var(--line);
+        padding-top: 12px;
+      }
+      summary {
+        cursor: pointer;
+        font-weight: 600;
+      }
+      details .transcript,
+      details pre {
+        margin-top: 12px;
+      }
+      pre {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        font-size: 13px;
+        max-width: 80ch;
+      }
+      dl {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 5px 12px;
+        font-size: 14px;
+        margin: 16px 0;
+      }
+      dt {
+        color: var(--muted);
+      }
+      dd {
+        margin: 0;
+        overflow-wrap: anywhere;
+      }
+      .source-heading {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .source-body {
+        margin: 18px 0;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+      .source-body h3 {
+        margin-bottom: 12px;
+        overflow-wrap: anywhere;
+      }
+      #unsaved {
+        font-weight: 600;
+        color: var(--warning);
+      }
+      .footer {
+        padding: 18px clamp(16px, 3vw, 40px);
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .skip {
+        position: absolute;
+        left: 16px;
+        top: -90px;
+        background: #fff;
+        padding: 10px;
+        z-index: 10;
+      }
+      .skip:focus {
+        top: 12px;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      @media (max-width: 1120px) {
+        .workspace {
+          grid-template-columns: 210px minmax(0, 1fr);
+        }
+        .sources {
+          grid-column: 2;
+          border-top: 1px solid var(--line);
+        }
+      }
+      @media (max-width: 720px) {
+        .workspace {
+          display: block;
+        }
+        .panel {
+          padding: 20px 16px;
+        }
+        .panel + .panel {
+          border-left: 0;
+          border-top: 1px solid var(--line);
+        }
+        .case-list {
+          max-height: 260px;
+          overflow: auto;
+          padding: 4px;
+        }
+        .actions {
+          align-items: stretch;
+        }
+        .actions button {
+          flex: 1 1 180px;
+        }
+        dl {
+          grid-template-columns: 1fr;
+          gap: 2px;
+        }
+        dd {
+          margin-bottom: 8px;
+        }
+        .identity {
+          margin-top: 12px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          scroll-behavior: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#review-heading">Ir para a revisão</a>
+    <header>
+      <div class="header-row">
+        <div>
+          <h1>EvidenceDesk</h1>
+          <p class="intro">
+            Revisão semântica local. Confira cada alegação nas fontes congeladas
+            e registre sua decisão.
+          </p>
+        </div>
+        <p class="gate">
+          <strong>Gate humano inconclusivo</strong>Preencher ou exportar não
+          aprova o sistema. A CLI calcula os gates após revisão independente e
+          adjudicação.
+        </p>
+      </div>
+      <div class="actions">
+        <label class="file-label" for="bundle-file"
+          >Importar bundle
+          <input
+            id="bundle-file"
+            type="file"
+            accept=".json,application/json"
+          /><small>Arquivo dev preparado pela CLI.</small></label
+        >
+        <label class="file-label" for="annotation-file"
+          >Retomar anotação
+          <input
+            id="annotation-file"
+            type="file"
+            accept=".json,application/json"
+            disabled
+          /><small>Somente sua anotação desta versão.</small></label
+        >
+        <button id="export-draft" disabled>Exportar rascunho</button>
+        <button id="export-submitted" class="primary" disabled>
+          Exportar resposta submetida
+        </button>
+        <button id="discard" disabled>Descartar rascunho</button>
+      </div>
+      <div class="identity" id="round-summary" hidden></div>
+      <p id="unsaved" hidden>
+        Rascunho não exportado. Exporte antes de fechar ou trocar o bundle.
+      </p>
+    </header>
+    <p id="notice" role="status" aria-live="polite">
+      Importe um bundle para começar. O conteúdo permanece nesta aba; nenhum
+      input é enviado pela rede.
+    </p>
+    <main>
+      <section id="empty" class="empty" aria-labelledby="empty-heading">
+        <h2 id="empty-heading">Uma alegação, uma fonte, uma decisão</h2>
+        <p>
+          Abra o HTML gerado pela CLI e importe o bundle atribuído ao seu
+          identificador. Sua avaliação começa sem rótulos selecionados.
+        </p>
+        <p>
+          O bundle mostra respostas e fontes, com os sistemas codificados. A
+          avaliação de outra pessoa e o gabarito ficam fora desta revisão.
+        </p>
+        <p class="help">
+          A identidade é declarada em arquivo. Este fluxo local não autentica
+          uma identidade institucional.
+        </p>
+      </section>
+      <div id="workspace" class="workspace" hidden>
+        <nav class="panel index" aria-labelledby="cases-heading">
+          <h2 id="cases-heading">Casos da rodada</h2>
+          <label for="filter">Buscar caso</label
+          ><input id="filter" type="search" placeholder="ID ou pergunta" />
+          <label for="status-filter">Filtrar avaliação</label
+          ><select id="status-filter">
+            <option value="all">Todos os casos</option>
+            <option value="pending">Com campos não avaliados</option>
+            <option value="complete">Com alegações preenchidas</option>
+            <option value="unavailable">Sem resposta para revisar</option>
+          </select>
+          <p id="case-count" class="help"></p>
+          <ul id="case-list" class="case-list"></ul>
+        </nav>
+        <section id="assessment" class="panel" aria-labelledby="review-heading">
+          <h2 id="review-heading" tabindex="-1">Revisar resposta</h2>
+          <p id="response-meta" class="help"></p>
+          <p id="progress-text" class="progress"></p>
+          <progress
+            id="progress"
+            max="1"
+            value="0"
+            aria-label="Alegações preenchidas"
+          ></progress>
+          <details>
+            <summary>Pergunta e resposta completas</summary>
+            <h3 style="margin-top: 12px">Pergunta</h3>
+            <p id="question" class="transcript"></p>
+            <h3 style="margin-top: 12px">Resposta</h3>
+            <p id="answer" class="transcript"></p>
+          </details>
+          <p id="unavailable" class="gate" hidden></p>
+          <p id="imported-submission" class="gate" hidden></p>
+          <div id="claim-form">
+            <h3>Alegações da resposta</h3>
+            <ul
+              id="claim-list"
+              class="claim-list"
+              aria-label="Escolher alegação"
+            ></ul>
+            <p id="claim-text" class="transcript claim-text"></p>
+            <p id="references" class="help"></p>
+            <label for="claim-label">Decisão sobre a alegação</label
+            ><select id="claim-label" aria-required="true">
+              <option value="">Não avaliada</option>
+              <option value="supported">Sustentada (supported)</option>
+              <option value="contradicted">Contradita (contradicted)</option>
+              <option value="insufficient">
+                Evidência insuficiente (insufficient)
+              </option>
+              <option value="irrelevant">Irrelevante (irrelevant)</option>
+            </select>
+            <p class="help">
+              Escolha a fonte e o localizador no painel de fontes. “Sustentada”
+              exige uma referência válida.
+            </p>
+            <label for="rationale">Motivo da decisão</label
+            ><textarea
+              id="rationale"
+              aria-required="true"
+              aria-describedby="rationale-help"
+              placeholder="Explique como a fonte sustenta, contradiz ou limita esta alegação."
+            ></textarea>
+            <p id="rationale-help" class="help">
+              Obrigatório para cada alegação submetida. A justificativa não é
+              gerada automaticamente.
+            </p>
+          </div>
+          <div id="response-form">
+            <details>
+              <summary>Conferências da resposta</summary>
+              <label for="required-facts">Fatos necessários conferidos</label
+              ><textarea
+                id="required-facts"
+                placeholder="Um fato por linha"
+              ></textarea>
+              <label for="omitted-facts">Fatos necessários omitidos</label
+              ><textarea
+                id="omitted-facts"
+                placeholder="Um fato por linha"
+              ></textarea>
+              <label for="counterevidence">Notas sobre contraevidência</label
+              ><textarea id="counterevidence"></textarea>
+              <label for="temporal">Notas sobre temporalidade</label
+              ><textarea id="temporal"></textarea>
+              <label for="abstention">Conferência da abstenção</label
+              ><select id="abstention">
+                <option value="">Não avaliada</option>
+                <option value="appropriate">Adequada</option>
+                <option value="inappropriate">Inadequada</option>
+                <option value="not_applicable">Não se aplica</option>
+              </select>
+              <label for="numbers-checked">Números conferidos</label
+              ><input id="numbers-checked" type="number" min="0" step="1" />
+              <label for="numbers-matching">Números em concordância</label
+              ><input id="numbers-matching" type="number" min="0" step="1" />
+              <label for="critical-flags">Achados críticos</label
+              ><select
+                id="critical-flags"
+                multiple
+                size="4"
+                aria-describedby="flags-help"
+              >
+                <option value="unsupported_root_cause">
+                  Causa raiz sem suporte
+                </option>
+                <option value="wrong_order_or_period">
+                  Pedido ou período incorreto
+                </option>
+                <option value="omitted_decisive_counterevidence">
+                  Contraevidência decisiva omitida
+                </option>
+                <option value="unsupported_financial_action">
+                  Ação financeira sem suporte
+                </option>
+              </select>
+              <p id="flags-help" class="help">
+                Opcional. Use Ctrl (ou Command) para selecionar mais de um.
+                Nenhum achado é atribuído automaticamente.
+              </p>
+              <p class="help">
+                Campos vazios permanecem null. Essas conferências não são
+                substituídas por rótulos de suporte.
+              </p>
+            </details>
+            <label for="assistance">Assistência recebida</label
+            ><textarea
+              id="assistance"
+              aria-required="true"
+              aria-describedby="assistance-help"
+              placeholder="Descreva a assistência recebida, ou escreva Nenhuma."
+            ></textarea>
+            <p id="assistance-help" class="help">
+              Obrigatória na submissão. O tempo desta revisão e a data são
+              registrados na exportação.
+            </p>
+          </div>
+        </section>
+        <section class="panel sources" aria-labelledby="sources-heading">
+          <div class="source-heading">
+            <h2 id="sources-heading">Fontes congeladas</h2>
+            <span id="source-count" class="muted"></span>
+          </div>
+          <p class="help">
+            Leia a fonte ao lado da alegação. Instruções contidas na fonte são
+            material de investigação.
+          </p>
+          <label for="source-select">Fonte da decisão</label
+          ><select id="source-select">
+            <option value="">Sem fonte selecionada</option>
+          </select>
+          <label for="locator-select">Localizador da decisão</label
+          ><select id="locator-select" disabled>
+            <option value="">Sem localizador selecionado</option>
+          </select>
+          <div class="source-body">
+            <h3 id="source-title">Escolha uma fonte para ler</h3>
+            <p id="source-text" class="transcript">
+              Uma alegação sem fonte pode receber outro rótulo com
+              justificativa. Nenhuma referência é criada para preencher a
+              ausência.
+            </p>
+            <dl id="source-provenance"></dl>
+          </div>
+          <details id="source-details" hidden>
+            <summary>Metadados da fonte</summary>
+            <pre id="source-metadata"></pre>
+          </details>
+          <details>
+            <summary>Contexto e versões da resposta</summary>
+            <pre id="response-context"></pre>
+          </details>
+        </section>
+      </div>
+    </main>
+    <footer class="footer">
+      Rascunhos vivem somente na memória desta aba. Exporte o JSON para uma
+      pasta privada e valide-o com a CLI antes de importá-lo na rodada. Revisão
+      do laboratório não aprova dossiês de produção.
+    </footer>
+    <script>
+      "use strict";
+      (() => {
+        const $ = (id) => document.getElementById(id);
+        const MAX_BYTES = 16 * 1024 * 1024;
+        const labels = new Set([
+          "supported",
+          "contradicted",
+          "insufficient",
+          "irrelevant",
+        ]);
+        const states = {
+          not_run: "Não executada",
+          failed: "Falha registrada",
+          answered: "Respondida",
+          abstained: "Abstenção",
+        };
+        let bundle = null,
+          selected = null,
+          claimIndex = 0,
+          dirty = false;
+        const drafts = new Map(),
+          modified = new Set(),
+          clocks = new Map();
+        const text = (id, value) => {
+          $(id).textContent = value ?? "";
+        };
+        const nullable = (value) => value.trim() || null;
+        const canonical = (value) => {
+          if (Array.isArray(value))
+            return "[" + value.map(canonical).join(",") + "]";
+          if (value && typeof value === "object")
+            return (
+              "{" +
+              Object.keys(value)
+                .sort((a, b) => {
+                  const aa = Array.from(a, (c) => c.codePointAt(0)),
+                    bb = Array.from(b, (c) => c.codePointAt(0));
+                  for (let i = 0; i < Math.min(aa.length, bb.length); i++)
+                    if (aa[i] !== bb[i]) return aa[i] - bb[i];
+                  return aa.length - bb.length;
+                })
+                .map((key) => JSON.stringify(key) + ":" + canonical(value[key]))
+                .join(",") +
+              "}"
+            );
+          return JSON.stringify(value);
+        };
+        async function hash(value) {
+          if (!globalThis.crypto?.subtle)
+            throw new Error(
+              "Este navegador não oferece SHA-256 para arquivos locais. Abra o HTML em uma versão atual do Chrome, Edge ou Firefox.",
+            );
+          const bytes = new TextEncoder().encode(value);
+          const result = await crypto.subtle.digest("SHA-256", bytes);
+          return Array.from(new Uint8Array(result), (b) =>
+            b.toString(16).padStart(2, "0"),
+          ).join("");
+        }
+        function notice(message, tone = "info") {
+          text("notice", message);
+          $("notice").dataset.tone = tone;
+          $("notice").setAttribute(
+            "role",
+            tone === "error" ? "alert" : "status",
+          );
+          $("notice").setAttribute(
+            "aria-live",
+            tone === "error" ? "assertive" : "polite",
+          );
+        }
+        function exactKeys(value, allowed, required = allowed) {
+          if (
+            !value ||
+            typeof value !== "object" ||
+            Array.isArray(value) ||
+            Object.keys(value).some((k) => !allowed.includes(k)) ||
+            required.some((k) => !(k in value))
+          )
+            throw new Error(
+              "Arquivo incompatível: contrato ou campos inesperados. Gere um bundle com a CLI desta versão.",
+            );
+        }
+        function unique(values, what) {
+          if (new Set(values).size !== values.length)
+            throw new Error(
+              "Arquivo incompatível: IDs duplicados em " + what + ".",
+            );
+        }
+        function isReviewable(response) {
+          return ["answered", "abstained"].includes(response.state);
+        }
+        function isLocked(response) {
+          return response?.annotation?.status === "submitted";
+        }
+        function complete(annotation) {
+          return annotation.claims.every(
+            (c) =>
+              labels.has(c.label) &&
+              c.rationale?.trim() &&
+              (c.label !== "supported" || (c.source_id && c.span_or_locator)),
+          );
+        }
+        function changed() {
+          dirty = true;
+          modified.add(selected.response_id);
+          $("unsaved").hidden = false;
+          renderProgress();
+          renderCases();
+        }
+        function blank(response) {
+          return {
+            response_id: response.response_id,
+            case_id: response.case_id,
+            scenario_instance: response.scenario_instance,
+            system_code: response.system_code,
+            answer_sha256: response.answer_sha256,
+            source_manifest_sha256: response.source_manifest_sha256,
+            release_sha256: bundle.release_sha256,
+            revision: (response.annotation_revision ?? 0) + 1,
+            base_annotation_sha256: response.annotation_sha256,
+            status: "draft",
+            reviewer_id: bundle.reviewer_id,
+            reviewed_at: null,
+            claims: response.claims.map((c) => ({
+              claim_id: c.claim_id,
+              exact_claim: c.exact_claim,
+              source_id: null,
+              source_sha256: null,
+              span_or_locator: null,
+              label: null,
+              rationale: null,
+            })),
+            required_facts: null,
+            omitted_facts: null,
+            counterevidence_notes: null,
+            temporal_notes: null,
+            abstention_judgment: null,
+            numbers_checked: null,
+            numbers_matching: null,
+            critical_flags: [],
+            assistance_received: null,
+            elapsed_seconds: null,
+            evidence_origin: "human_declared",
+          };
+        }
+        async function validateBundle(candidate) {
+          exactKeys(candidate, [
+            "schema_version",
+            "kind",
+            "round_id",
+            "split",
+            "reviewer_id",
+            "release",
+            "release_sha256",
+            "rubric_version",
+            "bundle_sha256",
+            "presentation_order",
+            "responses",
+          ]);
+          if (
+            candidate.schema_version !== 1 ||
+            candidate.kind !== "evidencedesk-review-bundle" ||
+            candidate.split !== "dev" ||
+            candidate.rubric_version !== "semantic-review-v1" ||
+            !candidate.reviewer_id ||
+            !Array.isArray(candidate.responses) ||
+            !Array.isArray(candidate.presentation_order)
+          )
+            throw new Error(
+              "Arquivo incompatível: somente bundles dev da revisão semantic-review-v1 são aceitos.",
+            );
+          const validId = (value) =>
+            typeof value === "string" &&
+            /^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$/.test(value);
+          const validText = (value) =>
+            typeof value === "string" &&
+            value.length > 0 &&
+            value.length <= 100000;
+          const validHash = (value) =>
+            typeof value === "string" && /^[a-f0-9]{64}$/.test(value);
+          const object = (value) =>
+            value !== null &&
+            typeof value === "object" &&
+            !Array.isArray(value);
+          const checkNumbers = (value) => {
+            if (typeof value === "number" && !Number.isSafeInteger(value))
+              throw new Error(
+                "Arquivo incompatível: número fora do contrato JSON congelado.",
+              );
+            if (value && typeof value === "object")
+              for (const item of Object.values(value)) checkNumbers(item);
+          };
+          checkNumbers(candidate);
+          exactKeys(candidate.release, [
+            "id",
+            "commit",
+            "image_id",
+            "corpus_sha256",
+            "chunk_policy",
+            "parser_rules_version",
+            "retrieval_profile",
+            "encoder_revision",
+            "reranker_revision",
+            "generation_deployment_revision",
+          ]);
+          if (
+            !validId(candidate.round_id) ||
+            !validId(candidate.reviewer_id) ||
+            !validHash(candidate.bundle_sha256) ||
+            !validHash(candidate.release_sha256) ||
+            !validId(candidate.release.id) ||
+            (candidate.release.commit === null &&
+              candidate.release.image_id === null) ||
+            (candidate.release.commit !== null &&
+              !/^[a-f0-9]{40}$/.test(candidate.release.commit)) ||
+            (candidate.release.image_id !== null &&
+              !validText(candidate.release.image_id)) ||
+            ["chunk_policy", "parser_rules_version", "retrieval_profile"].some(
+              (key) =>
+                candidate.release[key] !== null &&
+                !validText(candidate.release[key]),
+            ) ||
+            (candidate.release.corpus_sha256 !== null &&
+              !validHash(candidate.release.corpus_sha256))
+          )
+            throw new Error(
+              "Arquivo incompatível: identidade, hashes ou versão da release ausentes ou inválidos.",
+            );
+          const frozen = { ...candidate };
+          delete frozen.bundle_sha256;
+          if ((await hash(canonical(frozen))) !== candidate.bundle_sha256)
+            throw new Error(
+              "Erro de hash: o bundle foi modificado. Prepare novamente a rodada pela CLI.",
+            );
+          if (
+            (await hash(canonical(candidate.release))) !==
+            candidate.release_sha256
+          )
+            throw new Error(
+              "Erro de hash: a release não corresponde ao bundle.",
+            );
+          unique(
+            candidate.responses.map((r) => r.response_id),
+            "respostas",
+          );
+          unique(candidate.presentation_order, "ordem de apresentação");
+          if (
+            candidate.presentation_order.length !==
+              candidate.responses.length ||
+            candidate.presentation_order.some(
+              (id) => !candidate.responses.some((r) => r.response_id === id),
+            )
+          )
+            throw new Error(
+              "Arquivo incompatível: ordem de apresentação inválida.",
+            );
+          for (const r of candidate.responses) {
+            exactKeys(r, [
+              "response_id",
+              "case_id",
+              "scenario_instance",
+              "category",
+              "system_code",
+              "question",
+              "state",
+              "answer",
+              "answer_sha256",
+              "source_file_sha256",
+              "source_manifest_sha256",
+              "claims",
+              "sources",
+              "context",
+              "annotation_revision",
+              "annotation_sha256",
+              "annotation",
+            ]);
+            if (
+              !Object.hasOwn(states, r.state) ||
+              !Array.isArray(r.claims) ||
+              !Array.isArray(r.sources) ||
+              !validText(r.question) ||
+              (r.answer !== null && !validText(r.answer)) ||
+              [
+                "response_id",
+                "case_id",
+                "scenario_instance",
+                "category",
+                "system_code",
+              ].some((key) => !validId(r[key])) ||
+              !validHash(r.source_file_sha256) ||
+              !validHash(r.source_manifest_sha256) ||
+              !object(r.context) ||
+              !Number.isInteger(r.annotation_revision) ||
+              r.annotation_revision < 0 ||
+              (["not_run", "failed"].includes(r.state) &&
+                (r.answer !== null || r.claims.length !== 0)) ||
+              (isReviewable(r) && r.answer === null) ||
+              (r.state === "answered" && !r.claims.length)
+            )
+              throw new Error("Arquivo incompatível: resposta inválida.");
+            if (
+              (r.answer === null ? null : await hash(r.answer)) !==
+              r.answer_sha256
+            )
+              throw new Error("Erro de hash: a resposta foi modificada.");
+            unique(
+              r.claims.map((c) => c.claim_id),
+              "alegações",
+            );
+            unique(
+              r.sources.map((s) => s.source_id),
+              "fontes",
+            );
+            for (const s of r.sources) {
+              exactKeys(s, [
+                "source_id",
+                "sha256",
+                "text",
+                "title",
+                "kind",
+                "metadata",
+                "locators",
+              ]);
+              if (
+                !validId(s.source_id) ||
+                !validHash(s.sha256) ||
+                !validText(s.text) ||
+                !validText(s.title) ||
+                !validText(s.kind) ||
+                !object(s.metadata) ||
+                !Array.isArray(s.locators) ||
+                !s.locators.length ||
+                s.locators.some((l) => !validText(l))
+              )
+                throw new Error(
+                  "Arquivo incompatível: fonte ou localizador ausente ou inválido.",
+                );
+              if ((await hash(s.text)) !== s.sha256)
+                throw new Error(
+                  "Erro de hash: uma fonte não corresponde ao manifesto.",
+                );
+              unique(s.locators, "localizadores");
+            }
+            const manifest = {
+              source_file_sha256: r.source_file_sha256,
+              sources: r.sources.map(({ text, ...source }) => source),
+            };
+            if ((await hash(canonical(manifest))) !== r.source_manifest_sha256)
+              throw new Error(
+                "Erro de hash: o manifesto das fontes foi modificado.",
+              );
+            for (const c of r.claims) {
+              exactKeys(c, ["claim_id", "exact_claim", "references"]);
+              if (
+                !validId(c.claim_id) ||
+                !validText(c.exact_claim) ||
+                !Array.isArray(c.references)
+              )
+                throw new Error("Arquivo incompatível: alegação inválida.");
+              for (const reference of c.references) {
+                exactKeys(reference, ["source_id", "locator"]);
+                const source = r.sources.find(
+                  (s) => s.source_id === reference.source_id,
+                );
+                if (!source || !source.locators.includes(reference.locator))
+                  throw new Error(
+                    "Arquivo incompatível: referência fora das fontes congeladas.",
+                  );
+              }
+            }
+            if (
+              r.annotation &&
+              r.annotation.reviewer_id !== candidate.reviewer_id
+            )
+              throw new Error(
+                "Arquivo incompatível: avaliação de outra pessoa não pode aparecer neste bundle.",
+              );
+            if (
+              r.annotation === null &&
+              (r.annotation_revision !== 0 || r.annotation_sha256 !== null)
+            )
+              throw new Error(
+                "Arquivo incompatível: versão de anotação sem avaliação real.",
+              );
+            if (r.annotation !== null) {
+              if (
+                r.annotation.revision !== r.annotation_revision ||
+                !validHash(r.annotation_sha256) ||
+                (await hash(canonical(r.annotation))) !== r.annotation_sha256
+              )
+                throw new Error(
+                  "Erro de hash: a anotação anterior foi modificada.",
+                );
+              validateAnnotation(r.annotation, r, candidate);
+            }
+          }
+        }
+        async function readFile(input) {
+          const file = input.files?.[0];
+          if (!file) return null;
+          if (file.size > MAX_BYTES)
+            throw new Error(
+              "Arquivo grande demais. O limite da interface é 16 MiB; divida a rodada pela CLI.",
+            );
+          try {
+            const raw = await file.text();
+            const value = JSON.parse(raw);
+            // JSON.parse silently accepts repeated keys. Keep the UI contract
+            // aligned with the authoritative CLI, including escaped key names.
+            const stack = [];
+            for (const token of raw.match(
+              /"(?:\\.|[^"\\])*"|[{}\[\]:,]|-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?|true|false|null/g,
+            ) ?? []) {
+              if (token === "{")
+                stack.push({ object: true, key: true, keys: new Set() });
+              else if (token === "[") stack.push({ object: false });
+              else if (token === "}" || token === "]") stack.pop();
+              else if (token === "," && stack.at(-1)?.object)
+                stack.at(-1).key = true;
+              else if (
+                token.startsWith('"') &&
+                stack.at(-1)?.object &&
+                stack.at(-1).key
+              ) {
+                const context = stack.at(-1),
+                  key = JSON.parse(token);
+                if (context.keys.has(key))
+                  throw new Error("Chave JSON duplicada.");
+                context.keys.add(key);
+                context.key = false;
+              }
+            }
+            return value;
+          } catch {
+            throw new Error(
+              "JSON inválido. Escolha o arquivo original exportado pela CLI ou pelo workbench.",
+            );
+          }
+        }
+        function confirmDiscard() {
+          return (
+            !dirty ||
+            window.confirm(
+              "Há rascunho não exportado. Descartar essas alterações?",
+            )
+          );
+        }
+        function load(candidate) {
+          bundle = candidate;
+          drafts.clear();
+          modified.clear();
+          clocks.clear();
+          dirty = false;
+          selected = null;
+          claimIndex = 0;
+          for (const r of bundle.responses)
+            if (isReviewable(r)) {
+              drafts.set(
+                r.response_id,
+                r.annotation ? structuredClone(r.annotation) : blank(r),
+              );
+              clocks.set(r.response_id, {
+                start: null,
+                elapsed: r.annotation?.elapsed_seconds ?? 0,
+              });
+            }
+          $("unsaved").hidden = true;
+          $("empty").hidden = true;
+          $("workspace").hidden = false;
+          $("round-summary").hidden = false;
+          text(
+            "round-summary",
+            "Rodada " +
+              bundle.round_id +
+              " | Revisor declarado: " +
+              bundle.reviewer_id +
+              " | Release: " +
+              (bundle.release.id ?? "Não informada") +
+              " | Sistemas codificados | Estado da rodada confirmado pela CLI",
+          );
+          $("annotation-file").disabled = false;
+          $("export-draft").disabled = drafts.size === 0;
+          $("discard").disabled = drafts.size === 0;
+          $("filter").value = "";
+          $("status-filter").value = "all";
+          renderCases();
+          const first = bundle.responses.find(
+            (r) => r.response_id === bundle.presentation_order[0],
+          );
+          if (first) selectResponse(first, false);
+          else {
+            $("workspace").hidden = true;
+            $("empty").hidden = false;
+            text("empty-heading", "Rodada sem casos para revisar");
+            $("export-submitted").disabled = true;
+            notice(
+              "Rodada vazia: não há casos planejados neste bundle. Prepare casos dev pela CLI. Gate humano inconclusivo.",
+              "warning",
+            );
+          }
+        }
+        function renderCases() {
+          if (!bundle) return;
+          const list = $("case-list");
+          list.replaceChildren();
+          const query = $("filter").value.toLocaleLowerCase("pt-BR"),
+            mode = $("status-filter").value;
+          const responses = bundle.presentation_order
+            .map((id) => bundle.responses.find((r) => r.response_id === id))
+            .filter((r) => {
+              const done =
+                drafts.has(r.response_id) &&
+                complete(drafts.get(r.response_id));
+              return (
+                [r.case_id, r.question, r.system_code].some((v) =>
+                  String(v).toLocaleLowerCase("pt-BR").includes(query),
+                ) &&
+                (mode === "all" ||
+                  (mode === "pending" && isReviewable(r) && !done) ||
+                  (mode === "complete" && isReviewable(r) && done) ||
+                  (mode === "unavailable" && !isReviewable(r)))
+              );
+            });
+          text(
+            "case-count",
+            responses.length +
+              " de " +
+              bundle.responses.length +
+              " respostas exibidas",
+          );
+          if (!responses.length) {
+            const item = document.createElement("li");
+            item.textContent =
+              "Nenhum caso corresponde ao filtro. Seu rascunho foi preservado.";
+            list.append(item);
+          }
+          for (const r of responses) {
+            const item = document.createElement("li"),
+              button = document.createElement("button"),
+              small = document.createElement("small");
+            button.type = "button";
+            button.textContent = r.case_id + " · " + r.system_code;
+            button.setAttribute(
+              "aria-current",
+              String(selected?.response_id === r.response_id),
+            );
+            small.textContent =
+              states[r.state] +
+              (isReviewable(r)
+                ? " | " +
+                  (complete(drafts.get(r.response_id))
+                    ? "Alegações preenchidas"
+                    : "Campos não avaliados")
+                : "");
+            button.append(small);
+            button.addEventListener("click", () => selectResponse(r, true));
+            item.append(button);
+            list.append(item);
+          }
+        }
+        function stopClock() {
+          if (selected && clocks.has(selected.response_id)) {
+            const c = clocks.get(selected.response_id);
+            if (c.start !== null) {
+              c.elapsed += (Date.now() - c.start) / 1000;
+              c.start = null;
+            }
+          }
+        }
+        function selectResponse(response, focus) {
+          stopClock();
+          selected = response;
+          claimIndex = 0;
+          $("assessment").hidden = false;
+          if (clocks.has(response.response_id))
+            clocks.get(response.response_id).start = Date.now();
+          text("review-heading", response.case_id);
+          text(
+            "response-meta",
+            "Sistema " +
+              response.system_code +
+              " | " +
+              response.category +
+              " | " +
+              states[response.state],
+          );
+          text("question", response.question);
+          text(
+            "answer",
+            response.answer ??
+              "Não há resposta registrada. A ausência permanece no denominador da rodada.",
+          );
+          text(
+            "response-context",
+            JSON.stringify(
+              {
+                context: response.context,
+                release: bundle.release,
+                answer_sha256: response.answer_sha256,
+                source_manifest_sha256: response.source_manifest_sha256,
+              },
+              null,
+              2,
+            ),
+          );
+          $("unavailable").hidden = isReviewable(response);
+          text(
+            "unavailable",
+            "Não há julgamento a preencher para esta resposta. A CLI mantém este caso como " +
+              states[response.state].toLocaleLowerCase("pt-BR") +
+              " no relatório.",
+          );
+          $("claim-form").hidden =
+            !isReviewable(response) || !response.claims.length;
+          $("response-form").hidden = !isReviewable(response);
+          $("export-submitted").disabled = !isReviewable(response);
+          $("imported-submission").hidden = !isLocked(response);
+          text(
+            "imported-submission",
+            (response.annotation?.evidence_origin === "simulated_test"
+              ? "Avaliação simulada de teste; não conta como revisão humana. "
+              : "") +
+              "Submissão já importada pela CLI: este registro é imutável. Você pode consultar fontes e exportar o mesmo registro. Resposta, corpus ou release diferentes exigem uma nova rodada.",
+          );
+          for (const control of document.querySelectorAll(
+            "#claim-form select, #claim-form textarea, #response-form input, #response-form select, #response-form textarea",
+          ))
+            control.disabled = isLocked(response);
+          if (isReviewable(response)) {
+            const d = drafts.get(response.response_id);
+            for (const [id, key] of [
+              ["required-facts", "required_facts"],
+              ["omitted-facts", "omitted_facts"],
+            ])
+              $(id).value = d[key]?.join("\n") ?? "";
+            for (const [id, key] of [
+              ["counterevidence", "counterevidence_notes"],
+              ["temporal", "temporal_notes"],
+              ["abstention", "abstention_judgment"],
+              ["numbers-checked", "numbers_checked"],
+              ["numbers-matching", "numbers_matching"],
+              ["assistance", "assistance_received"],
+            ])
+              $(id).value = d[key] ?? "";
+            for (const option of $("critical-flags").options)
+              option.selected = d.critical_flags.includes(option.value);
+          }
+          renderClaims();
+          renderSources();
+          renderProgress();
+          renderCases();
+          if (focus) $("review-heading").focus();
+        }
+        function renderClaims() {
+          const list = $("claim-list");
+          list.replaceChildren();
+          if (!selected || !isReviewable(selected)) return;
+          selected.claims.forEach((c, index) => {
+            const item = document.createElement("li"),
+              button = document.createElement("button");
+            button.type = "button";
+            button.textContent = String(index + 1);
+            button.setAttribute(
+              "aria-label",
+              "Alegação " + (index + 1) + ": " + c.claim_id,
+            );
+            button.setAttribute("aria-current", String(index === claimIndex));
+            button.addEventListener("click", () => {
+              claimIndex = index;
+              renderClaims();
+              renderSources();
+              if (isLocked(selected)) $("review-heading").focus();
+              else $("claim-label").focus();
+            });
+            item.append(button);
+            list.append(item);
+          });
+          const c = selected.claims[claimIndex],
+            d = drafts.get(selected.response_id)?.claims[claimIndex];
+          text(
+            "claim-text",
+            c?.exact_claim ?? "Esta resposta não contém alegações.",
+          );
+          text(
+            "references",
+            c?.references.length
+              ? "Referências da resposta: " +
+                  c.references
+                    .map((r) => r.source_id + " " + r.locator)
+                    .join("; ")
+              : "A resposta não informou referência para esta alegação.",
+          );
+          $("claim-label").value = d?.label ?? "";
+          $("rationale").value = d?.rationale ?? "";
+        }
+        function options(select, values, empty) {
+          select.replaceChildren();
+          const blank = document.createElement("option");
+          blank.value = "";
+          blank.textContent = empty;
+          select.append(blank);
+          for (const [value, title] of values) {
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = title;
+            select.append(option);
+          }
+        }
+        function renderSources() {
+          text("source-count", selected.sources.length + " fontes");
+          options(
+            $("source-select"),
+            selected.sources.map((s) => [
+              s.source_id,
+              s.title + " (" + s.source_id + ")",
+            ]),
+            "Sem fonte selecionada",
+          );
+          const d = drafts.get(selected.response_id)?.claims[claimIndex];
+          $("source-select").value = d?.source_id ?? "";
+          renderSource(d?.span_or_locator ?? "");
+        }
+        function renderSource(locator = "") {
+          const source = selected.sources.find(
+            (s) => s.source_id === $("source-select").value,
+          );
+          options(
+            $("locator-select"),
+            (source?.locators ?? []).map((l) => [l, l]),
+            "Sem localizador selecionado",
+          );
+          $("locator-select").disabled =
+            !source || !isReviewable(selected) || !selected.claims.length;
+          $("locator-select").value = locator;
+          $("source-details").hidden = !source;
+          text("source-title", source?.title ?? "Escolha uma fonte para ler");
+          text(
+            "source-text",
+            source?.text ??
+              "Uma alegação sem fonte pode receber outro rótulo com justificativa. Nenhuma referência é criada para preencher a ausência.",
+          );
+          text(
+            "source-metadata",
+            source ? JSON.stringify(source.metadata, null, 2) : "",
+          );
+          const dl = $("source-provenance");
+          dl.replaceChildren();
+          if (source)
+            for (const [name, value] of [
+              ["ID", source.source_id],
+              ["Tipo", source.kind],
+              ["SHA-256", source.sha256],
+              ["Localizador", locator || "Não selecionado"],
+            ]) {
+              const dt = document.createElement("dt"),
+                dd = document.createElement("dd");
+              dt.textContent = name;
+              dd.textContent = value;
+              dl.append(dt, dd);
+            }
+        }
+        function renderProgress() {
+          if (!selected) return;
+          const d = drafts.get(selected.response_id),
+            done =
+              d?.claims.filter(
+                (c) =>
+                  labels.has(c.label) &&
+                  c.rationale?.trim() &&
+                  (c.label !== "supported" ||
+                    (c.source_id && c.span_or_locator)),
+              ).length ?? 0,
+            total = selected.claims.length;
+          $("progress").max = Math.max(total, 1);
+          $("progress").value = done;
+          text(
+            "progress-text",
+            done +
+              " de " +
+              total +
+              " alegações preenchidas. " +
+              (d
+                ? "Anotação: " +
+                  (d.status === "submitted"
+                    ? "submetida no arquivo"
+                    : "rascunho") +
+                  ". "
+                : "") +
+              "Preenchimento não é aprovação.",
+          );
+        }
+        function editClaim(key, value) {
+          if (isLocked(selected)) return;
+          const d = drafts.get(selected?.response_id);
+          if (!d || !d.claims[claimIndex]) return;
+          d.claims[claimIndex][key] = value;
+          d.status = "draft";
+          changed();
+        }
+        function validateAnnotation(
+          annotation,
+          response,
+          reviewBundle = bundle,
+        ) {
+          const fields = [
+            "response_id",
+            "case_id",
+            "scenario_instance",
+            "system_code",
+            "answer_sha256",
+            "source_manifest_sha256",
+            "release_sha256",
+            "revision",
+            "base_annotation_sha256",
+            "status",
+            "reviewer_id",
+            "reviewed_at",
+            "claims",
+            "required_facts",
+            "omitted_facts",
+            "counterevidence_notes",
+            "temporal_notes",
+            "abstention_judgment",
+            "numbers_checked",
+            "numbers_matching",
+            "critical_flags",
+            "assistance_received",
+            "elapsed_seconds",
+            "evidence_origin",
+          ];
+          exactKeys(annotation, fields);
+          for (const key of [
+            "response_id",
+            "case_id",
+            "scenario_instance",
+            "system_code",
+            "answer_sha256",
+            "source_manifest_sha256",
+          ])
+            if (annotation[key] !== response[key])
+              throw new Error(
+                "Anotação incompatível: resposta, corpus ou versão divergente. Prepare um bundle atual.",
+              );
+          if (
+            annotation.release_sha256 !== reviewBundle.release_sha256 ||
+            annotation.reviewer_id !== reviewBundle.reviewer_id ||
+            (annotation.evidence_origin !== "human_declared" &&
+              !(
+                annotation.evidence_origin === "simulated_test" &&
+                isLocked(response) &&
+                canonical(annotation) === canonical(response.annotation)
+              )) ||
+            !["draft", "submitted"].includes(annotation.status)
+          )
+            throw new Error(
+              "Anotação incompatível: identidade, release ou origem divergente.",
+            );
+          const sameBase =
+            annotation.base_annotation_sha256 === response.annotation_sha256 &&
+            annotation.revision === (response.annotation_revision ?? 0) + 1;
+          const exactFrozen =
+            response.annotation &&
+            canonical(annotation) === canonical(response.annotation);
+          if (isLocked(response) && !exactFrozen)
+            throw new Error(
+              "Submissão já importada é imutável. Uma resposta, corpus ou release diferentes exigem nova rodada; nenhum registro foi alterado.",
+            );
+          if (!sameBase && !exactFrozen)
+            throw new Error(
+              "Conflito de versão: a anotação parte de outra revisão. Importe-a pela CLI e gere um novo bundle; o rascunho atual foi preservado.",
+            );
+          if (
+            !Array.isArray(annotation.claims) ||
+            annotation.claims.length !== response.claims.length
+          )
+            throw new Error(
+              "Anotação incompatível: conjunto de alegações divergente.",
+            );
+          for (const key of ["required_facts", "omitted_facts"]) {
+            if (
+              annotation[key] !== null &&
+              (!Array.isArray(annotation[key]) ||
+                annotation[key].some(
+                  (value) => typeof value !== "string" || !value.trim(),
+                ))
+            )
+              throw new Error(
+                "Anotação incompatível: fatos conferidos devem ser texto ou null.",
+              );
+            if (annotation[key] !== null) unique(annotation[key], key);
+          }
+          if (
+            !Array.isArray(annotation.critical_flags) ||
+            annotation.critical_flags.some(
+              (value) =>
+                ![
+                  "unsupported_root_cause",
+                  "wrong_order_or_period",
+                  "omitted_decisive_counterevidence",
+                  "unsupported_financial_action",
+                ].includes(value),
+            )
+          )
+            throw new Error("Anotação incompatível: achado crítico inválido.");
+          unique(annotation.critical_flags, "achados críticos");
+          for (const key of [
+            "counterevidence_notes",
+            "temporal_notes",
+            "assistance_received",
+          ])
+            if (
+              annotation[key] !== null &&
+              (typeof annotation[key] !== "string" || !annotation[key].trim())
+            )
+              throw new Error(
+                "Anotação incompatível: texto da conferência inválido.",
+              );
+          for (const key of [
+            "numbers_checked",
+            "numbers_matching",
+            "elapsed_seconds",
+          ])
+            if (
+              annotation[key] !== null &&
+              (!Number.isSafeInteger(annotation[key]) || annotation[key] < 0)
+            )
+              throw new Error("Anotação incompatível: quantidade inválida.");
+          if (
+            (annotation.numbers_checked === null) !==
+              (annotation.numbers_matching === null) ||
+            (annotation.numbers_matching !== null &&
+              annotation.numbers_matching > annotation.numbers_checked)
+          )
+            throw new Error(
+              "Anotação incompatível: números não conferidos devem permanecer ambos null; concordância não pode exceder quantidade conferida.",
+            );
+          if (
+            annotation.abstention_judgment !== null &&
+            !["appropriate", "inappropriate", "not_applicable"].includes(
+              annotation.abstention_judgment,
+            )
+          )
+            throw new Error(
+              "Anotação incompatível: conferência de abstenção inválida.",
+            );
+          if (
+            annotation.reviewed_at !== null &&
+            (typeof annotation.reviewed_at !== "string" ||
+              !/T.*(?:Z|[+-]\d{2}:\d{2})$/.test(annotation.reviewed_at) ||
+              Number.isNaN(Date.parse(annotation.reviewed_at)))
+          )
+            throw new Error(
+              "Anotação incompatível: data deve ter fuso explícito.",
+            );
+          annotation.claims.forEach((c, index) => {
+            exactKeys(c, [
+              "claim_id",
+              "exact_claim",
+              "source_id",
+              "source_sha256",
+              "span_or_locator",
+              "label",
+              "rationale",
+            ]);
+            if (
+              c.claim_id !== response.claims[index].claim_id ||
+              c.exact_claim !== response.claims[index].exact_claim ||
+              (c.label !== null && !labels.has(c.label)) ||
+              (c.rationale !== null &&
+                (typeof c.rationale !== "string" || !c.rationale.trim()))
+            )
+              throw new Error(
+                "Anotação incompatível: alegação ou rótulo divergente.",
+              );
+            if (c.source_id !== null) {
+              const source = response.sources.find(
+                (s) => s.source_id === c.source_id,
+              );
+              if (
+                !source ||
+                c.source_sha256 !== source.sha256 ||
+                (c.span_or_locator !== null &&
+                  !source.locators.includes(c.span_or_locator))
+              )
+                throw new Error(
+                  "Anotação incompatível: fonte ou localizador inválido.",
+                );
+            } else if (c.source_sha256 !== null || c.span_or_locator !== null)
+              throw new Error("Anotação incompatível: referência sem fonte.");
+          });
+          if (
+            annotation.status === "submitted" &&
+            (!complete(annotation) ||
+              annotation.reviewed_at === null ||
+              annotation.elapsed_seconds === null ||
+              annotation.assistance_received === null)
+          )
+            throw new Error("Anotação incompatível: submissão incompleta.");
+        }
+        function ensureEditable() {
+          if (isLocked(selected)) return;
+          const d = drafts.get(selected?.response_id);
+          if (!d) return;
+          const base = selected.annotation;
+          if (base && d.revision === base.revision) {
+            d.revision = base.revision + 1;
+            d.base_annotation_sha256 = selected.annotation_sha256;
+          }
+        }
+        function exported(annotation, status, response) {
+          if (isLocked(response)) return structuredClone(response.annotation);
+          const value = structuredClone(annotation);
+          value.status = status === "draft" ? annotation.status : status;
+          for (const claim of value.claims) {
+            if (
+              (claim.source_id !== null && claim.span_or_locator === null) ||
+              (claim.label === "supported" &&
+                (claim.source_id === null || claim.span_or_locator === null))
+            )
+              throw new Error(
+                "Referência incompleta: selecione fonte e localizador para a alegação sustentada. Para outra decisão, complete a referência escolhida ou limpe a seleção de fonte antes de exportar.",
+              );
+          }
+          const clock = clocks.get(response.response_id),
+            elapsed =
+              clock.elapsed +
+              (clock.start === null ? 0 : (Date.now() - clock.start) / 1000);
+          if (
+            modified.has(response.response_id) ||
+            (status === "submitted" && annotation.status !== "submitted")
+          ) {
+            value.elapsed_seconds = Math.floor(elapsed);
+            value.reviewed_at = new Date().toISOString();
+          }
+          if (status === "submitted") {
+            if (!complete(value))
+              throw new Error(
+                "Submissão incompleta: escolha uma decisão e escreva um motivo para todas as alegações. “Sustentada” exige fonte e localizador válidos.",
+              );
+            if (!value.assistance_received?.trim())
+              throw new Error(
+                "Submissão incompleta: declare a assistência recebida, ou escreva Nenhuma.",
+              );
+            if (
+              value.numbers_checked !== null &&
+              value.numbers_matching !== null &&
+              value.numbers_matching > value.numbers_checked
+            )
+              throw new Error(
+                "Números inválidos: a concordância não pode superar a quantidade conferida.",
+              );
+          }
+          if (
+            (value.numbers_checked === null) !==
+            (value.numbers_matching === null)
+          )
+            throw new Error(
+              "Números incompletos: informe a quantidade conferida e a concordância, ou deixe ambos vazios.",
+            );
+          for (const key of ["numbers_checked", "numbers_matching"])
+            if (
+              value[key] !== null &&
+              (!Number.isSafeInteger(value[key]) || value[key] < 0)
+            )
+              throw new Error(
+                "Números inválidos: informe quantidades inteiras não negativas.",
+              );
+          if (
+            value.numbers_matching !== null &&
+            value.numbers_matching > value.numbers_checked
+          )
+            throw new Error(
+              "Números inválidos: a concordância não pode superar a quantidade conferida.",
+            );
+          for (const key of ["required_facts", "omitted_facts"])
+            if (value[key] !== null) unique(value[key], key);
+          return value;
+        }
+        function download(status) {
+          try {
+            const responses =
+              status === "submitted"
+                ? [selected]
+                : bundle.responses.filter(isReviewable);
+            const annotations = responses.map((r) =>
+              exported(drafts.get(r.response_id), status, r),
+            );
+            const output = {
+              schema_version: 1,
+              kind: "evidencedesk-annotations",
+              round_id: bundle.round_id,
+              reviewer_id: bundle.reviewer_id,
+              bundle_sha256: bundle.bundle_sha256,
+              annotations,
+            };
+            const blob = new Blob([JSON.stringify(output, null, 2) + "\n"], {
+                type: "application/json",
+              }),
+              url = URL.createObjectURL(blob),
+              link = document.createElement("a");
+            link.href = url;
+            link.download =
+              (
+                bundle.round_id +
+                "-" +
+                bundle.reviewer_id +
+                "-" +
+                status
+              ).replace(/[^A-Za-z0-9_-]/g, "_") + ".json";
+            document.body.append(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            for (const annotation of annotations) {
+              drafts.set(annotation.response_id, annotation);
+              modified.delete(annotation.response_id);
+            }
+            dirty = modified.size > 0;
+            $("unsaved").hidden = !dirty;
+            renderProgress();
+            renderCases();
+            notice(
+              status === "submitted"
+                ? "Resposta exportada como submetida. Valide e importe o JSON com a CLI. A segunda revisão e a adjudicação ainda são necessárias; gate humano inconclusivo."
+                : "Rascunho exportado. Campos não avaliados permanecem null. Guarde o JSON na pasta privada e valide-o com a CLI.",
+            );
+          } catch (error) {
+            notice(error.message, "error");
+          }
+        }
+        $("bundle-file").addEventListener("change", async () => {
+          notice("Conferindo bundle e hashes dos arquivos…");
+          $("bundle-file").disabled = true;
+          $("annotation-file").disabled = true;
+          try {
+            const candidate = await readFile($("bundle-file"));
+            if (!candidate) return;
+            await validateBundle(candidate);
+            if (!confirmDiscard()) return;
+            load(candidate);
+            if (candidate.responses.length)
+              notice(
+                "Bundle verificado. Respostas e fontes conferem com os hashes; sua revisão começa sem sugestão automática.",
+              );
+          } catch (error) {
+            notice(error.message, "error");
+          } finally {
+            $("bundle-file").value = "";
+            $("bundle-file").disabled = false;
+            $("annotation-file").disabled = bundle === null;
+          }
+        });
+        $("annotation-file").addEventListener("change", async () => {
+          notice("Conferindo anotação, identidade e versão…");
+          $("annotation-file").disabled = true;
+          $("bundle-file").disabled = true;
+          try {
+            const imported = await readFile($("annotation-file"));
+            if (!imported) return;
+            exactKeys(imported, [
+              "schema_version",
+              "kind",
+              "round_id",
+              "reviewer_id",
+              "bundle_sha256",
+              "annotations",
+            ]);
+            if (
+              imported.schema_version !== 1 ||
+              imported.kind !== "evidencedesk-annotations" ||
+              imported.round_id !== bundle.round_id ||
+              imported.reviewer_id !== bundle.reviewer_id ||
+              imported.bundle_sha256 !== bundle.bundle_sha256 ||
+              !Array.isArray(imported.annotations)
+            )
+              throw new Error(
+                "Anotação incompatível: arquivo de outra rodada, pessoa ou versão.",
+              );
+            unique(
+              imported.annotations.map((a) => a.response_id),
+              "anotações",
+            );
+            for (const a of imported.annotations) {
+              const r = bundle.responses.find(
+                (r) => r.response_id === a.response_id,
+              );
+              if (!r || !isReviewable(r))
+                throw new Error(
+                  "Anotação incompatível: caso fora desta rodada.",
+                );
+              validateAnnotation(a, r);
+              if (
+                modified.has(a.response_id) &&
+                canonical(drafts.get(a.response_id)) !== canonical(a)
+              )
+                throw new Error(
+                  "Conflito: existe rascunho local não exportado para esta resposta. Exporte-o antes de retomar outro arquivo. Nenhuma alteração foi sobrescrita.",
+                );
+            }
+            for (const a of imported.annotations) {
+              drafts.set(a.response_id, structuredClone(a));
+              clocks.set(a.response_id, {
+                start: null,
+                elapsed: a.elapsed_seconds ?? 0,
+              });
+            }
+            selectResponse(selected, false);
+            notice(
+              "Sua anotação foi retomada. A CLI continua responsável por validar versões e detectar importações concorrentes.",
+            );
+          } catch (error) {
+            notice(error.message, "error");
+          } finally {
+            $("annotation-file").value = "";
+            $("annotation-file").disabled = bundle === null;
+            $("bundle-file").disabled = false;
+          }
+        });
+        $("filter").addEventListener("input", renderCases);
+        $("status-filter").addEventListener("change", renderCases);
+        $("claim-label").addEventListener("change", () => {
+          ensureEditable();
+          editClaim("label", $("claim-label").value || null);
+        });
+        $("rationale").addEventListener("input", () => {
+          ensureEditable();
+          editClaim("rationale", nullable($("rationale").value));
+        });
+        $("source-select").addEventListener("change", () => {
+          const s = selected.sources.find(
+            (s) => s.source_id === $("source-select").value,
+          );
+          if (
+            isReviewable(selected) &&
+            selected.claims.length &&
+            !isLocked(selected)
+          ) {
+            ensureEditable();
+            editClaim("source_id", s?.source_id ?? null);
+            editClaim("source_sha256", s?.sha256 ?? null);
+            editClaim("span_or_locator", null);
+          }
+          renderSource();
+        });
+        $("locator-select").addEventListener("change", () => {
+          ensureEditable();
+          editClaim("span_or_locator", $("locator-select").value || null);
+          renderSource($("locator-select").value);
+        });
+        for (const [id, key] of [
+          ["required-facts", "required_facts"],
+          ["omitted-facts", "omitted_facts"],
+          ["counterevidence", "counterevidence_notes"],
+          ["temporal", "temporal_notes"],
+          ["abstention", "abstention_judgment"],
+          ["numbers-checked", "numbers_checked"],
+          ["numbers-matching", "numbers_matching"],
+          ["assistance", "assistance_received"],
+          ["critical-flags", "critical_flags"],
+        ])
+          $(id).addEventListener(
+            id === "abstention" || id === "critical-flags" ? "change" : "input",
+            () => {
+              const d = drafts.get(selected?.response_id);
+              if (!d || isLocked(selected)) return;
+              ensureEditable();
+              const value = $(id).value;
+              d[key] =
+                id === "critical-flags"
+                  ? Array.from($(id).selectedOptions, (o) => o.value)
+                  : id.endsWith("facts")
+                    ? nullable(value)
+                      ? value
+                          .split("\n")
+                          .map((v) => v.trim())
+                          .filter(Boolean)
+                      : null
+                    : id.startsWith("numbers-")
+                      ? value === ""
+                        ? null
+                        : Number(value)
+                      : nullable(value);
+              d.status = "draft";
+              changed();
+            },
+          );
+        $("export-draft").addEventListener("click", () => download("draft"));
+        $("export-submitted").addEventListener("click", () =>
+          download("submitted"),
+        );
+        $("discard").addEventListener("click", () => {
+          if (
+            !window.confirm(
+              "Descartar todos os rascunhos desta aba? Alterações exportadas continuam no arquivo; alterações locais serão perdidas.",
+            )
+          )
+            return;
+          const responseId = selected?.response_id;
+          load(bundle);
+          const r = bundle.responses.find((r) => r.response_id === responseId);
+          if (r) selectResponse(r, false);
+          notice(
+            "Rascunhos locais descartados. Retome um JSON exportado para recuperar uma anotação.",
+            "warning",
+          );
+        });
+        window.addEventListener("beforeunload", (event) => {
+          if (dirty) {
+            event.preventDefault();
+            event.returnValue = "";
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
