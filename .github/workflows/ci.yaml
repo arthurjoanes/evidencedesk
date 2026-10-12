@@ -214,7 +214,7 @@ jobs:
       - name: Standalone review workbench in Chromium
         working-directory: frontend
         env:
-          ED_WORKBENCH_ARTIFACT_DIR: artifacts/workbench
+          ED_WORKBENCH_ARTIFACT_DIR: ${{ runner.temp }}/evidencedesk-workbench
           ED_WORKBENCH_CAPTURE: '1'
         run: node ../evals/workbench.browser.mjs
       - name: Confirm the executed source is unchanged
@@ -227,7 +227,7 @@ jobs:
           path: |
             frontend/artifacts/e2e-results.json
             frontend/artifacts/screenshots
-            frontend/artifacts/workbench
+            ${{ runner.temp }}/evidencedesk-workbench
             frontend/test-results
             frontend/playwright-report
           retention-days: 7
