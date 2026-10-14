@@ -25,7 +25,8 @@ class JsonBodyLimit:
         if scope["method"] not in {"POST", "PUT", "PATCH", "DELETE"} or file_upload:
             await self.app(scope, receive, send)
             return
-        request_id = uuid4().hex
+        state = scope.setdefault("state", {})
+        request_id = state.setdefault("request_id", uuid4().hex)
 
         async def reject(status: int, code: str, message: str) -> None:
             response = JSONResponse(

@@ -1,6 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useFieldArray, useForm, useWatch } from "react-hook-form";
+import { useEffect, useRef, useState } from "react";
+import {
+  Controller,
+  useFieldArray,
+  useForm,
+  useWatch,
+  type Control,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { editorSchema, type Draft } from "./dossier-draft";
@@ -16,7 +22,7 @@ import {
 } from "@/lib/contracts";
 import { ApiError, queryString, request } from "@/lib/http";
 import { scopeKey, useSession } from "@/lib/session";
-import { validationMessages } from "@/lib/form-errors";
+import { validationIssues, validationMessages } from "@/lib/form-errors";
 import { label } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { Dialog } from "@/components/ui/dialog";
@@ -26,6 +32,83 @@ import {
   Loading,
   Pagination,
 } from "@/components/feedback";
+
+type NotePath =
+  | "missing_information"
+  | "suggested_checks"
+  | `claims.${number}.missing_information`
+  | `claims.${number}.suggested_checks`;
+
+function NotesField({
+  control,
+  name,
+  id,
+  title,
+}: {
+  control: Control<Draft>;
+  name: NotePath;
+  id: string;
+  title: string;
+}) {
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field, fieldState }) => {
+        const message = validationMessages(fieldState.error).join(" ");
+        return (
+          <label className="field" htmlFor={id}>
+            {title} (uma por linha)
+            <textarea
+              id={id}
+              name={field.name}
+              ref={field.ref}
+              rows={2}
+              value={field.value.join("\n")}
+              onBlur={field.onBlur}
+              onChange={(event) =>
+                field.onChange(event.target.value.split("\n"))
+              }
+              aria-invalid={!!message}
+              aria-describedby={message ? id + "-error" : undefined}
+            />
+            <FieldError
+              id={id + "-error"}
+              message={message ? `${title}: ${message}` : undefined}
+            />
+          </label>
+        );
+      }}
+    />
+  );
+}
+
+function errorField(path: string) {
+  return path
+    .replace(
+      /\.(missing_information|suggested_checks|order_references|evidence_links)\.\d+.*$/,
+      ".$1",
+    )
+    .replace(/^(missing_information|suggested_checks)\.\d+.*$/, "$1");
+}
+
+function errorLabel(path: string) {
+  const labels: Record<string, string> = {
+    summary: "Resumo",
+    outcome: "Resultado do recorte",
+    missing_information: "Informação que falta",
+    suggested_checks: "Próximas verificações",
+    text: "Texto",
+    evidence_links: "Fontes",
+    order_references: "Pedidos relacionados",
+  };
+  const parts = errorField(path).split(".");
+  return (
+    (parts[0] === "claims"
+      ? `Alegação ${Number(parts[1]) + 1} — `
+      : "Recorte — ") + (labels[parts.at(-1)!] ?? "Alegações")
+  );
+}
 
 export function DossierEditor({
   accessError,
@@ -55,6 +138,7 @@ export function DossierEditor({
   const [comparison, setComparison] = useState(false);
   const [sourceSearch, setSourceSearch] = useState("");
   const [cursors, setCursors] = useState<(string | null)[]>([null]);
+  const formElement = useRef<HTMLFormElement>(null);
   const form = useForm<Draft>({
     resolver: zodResolver(editorSchema),
     defaultValues: {
@@ -81,11 +165,6 @@ export function DossierEditor({
   const fields = useFieldArray({ control: form.control, name: "claims" });
   const claims = useWatch({ control: form.control, name: "claims" });
   const summary = useWatch({ control: form.control, name: "summary" });
-  const missing = useWatch({
-    control: form.control,
-    name: "missing_information",
-  });
-  const checks = useWatch({ control: form.control, name: "suggested_checks" });
   function requestClose() {
     if (
       !form.formState.isDirty ||
@@ -120,51 +199,61 @@ export function DossierEditor({
         { signal },
       ),
   });
-  const save = form.handleSubmit(async (draft) => {
-    const clean = (items: string[]) =>
-      items.map((item) => item.trim()).filter(Boolean);
-    const values = {
-      ...draft,
-      missing_information: clean(draft.missing_information),
-      suggested_checks: clean(draft.suggested_checks),
-      claims: draft.claims.map((claim) => ({
-        ...claim,
-        order_references: clean(claim.order_references),
-        missing_information: clean(claim.missing_information),
-        suggested_checks: clean(claim.suggested_checks),
-      })),
-    };
-    setError(undefined);
-    try {
-      if (dossierId && base) {
-        const revision = await request(
-          "/api/v1/dossiers/" + dossierId + "/revisions",
-          revisionSchema,
-          {
-            method: "POST",
-            csrf: session.csrf_token,
-            headers: { "If-Match": base.etag },
-            body: { ...values, base_revision_id: base.id },
-          },
+  const save = (event: React.FormEvent<HTMLFormElement>) =>
+    form.handleSubmit(
+      async (draft) => {
+        const clean = (items: string[]) =>
+          items.map((item) => item.trim()).filter(Boolean);
+        const values = {
+          ...draft,
+          missing_information: clean(draft.missing_information),
+          suggested_checks: clean(draft.suggested_checks),
+          claims: draft.claims.map((claim) => ({
+            ...claim,
+            order_references: clean(claim.order_references),
+            missing_information: clean(claim.missing_information),
+            suggested_checks: clean(claim.suggested_checks),
+          })),
+        };
+        setError(undefined);
+        try {
+          if (dossierId && base) {
+            const revision = await request(
+              "/api/v1/dossiers/" + dossierId + "/revisions",
+              revisionSchema,
+              {
+                method: "POST",
+                csrf: session.csrf_token,
+                headers: { "If-Match": base.etag },
+                body: { ...values, base_revision_id: base.id },
+              },
+            );
+            onSaved(dossierId, revision.id);
+          } else {
+            const dossier = await request(
+              "/api/v1/incidents/" + incidentId + "/dossiers",
+              dossierSchema,
+              {
+                method: "POST",
+                csrf: session.csrf_token,
+                body: { ...values, evidence_snapshot_id: snapshotId },
+              },
+            );
+            onSaved(dossier.id, dossier.current_revision_id);
+          }
+          onClose();
+        } catch (failure) {
+          setError(failure);
+        }
+      },
+      () => {
+        requestAnimationFrame(() =>
+          formElement.current
+            ?.querySelector<HTMLElement>('[aria-invalid="true"]')
+            ?.focus(),
         );
-        onSaved(dossierId, revision.id);
-      } else {
-        const dossier = await request(
-          "/api/v1/incidents/" + incidentId + "/dossiers",
-          dossierSchema,
-          {
-            method: "POST",
-            csrf: session.csrf_token,
-            body: { ...values, evidence_snapshot_id: snapshotId },
-          },
-        );
-        onSaved(dossier.id, dossier.current_revision_id);
-      }
-      onClose();
-    } catch (failure) {
-      setError(failure);
-    }
-  });
+      },
+    )(event);
   function toggleEvidence(index: number, evidenceId: string, checked: boolean) {
     const current = form.getValues(`claims.${index}.evidence_links` as const);
     form.setValue(
@@ -199,6 +288,7 @@ export function DossierEditor({
         </Loading>
       )}
       <form
+        ref={formElement}
         hidden={checkingAccess}
         onSubmit={save}
         className="form-stack"
@@ -249,34 +339,18 @@ export function DossierEditor({
               message={form.formState.errors.outcome?.message}
             />
           </label>
-          <label className="field">
-            Lacunas do recorte (uma por linha)
-            <textarea
-              rows={2}
-              value={missing.join("\n")}
-              onChange={(event) =>
-                form.setValue(
-                  "missing_information",
-                  event.target.value.split("\n"),
-                  { shouldDirty: true },
-                )
-              }
-            />
-          </label>
-          <label className="field">
-            Próximas verificações do recorte (uma por linha)
-            <textarea
-              rows={2}
-              value={checks.join("\n")}
-              onChange={(event) =>
-                form.setValue(
-                  "suggested_checks",
-                  event.target.value.split("\n"),
-                  { shouldDirty: true },
-                )
-              }
-            />
-          </label>
+          <NotesField
+            control={form.control}
+            name="missing_information"
+            id="dossier-missing"
+            title="Lacunas do recorte"
+          />
+          <NotesField
+            control={form.control}
+            name="suggested_checks"
+            id="dossier-checks"
+            title="Próximas verificações do recorte"
+          />
           <div className="subheading">
             <h3>Alegações e fontes</h3>
             <Button
@@ -361,19 +435,41 @@ export function DossierEditor({
                     }
                   />
                 </label>
-                <label className="field">
-                  Pedidos relacionados (separados por vírgula)
-                  <input
-                    value={claims[index]?.order_references.join(",") ?? ""}
-                    onChange={(event) =>
-                      form.setValue(
-                        `claims.${index}.order_references` as const,
-                        event.target.value.split(","),
-                        { shouldDirty: true },
-                      )
-                    }
-                  />
-                </label>
+                <Controller
+                  control={form.control}
+                  name={`claims.${index}.order_references`}
+                  render={({ field: input, fieldState }) => {
+                    const message = validationMessages(fieldState.error).join(
+                      " ",
+                    );
+                    const id = field.id + "-orders";
+                    return (
+                      <label className="field" htmlFor={id}>
+                        Pedidos relacionados (separados por vírgula)
+                        <input
+                          id={id}
+                          name={input.name}
+                          ref={input.ref}
+                          value={input.value.join(",")}
+                          onBlur={input.onBlur}
+                          onChange={(event) =>
+                            input.onChange(event.target.value.split(","))
+                          }
+                          aria-invalid={!!message}
+                          aria-describedby={message ? id + "-error" : undefined}
+                        />
+                        <FieldError
+                          id={id + "-error"}
+                          message={
+                            message
+                              ? `Alegação ${index + 1} — Pedidos relacionados: ${message}`
+                              : undefined
+                          }
+                        />
+                      </label>
+                    );
+                  }}
+                />
                 <div>
                   <strong style={{ fontSize: 12 }}>
                     Fontes vinculadas:{" "}
@@ -495,34 +591,18 @@ export function DossierEditor({
                     }
                   />
                 </div>
-                <label className="field">
-                  Informação que falta (uma por linha)
-                  <textarea
-                    rows={2}
-                    value={claims[index]?.missing_information.join("\n") ?? ""}
-                    onChange={(event) =>
-                      form.setValue(
-                        `claims.${index}.missing_information` as const,
-                        event.target.value.split("\n"),
-                        { shouldDirty: true },
-                      )
-                    }
-                  />
-                </label>
-                <label className="field">
-                  Próximas verificações (uma por linha)
-                  <textarea
-                    rows={2}
-                    value={claims[index]?.suggested_checks.join("\n") ?? ""}
-                    onChange={(event) =>
-                      form.setValue(
-                        `claims.${index}.suggested_checks` as const,
-                        event.target.value.split("\n"),
-                        { shouldDirty: true },
-                      )
-                    }
-                  />
-                </label>
+                <NotesField
+                  control={form.control}
+                  name={`claims.${index}.missing_information`}
+                  id={field.id + "-missing"}
+                  title={`Alegação ${index + 1} — Informação que falta`}
+                />
+                <NotesField
+                  control={form.control}
+                  name={`claims.${index}.suggested_checks`}
+                  id={field.id + "-checks"}
+                  title={`Alegação ${index + 1} — Próximas verificações`}
+                />
               </div>
             </fieldset>
           ))}
@@ -597,9 +677,25 @@ export function DossierEditor({
               <div>
                 <strong>Confira os campos antes de salvar</strong>
                 <ul>
-                  {validationMessages(form.formState.errors).map((message) => (
-                    <li key={message}>{message}</li>
-                  ))}
+                  {validationIssues(form.formState.errors).map(
+                    ({ path, message }) => (
+                      <li key={path + message}>
+                        <button
+                          type="button"
+                          className="source-button"
+                          onClick={() => {
+                            const field =
+                              formElement.current?.querySelector<HTMLElement>(
+                                `[name="${errorField(path)}"]`,
+                              );
+                            field?.focus();
+                          }}
+                        >
+                          {errorLabel(path)}: {message}
+                        </button>
+                      </li>
+                    ),
+                  )}
                 </ul>
               </div>
             </div>

@@ -10,7 +10,7 @@ from evidencedesk.errors import Problem, not_found
 from evidencedesk.evidence.storage import PrivateStorage
 from evidencedesk.identity.service import Actor, authorize_collection
 from evidencedesk.ingestion.contracts import ImportInput
-from evidencedesk.jobs.service import enqueue
+from evidencedesk.jobs.service import enqueue, idempotent_resource
 from evidencedesk.retention.cleanup import complete_cleanup, enqueue_cleanup
 
 
@@ -53,10 +53,24 @@ def import_payload(connection: Connection, actor: Actor, import_id: str) -> dict
     }
 
 
-def create_import(connection: Connection, actor: Actor, body: ImportInput) -> str:
+def create_import(
+    connection: Connection, actor: Actor, body: ImportInput, idempotency_key: str | None = None
+) -> str:
     authorize_collection(connection, actor, body.collection_id)
     if body.manifest.source_tenant not in {None, actor.tenant_id}:
         raise Problem(422, "tenant_mismatch", "O manifesto pertence a outra organização.")
+    import_id = uuid4().hex
+    if idempotency_key is not None:
+        import_id, created = idempotent_resource(
+            connection,
+            actor,
+            "create_import",
+            idempotency_key,
+            body.model_dump(mode="json", by_alias=True),
+            import_id,
+        )
+        if not created:
+            return import_id
     reject_deleted_hashes(
         connection,
         actor.tenant_id,
@@ -77,7 +91,6 @@ def create_import(connection: Connection, actor: Actor, body: ImportInput) -> st
     ).rowcount
     if count != 1:
         raise Problem(429, "storage_quota", "A organização atingiu a quota de armazenamento.")
-    import_id = uuid4().hex
     connection.execute(
         text("""
         INSERT INTO import_batches(tenant_id,id,collection_id,created_by,title,manifest,state)

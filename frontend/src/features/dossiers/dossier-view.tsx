@@ -191,12 +191,16 @@ function RevisionView({
     queryFn: ({ signal }) =>
       request("/api/v1/exports/" + exportId, exportSchema, { signal }),
     enabled: !!exportId,
-    refetchInterval: (query) =>
-      ["succeeded", "failed", "cancelled"].includes(
-        query.state.data?.state ?? "",
-      )
-        ? false
-        : 1500,
+    refetchInterval: (query) => {
+      const data = query.state.data;
+      if (["failed", "cancelled", "expired"].includes(data?.state ?? ""))
+        return false;
+      if (data?.state === "succeeded")
+        return data.expires_at
+          ? Math.max(1000, Date.parse(data.expires_at) - Date.now())
+          : false;
+      return 1500;
+    },
   });
   if (revision.isPending) return <Loading>Carregando revisão…</Loading>;
   if (revision.isError)
@@ -232,11 +236,14 @@ function RevisionView({
       setBusy(false);
     }
   }
-  async function exportRevision() {
+  async function exportRevision(newIntent = false) {
     setBusy(true);
     setActionError(undefined);
-    if (!exportIntent.current.has(current.id))
+    if (newIntent || !exportIntent.current.has(current.id))
       exportIntent.current.set(current.id, crypto.randomUUID());
+    // The previous terminal job no longer describes this pending intention.
+    // If its response is lost, retry the saved key instead of starting again.
+    if (newIntent) setExportId(null);
     try {
       const result = await request(
         "/api/v1/dossiers/" + dossier.id + "/exports",
@@ -313,8 +320,8 @@ function RevisionView({
             <p>
               {number(current.impact_summary.orders)} pedidos ·{" "}
               {number(current.impact_summary.divergences)} divergências ·{" "}
-              {number(current.impact_summary.not_evaluable)} avaliações sem
-              cobertura suficiente.
+              {number(current.impact_summary.not_evaluable)} avaliações
+              inconclusivas. Consulte o motivo de cada registro em Conciliação.
             </p>
             <p>
               {number(current.impact_summary.observations)} observações ·{" "}
@@ -363,11 +370,13 @@ function RevisionView({
               }
             >
               <Edit3 size={14} />
-              Preparar revisão
+              {current.review_status === "changes_requested"
+                ? "Preparar nova revisão"
+                : "Preparar revisão"}
             </Button>
           )}
           {dossier.permissions.includes("submit_revision") &&
-            ["draft", "changes_requested"].includes(current.review_status) &&
+            current.review_status === "draft" &&
             selected === dossier.current_revision_id && (
               <Button
                 size="small"
@@ -404,11 +413,29 @@ function RevisionView({
             current.review_status === "approved" && (
               <Button
                 size="small"
-                disabled={busy}
-                onClick={() => void exportRevision()}
+                disabled={
+                  busy ||
+                  (!!exportId &&
+                    !["failed", "cancelled", "expired"].includes(
+                      exportJob.data?.state ?? "",
+                    ))
+                }
+                onClick={() =>
+                  void exportRevision(
+                    !!exportId &&
+                      ["failed", "cancelled", "expired"].includes(
+                        exportJob.data?.state ?? "",
+                      ),
+                  )
+                }
               >
                 <Download size={14} />
-                Preparar exportação
+                {exportId &&
+                ["failed", "cancelled", "expired"].includes(
+                  exportJob.data?.state ?? "",
+                )
+                  ? "Preparar nova exportação"
+                  : "Preparar exportação"}
               </Button>
             )}
         </div>
@@ -416,7 +443,10 @@ function RevisionView({
         {exportId && (
           <div style={{ marginTop: 15 }}>
             {exportJob.isError ? (
-              <ErrorNotice error={exportJob.error} />
+              <ErrorNotice
+                error={exportJob.error}
+                retry={() => void exportJob.refetch()}
+              />
             ) : exportJob.data?.state === "succeeded" &&
               exportJob.data.download_url ? (
               <div className="notice notice-info">
@@ -434,9 +464,17 @@ function RevisionView({
                   </a>
                 </div>
               </div>
-            ) : exportJob.data?.error ? (
+            ) : exportJob.data?.state === "expired" ? (
+              <p className="notice notice-warning" role="status">
+                O arquivo expirou. Prepare outra exportação.
+              </p>
+            ) : exportJob.data &&
+              ["failed", "cancelled"].includes(exportJob.data.state) ? (
               <p className="notice notice-danger">
-                {exportJob.data.error.message}
+                {exportJob.data.error?.message ??
+                  (exportJob.data.state === "cancelled"
+                    ? "A exportação foi cancelada. Você pode preparar uma nova exportação."
+                    : "A exportação falhou. Você pode preparar uma nova exportação.")}
               </p>
             ) : (
               <Loading>Preparando a revisão autorizada…</Loading>

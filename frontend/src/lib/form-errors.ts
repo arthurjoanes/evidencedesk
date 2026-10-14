@@ -11,3 +11,23 @@ export function validationMessages(errors: unknown): string[] {
   visit(errors);
   return [...messages];
 }
+
+export function validationIssues(
+  errors: unknown,
+): { path: string; message: string }[] {
+  const issues: { path: string; message: string }[] = [];
+  function visit(value: unknown, path: string[]) {
+    if (!value || typeof value !== "object") return;
+    const record = value as Record<string, unknown>;
+    if (typeof record.message === "string")
+      issues.push({
+        path: path.filter((part) => part !== "root").join("."),
+        message: record.message,
+      });
+    for (const [key, item] of Object.entries(record))
+      if (!["ref", "message", "type", "types"].includes(key))
+        visit(item, [...path, key]);
+  }
+  visit(errors, []);
+  return issues;
+}

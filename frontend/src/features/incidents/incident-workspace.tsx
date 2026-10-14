@@ -8,7 +8,7 @@ import { ArrowLeft, Search, ScanText } from "lucide-react";
 import { incidentSchema, type Incident } from "@/lib/contracts";
 import { request } from "@/lib/http";
 import { scopeKey, useSession } from "@/lib/session";
-import { number, timestamp, eventTimestamp, label } from "@/lib/format";
+import { number, timestamp, label } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { ErrorNotice, Loading, Status } from "@/components/feedback";
 import { EvidenceReader } from "@/features/evidence/evidence-reader";
@@ -23,6 +23,7 @@ import {
 } from "@/features/timeline/incident-records";
 import { queueDestination, workspaceDestination } from "./navigation";
 import { RunPanel, StartInvestigation } from "./run-panel";
+import { SnapshotSelect } from "./snapshot-select";
 
 const tabs = [
   { id: "divergences", name: "Divergências" },
@@ -390,13 +391,12 @@ function Workspace({ incident }: { incident: Incident }) {
               <label htmlFor="snapshot">Snapshot em leitura</label>
             </dt>
             <dd>
-              <select
-                id="snapshot"
-                className="filter-select"
+              <SnapshotSelect
+                incident={incident}
                 value={snapshot}
-                onChange={(event) =>
+                onChange={(id) =>
                   navigate({
-                    snapshot: event.target.value,
+                    snapshot: id,
                     evidence: null,
                     evidence_snapshot: null,
                     citation_dossier: null,
@@ -404,16 +404,7 @@ function Workspace({ incident }: { incident: Incident }) {
                     citation_claim: null,
                   })
                 }
-              >
-                {incident.available_snapshots.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {eventTimestamp(item.published_at)} · {item.id.slice(0, 8)}
-                    {item.id === incident.evidence_snapshot_id
-                      ? " · ativo"
-                      : ""}
-                  </option>
-                ))}
-              </select>
+              />
             </dd>
           </div>
         </dl>

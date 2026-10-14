@@ -96,6 +96,7 @@ export const incidentSchema = z.object({
   available_snapshots: z.array(
     z.object({ id: z.string(), published_at: z.string() }),
   ),
+  available_snapshots_truncated: z.boolean().default(false),
   coverage: z.array(coverageSchema),
   counts: z.object({ orders: z.number().int(), divergences: z.number().int() }),
   latest_run: runSummarySchema.nullable(),
@@ -361,7 +362,7 @@ export const importSchema = z.object({
 export type ImportBatch = z.infer<typeof importSchema>;
 export const exportSchema = z.object({
   id: z.string(),
-  state: jobStateSchema,
+  state: z.union([jobStateSchema, z.literal("expired")]),
   revision_id: z.string(),
   download_url: nullableText,
   expires_at: nullableText,

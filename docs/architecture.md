@@ -34,8 +34,8 @@ flowchart TB
     Incident -->|"Busca para geração"| Search
     Incident -->|"Listagem de fontes autorizadas"| SourceList
     Rules -->|"Consulta e seleção de fontes"| Manual
-    SourceList -->|"Seleção de fontes"| Manual
-    Rules -.->|"Agregado determinístico como evidência"| Generate
+    SourceList -->|"Fontes"| Manual
+    Rules -.->|"Regras calculadas"| Generate
     Search -.->|"Contexto delimitado para IA opcional"| Generate
     Manual -->|"Criação / edição"| Revision
     Generate -.->|"Schema e referências validados"| Revision
@@ -137,7 +137,7 @@ Os controles estão em [jobs](../backend/src/evidencedesk/jobs/service.py), [sto
 O [overlay de observabilidade](../infra/compose/observability.yaml) acrescenta um caminho separado do tráfego do produto:
 
 ```mermaid
-flowchart LR
+flowchart TB
     API["API /metrics"] -->|"Scrape com Bearer"| Prom["Prometheus"]
     Signals["API + worker<br/>Logs e spans OTLP"] -->|"HTTP :4318"| Collector["OTel Collector<br/>Filtro de atributos + batch"]
     Collector -->|"Traces"| Tempo["Tempo"]
