@@ -34,7 +34,7 @@ O leitor móvel mantém o nome do incidente, a navegação e o texto original; a
 
 ![Recorte da tabela: duas divergências do mesmo pedido](images/workspace-desktop.png)
 
-![JSON atual com chaves, valores e literais diferenciados por cor](images/source-json-mobile.png)
+![Recorte de 22/09/2026 do JSON com chaves, valores e literais diferenciados por cor](images/source-json-mobile.png)
 
 O [registro do realce sintático](evidence/syntax-highlight-20260922.json) identifica o código, a imagem e os testes desta alteração. Original e modo formatado recebem cores por token; selecionar o código conserva o texto exibido. Novas exportações HTML usam o mesmo destaque nas fontes JSON, nos localizadores e no recorte de revisão. Os arquivos exportados anteriormente e a captura monocromática permanecem vinculados às suas revisões originais.
 

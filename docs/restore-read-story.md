@@ -18,7 +18,7 @@ O dossiê foi criado pela API com trecho literal de fonte sintética e aprovado 
 
 ## Capturas autênticas
 
-Estas seis imagens são provas históricas da execução identificada no manifesto. Seus hashes foram preservados; a [conferência de capturas](screenshots.md) verificou que as fontes do layout permanecem iguais às da versão atual. Esta revisão visual não executa novamente a restauração.
+Estas seis imagens mostram a execução de 22/09/2026 identificada no manifesto. Seus hashes foram preservados; a [conferência de capturas](screenshots.md) registra sua origem e seus limites. O layout pertence àquela versão da interface; as imagens não representam uma nova execução da restauração.
 
 Navegador Microsoft Edge 153.0.4234.48, Playwright 1.63.0, páginas reais e dados sintéticos. Os IDs de dossiê, revisão, fonte e snapshot estão nas provas do manifesto. As capturas não receberam substituição de texto no DOM para simular um resultado.
 
@@ -38,7 +38,7 @@ _O incidente `demo-aurora-01` preserva o recorte e explica que duas observaçõe
 
 _O acesso direto ao dossiê excluído falhou no destino reaberto. O mesmo ensaio conferiu HTTP 404 da fonte e do arquivo original, além de sua ausência no armazenamento._
 
-O manifesto inclui mais duas capturas: revisão aprovada sem leitor e erro da fonte excluída. A captura longa da lista de fontes precisa ser aberta no tamanho original para conferir seus detalhes.
+O manifesto inclui mais duas capturas: [revisão aprovada sem leitor](evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/ed03-approved-desktop.png) e [erro da fonte excluída](evidence/restore-read-story/20260922T072246Z-492911fe/screenshots/restore-erased-source-desktop.png). A captura longa da lista de fontes precisa ser aberta no tamanho original para conferir seus detalhes. A mensagem visível diz “Recurso não encontrado ou sem acesso”; os HTTP 404 e a ausência física do objeto são resultados do ensaio vinculado, não informações que a imagem isolada comprova.
 
 ## Por que abrir dentro da janela de recuperação
 

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, FileCheck2 } from "lucide-react";
 import { importSchema, type ImportBatch } from "@/lib/contracts";
@@ -23,6 +23,7 @@ export function NewImport() {
   const [error, setError] = useState<unknown>();
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState("");
+  const intention = useRef<{ fingerprint: string; key: string } | null>(null);
   const [created, setCreated] = useState<{
     batch: ImportBatch;
     fingerprint: string;
@@ -52,10 +53,13 @@ export function NewImport() {
           importSchema,
         );
       } else {
+        if (intention.current?.fingerprint !== fingerprint)
+          intention.current = { fingerprint, key: crypto.randomUUID() };
         setProgress("Criando a importação…");
         batch = await request("/api/v1/imports", importSchema, {
           method: "POST",
           csrf: session.csrf_token,
+          headers: { "Idempotency-Key": intention.current.key },
           body: { collection_id: collection, manifest },
         });
         setCreated({ batch, fingerprint });

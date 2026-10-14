@@ -1,7 +1,7 @@
 import asyncio
 from threading import BoundedSemaphore
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Header, Request
 from sqlalchemy import text
 
 from evidencedesk.api import CurrentActor, PageLimit
@@ -24,10 +24,12 @@ UPLOAD_SLOTS = BoundedSemaphore(4)
 
 
 @router.post("", status_code=201)
-def new_import(body: ImportInput, actor: CurrentActor) -> dict:
+def new_import(
+    body: ImportInput, actor: CurrentActor, idempotency_key: str | None = Header(default=None)
+) -> dict:
     with transaction(actor.tenant_id) as connection:
         policy = lock_policy(connection, actor.tenant_id, mutation=True)
-        import_id = create_import(connection, actor, body)
+        import_id = create_import(connection, actor, body, idempotency_key)
         record_action(connection, actor, "import.created", import_id, policy)
         return import_payload(connection, actor, import_id)
 

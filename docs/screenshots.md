@@ -21,6 +21,12 @@ O [inventário inicial](evidence/screenshots-20260922.json) conserva hashes, dim
 
 Capturas extensas das execuções históricas aparecem como links. Os recortes vêm do navegador ou do registro nativo documentado, com o texto e os dados daquela execução.
 
+## Workbench de avaliação de 12/10/2026
+
+As capturas [desktop](evidence/evolution-20261012/workbench-desktop.png), [móvel](evidence/evolution-20261012/workbench-mobile.png) e [ensaio de ampliação](evidence/evolution-20261012/workbench-zoom-200.png) mostram o HTML offline de revisão semântica. Não são telas da aplicação autenticada de incidentes. A fixture expõe três respostas, fontes congeladas e texto hostil tratado como conteúdo; o aviso “Gate humano inconclusivo” permanece visível.
+
+O [recibo de navegador](evidence/evolution-20261012/browser.json) identifica os procedimentos. As imagens permitem conferir conteúdo e disposição dos controles; sozinhas não comprovam zoom nativo, execução segura do texto hostil ou qualidade do julgamento humano. Os arquivos longos devem ser abertos no tamanho original para ler os campos.
+
 ## Reproduzir a leitura
 
 Com a aplicação e o seed local disponíveis, a partir de `frontend`:

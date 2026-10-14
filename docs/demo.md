@@ -16,9 +16,9 @@ A jornada criou uma nova investigação pela API normal, usando a mesma coleçã
 
 [Captura completa da execução: divergências e pagamento original aberto](images/payment-story-20260922/01-pagamento-e-divergencias.png).
 
-![Recorte atual das duas divergências do pedido sintético](images/workspace-desktop.png)
+![Recorte de 22/09/2026 das duas divergências do pedido sintético](images/workspace-desktop.png)
 
-_O recorte focal acima foi recapturado na investigação de seed com o layout atual. A prova completa linkada conserva a identidade da execução original. O cabeçalho da aplicação apresenta Brasília; os campos do JSON usam UTC._
+_O recorte focal acima foi capturado na investigação de seed com o layout de 22/09/2026. A prova completa linkada conserva a identidade da execução original; nenhuma dessas imagens representa as alterações posteriores da interface. O cabeçalho da aplicação apresenta Brasília; os campos do JSON usam UTC._
 
 ![Detalhe do snapshot mostrando pending_payment às 12h10 UTC](images/payment-story-20260922/02-snapshot-detalhe.png)
 
@@ -28,7 +28,7 @@ _Recorte nativo do leitor: `as_of` é o instante do snapshot, 570 segundos após
 
 _Recorte da revisão do mesmo caso: elaboração manual, decisão por Bruno e duas fontes vinculadas. A causa e a correção permanecem não demonstradas. [Original com a fonte aberta](images/payment-story-20260922/05-dossie-com-fonte.png) · [Limites do recorte da imagem](evidence/editorial-payment-20260922/crop.json)._
 
-Ana recebeu 403 ao tentar aprovar; Bruno aprovou a versão indicada e preparou o HTML exportado. O teste conferiu as duas referências e a justificativa no arquivo. As duas divergências continuaram iguais depois disso. A [contagem no banco](evidence/editorial-payment-20260922/provider-check.json) permaneceu em zero chamadas ao provedor. A [captura móvel](images/payment-story-20260922/06-fonte-mobile.png) esperou a reautorização da fonte após a mudança de largura, em vez de registrar o carregamento.
+Ana recebeu 403 ao tentar aprovar; Bruno aprovou a versão indicada e preparou o HTML exportado. A [decisão preenchida](images/payment-story-20260922/03-decisao-da-revisao.png) e o [dossiê aprovado sem leitor lateral](images/payment-story-20260922/04-dossie-aprovado.png) preservam esses estados da execução histórica. O teste conferiu as duas referências e a justificativa no arquivo. As duas divergências continuaram iguais depois disso. A [contagem no banco](evidence/editorial-payment-20260922/provider-check.json) permaneceu em zero chamadas ao provedor. A [captura móvel](images/payment-story-20260922/06-fonte-mobile.png) esperou a reautorização da fonte após a mudança de largura, em vez de registrar o carregamento.
 
 Essas imagens mostram o produto real com dados sintéticos, sem troca de textos no DOM ou respostas simuladas. O [registro de navegador](evidence/editorial-payment-20260922/browser-review.json) identifica comando, versão do teste e hashes. Aprovar por automação com duas contas verifica permissões e rastreabilidade, não qualidade semântica humana. O [build](evidence/editorial-payment-20260922/runtime-build.json) e a [identidade do runtime](evidence/editorial-payment-20260922/runtime-identity.json) pertencem a esta execução; as capturas antigas continuam preservadas.
 

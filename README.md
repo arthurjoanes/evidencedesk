@@ -69,8 +69,8 @@ flowchart TB
     API -->|"Upload e download<br/>com autorização"| Files
     DB -->|"Worker faz polling<br/>SKIP LOCKED + lease"| Worker
     Worker -->|"Commit com token<br/>e política atuais"| DB
-    Worker -->|"Ler fontes<br/>gravar resultados"| Files
-    Worker -->|"Extração limitada"| Parser
+    Worker -->|"Fontes e resultados"| Files
+    Worker -->|"Extração"| Parser
     Worker -.->|"Busca híbrida opcional"| Models
     Worker -.->|"Reserva de tokens<br/>e fontes autorizadas"| Azure
 ```
@@ -144,7 +144,7 @@ python scripts/ops.py stop
 
 Os comandos de testes, lint, tipos e build estão no [guia de desenvolvimento](docs/development.md). O [guia do frontend](docs/frontend.md) descreve os contratos de navegação e autorização; o [runbook de CI](docs/runbooks/ci.md) prepara bancos isolados para as jornadas de navegador.
 
-O [recibo de 12/10/2026](docs/evidence/evolution-20261012/verification.json) registra os snapshots, comandos e limites desta evolução. A [interface local capturada em Chromium](docs/evidence/evolution-20261012/workbench-desktop.png) tem [versão móvel](docs/evidence/evolution-20261012/workbench-mobile.png) e [prova automatizada](docs/evidence/evolution-20261012/browser.json). As capturas usam fixtures sintéticas; o gate humano permanece inconclusivo. O [executor adversarial](docs/evidence/evolution-20261012/adversarial-contracts.json) registra contratos simulados, sem execução de modelo real.
+O [recibo de 12/10/2026](docs/evidence/evolution-20261012/verification.json) registra os snapshots, comandos e limites desta evolução. O [workbench offline de avaliação, capturado em Chromium](docs/evidence/evolution-20261012/workbench-desktop.png), tem [versão móvel](docs/evidence/evolution-20261012/workbench-mobile.png) e [prova automatizada](docs/evidence/evolution-20261012/browser.json). Essas imagens mostram a ferramenta de anotação, não a bancada de incidentes autenticada. Usam fixtures sintéticas, inclusive texto hostil exibido como texto para verificar escaping; o gate humano permanece inconclusivo. O [executor adversarial](docs/evidence/evolution-20261012/adversarial-contracts.json) registra contratos simulados, sem execução de modelo real.
 
 | Evidência                                                                                                        | Data e alcance                                                        |
 | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
@@ -153,7 +153,7 @@ O [recibo de 12/10/2026](docs/evidence/evolution-20261012/verification.json) reg
 | [Reabertura após restauração](docs/evidence/restore-read-story/20260922T072246Z-492911fe/restore-execution.json) | 22/09/2026; execução histórica com identidade própria                 |
 | [Scan da rodada editorial](docs/evidence/editorial-payment-security-20260922/summary.json)                       | 22/09/2026; imagens e base do scanner identificadas no registro       |
 
-Esses registros sustentam as execuções identificadas, não um novo teste deste README. A lista de cenários e comandos está em [verificação](docs/verification.md) e [desenvolvimento](docs/development.md).
+Os resultados se aplicam às versões e datas identificadas em cada registro. A lista de cenários e comandos está em [verificação](docs/verification.md) e [desenvolvimento](docs/development.md).
 
 ```powershell
 python -m pip install --require-hashes -r scripts/requirements-docs.lock

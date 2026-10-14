@@ -146,6 +146,46 @@ def get_incident(incident_id: str, actor: CurrentActor) -> dict:
         return incident_payload(connection, actor, incident_id)
 
 
+@router.get("/incidents/{incident_id}/snapshots")
+def list_snapshots(
+    incident_id: str, actor: CurrentActor, cursor: str | None = None, limit: PageLimit = 50
+) -> dict:
+    context = {
+        "tenant": actor.tenant_id,
+        "user": actor.id,
+        "incident": incident_id,
+        "operation": "incident_snapshots",
+        "ordering": "published_at_desc_id_desc_v1",
+    }
+    after_date, after_id = decode_recent_cursor(cursor, context)
+    with transaction(actor.tenant_id) as connection:
+        incident = authorize_incident(connection, actor, incident_id)
+        rows = (
+            connection.execute(
+                text("""
+            SELECT id,published_at AS created_at,published_at FROM evidence_snapshots
+            WHERE tenant_id=:tenant AND collection_id=:collection
+              AND (CAST(:after_date AS timestamptz) IS NULL
+                   OR (published_at,id)<(:after_date,:after_id))
+            ORDER BY published_at DESC,id DESC LIMIT :limit
+        """),
+                {
+                    "tenant": actor.tenant_id,
+                    "collection": incident["collection_id"],
+                    "after_date": after_date,
+                    "after_id": after_id,
+                    "limit": limit + 1,
+                },
+            )
+            .mappings()
+            .all()
+        )
+        result = recent_page([dict(row) for row in rows], limit, context)
+        for item in result["items"]:
+            item.pop("created_at")
+        return result
+
+
 def reconciliation_page(
     incident_id: str,
     actor,

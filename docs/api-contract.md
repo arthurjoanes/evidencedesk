@@ -16,6 +16,8 @@ Papéis tenant_admin/analyst/reviewer. Demo pública local: ana@aurora.demo, bru
 
 ## Listas e incidentes
 
+`Incident.available_snapshots_truncated` indica que `available_snapshots` contém somente as primeiras 50 opções, preservando o recorte ativo. `GET /incidents/{id}/snapshots?cursor=&limit=50` carrega os demais: Page de `{id,published_at}`, ordenada por publicação/ID decrescentes. Cada página reautoriza incidente/coleção; o cursor assinado pertence a tenant, usuário e incidente. A seleção atual permanece visível ao carregar páginas anteriores.
+
 Page<T> = `{items:T[],next_cursor:string|null,total:number|null,evidence_snapshot_id?:string}`. limit padrão 30 máximo 100. Cursor vinculado ao usuário/tenant, filtros, recurso e snapshot, rejeitado 409 se contexto incompatível. Filtros de lista: q, status, cursor, limit. Ordem explícita em contrato por endpoint; não ordenar só a página como se fosse conjunto global.
 
 `GET /collections` → Page de `{id,name,description,active_snapshot_id:null|string}`.
@@ -46,17 +48,23 @@ Claim={claim_id,kind,text,order_references:string[],evidence_links:[{evidence_id
 
 ## Investigações
 
+Uma revisão devolvida (`changes_requested`) permanece imutável. A interface apresenta **Preparar nova revisão**; enviar diretamente a revisão devolvida continua retornando `409 revision_not_draft`. Somente `draft` pode ser submetida. O agregado `not_evaluable` aparece como **avaliações inconclusivas**; os motivos individuais ficam na Conciliação.
+
 `POST /incidents/{id}/runs` `{evidence_snapshot_id,question}` + Idempotency-Key →202 Run, header `Location`. `GET /runs/{id}` → Run. `POST /runs/{id}/cancel` → Run. RunSummary={id,state,stage,outcome:null|string,created_at}. Run estende resumo com `{steps:[{key,status,started_at:null|string,completed_at:null|string}],cancel_requested,last_event_id,evidence_snapshot_id,dossier_id:null|string,revision_id:null|string,error:null|{code,message},started_at:null|string,completed_at:null|string,usage:{status,input_tokens:null|number,output_tokens:null|number}}`.
 
 state=queued|running|retry_wait|succeeded|failed|cancelled. `GET /runs/{id}/events` usa SSE com `id: seq`, `event: progress|snapshot|terminal|resync_required` e data `{seq,type,payload}`. Last-Event-ID suportado; snapshot e last_event_id consistentes. Evento expirado força resync, heartbeat não representa progresso. Autorização reavaliada durante stream. Front mantém polling fallback, sem disparar outro run. Estado remoto não transmite tokens não validados.
 
 ## Importação
 
+A criação aceita `Idempotency-Key` de até 128 caracteres, com identidade por tenant/ator/operação e fingerprint canônico do corpo. Repetir chave e corpo recupera o mesmo lote sem reservar armazenamento novamente; corpo diferente retorna `409 idempotency_conflict`. Reserva, lote e intenção são gravados na mesma transação. A interface preserva a chave antes do POST e a reutiliza após resposta incerta. Clientes antigos sem cabeçalho continuam aceitos, mas não têm garantia de repetição segura; um manifesto diferente representa nova intenção.
+
 `POST /imports` `{collection_id,manifest:{schema_version:'1',title,source_tenant?:string,coverage:Coverage[],entries:[{entry_id,filename,kind,media_type,byte_size,sha256,metadata?:object}]}}` →201 Import. kind=events|snapshots|document|mappings. byte_size inteiro <= 10 MiB por arquivo, máximo 40 MiB / 40 entradas por pacote inicial. Nome sem /,\\, traversal ou extensão fora da allowlist; entry_id é identificador restrito. metadata de documento: title,version,source_system,valid_from,valid_until,temporal_role. Eventos e snapshot seguem data-contract/modelos da reconciliação.
 
 `PUT /imports/{id}/files/{entry_id}` bytes Content-Type compatível →Import. `POST /imports/{id}/finalize` →202 Import. `GET /imports` e `GET /imports/{id}` → Page<Import>/Import. Import={id,collection_id,title,state,created_at,evidence_snapshot_id:null|string,entries:[{entry_id,filename,kind,byte_size,sha256,state,error:null|{code,message}}],error:null|{code,message}}. Lote all-or-nothing, receiving/sealed/processing/ready/rejected/failed/cancelled. Falha por arquivo nunca implica publicação parcial.
 
 ## Exportações
+
+Export.state admite `queued|running|retry_wait|succeeded|failed|cancelled|expired`. `expired` descreve o arquivo cujo prazo terminou, mesmo que o job tenha concluído. Falha, cancelamento e expiração encerram o acompanhamento; falha/cancelamento podem não conter objeto `error`. Uma resposta incerta mantém a mesma chave; somente **Preparar nova exportação**, depois de término confirmado, cria outra intenção. O cliente verifica novamente a disponibilidade ao atingir `expires_at`.
 
 `POST /dossiers/{id}/exports` `{revision_id}` + Idempotency-Key →202 Export. `GET /exports/{id}` → Export. Export={id,state,revision_id,download_url:null|string,expires_at:null|string,error:null|{code,message}}. `GET /exports/{id}/download` entrega HTML escapado da revisão autorizada, contendo proveniência/fontes. Disponibilidade exige aprovação e acesso atual, inclusive aos derivados.
 
