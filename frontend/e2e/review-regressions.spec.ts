@@ -47,15 +47,20 @@ test("review regressions: queue context, successive navigation, form errors and 
   await expect(page.getByLabel("Localizar fontes para vincular")).toHaveCount(
     0,
   );
-  await page
-    .getByLabel("Lacunas do recorte (uma por linha)")
-    .fill("linha\n".repeat(21));
+  const missing = page.getByLabel("Lacunas do recorte (uma por linha)");
+  await missing.fill("linha\n".repeat(21));
   await page.getByRole("button", { name: "Salvar dossiê manual" }).click();
   await expect(
-    page.getByText(
-      "Use no máximo 20 linhas por lista de lacunas ou verificações.",
-    ),
+    page.getByRole("alert").filter({
+      hasText:
+        "Lacunas do recorte: Use no máximo 20 linhas por lista de lacunas ou verificações.",
+    }),
   ).toBeVisible();
+  await expect(missing).toHaveAttribute("aria-invalid", "true");
+  await expect(missing).toHaveAccessibleDescription(
+    "Lacunas do recorte: Use no máximo 20 linhas por lista de lacunas ou verificações.",
+  );
+  await expect(missing).toBeFocused();
   const incident = new URL(page.url()).pathname.split("/").at(-1);
   await page.route("**/api/v1/incidents/" + incident, async (route) => {
     await route.fulfill({
