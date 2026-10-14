@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 72 72" role="img" aria-labelledby="label">
+  <title id="label">Pydantic</title>
+  <!-- Icon: https://raw.githubusercontent.com/simple-icons/simple-icons/5664507081ffb65b5a2a0ed2bf2ee2b3b327cb4e/icons/pydantic.svg; Simple Icons 14.15.0, CC0-1.0. Brand source: https://github.com/pydantic/pydantic/blob/94c748001a32992a587694b999fb1f3d2f1fc1fe/docs/logo-white.svg -->
+  <rect x="0.5" y="0.5" width="71" height="71" rx="8" fill="#f6f8fa" stroke="#d0d7de"/>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" x="18" y="8" width="36" height="36" preserveAspectRatio="xMidYMid meet" fill="#E92063"><path d="m23.826 17.316-4.23-5.866-6.847-9.496c-.348-.48-1.151-.48-1.497 0l-6.845 9.494-4.233 5.868a.925.925 0 0 0 .46 1.417l11.078 3.626h.002a.92.92 0 0 0 .572 0h.002l11.077-3.626c.28-.092.5-.31.59-.592a.916.916 0 0 0-.13-.825h.002ZM12.001 4.07l4.44 6.158-4.152-1.36c-.032-.01-.066-.008-.098-.016a.8.8 0 0 0-.096-.016c-.032-.004-.062-.016-.094-.016s-.062.012-.094.016a.74.74 0 0 0-.096.016c-.032.006-.066.006-.096.016L7.59 10.221l-.026.008 4.44-6.158h-.002Zm-6.273 8.7 4.834-1.583.516-.168v9.19L2.41 17.372l3.317-4.6Zm7.197 7.437V11.02l5.35 1.752 3.316 4.598-8.666 2.838Z" /></svg>
+  <text x="36" y="61" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="10" fill="#1f2328">Pydantic</text>
+</svg>

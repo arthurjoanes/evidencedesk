@@ -93,8 +93,10 @@ No perfil local, `db_data`, `evidence_data` e `deletion_ledger` são volumes dis
 <p>
   <img src="docs/stack/python.svg" alt="Python" width="64" height="64">
   <img src="docs/stack/fastapi.svg" alt="FastAPI" width="64" height="64">
+  <img src="docs/stack/pydantic.svg" alt="Pydantic, validação dos contratos" width="64" height="64">
   <img src="docs/stack/sqlalchemy.svg" alt="SQLAlchemy" width="64" height="64">
   <img src="docs/stack/postgresql.svg" alt="PostgreSQL" width="64" height="64">
+  <img src="docs/stack/pgvector.svg" alt="pgvector, extensão para busca vetorial" width="64" height="64">
   <img src="docs/stack/typescript.svg" alt="TypeScript" width="64" height="64">
   <img src="docs/stack/react.svg" alt="React" width="64" height="64">
   <img src="docs/stack/nextjs.svg" alt="Next.js" width="64" height="64">
@@ -119,7 +121,9 @@ O perfil `ml` usa PyTorch e Transformers/Sentence Transformers para embeddings e
 | Componente                          | Papel e compromisso                                                                    |
 | ----------------------------------- | -------------------------------------------------------------------------------------- |
 | Python, FastAPI e SQLAlchemy        | Domínio, autorização, persistência, importação e operações assíncronas                 |
-| PostgreSQL/pgvector                 | Dados, fila, isolamento e recuperação; o mesmo banco concentra essas responsabilidades |
+| Pydantic                           | Valida os contratos de ingestão, conciliação e geração                                 |
+| PostgreSQL                         | Dados, fila, isolamento e recuperação; o mesmo banco concentra essas responsabilidades |
+| pgvector                           | Extensão do PostgreSQL para embeddings e busca vetorial no perfil opcional `ml`         |
 | TypeScript, React e Next.js         | Interface para investigar, editar, revisar e exportar                                  |
 | Docker Compose                      | Operação local com volumes próprios                                                    |
 | SDK OpenAI e Azure OpenAI           | Geração opcional; o fluxo manual e lexical permanece disponível                       |
