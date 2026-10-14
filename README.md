@@ -15,18 +15,14 @@ Investigação de pedidos com fontes verificáveis e revisão por outra pessoa.
 
 O EvidenceDesk investiga casos em que o pagamento foi confirmado, mas o pedido continua pendente. A aplicação reúne eventos, snapshots e documentos; usa [regras determinísticas](backend/src/evidencedesk/reconciliation/rules.py), oferece rascunhos opcionais de IA e exige outra conta para aprovar uma revisão. Os dados da demonstração são sintéticos.
 
-![Paleta de marca do EvidenceDesk: azul petróleo, azul profundo, névoa, papel, grafite e ardósia](docs/readme/palette.svg)
-
-A [paleta de marca](docs/brand.md) usa azul petróleo nas ações e citações, azul profundo na identidade e superfícies claras para ler as fontes. As cores de erro, sucesso e aviso têm papéis próprios.
-
 <a id="na-prática"></a>
 <a id="uma-investigação-do-início-ao-fim"></a>
 
 ## Demonstração
 
-![Página principal do EvidenceDesk](docs/readme/home.png)
+![Investigação de pagamento: duas divergências do pedido PED-009-000 e a fonte selecionada ao lado](docs/images/payment-story-20260922/01-pagamento-e-divergencias.png)
 
-_Página principal em captura anterior preservada._
+Captura real da aplicação em 22/09/2026, com dados sintéticos: 222 pedidos no snapshot, duas divergências do mesmo pedido e o evento de pagamento aberto no leitor de fontes. A geração por IA está desativada nesse ambiente. É um registro histórico da interface. [Origem da captura](docs/evidence/editorial-payment-20260922/browser-review.json).
 
 ![Citação no leitor móvel, com a alegação e a fonte do mesmo snapshot](docs/readme/citation-mobile.png)
 
@@ -189,7 +185,7 @@ A infraestrutura Azure permanece **não implantada por este projeto** nos regist
 | Entender IA e orçamento      | [Model card](docs/model-card.md) · [modelos locais](docs/model-service.md) · [tokens](docs/token-budget.md)                                                          |
 | Conferir riscos e resultados | [Política de segurança](SECURITY.md) · [threat model](docs/threat-model.md) · [publicação](docs/publication.md) · [fontes e afirmações](docs/fontes-e-afirmacoes.md) |
 | Conferir imagens             | [Origem e reprodução](docs/screenshots.md)                                                                                                                           |
-| Desenvolver a interface      | [Frontend](docs/frontend.md) · [paleta e tokens](docs/brand.md)                                                                                                      |
+| Desenvolver a interface      | [Frontend](docs/frontend.md) · [tipografia e acessibilidade](docs/brand.md)                                                                                         |
 
 ## Autor e licença
 
