@@ -93,6 +93,7 @@ No perfil local, `db_data`, `evidence_data` e `deletion_ledger` são volumes dis
 <p>
   <img src="docs/stack/python.svg" alt="Python" width="64" height="64">
   <img src="docs/stack/fastapi.svg" alt="FastAPI" width="64" height="64">
+  <img src="docs/stack/sqlalchemy.svg" alt="SQLAlchemy" width="64" height="64">
   <img src="docs/stack/postgresql.svg" alt="PostgreSQL" width="64" height="64">
   <img src="docs/stack/typescript.svg" alt="TypeScript" width="64" height="64">
   <img src="docs/stack/react.svg" alt="React" width="64" height="64">
@@ -100,13 +101,32 @@ No perfil local, `db_data`, `evidence_data` e `deletion_ledger` são volumes dis
   <img src="docs/stack/docker.svg" alt="Docker" width="64" height="64">
 </p>
 
+Geração opcional por Azure OpenAI, integrada pelo SDK OpenAI:
+
+<p>
+  <img src="docs/stack/openai.svg" alt="SDK OpenAI para Python" width="64" height="64">
+  <img src="docs/stack/azure.svg" alt="Azure OpenAI, geração opcional" width="64" height="64">
+</p>
+
+O perfil `ml` usa PyTorch e Transformers/Sentence Transformers para embeddings e reranking locais. MLflow registra os experimentos do laboratório.
+
+<p>
+  <img src="docs/stack/pytorch.svg" alt="PyTorch, perfil ML opcional" width="64" height="64">
+  <img src="docs/stack/huggingface.svg" alt="Hugging Face Transformers e Sentence Transformers, modelos locais" width="64" height="64">
+  <img src="docs/stack/mlflow.svg" alt="MLflow, registro dos experimentos" width="64" height="64">
+</p>
+
 | Componente                          | Papel e compromisso                                                                    |
 | ----------------------------------- | -------------------------------------------------------------------------------------- |
-| Python e FastAPI                    | Domínio, autorização, importação e operações assíncronas                               |
+| Python, FastAPI e SQLAlchemy        | Domínio, autorização, persistência, importação e operações assíncronas                 |
 | PostgreSQL/pgvector                 | Dados, fila, isolamento e recuperação; o mesmo banco concentra essas responsabilidades |
 | TypeScript, React e Next.js         | Interface para investigar, editar, revisar e exportar                                  |
 | Docker Compose                      | Operação local com volumes próprios                                                    |
-| Azure OpenAI, embeddings e reranker | Perfis opcionais; o fluxo manual e lexical não depende de geração                      |
+| SDK OpenAI e Azure OpenAI           | Geração opcional; o fluxo manual e lexical permanece disponível                       |
+| PyTorch, Transformers e Sentence Transformers | Embeddings e reranker locais no perfil opcional `ml`                         |
+| MLflow                             | Registro dos experimentos do laboratório; candidato treinado sem promoção             |
+
+[Fontes e licenças dos ícones](docs/stack/README.md).
 
 As versões estão fixadas nas dependências do [backend](backend/pyproject.toml), do [frontend](frontend/package.json) e no [Compose](infra/compose/compose.yaml). O nome do deployment Azure é configuração do operador; não prova a identidade ou versão do modelo, conforme o [contrato da integração](backend/src/evidencedesk/model_runtime/azure.py) e a [documentação Microsoft](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/endpoints).
 
@@ -191,4 +211,4 @@ A infraestrutura Azure permanece **não implantada por este projeto** nos regist
 
 <p><a href="https://www.linkedin.com/in/arthur-joanes-6a2967373/"><img src="docs/contact/linkedin.svg" width="24" height="24" alt=""> <strong>Arthur Joanes no LinkedIn</strong></a></p>
 
-[Licença MIT](LICENSE). Ícones da stack e LinkedIn: [Devicon, licença MIT](docs/stack/LICENSE.devicon).
+[Licença MIT](LICENSE). Ícones Devicon e Simple Icons: [fontes e licenças](docs/stack/README.md). LinkedIn: [Devicon, licença MIT](docs/stack/LICENSE.devicon).
