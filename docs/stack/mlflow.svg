@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 72 72" role="img" aria-labelledby="label">
+  <title id="label">MLflow</title>
+  <!-- Icon: https://raw.githubusercontent.com/simple-icons/simple-icons/5664507081ffb65b5a2a0ed2bf2ee2b3b327cb4e/icons/mlflow.svg; Simple Icons CC0-1.0. Source shape preserved. -->
+  <rect x="0.5" y="0.5" width="71" height="71" rx="8" fill="#f6f8fa" stroke="#d0d7de"/>
+  <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" x="18" y="7" width="36" height="36" preserveAspectRatio="xMidYMid meet"><title>MLflow</title><path d="M11.883.002a12.044 12.044 0 0 0-9.326 19.463l3.668-2.694A7.573 7.573 0 0 1 12.043 4.45v2.867l6.908-5.14A12.012 12.012 0 0 0 11.883.002zm9.562 4.533L17.777 7.23a7.573 7.573 0 0 1-5.818 12.322v-2.867l-6.908 5.14a12.046 12.046 0 0 0 16.394-17.29z"/></svg>
+  <text x="36" y="61" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="10" fill="#1f2328">MLflow</text>
+</svg>
