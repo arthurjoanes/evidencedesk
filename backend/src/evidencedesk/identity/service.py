@@ -75,7 +75,8 @@ def authenticate(request: Request) -> Actor:
     actor = Actor(**row)
     if request.method not in {"GET", "HEAD", "OPTIONS"}:
         require_origin(request)
-        if not secrets.compare_digest(actor.csrf_token, request.headers.get("x-csrf-token", "")):
+        supplied = request.headers.get("x-csrf-token", "")
+        if not supplied.isascii() or not secrets.compare_digest(actor.csrf_token, supplied):
             raise Problem(403, "invalid_csrf", "A sessão precisa ser atualizada antes de salvar.")
     return actor
 

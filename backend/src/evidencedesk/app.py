@@ -186,7 +186,7 @@ def create_app() -> FastAPI:
     def metrics(request: Request):
         supplied = request.headers.get("authorization", "")
         expected = f"Bearer {get_settings().metrics_token.get_secret_value()}"
-        if not secrets.compare_digest(supplied, expected):
+        if not supplied.isascii() or not secrets.compare_digest(supplied, expected):
             raise Problem(403, "metrics_access_denied", "Acesso administrativo necessário.")
         refresh_database_metrics()
         return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
