@@ -14,6 +14,13 @@ O conteúdo extraído também tem [orçamento por lote](../backend/src/evidenced
 | `document` TXT/MD/PDF   | Texto extraído e metadados de título, versão, sistema, linhagem documental, papel temporal e validade. PDF sem texto exige perfil OCR; o fluxo atual devolve erro explícito.                                              |
 | `coverage` no manifesto | `source_system`, `from`, `to`, `status` complete/partial/unknown, `gaps`, `event_types`, `clock_uncertainty_ms?`. Desconhecimento não significa precisão perfeita ou coleta completa.                                     |
 
+O CSV de snapshots aceita campos entre aspas com quebras de linha e ignora linhas
+vazias entre registros. Aspas malformadas rejeitam o arquivo. O localizador usa
+as linhas físicas inicial e final do registro no original. A posição lógica
+usada na identidade da evidência permanece estável; corrigir a localização não
+cria outra identidade para os mesmos registros. Evidências e snapshots já
+publicados conservam seus metadados históricos.
+
 ## Identidade e isolamento
 
 Tenant, autor, coleção autorizada, evidence_id, instante de ingestão, hash do arquivo e localização são atribuídos pelo servidor. `source_tenant` é uma declaração do pacote; nunca concede autoridade. Identificadores de pedido iguais entre tenants são permitidos e não cruzam o isolamento.

@@ -8,7 +8,7 @@ import sys
 from pypdf import PdfReader
 
 from evidencedesk.reconciliation.contracts import EventInput, IdentityMapping
-from evidencedesk.reconciliation.parsing import parse_snapshot_csv
+from evidencedesk.reconciliation.parsing import parse_snapshot_csv_with_locations
 
 
 def restrict_process() -> None:
@@ -58,8 +58,16 @@ def parse_content(kind: str, media_type: str, content: bytes) -> dict:
     if kind == "snapshots":
         return {
             "rows": [
-                {"line_number": index + 2, "value": row.model_dump(mode="json")}
-                for index, row in enumerate(parse_snapshot_csv(text_content))
+                {
+                    # Legacy record positions identify evidence; physical lines locate the source.
+                    "line_number": index + 2,
+                    "line_start": start,
+                    "line_end": end,
+                    "value": row.model_dump(mode="json"),
+                }
+                for index, (start, end, row) in enumerate(
+                    parse_snapshot_csv_with_locations(text_content)
+                )
             ]
         }
     if len(text_content) > 1_000_000:

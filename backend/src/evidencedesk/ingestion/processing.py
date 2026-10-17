@@ -114,8 +114,8 @@ def evidence_records(tenant_id: str, collection_id: str, entry: dict, parsed: di
                     "record": json.dumps(record),
                     "locator": json.dumps(
                         {
-                            "line_start": row["line_number"],
-                            "line_end": row["line_number"],
+                            "line_start": row.get("line_start", row["line_number"]),
+                            "line_end": row.get("line_end", row["line_number"]),
                             **({"as_of": data["as_of"]} if data.get("as_of") else {}),
                         }
                     ),
