@@ -6,6 +6,7 @@ import { divergencePageSchema, timelinePageSchema } from "@/lib/contracts";
 import { request, queryString } from "@/lib/http";
 import { scopeKey, useSession } from "@/lib/session";
 import { label, eventTimestamp, number } from "@/lib/format";
+import { AssessmentChart } from "./assessment-chart";
 import {
   EmptyState,
   ErrorNotice,
@@ -60,11 +61,12 @@ export function DivergenceList({
     return (
       <EmptyState
         title="Nenhuma divergência neste recorte"
-        description="Isso não comprova ausência de problemas. Confira a cobertura e o período das fontes."
+        description="Confira a cobertura e o período das fontes."
       />
     );
   return (
     <div className="table-panel">
+      <AssessmentChart summary={query.data.summary} />
       <div
         className="table-scroll"
         tabIndex={0}

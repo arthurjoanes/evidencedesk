@@ -115,10 +115,7 @@ export function IncidentQueue() {
       <div className="page-heading">
         <div>
           <h1>Incidentes</h1>
-          <p>
-            Compare os registros, encontre divergências e acompanhe o que ainda
-            precisa de revisão.
-          </p>
+          <p>Investigações abertas e revisões pendentes.</p>
         </div>
         {session.permissions.includes("create_incident") && (
           <Button variant="primary" onClick={() => setCreating(true)}>

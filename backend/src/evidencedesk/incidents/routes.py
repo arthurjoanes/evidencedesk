@@ -8,6 +8,7 @@ from evidencedesk.api import CurrentActor, Input, PageLimit
 from evidencedesk.database import lock_policy, transaction
 from evidencedesk.evidence.service import authorize_snapshot
 from evidencedesk.identity.service import authorize_incident
+from evidencedesk.incidents.analysis import assessment_summary
 from evidencedesk.incidents.service import create_incident, incident_payload, load_reconciliation
 from evidencedesk.pagination import (
     decode_cursor,
@@ -213,6 +214,7 @@ def reconciliation_page(
         if not order_reference or item.order_reference == order_reference
     ]
     total = len(rows)
+    summary = None if timeline else assessment_summary(rows)
     if after:
         position = next((index for index, item in enumerate(rows) if item["id"] == after), None)
         if position is None:
@@ -226,6 +228,8 @@ def reconciliation_page(
     payload["coverage"] = [item.model_dump(mode="json", by_alias=True) for item in result.coverage]
     if timeline:
         payload["ordering"] = result.ordering
+    else:
+        payload["summary"] = summary
     return payload
 
 

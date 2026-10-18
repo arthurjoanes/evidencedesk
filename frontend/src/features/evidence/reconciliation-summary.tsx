@@ -20,11 +20,8 @@ export function ReconciliationSummary({
       className="reconciliation-source"
       aria-label="Conciliação estruturada"
     >
-      <h3>Resultado determinístico</h3>
-      <p className="muted">
-        Valores registrados nesta evidência. A leitura não recalcula o recorte
-        nem confirma uma causa.
-      </p>
+      <h3>Resultado da conciliação</h3>
+      <p className="muted">Resultado salvo com esta evidência.</p>
       <dl className="reconciliation-measures">
         {measures.map(([key, name]) => (
           <div key={key}>
@@ -106,15 +103,12 @@ export function ReconciliationSummary({
         {content.divergences_total === undefined
           ? "Total não informado"
           : number(content.divergences_total) + " no recorte"}
-        . A lista pode ser um subconjunto das avaliações.
+        .
       </p>
       {content.divergences === undefined ? (
         <p>A lista não está disponível nesta evidência.</p>
       ) : content.divergences.length === 0 ? (
-        <p>
-          Nenhuma avaliação incluída. Isso, isoladamente, não comprova ausência
-          de problemas.
-        </p>
+        <p>Nenhuma avaliação incluída. Confira a cobertura das fontes.</p>
       ) : (
         <ul className="reconciliation-records">
           {content.divergences.map((item, index) => (

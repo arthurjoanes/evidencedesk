@@ -20,27 +20,22 @@ O EvidenceDesk investiga casos em que o pagamento foi confirmado, mas o pedido c
 
 ## Demonstração
 
-![Investigação de pagamento: duas divergências do pedido PED-009-000 e a fonte selecionada ao lado](docs/images/payment-story-20260922/01-pagamento-e-divergencias.png)
+![Investigação com resumo das avaliações e fontes do pedido](docs/readme/investigation.png)
 
-Captura real da aplicação em 22/09/2026, com dados sintéticos: 222 pedidos no snapshot, duas divergências do mesmo pedido e o evento de pagamento aberto no leitor de fontes. A geração por IA está desativada nesse ambiente. É um registro histórico da interface. [Origem da captura](docs/evidence/editorial-payment-20260922/browser-review.json).
+Abra um incidente para consultar as divergências e os registros que as sustentam. O resumo conta pedidos distintos e separa divergências, observações e avaliações inconclusivas. Um pedido pode ter mais de uma divergência.
 
-![Citação no leitor móvel, com a alegação e a fonte do mesmo snapshot](docs/readme/citation-mobile.png)
+![Resumo das avaliações no celular](docs/readme/investigation-mobile.png)
 
-O leitor apresenta a alegação junto à fonte citada. A busca de fontes permanece ao navegar ou recarregar, e a aprovação exige uma decisão explícita e a conferência das alegações. O [workbench local](docs/runbooks/evaluation-workbench.md) permite ler a fonte antes do julgamento e aponta campos incompletos.
+O período pertence ao incidente. A seleção de snapshot e a busca por pedido atualizam os registros e o resumo. [Capturas e ambiente](docs/screenshots.md).
 
-![Recorte da tabela: duas divergências do pedido PED-009-000](docs/images/workspace-desktop.png)
+1. Importe os arquivos e confira a cobertura das fontes.
+2. Investigue os pedidos e monte o dossiê.
+3. Envie a conclusão para outra conta revisar.
+4. Exporte a revisão aprovada.
 
-O recorte mostra **duas divergências do mesmo pedido**, entre **222 pedidos** do snapshot sintético. Duas divergências não significam dois pedidos afetados. A jornada registrada em **22/09/2026, 12:34 UTC** conferiu fontes, criou um dossiê, aprovou com outra conta e exportou a revisão. [Prova da jornada](docs/evidence/editorial-payment-20260922/payment-story.json) · [origem da captura](docs/evidence/screenshots-20260922.json).
+A geração por IA é opcional. O fluxo manual funciona com ela desativada. A aplicação aponta inconsistências entre registros; a equipe investiga a causa e faz a correção no sistema de origem.
 
-No caso `PED-009-000`, as [regras](backend/src/evidencedesk/reconciliation/rules.py) apontam incompatibilidade entre pagamento e snapshot e uma transição não observada dentro da cobertura. Elas não identificam a causa nem corrigem o sistema de origem.
-
-1. Importe fontes e confira a cobertura do snapshot.
-2. Investigue divergências, linha do tempo e originais.
-3. Edite o dossiê ou solicite um rascunho opcional de IA.
-4. Submeta a revisão para outra conta.
-5. Exporte a versão aprovada com as fontes da decisão.
-
-Na jornada registrada acima, a [consulta independente ao banco](docs/evidence/editorial-payment-20260922/provider-check.json) mostrou zero chamadas ao provedor antes e depois da execução. O [teste da jornada](frontend/e2e/payment-story.spec.ts) cobre esse percurso. Contas distintas testaram o fluxo; a execução não avaliou a qualidade da revisão humana.
+[Roteiro da demonstração](docs/demo.md) · [Teste da jornada](frontend/e2e/payment-story.spec.ts).
 
 <a id="implementação"></a>
 <a id="arquitetura-e-escolhas"></a>
@@ -71,7 +66,7 @@ flowchart TB
     Worker -.->|"Reserva de tokens<br/>e fontes autorizadas"| Azure
 ```
 
-Setas contínuas representam o caminho local; pontilhadas, integrações opcionais. O progresso passa pela API e pelo proxy, sem conexão direta do navegador ao banco. O worker compartilha código, banco e volumes com a API; os módulos de domínio não são microsserviços independentes.
+As setas pontilhadas mostram as integrações opcionais. API e worker compartilham o pacote Python e o banco. O navegador consulta a API pelo proxy do Next.js.
 
 | Fronteira           | O que acontece nela                                                                                          | Implementação                                                                                                                                       |
 | ------------------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -132,7 +127,7 @@ O perfil `ml` usa PyTorch e Transformers/Sentence Transformers para embeddings e
 
 [Fontes e licenças dos ícones](docs/stack/README.md).
 
-As versões estão fixadas nas dependências do [backend](backend/pyproject.toml), do [frontend](frontend/package.json) e no [Compose](infra/compose/compose.yaml). O nome do deployment Azure é configuração do operador; não prova a identidade ou versão do modelo, conforme o [contrato da integração](backend/src/evidencedesk/model_runtime/azure.py) e a [documentação Microsoft](https://learn.microsoft.com/en-us/azure/foundry/foundry-models/concepts/endpoints).
+As versões estão nos manifests do [backend](backend/pyproject.toml), do [frontend](frontend/package.json) e no [Compose](infra/compose/compose.yaml). A integração Azure exige configurar o deployment e o endpoint conforme o [contrato](backend/src/evidencedesk/model_runtime/azure.py).
 
 Conciliação, revisão e geração têm responsabilidades separadas: uma citação válida estruturalmente ainda precisa sustentar o texto. O candidato treinado permanece sem promoção e sem adjudicação humana. O [model card](docs/model-card.md) reúne o protocolo, as medições e os limites dessa avaliação.
 
@@ -164,23 +159,14 @@ python scripts/ops.py stop
 
 Os comandos de testes, lint, tipos e build estão no [guia de desenvolvimento](docs/development.md). O [guia do frontend](docs/frontend.md) descreve os contratos de navegação e autorização; o [runbook de CI](docs/runbooks/ci.md) prepara bancos isolados para as jornadas de navegador.
 
-O [recibo de 12/10/2026](docs/evidence/evolution-20261012/verification.json) registra os snapshots, comandos e limites desta evolução. O [workbench offline de avaliação, capturado em Chromium](docs/evidence/evolution-20261012/workbench-desktop.png), tem [versão móvel](docs/evidence/evolution-20261012/workbench-mobile.png) e [prova automatizada](docs/evidence/evolution-20261012/browser.json). Essas imagens mostram a ferramenta de anotação, não a bancada de incidentes autenticada. Usam fixtures sintéticas, inclusive texto hostil exibido como texto para verificar escaping; o gate humano permanece inconclusivo. O [executor adversarial](docs/evidence/evolution-20261012/adversarial-contracts.json) registra contratos simulados, sem execução de modelo real.
-
-| Evidência                                                                                                        | Data e alcance                                                        |
-| ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| [Jornada de pagamento](docs/evidence/editorial-payment-20260922/payment-story.json)                              | 22/09/2026; UI/API reais, dados sintéticos e nenhuma avaliação humana |
-| [Chamadas ao provedor](docs/evidence/editorial-payment-20260922/provider-check.json)                             | 22/09/2026; contagem no banco antes e depois da jornada manual        |
-| [Reabertura após restauração](docs/evidence/restore-read-story/20260922T072246Z-492911fe/restore-execution.json) | 22/09/2026; execução histórica com identidade própria                 |
-| [Scan da rodada editorial](docs/evidence/editorial-payment-security-20260922/summary.json)                       | 22/09/2026; imagens e base do scanner identificadas no registro       |
-
-Os resultados se aplicam às versões e datas identificadas em cada registro. A lista de cenários e comandos está em [verificação](docs/verification.md) e [desenvolvimento](docs/development.md).
+O [guia de verificação](docs/verification.md) reúne os resultados por versão. Os testes cobrem importação, isolamento entre organizações, revisão por outra conta e exportação. O [workbench de avaliação](docs/runbooks/evaluation-workbench.md) serve para conferir respostas e fontes; a avaliação humana ainda está pendente.
 
 ```powershell
 python -m pip install --require-hashes -r scripts/requirements-docs.lock
 python scripts/check_repository_docs.py
 ```
 
-O [checker](scripts/check_repository_docs.py) verifica caminhos e âncoras locais; não certifica conteúdo, sites externos ou qualidade semântica de respostas.
+O [checker](scripts/check_repository_docs.py) verifica os caminhos e as âncoras dos links locais.
 
 <a id="limites-e-manutenção"></a>
 <a id="ia-e-escopo"></a>
@@ -191,11 +177,11 @@ O [checker](scripts/check_repository_docs.py) verifica caminhos e âncoras locai
 
 A aplicação não corrige pedidos nem executa [ferramentas de escrita](backend/src/evidencedesk/investigations/tools.py) nos sistemas de origem. As permissões são verificadas fora do modelo. Uma chamada com resultado desconhecido conserva sua [reserva de tokens](backend/src/evidencedesk/investigations/budget.py); a contabilidade é de tokens, não uma tabela monetária.
 
-O pacote humano reúne **60 casos de desenvolvimento em oito famílias**, marcado `prepared_not_executed`. Não há resultado de adjudicação nesse pacote; referências sintéticas não demonstram qualidade em incidentes reais. [Manifesto do pacote](evals/human-review/package.json), preparado em **22/09/2026**. O conjunto reservado não foi usado nesta revisão.
+O [pacote de avaliação humana](evals/human-review/package.json) tem 60 casos de desenvolvimento em oito famílias e ainda não foi executado.
 
-O [workbench local](docs/runbooks/evaluation-workbench.md) prepara rodadas dev, abre um HTML sem servidor e importa anotações com validação de versões e hashes. Cada resposta exige dois julgamentos independentes e uma decisão explícita de outro adjudicador. O relatório conserva falhas e respostas não executadas nos denominadores e mantém o gate humano inconclusivo até reunir a amostra exigida. A [suíte adversarial](evals/adversarial.py) exercita contratos com transporte simulado; comportamento de modelo real permanece `not_run`.
+O [workbench](docs/runbooks/evaluation-workbench.md) exige duas avaliações independentes por resposta e uma decisão de outro revisor. A [suíte adversarial](evals/adversarial.py) testa os contratos com transporte simulado.
 
-A infraestrutura Azure permanece **não implantada por este projeto** nos registros disponíveis: a [validação local](docs/evidence/azure-iac-validation.json) de `fmt`, `init` e `validate` não comprova quota, SKU, rede ou capacidade regional. O [runbook hospedado](docs/runbooks/azure-hosted.md) detalha os bloqueadores. Scans e testes têm imagem e data próprias; não constituem garantia de ausência de falhas.
+A infraestrutura Azure foi validada localmente e ainda não foi implantada. As pendências estão no [runbook hospedado](docs/runbooks/azure-hosted.md).
 
 ## Documentação
 

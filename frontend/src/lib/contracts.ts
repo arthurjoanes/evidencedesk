@@ -132,6 +132,16 @@ export const divergenceSchema = z.object({
 });
 export const divergencePageSchema = pageSchema(divergenceSchema).extend({
   coverage: z.array(coverageSchema),
+  summary: z.object({
+    assessments: z.number().int().nonnegative(),
+    orders_with_divergence: z.number().int().nonnegative(),
+    uncorrelated_assessments: z.number().int().nonnegative(),
+    by_status: z.object({
+      divergence: z.number().int().nonnegative(),
+      observation: z.number().int().nonnegative(),
+      not_evaluable: z.number().int().nonnegative(),
+    }),
+  }),
 });
 export const evidenceKindSchema = z.enum([
   "document_span",

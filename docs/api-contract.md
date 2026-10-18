@@ -28,7 +28,9 @@ Incident = `{id,title,status,description,collection_id,window:{from,to,time_zone
 
 `GET /incidents/{id}/timeline?evidence_snapshot_id=&order_reference=&cursor=&limit=` → Page<TimelineRow> com coverage e ordering='occurred_at_nulls_last'. TimelineRow={id,evidence_id,order_reference:null|string,source_system,event_type,occurred_at:null|string,observed_at:null|string,ingested_at,temporal_quality,delivery_count}. Não substituir datas ausentes.
 
-`GET /incidents/{id}/reconciliation?evidence_snapshot_id=&order_reference=&cursor=&limit=` → Page<Divergence> com coverage. Divergence={id,order_reference:null|string,rule_code,rule_revision,status,summary,evidence_ids:string[]}; status=divergence|observation|not_evaluable.
+`GET /incidents/{id}/reconciliation?evidence_snapshot_id=&order_reference=&cursor=&limit=` → Page<Divergence> com coverage e summary. Divergence={id,order_reference:null|string,rule_code,rule_revision,status,summary,evidence_ids:string[]}; status=divergence|observation|not_evaluable.
+
+summary = `{assessments,orders_with_divergence,uncorrelated_assessments,by_status:{divergence,not_evaluable,observation}}`. Os totais consideram todas as avaliações autorizadas do snapshot e do filtro de pedido, antes da paginação. `orders_with_divergence` conta referências distintas: duas divergências do mesmo pedido contam como um pedido. Avaliações sem referência entram em `uncorrelated_assessments`.
 
 `GET /incidents/{id}/evidence?evidence_snapshot_id=&q=&cursor=&limit=` → Page<EvidenceSummary>. EvidenceSummary={id,kind,title,version,source_system,temporal_role,excerpt}. Evidências operacionais limitadas à janela; documentos de coleção autorizada pertencem ao snapshot.
 

@@ -1,0 +1,28 @@
+{
+  "repo": "evidencedesk",
+  "captured_at": "2026-10-18T02:49:00.264Z",
+  "runtime": "PostgreSQL 16.15 portátil com pgvector 0.8.6; API e frontend de produção locais; seed atual; dados fictícios; sem interceptação de HTTP",
+  "incident": "demo-aurora-09",
+  "browser": "153.0.8010.12",
+  "images": [
+    {
+      "file": "docs/readme/investigation.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "088fcc59df8cf883772ce0098b285186914ce36b8a24f8e94f992bc9f748351f",
+      "axe_violations": 0
+    },
+    {
+      "file": "docs/readme/investigation-mobile.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "e20a3cdd262f371417a39bbfb6bca76146db7194a479bb3b32b4cda45c4966f6",
+      "axe_violations": 0
+    }
+  ],
+  "page_errors": []
+}
