@@ -571,14 +571,6 @@ svg {
   background: var(--brand-soft);
   font-weight: 500;
 }
-.sidebar-note {
-  margin-top: auto;
-  padding-top: 40px;
-  color: var(--muted);
-  display: flex;
-  gap: 9px;
-  font-size: 11px;
-}
 .app-body {
   min-width: 0;
   flex: 1;
@@ -1363,8 +1355,7 @@ tbody tr:hover {
     margin: 0 0 12px auto;
   }
   .organization small,
-  .organization-mark,
-  .sidebar-note {
+  .organization-mark {
     display: none;
   }
   .app-sidebar nav {

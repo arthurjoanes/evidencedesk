@@ -24,7 +24,7 @@ O EvidenceDesk investiga casos em que o pagamento foi confirmado, mas o pedido c
 
 Abra um incidente para consultar as divergências e os registros que as sustentam. O resumo conta pedidos distintos e separa divergências, observações e avaliações inconclusivas. Um pedido pode ter mais de uma divergência.
 
-![Resumo das avaliações no celular](docs/readme/investigation-mobile.png)
+![Investigação no celular](docs/readme/investigation-mobile.png)
 
 O período pertence ao incidente. A seleção de snapshot e a busca por pedido atualizam os registros e o resumo. [Capturas e ambiente](docs/screenshots.md).
 

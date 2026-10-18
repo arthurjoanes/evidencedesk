@@ -1,27 +1,61 @@
 {
   "repo": "evidencedesk",
-  "captured_at": "2026-10-18T02:49:00.264Z",
+  "captured_at": "2026-10-18T03:01:07.638Z",
   "runtime": "PostgreSQL 16.15 portátil com pgvector 0.8.6; API e frontend de produção locais; seed atual; dados fictícios; sem interceptação de HTTP",
   "incident": "demo-aurora-09",
   "browser": "153.0.8010.12",
   "images": [
     {
       "file": "docs/readme/investigation.png",
+      "capture": "viewport",
       "viewport": {
         "width": 1440,
         "height": 1000
       },
+      "dimensions": {
+        "width": 1440,
+        "height": 1000
+      },
+      "clip": null,
       "sha256": "088fcc59df8cf883772ce0098b285186914ce36b8a24f8e94f992bc9f748351f",
       "axe_violations": 0
     },
     {
       "file": "docs/readme/investigation-mobile.png",
+      "capture": "viewport",
       "viewport": {
         "width": 390,
         "height": 844
       },
-      "sha256": "e20a3cdd262f371417a39bbfb6bca76146db7194a479bb3b32b4cda45c4966f6",
+      "dimensions": {
+        "width": 390,
+        "height": 844
+      },
+      "clip": null,
+      "sha256": "9c8efef60b391d9cff2764c5e10c9b7abadbf433831edd747e93dd3e6e23db8d",
       "axe_violations": 0
+    },
+    {
+      "file": "docs/readme/investigation-summary-mobile.png",
+      "capture": "element",
+      "selector": ".assessment-analysis",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "dimensions": {
+        "width": 358,
+        "height": 196
+      },
+      "clip": {
+        "x": 16,
+        "y": 334.640625,
+        "width": 358,
+        "height": 194.546875
+      },
+      "sha256": "e20a3cdd262f371417a39bbfb6bca76146db7194a479bb3b32b4cda45c4966f6",
+      "axe_violations": 0,
+      "clip_coordinate_space": "viewport CSS pixels"
     }
   ],
   "page_errors": []

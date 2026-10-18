@@ -47,8 +47,9 @@ export function AssessmentChart({
       </ul>
       {summary.uncorrelated_assessments > 0 && (
         <p className="muted">
-          {number(summary.uncorrelated_assessments)} avaliações sem pedido
-          identificado.
+          {number(summary.uncorrelated_assessments)}{" "}
+          {summary.uncorrelated_assessments === 1 ? "avaliação" : "avaliações"}{" "}
+          sem pedido identificado.
         </p>
       )}
     </section>

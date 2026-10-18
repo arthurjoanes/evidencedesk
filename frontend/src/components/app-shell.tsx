@@ -2,13 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
-import {
-  Files,
-  FolderSearch,
-  Upload,
-  LogOut,
-  PanelLeftClose,
-} from "lucide-react";
+import { Files, FolderSearch, Upload, LogOut } from "lucide-react";
 import type { Session } from "@/lib/contracts";
 import { label } from "@/lib/format";
 import { Button } from "./ui/button";
@@ -71,14 +65,6 @@ export function AppShell({
             Importações
           </Link>
         </nav>
-        <div className="sidebar-note">
-          <PanelLeftClose size={18} />
-          <p>
-            Investigue os registros.
-            <br />
-            Preserve as incertezas.
-          </p>
-        </div>
       </aside>
       <div className="app-body">
         <header className="app-topbar">
@@ -113,7 +99,6 @@ export function AppShell({
         </main>
         <footer className="app-footer">
           <span>Horários em Brasília (UTC−3), salvo indicação explícita.</span>
-          <span>Fontes versionadas · revisão humana</span>
         </footer>
       </div>
     </div>

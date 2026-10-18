@@ -4,7 +4,7 @@
 
 As imagens [desktop](readme/investigation.png) e [mobile](readme/investigation-mobile.png) mostram o incidente de pagamento, o resumo das avaliações e a fonte selecionada. O seed é fictício: duas divergências pertencem ao mesmo pedido.
 
-Capturas de 18/10/2026 UTC com Chromium, API local e build de produção. O ambiente local usou PostgreSQL 16.15 e pgvector 0.8.6; o Compose do projeto usa PostgreSQL 17.11. Viewports: 1440 × 1000 e 390 × 844. A imagem móvel é uma captura nativa do resumo. [Metadados dos arquivos](readme/capture.json).
+Capturas de 18/10/2026 UTC com Chromium, API local e build de produção. O ambiente local usou PostgreSQL 16.15 e pgvector 0.8.6; o Compose do projeto usa PostgreSQL 17.11. Desktop e mobile mostram as viewports completas de 1440 × 1000 e 390 × 844. O [detalhe do resumo no celular](readme/investigation-summary-mobile.png) é um recorte nativo de 358 × 196. [Dimensões, recortes e hashes](readme/capture.json).
 
 ## Leitor de citação
 
