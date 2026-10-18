@@ -1,16 +1,10 @@
-import { expect, test } from "@playwright/test";
+import { expect } from "@playwright/test";
 import { mkdir } from "node:fs/promises";
+import { readOnlyTest as test } from "./session";
 test("real workspace visual evidence and mobile source return", async ({
   page,
 }) => {
   await page.goto("/");
-  await page
-    .getByLabel("E-mail", { exact: true })
-    .fill(process.env.ED_E2E_ANALYST_EMAIL ?? "ana@aurora.demo");
-  await page
-    .getByLabel("Senha", { exact: true })
-    .fill(process.env.ED_E2E_PASSWORD ?? "EvidenceDesk-demo-2026!");
-  await page.getByRole("button", { name: "Entrar", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Incidentes", exact: true }),
   ).toBeVisible();
@@ -58,17 +52,21 @@ test("real workspace visual evidence and mobile source return", async ({
     page.getByRole("region", { name: "Texto canônico da fonte" }),
   ).not.toBeEmpty();
   await page.evaluate(() => document.fonts.ready);
-  await page.getByRole("region", { name: "Divergências por pedido" }).screenshot({
-    path:
-      (process.env.ED_E2E_ARTIFACT_DIR ?? "artifacts") +
-      "/screenshots/workspace-desktop.png",
-  });
+  await page
+    .getByRole("region", { name: "Divergências por pedido" })
+    .screenshot({
+      path:
+        (process.env.ED_E2E_ARTIFACT_DIR ?? "artifacts") +
+        "/screenshots/workspace-desktop.png",
+    });
   for (const [name, width, height] of [
     ["tablet", 768, 900],
     ["mobile", 320, 800],
   ] as const) {
     await page.setViewportSize({ width, height });
-    const source = page.getByRole("region", { name: "Texto canônico da fonte" });
+    const source = page.getByRole("region", {
+      name: "Texto canônico da fonte",
+    });
     await expect(source).toContainText("payment.confirmed");
     await page.evaluate(() => document.fonts.ready);
     expect(

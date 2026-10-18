@@ -1,14 +1,10 @@
-import { expect, test } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { readOnlyTest as test } from "./session";
 
 test("resumo conta pedidos distintos e preserva o total entre páginas", async ({
   page,
 }) => {
   await page.goto("/");
-  await page.getByLabel("E-mail", { exact: true }).fill("ana@aurora.demo");
-  await page
-    .getByLabel("Senha", { exact: true })
-    .fill("EvidenceDesk-demo-2026!");
-  await page.getByRole("button", { name: "Entrar", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Incidentes", exact: true }),
   ).toBeVisible();
